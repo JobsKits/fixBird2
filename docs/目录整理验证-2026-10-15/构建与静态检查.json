@@ -1,0 +1,58 @@
+[
+  {
+    "name": "本机构建",
+    "command": [
+      "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+      "build",
+      "./..."
+    ],
+    "environment": {},
+    "exit": 0,
+    "signal": null,
+    "milliseconds": 1459
+  },
+  {
+    "name": "Linux交叉构建",
+    "command": [
+      "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+      "build",
+      "./..."
+    ],
+    "environment": {
+      "CGO_ENABLED": "0",
+      "GOOS": "linux",
+      "GOARCH": "amd64"
+    },
+    "exit": 0,
+    "signal": null,
+    "milliseconds": 1386
+  },
+  {
+    "name": "Windows交叉构建",
+    "command": [
+      "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+      "build",
+      "./..."
+    ],
+    "environment": {
+      "CGO_ENABLED": "0",
+      "GOOS": "windows",
+      "GOARCH": "amd64"
+    },
+    "exit": 0,
+    "signal": null,
+    "milliseconds": 1440
+  },
+  {
+    "name": "Go静态检查",
+    "command": [
+      "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+      "vet",
+      "./..."
+    ],
+    "environment": {},
+    "exit": 0,
+    "signal": null,
+    "milliseconds": 586
+  }
+]

@@ -1,0 +1,12 @@
+Browser tab: 7, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18061/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18061/
+	1 container detailDialog
+		2 container detailContent
+			3 button 关闭详情
+			4 text ▤
+			5 heading 工单详情未加载, Value: 3
+				6 text 工单详情未加载
+			7 text 账号已停用，请联系负责人交接 · 请重新加载后办理。
+			8 button 重新加载
+
+The focused UI element is 1 container detailDialog

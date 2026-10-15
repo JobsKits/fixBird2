@@ -1,0 +1,2 @@
+ALTER TABLE repair_users ADD COLUMN IF NOT EXISTS account_status VARCHAR(16) NOT NULL DEFAULT 'active';
+ALTER TABLE repair_users ADD COLUMN IF NOT EXISTS recovery_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT '';

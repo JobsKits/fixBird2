@@ -1,0 +1,139 @@
+{
+  "documents": 51,
+  "links": 1184,
+  "errors": [
+    {
+      "file": "AGENTS.md",
+      "raw": "./README.md#directory",
+      "anchor": true
+    },
+    {
+      "file": "docs/实现范围.md",
+      "raw": "../README.md#directory",
+      "anchor": true
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "README-banner.svg"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Server/api/openapi.yaml"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Deployment/Docker/macOS/deploy.command"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "iOS/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "WebAdmin/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "WebAdmin/auth.js"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "WebAdmin/operations.js"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Web/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Web/portal.js"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Server/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Server/api/openapi.yaml"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Deployment/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Deployment/Docker/Shared/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "unDeployment/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "Validation/README.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "修复验收-2026-10-05.md"
+    },
+    {
+      "file": "docs/封板说明-2026-10-05.md",
+      "raw": "业务基础验收-2026-10-05.md"
+    },
+    {
+      "file": "docs/心愿单.md",
+      "raw": "README-banner.svg"
+    },
+    {
+      "file": "docs/心愿单.md",
+      "raw": "Server/internal/im/README.md"
+    },
+    {
+      "file": "docs/心愿单.md",
+      "raw": "业务基础验收-2026-10-05.md"
+    },
+    {
+      "file": "docs/目录整理说明-2026-10-15.md",
+      "raw": "../README.md#directory",
+      "anchor": true
+    },
+    {
+      "file": "代码地图.md",
+      "raw": "./README.md#directory",
+      "anchor": true
+    },
+    {
+      "file": "后端/Go服务端/README.md",
+      "raw": "../Deployment/README.md"
+    },
+    {
+      "file": "后端/Go服务端/README.md",
+      "raw": "../心愿单.md"
+    },
+    {
+      "file": "后端/Go服务端/internal/im/README.md",
+      "raw": "../../../../心愿单.md"
+    },
+    {
+      "file": "后端/管理后台页面/README.md",
+      "raw": "../Deployment/Docker/Shared/README.md"
+    },
+    {
+      "file": "后端/管理后台页面/README.md",
+      "raw": "../Deployment/Kubernetes/Shared/README.md"
+    },
+    {
+      "file": "后端/管理后台页面/README.md",
+      "raw": "../心愿单.md"
+    },
+    {
+      "file": "部署文档.md",
+      "raw": "./README.md#directory",
+      "anchor": true
+    }
+  ]
+}

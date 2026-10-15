@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>家修平台运营后台</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./auth.css">
+  </head>
+  <body>
+    <section id="authGate" class="auth-shell" aria-label="管理员身份验证">
+      <div class="auth-brand"><img src="./assets/RepairLogo.png" alt="啄木鸟维修"><span>啄木鸟维修 <small>OPERATIONS CENTER</small></span></div>
+      <div class="auth-layout">
+        <div class="auth-story">
+          <p class="auth-eyebrow"><span></span> 每一次维修，都有迹可循</p>
+          <h1>让服务连接生活。<br><span>让管理更进一步。</span></h1>
+          <p class="auth-description">从工单调度到师傅审核，从服务进度到分润台账。一个工作台，让每个环节清晰协同。</p>
+          <div class="repair-scene" aria-hidden="true">
+            <div class="scene-grid"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <div class="scene-core"><div class="core-face"><img src="./assets/RepairLogo.png" alt=""><strong>REPAIR OS</strong><span>服务 · 协同 · 连接</span></div></div>
+            <div class="scene-node node-order"><span>01 / 工单调度</span><strong>连接每一次需求</strong></div>
+            <div class="scene-node node-worker"><span>02 / 师傅审核</span><strong>让专业被看见</strong></div>
+            <div class="scene-node node-ledger"><span>03 / 分润台账</span><strong>每笔记录可追溯</strong></div>
+          </div>
+          <div class="auth-features"><span>工单协同</span><span>人工审核</span><span>账务追溯</span></div>
+        </div>
+        <div class="auth-card">
+          <p class="auth-eyebrow">WELCOME BACK</p><h2 id="authTitle">登录运营工作台</h2>
+          <p id="authDescription" class="auth-help">使用管理员账号登录，开始处理平台业务。</p>
+          <nav class="auth-tabs" aria-label="账号操作"><button id="tabLogin" type="button" aria-pressed="true">登录</button><button id="tabRegister" type="button" aria-pressed="false">注册</button><button id="tabForgot" type="button" aria-pressed="false">忘记密码</button></nav>
+          <form id="adminLogin" class="auth-form">
+            <label>账号<input id="adminUsername" autocomplete="username" required maxlength="64" placeholder="请输入后台账号"></label>
+            <label>密码<input id="adminPassword" type="password" autocomplete="current-password" required maxlength="128" placeholder="请输入密码"></label>
+            <button id="adminLoginButton" class="auth-submit" type="submit">登录工作台 <span>↗</span></button>
+          </form>
+          <section id="adminRegister" class="auth-help" hidden><h3>账号由管理员统一开通</h3><p>请联系平台管理员。管理员登录后，在“设置 → 账号管理”新增账号，并选择管理员或普通账号权限。</p><p>普通账号可处理业务和修改自己的密码；身份审核、账号管理和封停由管理员负责。</p></section>
+          <form id="adminForgot" class="auth-form" hidden>
+            <label>账号<input id="forgotUsername" autocomplete="username" required maxlength="64" placeholder="需要重置的账号"></label>
+            <label>恢复码<input id="forgotCode" autocomplete="off" required maxlength="43" placeholder="登录后保存的恢复码"></label>
+            <label>新密码<input id="forgotPassword" type="password" autocomplete="new-password" required minlength="12" maxlength="128" placeholder="至少12个字符"></label>
+            <label>确认新密码<input id="forgotConfirm" type="password" autocomplete="new-password" required minlength="12" maxlength="128" placeholder="再次输入新密码"></label>
+            <button id="forgotButton" class="auth-submit" type="submit">验证并重置密码 <span>↗</span></button>
+          </form>
+          <p id="authFeedback" class="auth-feedback" role="status" aria-live="polite"></p>
+          <div class="auth-footnote">账户由管理员在设置中创建。<br>没有恢复码？请联系管理员重置账号密码。</div>
+          <details class="auth-connection"><summary>服务连接设置</summary><label>服务地址<input id="authBase" autocomplete="url" placeholder="http://127.0.0.1:8080"></label><button id="authSaveBase" type="button">保存服务地址</button></details>
+        </div>
+      </div>
+      <footer class="auth-footer"><span>啄木鸟维修 · 运营管理中心</span><span>有序协同，安心服务</span></footer>
+    </section>
+    <div id="adminWorkspace" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <img
+          class="brand-logo"
+          src="./assets/RepairLogo.png"
+          data-remote-src="https://img.alicdn.com/imgextra/i4/O1CN01XZe8pH1USpiUNT1QN_!!6000000002517-2-tps-114-114.png"
+          alt="维修平台标志">
+        <div>
+        <h1>家修平台运营后台</h1>
+        <p>订单调度、师傅资料与分润台账</p>
+        </div>
+      </div>
+      <nav class="workspace-nav" aria-label="后台导航"><button id="navBusiness" class="button secondary" type="button">业务工作台</button><button id="navSettings" class="button secondary" type="button">设置</button></nav>
+    </header>
+
+    <main>
+      <section class="connection panel">
+        <label for="apiEnvironment">环境</label>
+        <select id="apiEnvironment" aria-label="服务环境">
+          <option value="test">本机测试</option>
+          <option value="production">线上环境（待配置）</option>
+        </select>
+        <label for="apiBase">头 URL</label>
+        <input id="apiBase" placeholder="线上地址待配置" autocomplete="url">
+        <button id="copyBase" class="button secondary" type="button">复制地址</button>
+        <button id="saveBase" class="button secondary">保存地址</button>
+        <button id="refresh" class="button primary">刷新数据</button>
+        <span id="copyState" class="muted" role="status" aria-live="polite"></span>
+        <span id="connectionState" class="connection-state">尚未连接</span>
+      </section>
+      <div id="workspaceSettings" hidden>
+      <section class="panel account-panel">
+        <div class="section-heading"><div><h2>当前账号</h2><p id="adminSessionState" class="muted" role="status"></p></div><button id="adminLogout" class="button secondary" type="button">退出登录</button></div>
+        <form id="changeOwnPassword" class="filter-row"><label>当前密码<input id="ownCurrentPassword" type="password" autocomplete="current-password" required maxlength="128"></label><label>新密码<input id="ownNewPassword" type="password" autocomplete="new-password" required minlength="12" maxlength="128"></label><button id="ownPasswordButton" class="button secondary" type="submit">修改我的密码</button></form>
+        <button id="generateRecovery" class="button secondary" type="button">生成 / 更换我的恢复码</button>
+        <div id="workspaceRecovery" class="recovery-result" hidden><p>新恢复码只显示一次，旧恢复码立即失效。</p><code id="workspaceRecoveryCode"></code><button id="downloadWorkspaceRecovery" type="button">下载恢复码</button></div>
+      </section>
+      <section id="administratorManagement" class="panel" hidden>
+        <div class="section-heading"><div><h2>账号管理</h2><p>新增账号、分配权限、重置密码与封停账号。</p></div><button id="accountsReload" class="button secondary" type="button">重新加载</button></div>
+        <form id="addAdministrator" class="filter-row"><label>账号<input id="newAdminUsername" required maxlength="64"></label><label>姓名<input id="newAdminName" required maxlength="120"></label><label>初始密码<input id="newAdminPassword" type="password" required minlength="12" maxlength="128" autocomplete="new-password"></label><label>权限<select id="newAdminRole"><option value="operator">普通账号</option><option value="admin">管理员</option></select></label><button id="newAdminButton" class="button primary" type="submit">新增账号</button></form>
+        <p id="accountsFeedback" role="status" aria-live="polite"></p><div id="administratorAccounts" class="record-list"></div><button id="accountsMore" class="button secondary" type="button" hidden>加载更多管理员</button>
+        <form id="resetAdministrator" class="filter-row"><label>需重置的账号<input id="resetAdminUsername" required maxlength="64"></label><label>新密码<input id="resetAdminPassword" type="password" required minlength="12" maxlength="128" autocomplete="new-password"></label><button id="resetAdminButton" class="button secondary" type="submit">重置该账号密码</button></form>
+      </section>
+      </div>
+      <div id="workspaceBusiness">
+      <section class="panel demo-data-note">
+        服务端请求始终优先；各模块标明数据来源。写请求失败后仅更新独立的本地演示副本，刷新成功会恢复服务端数据。
+      </section>
+      <p id="actionState" class="panel notice" role="status" aria-live="polite" hidden></p>
+      <p id="metricsSource" class="muted"></p>
+      <section id="metrics" class="metrics" aria-live="polite"></section>
+      <section class="panel notice">
+        <strong>资金操作说明</strong>
+        <span>微信、支付宝和聚合支付尚未接入。模拟收款只写演示记录；线下核销也只更新台账，不会转账。</span>
+      </section>
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2>维修订单</h2>
+            <p>从接单到待收款查看每个订单状态。</p>
+            <p id="ordersSource"></p>
+          </div>
+          <span id="orderCount" class="muted"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>订单 / 服务</th>
+                <th>用户 / 地址</th>
+                <th>师傅</th>
+                <th>状态</th>
+                <th class="numeric">报价</th>
+                <th class="numeric">平台 / 师傅</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+        <button id="ordersMore" class="button secondary" data-action="load-more" data-kind="orders" hidden>加载更多订单</button>
+      </section>
+      <section class="two-column">
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <h2>维修师傅</h2>
+              <p>查看平台已登记的师傅和服务技能。</p>
+              <p id="workersSource"></p>
+            </div>
+          </div>
+          <div id="workers" class="record-list"></div>
+          <button id="workersMore" class="button secondary" data-action="load-more" data-kind="workers" hidden>加载更多师傅</button>
+        </section>
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <h2>分润与结算台账</h2>
+              <p>比例当前为演示值：平台 15%，师傅 85%。</p>
+              <p id="settlementsSource"></p>
+            </div>
+          </div>
+          <div id="settlements" class="record-list"></div>
+          <button id="settlementsMore" class="button secondary" data-action="load-more" data-kind="settlements" hidden>加载更多台账</button>
+        </section>
+      </section>
+      <section id="identityReviewPanel" class="panel operations-panel" hidden>
+        <div class="section-heading">
+          <div><h2>师傅资料审核</h2><p>查看资料和图片，人工通过或驳回；审核结果由服务端确认。</p></div>
+          <div class="filter-row">
+            <select id="applicationStatus" aria-label="审核状态">
+              <option value="pending">待审核</option><option value="approved">已通过</option>
+              <option value="rejected">已驳回</option><option value="">全部</option>
+            </select>
+            <button id="applicationsReload" class="button secondary">重新加载</button>
+          </div>
+        </div>
+        <p id="applicationsSource" class="muted"></p>
+        <div id="applications" class="record-list"></div>
+        <button id="applicationsMore" class="button secondary" hidden>加载更多申请</button>
+      </section>
+      <section class="panel operations-panel">
+        <div class="section-heading"><div><h2>账务流水查询</h2><p>单位为人民币。模拟账与真实账分开查询；目前支付通道尚未接入。</p></div></div>
+        <form id="ledgerFilters" class="filter-row">
+          <label>账本 <select id="ledgerMode"><option value="simulated">模拟账本</option><option value="actual">真实账本（待支付接入）</option></select></label>
+          <label>类型 <select id="ledgerKind"><option value="">全部</option><option value="collection">订单收款</option><option value="manual_payout">结算核销</option><option value="reversal">冲正</option></select></label>
+          <label>渠道 <select id="ledgerChannel"><option value="">全部</option><option value="demo">模拟收款</option><option value="manual">人工核销</option><option value="wechat">微信</option><option value="alipay">支付宝</option><option value="aggregate">聚合支付</option></select></label>
+          <label>状态 <select id="ledgerStatus"><option value="">全部</option><option value="posted">已记账</option><option value="reversed">已冲正</option></select></label>
+          <label>订单 <input id="ledgerOrder" maxlength="128"></label>
+          <label>用户 <input id="ledgerCustomer" maxlength="128"></label>
+          <label>师傅 <input id="ledgerWorker" maxlength="128"></label>
+          <label>开始 <input id="ledgerFrom" type="datetime-local"></label>
+          <label>结束 <input id="ledgerTo" type="datetime-local"></label>
+          <button class="button primary" type="submit">查询 / 重新加载</button>
+          <button id="ledgerExport" class="button secondary" type="button">导出筛选结果 CSV</button>
+        </form>
+        <p id="ledgerSource" class="muted"></p>
+        <div id="ledgerSummary" class="metrics"></div>
+        <p class="muted">汇总为筛选范围内的发生额；资金净发生额和待结算净发生额不代表银行余额。时间筛选不包含期初余额。</p>
+        <div class="table-wrap"><table><thead><tr><th>时间 / 流水</th><th>订单 / 参与人</th><th>类型 / 渠道</th><th>账本 / 状态</th><th class="numeric">本次金额</th><th class="numeric">平台 / 师傅</th><th>明细</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
+        <button id="ledgerMore" class="button secondary" hidden>加载更多流水</button>
+      </section>
+      </div>
+      <p id="operationsState" class="panel notice" role="status" aria-live="polite" hidden></p>
+      <dialog id="assetPreview"><button id="assetClose" class="button secondary">关闭</button><p id="assetState" role="status"></p><img id="assetImage" alt="师傅提交的审核资料" hidden></dialog>
+    </main>
+    <footer>
+      <span>资料审核和账务查询需要管理员登录。模拟收款、核销不发生真实资金转移。</span>
+    </footer>
+    </div>
+    <script src="./environment.js"></script>
+    <script src="./marketplace-data.js"></script>
+    <script src="./session.js"></script>
+    <script src="./operations-data.js"></script>
+    <script src="./admin.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./operations.js"></script>
+  </body>
+</html>

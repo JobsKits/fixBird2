@@ -1,0 +1,273 @@
+{
+  "date": "2026-10-15",
+  "owner": "r4_frontend_adversarial",
+  "completed": true,
+  "scope": "对 backend-findings.json 和 demo-findings.json 的限定只读交叉复核",
+  "method": "检查现有外部用例、实际执行日志/观测、当前CodeGraph源码、PRD与接口合同；本次交叉复核未重跑被审用例，未把静态复核描述为独立执行。",
+  "inputs": [
+    "backend-findings.json",
+    "backend-deep-fourth_test.go",
+    "backend-deep.log",
+    "backend-reproduction-repeat.log",
+    "demo-findings.json",
+    "demo-contract-tests.cjs",
+    "demo-results.json",
+    "demo-repeat.log"
+  ],
+  "summary": {
+    "backendRecords": 3,
+    "demoRecords": 8,
+    "confirmedIndependentGroups": 10,
+    "mergedDuplicateRecords": 1,
+    "businessRuleDiscrepanciesExcludedFromConfirmedDefects": 1,
+    "unsupportedConfirmedGroupsFound": 0,
+    "productOrFormalTestEdits": false
+  },
+  "counting": {
+    "backend": "7根/27父子记录含10失败，叶子21条中7失败；父失败不可再当独立问题。归并3项。",
+    "demo": "24条=8通过/16断言失败；其中14条支持已确认缺陷，D02/D03的2条是当前实现合同差异，业务口径未定，不计已确认缺陷。",
+    "deduplication": "R4-D08与R4-B02为同一个截止日全天有效问题，合并成跨真实端/演示端的一项。R4-B01月历加月溢出与截止日比较不同，应单列。",
+    "overallNote": "仅本次所审backend/demo集合合并为10项。主任务的frontend4项及其浏览器证据另行统计，不能把此处10项误当全轮最终总数。"
+  },
+  "reviews": [
+    {
+      "id": "R4-B01",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "PRD1832-1833明确按中国起算日历月相加、无同日夹月末。用例由实际quote/审核/签署/履约/验收链形成质保，仅控制墙钟，持久快照与响应均显示错误日期；自动验收路径使用同一个acceptance函数。",
+      "reachability": "真实服务业务动作可达，不依赖手改持久状态。",
+      "source": [
+        {
+          "file": "Server/internal/workbench/actions.go",
+          "line": 970
+        }
+      ],
+      "qualification": "应以中国日历日期错误作为主结论；PRD定义日期及截止日全天，不额外宣称PRD强制存储精确到与验收同一钟点的时间戳。"
+    },
+    {
+      "id": "R4-B02",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "PRD1832规定截止日全天有效、次日到期。service.refresh直接比较EndsAt瞬间与now，在当日原验收钟点提前过期；前后时刻正对照与重复日志支持。",
+      "reachability": "普通有效验收后自然经过截止日即可发生；不需要客户端伪造时间。",
+      "source": [
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 533
+        }
+      ],
+      "merge": [
+        "R4-D08"
+      ],
+      "qualification": "现有证据确认标签/查询结果错误，不声称该标签已自动拒绝真实售后服务。"
+    },
+    {
+      "id": "R4-B03",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "公开accept合同支持passed及signature；PRD494明确签名不代表合格，1219-1229保留不合格/有异议验收与真实签署记录。实际客户API路径校验了唯一有效PNG签名后成功提交异议，但签名未写入任何持久字段；重启仍保留异议而没有此签名。",
+      "reachability": "真实API动作链可达。",
+      "source": [
+        {
+          "file": "Server/internal/workbench/actions.go",
+          "line": 475
+        }
+      ],
+      "qualification": "当前普通手写页面固定passed=true，此问题限定为API passed=false；不表述为普通页面提交后已丢签，更不表述为异议被转成验收通过或后端越权。"
+    },
+    {
+      "id": "R4-D01",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "最新版已将现金维修口径移出确认缺陷，仅保留四条未解决异议推进。PRD602与真实noIssues/executionReady均有前置依据；实际D.apply在有效阶段和适用角色下仍推进，销售分支还扣库存。",
+      "reachability": "合成业务可由issue动作与正常阶段形成；用例直接D.apply，不假称四条均已在浏览器复现。",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 775
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 792
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 817
+        }
+      ],
+      "qualification": "只确认独立合成演示规则缺少相应异议拦截，不能扩大为真实服务器放行或真实库存被扣。"
+    },
+    {
+      "id": "R4-D02",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "接受期限属于报价接受时的约束，真实端approve/sign均检查；演示直接D.apply的两条过期夹具仍通过。实际报价表单有validUntil字段且调用同一分支，期限可由时间经过到达，不依赖不可达字段。",
+      "reachability": "过期草稿/已审核未签报价为可达边界；不是将已在期限内生效的历史报价误判为不可履约。",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 757
+        }
+      ],
+      "qualification": "非PNG合成签名是独立演示机制，不能由此另报真实验签漏洞。"
+    },
+    {
+      "id": "R4-D03",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "PRD628和当前真实refresh要求未处理本单义务继续办理。demo-003为合成待完结单，实际app登记提成使settled=false，derive未计入缺项，随后实际complete确实成功而义务仍未结算。不是只靠状态预期推测。",
+      "reachability": "实际app.mutateOrder业务链可达，登记提成动作及其payload与正式表单一致。",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 337
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 1010
+        }
+      ],
+      "qualification": "仍须保留PRD对哪些内部项阻塞/允许独立结算的评审边界；当前夹具不存在批准独立结算。仅影响合成台账，不代表真实提成付款已绕过。"
+    },
+    {
+      "id": "R4-D04",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "实际重开表单提交需复核原因，分支暂设settling却未生成复核余项，统一派生立即回pending_completion；PRD634和真实reopen生成复核任务支持预期。",
+      "reachability": "默认合成待完结单经complete再实际showAction/reopen表单即可形成。",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 1029
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 1073
+        }
+      ],
+      "qualification": "报演示重开未形成可办理复核，不称真实完结历史被覆盖。"
+    },
+    {
+      "id": "R4-D05",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "rework把整份旧单spread进createOrder，仅清部分数组并提前return。完整新单链验证返修子单cash为空但旧receivable及summary仍在，另一路实际返修表单验证旧外包/质保继续继承；app.summary优先采用缓存摘要，展示冲突有直接源码依据。",
+      "reachability": "完整合成新单签署、履约、验收、票款清理与完结后，从实际返修表单产生；不是人为拼接未知字段。",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 1034
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 677
+        },
+        {
+          "file": "Workspace/app.js",
+          "line": 404
+        }
+      ],
+      "qualification": "旧应收、旧摘要、旧质保和旧外包应归为同一整单复制根因；仅合成返修子单，不称真实客户重复收费。"
+    },
+    {
+      "id": "R4-D06",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "修正后的用例通过实际globalForm新建借出2件，再按实际表单仅转1件，数量经过真实data-integer转换。transferred=true使derive忽略全条借用，未转1件不再阻塞；PRD309和真实按Transfers累计数量的模型支持部分转出预期。",
+      "reachability": "实际表单可达；已排除首版误读seed数量的夹具错误。",
+      "source": [
+        {
+          "file": "Workspace/app.js",
+          "line": 3385
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 340
+        }
+      ],
+      "qualification": "只解除阻塞归属错误；全局尚欠仍2且没有再次扣库存，不能写成实物被凭空归还。转出规则的最终甲方评审边界继续保留。"
+    },
+    {
+      "id": "R4-D07",
+      "verdict": "确认",
+      "priority": "P2",
+      "reason": "用例明确准备唯一一处验收就绪合成夹具，随后客户验收与归还都走实际app。globalForm归还仅重算summary，status不重派生，观测missing=[]、outstanding=0、status=settling且available无complete，源码stageActions可核验。",
+      "reachability": "边界状态可由有效验收、清理票款并保留借用形成；当前用例并未声称默认seed无准备即能复现。",
+      "source": [
+        {
+          "file": "Workspace/app.js",
+          "line": 3432
+        },
+        {
+          "file": "Workspace/app.js",
+          "line": 70
+        }
+      ],
+      "qualification": "不是永久丢失数据；额外无关D.apply动作可重派生阶段。应称最后归还未自动同步、当前页面无直接完结入口。"
+    },
+    {
+      "id": "R4-D08",
+      "verdict": "确认并合并",
+      "priority": "P2",
+      "reason": "日期字符串和实际带时区截止两种形式在当日20点均被Date.parse(end)>Date.now提前判到期；PRD全天有效预期明确，且addMonths月末/闰年正对照通过。",
+      "mergeInto": "R4-B02",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 374
+        }
+      ],
+      "qualification": "不重复增加独立问题数，也不能将真实端AddDate月末溢出倒写为演示addMonths同样失败。"
+    },
+    {
+      "id": "R4-X01",
+      "verdict": "需降级；已从确认缺陷排除",
+      "resolvedInLatestInput": true,
+      "reason": "D02/D03确实证明演示与当前真实executionReady对cash维修的开修规则不一致，但PRD393明确未约定先款开修的个人单不能因无预付款被卡，1074默认false；288现款全款约束明确针对销售。真实实现本身不自动等于已批准维修业务口径。",
+      "countAsConfirmedDefect": false,
+      "nextStep": "先核对cash维修条款与到账后开修约定的关系，再决定统一哪端；不要根据这两个保护断言机械收紧演示或将其算作两个已确认缺陷。",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 775
+        },
+        {
+          "file": "Server/internal/workbench/actions.go",
+          "line": 135
+        }
+      ],
+      "requirements": [
+        {
+          "file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md",
+          "line": 393
+        },
+        {
+          "file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md",
+          "line": 1074
+        }
+      ]
+    }
+  ],
+  "exclusions": [
+    "原始失败断言不能改称测试通过；业务预期待澄清与用例失败的事实同时保留。",
+    "初版demo借用/采购的夹具错误已经被提供者修正，未纳入最新版缺陷；不能复活为产品发现。",
+    "不把合成签名、仅API可达路径、故障注入或受控墙钟说成已发生的普通生产页面事故。",
+    "没有审阅或修改原业务仓库、既有.runtime、第三方工具、代码索引或部署实例。"
+  ],
+  "cleanup": {
+    "createdServices": 0,
+    "createdPorts": 0,
+    "temporaryDirectories": [],
+    "wroteOnly": "audit-findings.json"
+  },
+  "inputSha256": {
+    "backend-findings.json": "0b6f225264d2523e8b6b5e8d49c6d57158617f79072b35f37aea0d2d53d3f733",
+    "backend-deep-fourth_test.go": "0f351eb50699aea95de9f392ea9db7700eff5f0ffa66f4d8e38764877daa7ba7",
+    "backend-deep.log": "9d8e14a2e0d4522311af67e836ba39b9c363270a51fb2bffa9f44c59f70efbcb",
+    "backend-reproduction-repeat.log": "1f21b50ad09edf6adeb103fdb1cea60c417f4609bfd22fd6f6c5670dc9b195d3",
+    "demo-findings.json": "f5db1c084433ddcbf3dd3dd680adff0b932c2d4449d6f0a3b47aa003814d983b",
+    "demo-contract-tests.cjs": "ad88c6323cba0254c1bdbceb9d6f2f46d7984089a44435cc5de1257e2964abc9",
+    "demo-results.json": "c240343df0d10d339184b55a113c70abcf378b7ec2e5d5c2416f572b891b86a5",
+    "demo-repeat.log": "7a1f849a63994785532810e90eebbad3b7322fe1be71bef5b566d6efaefd9323"
+  }
+}

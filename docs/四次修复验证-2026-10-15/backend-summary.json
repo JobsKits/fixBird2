@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "frozen": true,
+  "issues": [
+    "R4-B01",
+    "R4-B02",
+    "R4-B03",
+    "R4-X01 (用户已澄清)"
+  ],
+  "files": [
+    {
+      "path": "Server/internal/workbench/actions.go",
+      "sha256": "e2d66146832394913ab5cdf48f6ce60b742fb3f9719d466d39e7d26e1a8d3f1f"
+    },
+    {
+      "path": "Server/internal/workbench/models.go",
+      "sha256": "7c3268c47ee205f1cdd4aff73f85c466bad23de411e3ec3324f7480d2d64ff3e"
+    },
+    {
+      "path": "Server/internal/workbench/calendar.go",
+      "sha256": "7382ba0cf60e48e7bda8b3e689696a74d46701c2eec9fd84ec3accddc237ec22"
+    },
+    {
+      "path": "Server/internal/workbench/inventory.go",
+      "sha256": "a4550f37e46f89df4c26e4c7ac8a7ebb27a3dfa8c015de201f1e61d3e7717492"
+    },
+    {
+      "path": "Server/internal/workbench/service.go",
+      "sha256": "9c6284544aef5deee7dd80d8be0c01f52e49cf18843821042ca4668f712c5bae"
+    },
+    {
+      "path": "Server/internal/workbench/permissions.go",
+      "sha256": "0c749de43d158f493e78634f508260d798ef1791d56f2ab94f9d987a8546c6ac"
+    },
+    {
+      "path": "Server/internal/workbench/query.go",
+      "sha256": "482d8394974edac745735adfcce20e319ded6385ec9c210e1c74b5e55c3e6c25"
+    },
+    {
+      "path": "Server/internal/workbench/calendar_acceptance_regression_test.go",
+      "sha256": "dbb1f325e27b59531984f39896d147ede0e59dd44ed1a6a778020e4538df90a3"
+    },
+    {
+      "path": "Server/internal/workbench/acceptance_history_test.go",
+      "sha256": "936a49bd957f49a7e96cddf735d11a074667d9437f36c49f0ed86ef8791ed00b"
+    },
+    {
+      "path": "Server/internal/workbench/prepayment_contract_test.go",
+      "sha256": "f3ad2603931f6e28b7287f45f84884a8b19b1532e7bb4697f53e99f0cc3d9bfd"
+    }
+  ],
+  "initialTarget": {
+    "total": 81,
+    "pass": 77,
+    "fail": 4,
+    "skip": 0,
+    "roots": 14
+  },
+  "boundsConfirmation": {
+    "total": 11,
+    "pass": 11,
+    "fail": 0,
+    "skip": 0,
+    "roots": 1
+  },
+  "currentPerTest": {
+    "total": 81,
+    "pass": 81,
+    "fail": 0,
+    "skip": 0,
+    "roots": 14
+  },
+  "raceDetected": false,
+  "testCorrection": "初次新增严格JSON测试错误期望HTTP400，实际既有合同为422/invalid_json；仅修正测试期望并复跑全部该根测试11条。业务拒绝及持久化不变全程有效。根代理将对冻结源码执行完整race回归。",
+  "commands": [
+    "./Tools/go/bin/go -C Server test -race -count=1 -run 'TestRepairStartOnly|TestSalesPaymentGate|TestWarranty|TestAcceptance|TestR4Backend' -json ./internal/workbench",
+    "./Tools/go/bin/go -C Server test -race -count=1 -run '^TestWarrantyAndPrepaymentInputBoundsAreAtomic$' -json ./internal/workbench"
+  ],
+  "formatCheck": "gofmt -l 对全部10个修改/新增Go文件输出为空",
+  "cleanup": {
+    "createdListeners": false,
+    "createdContainers": false,
+    "usedExistingRuntime": false,
+    "temporaryFiles": "全部测试仅用t.TempDir并自动清理"
+  },
+  "contracts": {
+    "calendar": "Asia/Shanghai日历月、目标月无同日截月底，正整数1至60。当前新验收生成日历截止；已有EndsAt不重算，按其中国日期截止日全天有效。",
+    "acceptance": "acceptanceRecords只追加有效人工签署记录；不通过保持原阶段及异议，后续通过不覆盖拒绝原件。摘要无原件；详情/导出/重试仅当前客户经办人或admin/dispatcher/finance可读。重启和备份恢复保留历史签署者并沿用当前授权。",
+    "prepayment": "维修缺省startRequiresPrepayment=false；仅true强制正预付款已核实净额达到约定。cash销售全款/credit销售prepay原门槛保留。"
+  }
+}

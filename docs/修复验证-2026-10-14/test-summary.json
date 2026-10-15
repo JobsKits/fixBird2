@@ -1,0 +1,14 @@
+{
+  "goResults": {
+    "pass": 134
+  },
+  "goRootTests": 68,
+  "failed": [],
+  "skipped": [],
+  "sizeEvidence": [
+    "regression_fix_test.go:189: 1000 synthetic orders: bootstrap bytes=64866, first page=30, global total=1000"
+  ],
+  "webPassed": 48,
+  "httpGroupsPassed": 6,
+  "goVetExit": 0
+}

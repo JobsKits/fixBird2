@@ -1,0 +1,651 @@
+---
+paths:
+  "/api/v1/auth/register":
+    post:
+      operationId: registerAccount
+      description: Register customer/worker only. Password is 12..128 Unicode characters
+        and at most 256 UTF-8 bytes. Device mobile capabilities are granted only after
+        password verification; this is not hardware attestation.
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AuthResult"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RegisterInput"
+      security: []
+  "/api/v1/auth/login":
+    post:
+      operationId: loginAccount
+      description: Create an independent session; does not revoke other devices. Password-verified
+        mobile sessions can manage their own devices and authorize QR login.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AuthResult"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LoginInput"
+      security: []
+  "/api/v1/auth/logout":
+    post:
+      operationId: logoutCurrentSession
+      description: Revoke only the current Bearer token; other PC/mobile sessions
+        remain valid.
+      responses:
+        '204':
+          description: Success; empty response.
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+  "/api/v1/auth/me":
+    get:
+      operationId: currentAccount
+      description: User fields are returned directly, with current session metadata.
+        Invalid or expired Bearer tokens never fall back to anonymous demo identity.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/User"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+  "/api/v1/auth/devices":
+    get:
+      operationId: listOwnDevices
+      description: Requires manage_devices from a password-verified mobile session.
+        At most 50 live sessions per account; list includes isCurrent.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/SessionInfo"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+  "/api/v1/auth/devices/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+        minLength: 1
+    delete:
+      operationId: revokeOwnDevice
+      description: Requires manage_devices. Device ID must belong to the same account;
+        revoking current device also invalidates its token.
+      responses:
+        '204':
+          description: Success; empty response.
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+  "/api/v1/auth/qr/challenges":
+    post:
+      operationId: createQRChallenge
+      description: Unauthenticated desktop-only challenge, expires after two minutes.
+        Poll secret remains on PC; QR contains only challenge ID and a separate approval
+        secret. Challenge storage is bounded at 1000 entries.
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/QRChallengeResult"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                device:
+                  "$ref": "#/components/schemas/Device"
+              required: []
+      security: []
+  "/api/v1/auth/qr/challenges/{id}/poll":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+        minLength: 1
+    post:
+      operationId: pollQRChallenge
+      description: Use JSON body, never a query-string secret. Approved challenge
+        creates exactly one desktop QR session with no manage_devices/authorize_qr
+        capabilities. AuthResult is delivered once; subsequent polls return consumed.
+        If the successful response is lost, generate a new QR challenge.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/QRPollResult"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                pollToken:
+                  type: string
+                  minLength: 43
+                  maxLength: 43
+                  pattern: "^[A-Za-z0-9_-]{43}$"
+              required:
+              - pollToken
+      security: []
+  "/api/v1/auth/qr/challenges/{id}/inspect":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+        minLength: 1
+    post:
+      operationId: inspectQRChallenge
+      description: Requires authorize_qr. Phone must inspect PC label/platform/expiry
+        and request explicit confirmation before approval.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/QRChallenge"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                approvalCode:
+                  type: string
+                  minLength: 43
+                  maxLength: 43
+                  pattern: "^[A-Za-z0-9_-]{43}$"
+              required:
+              - approvalCode
+  "/api/v1/auth/qr/challenges/{id}/approve":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+        minLength: 1
+    post:
+      operationId: approveQRChallenge
+      description: Requires authorize_qr. Only one approve/reject can consume a pending,
+        unexpired challenge; caller role/header/device claims cannot elevate QR session
+        capabilities.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - approved
+                    - rejected
+                required:
+                - status
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                approvalCode:
+                  type: string
+                  minLength: 43
+                  maxLength: 43
+                  pattern: "^[A-Za-z0-9_-]{43}$"
+                decision:
+                  type: string
+                  enum:
+                  - approve
+                  - reject
+              required:
+              - approvalCode
+              - decision
+components:
+  schemas:
+    Device:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - mobile
+          - desktop
+          default: desktop
+        label:
+          type: string
+          maxLength: 80
+        platform:
+          type: string
+          maxLength: 40
+      required: []
+    SessionInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+          minLength: 1
+        device:
+          "$ref": "#/components/schemas/Device"
+        authMethod:
+          type: string
+          enum:
+          - password
+          - qr
+        capabilities:
+          type: array
+          items:
+            type: string
+            enum:
+            - manage_devices
+            - authorize_qr
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        isCurrent:
+          type: boolean
+      required:
+      - id
+      - device
+      - authMethod
+      - capabilities
+      - createdAt
+      - expiresAt
+      - isCurrent
+    User:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+          minLength: 1
+        username:
+          type: string
+          maxLength: 64
+          minLength: 3
+        displayName:
+          type: string
+          maxLength: 120
+          minLength: 1
+        role:
+          type: string
+          enum:
+          - customer
+          - worker
+          - admin
+          - operator
+        status:
+          type: string
+          enum: [active, disabled]
+        session:
+          "$ref": "#/components/schemas/SessionInfo"
+      required:
+      - id
+      - username
+      - displayName
+      - role
+    AuthResult:
+      type: object
+      additionalProperties: false
+      properties:
+        token:
+          type: string
+          minLength: 43
+          maxLength: 43
+          pattern: "^[A-Za-z0-9_-]{43}$"
+        expiresAt:
+          type: string
+          format: date-time
+        user:
+          "$ref": "#/components/schemas/User"
+        session:
+          "$ref": "#/components/schemas/SessionInfo"
+      required:
+      - token
+      - expiresAt
+      - user
+      - session
+    RegisterInput:
+      type: object
+      additionalProperties: false
+      properties:
+        username:
+          type: string
+          pattern: "^[A-Za-z0-9_.-]{3,64}$"
+        password:
+          type: string
+          maxLength: 128
+          minLength: 12
+        device:
+          "$ref": "#/components/schemas/Device"
+        displayName:
+          type: string
+          maxLength: 120
+          minLength: 1
+        role:
+          type: string
+          enum:
+          - customer
+          - worker
+      required:
+      - username
+      - password
+      - displayName
+      - role
+    LoginInput:
+      type: object
+      additionalProperties: false
+      properties:
+        username:
+          type: string
+          pattern: "^[A-Za-z0-9_.-]{3,64}$"
+        password:
+          type: string
+          maxLength: 128
+          minLength: 12
+        device:
+          "$ref": "#/components/schemas/Device"
+      required:
+      - username
+      - password
+    QRChallenge:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        device:
+          "$ref": "#/components/schemas/Device"
+        status:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+          - expired
+          - consumed
+        expiresAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - device
+      - status
+      - expiresAt
+    QRChallengeResult:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        device:
+          "$ref": "#/components/schemas/Device"
+        status:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+          - expired
+          - consumed
+        expiresAt:
+          type: string
+          format: date-time
+        pollToken:
+          type: string
+          minLength: 43
+          maxLength: 43
+          pattern: "^[A-Za-z0-9_-]{43}$"
+        qrPayload:
+          type: string
+          description: repairmarketplace://login?challengeId=...&approvalCode=...;
+            never contains a Bearer token.
+      required:
+      - id
+      - device
+      - status
+      - expiresAt
+      - pollToken
+      - qrPayload
+    QRPollResult:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+          - expired
+          - consumed
+        auth:
+          "$ref": "#/components/schemas/AuthResult"
+      required:
+      - status

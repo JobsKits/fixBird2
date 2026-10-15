@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-15",
+  "syntheticOnly": true,
+  "completed": true,
+  "flow": [
+    "管理员登录种子8单",
+    "原wo_ready完结至版本2",
+    "明确选择有效质保内免费返修，返回新子单",
+    "子单受理版本2",
+    "子单开始检测版本3",
+    "0元完整报价由正常页面提交"
+  ],
+  "result": "页面显示金额超出允许范围，表单保留且工单仍在检测报价中",
+  "quoteRequestSent": false,
+  "backendZeroRejection": "独立真实Handler诊断另确认422 invalid_amount，见backend-findings.json B02",
+  "evidence": [
+    "browser-free-rework.json",
+    "browser-free-rework.png",
+    "browser-network.json"
+  ],
+  "temporaryTabClosed": true,
+  "viewportOverrideUsed": false,
+  "temporaryDirectoryRemoved": true,
+  "notes": [
+    "浏览器鼠标操作曾有暂时超时，先检查DOM/网络后改用标准键盘Enter提交；没有把未执行操作当业务失败。",
+    "浏览器初始服务启动等待产生的演示回退不计缺陷。"
+  ]
+}

@@ -1,0 +1,50 @@
+Browser tab: 1, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18071/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18071/
+	1 container detailContent
+		2 container
+			3 text ZM20261013-0002 · VERSION 2
+			4 heading 海棠物业管理有限公司（合成） · 工业控制主板, Value: 2
+				5 text 海棠物业管理有限公司（合成） · 工业控制主板
+			6 text 检测 / 报价中 · 履约进行中 · 服务端授权数据
+			7 button 关闭详情
+		8 container 工单详情
+			9 button 工单总览
+			10 button 报价与确认
+			11 button 全链路证据
+			12 button 资料 · 票据 · 现金
+			13 button 协商与上门
+			14 button 外包 · 成本 · 提成
+			15 button 借还余项
+			16 button 操作时间轴
+		17 container
+			18 heading 报价暨维修确认单 · v2, Value: 3
+				19 text 报价暨维修确认单 · v2
+			20 definition list
+				21 container 当前含税总价
+					22 text 当前含税总价
+				23 text ¥1,280.00
+				24 container 范围 / 条款
+					25 text 范围 / 条款
+				26 text 更换供电模块，板级维修与老化测试；含税总价1280元
+				27 container 付款约定
+					28 text 付款约定
+				29 text 企业账期 · 约定预付 ¥100.00 · 明确约定先款：核实约定预付款后开修
+				30 container 质保
+					31 text 质保
+				32 text 3 个月
+				33 container 报价接受期限
+					34 text 报价接受期限
+				35 text 2026-10-18T15:59:59Z
+				36 container 确认事实
+					37 text 确认事实
+				38 container
+					39 text 待公司审核
+			40 button 拟定报价
+			41 button 审核并发送报价
+			42 button 下载当前单据摘要
+		43 text 报价与维修事项合并一次确认；最终验收独立办理，不能复用报价签名。手写签名是业务留痕，当前未接第三方认证电子签。
+		44 container
+			45 text 工单事实提交一次 · 主阶段由服务端统一判定
+			46 button 刷新当前数据 ↻
+
+The focused UI element is 0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18071/

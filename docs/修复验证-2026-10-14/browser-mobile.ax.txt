@@ -1,0 +1,141 @@
+Browser tab: 6, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18040/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 1-7, 9-11, 13-22, 31, 194-195, 198-199, 263-277, 1120
++	1145 container 工作空间导航
++		1146 button ▦ 工单工作台
++			1147 text ▦
++			1148 text 工单工作台
++		1149 button ☷ 我的待办
++			1150 text ☷
++			1151 text 我的待办
++		1152 button ¥ 现金与票据
++			1153 text ¥
++			1154 text 现金与票据
++		1155 button ▣ 库存与借还
++			1156 text ▣
++			1157 text 库存与借还
++		1158 button ⚙ 账号与连接
++			1159 text ⚙
++			1160 text 账号与连接
+~		28 button 系, ID: accountButton
++							1161 text 付款资料
++							1162 text 票据进度
++							1163 text 核实收款 / 应收
++							1164 text 待收金额
++							1165 text 付款资料
++							1166 text 票据进度
++							1167 text 核实收款 / 应收
++							1168 text 待收金额
++							1169 text 付款资料
++							1170 text 票据进度
++							1171 text 核实收款 / 应收
++							1172 text 待收金额
++							1173 text 付款资料
++							1174 text 票据进度
++							1175 text 核实收款 / 应收
++							1176 text 待收金额
++							1177 text 付款资料
++							1178 text 票据进度
++							1179 text 核实收款 / 应收
++							1180 text 待收金额
++							1181 text 付款资料
++							1182 text 票据进度
++							1183 text 核实收款 / 应收
++							1184 text 待收金额
++							1185 text 付款资料
++							1186 text 票据进度
++							1187 text 核实收款 / 应收
++							1188 text 待收金额
++							1189 text 付款资料
++							1190 text 票据进度
++							1191 text 核实收款 / 应收
++							1192 text 待收金额
++							1193 text 付款资料
++							1194 text 票据进度
++							1195 text 核实收款 / 应收
++							1196 text 待收金额
++							1197 text 付款资料
++							1198 text 票据进度
++							1199 text 核实收款 / 应收
++							1200 text 待收金额
++							1201 text 付款资料
++							1202 text 票据进度
++							1203 text 核实收款 / 应收
++							1204 text 待收金额
++							1205 text 付款资料
++							1206 text 票据进度
++							1207 text 核实收款 / 应收
++							1208 text 待收金额
++							1209 text 付款资料
++							1210 text 票据进度
++							1211 text 核实收款 / 应收
++							1212 text 待收金额
++							1213 text 付款资料
++							1214 text 票据进度
++							1215 text 核实收款 / 应收
++							1216 text 待收金额
++							1217 text 付款资料
++							1218 text 票据进度
++							1219 text 核实收款 / 应收
++							1220 text 待收金额
++							1221 text 付款资料
++							1222 text 票据进度
++							1223 text 核实收款 / 应收
++							1224 text 待收金额
++							1225 text 付款资料
++							1226 text 票据进度
++							1227 text 核实收款 / 应收
++							1228 text 待收金额
++							1229 text 付款资料
++							1230 text 票据进度
++							1231 text 核实收款 / 应收
++							1232 text 待收金额
++							1233 text 付款资料
++							1234 text 票据进度
++							1235 text 核实收款 / 应收
++							1236 text 待收金额
++							1237 text 付款资料
++							1238 text 票据进度
++							1239 text 核实收款 / 应收
++							1240 text 待收金额
++							1241 text 付款资料
++							1242 text 票据进度
++							1243 text 核实收款 / 应收
++							1244 text 待收金额
++							1245 text 付款资料
++							1246 text 票据进度
++							1247 text 核实收款 / 应收
++							1248 text 待收金额
++							1249 text 付款资料
++							1250 text 票据进度
++							1251 text 核实收款 / 应收
++							1252 text 待收金额
++							1253 text 付款资料
++							1254 text 票据进度
++							1255 text 核实收款 / 应收
++							1256 text 待收金额
++							1257 text 付款资料
++							1258 text 票据进度
++							1259 text 核实收款 / 应收
++							1260 text 待收金额
++							1261 text 付款资料
++							1262 text 票据进度
++							1263 text 核实收款 / 应收
++							1264 text 待收金额
++							1265 text 付款资料
++							1266 text 票据进度
++							1267 text 核实收款 / 应收
++							1268 text 待收金额
++							1269 text 付款资料
++							1270 text 票据进度
++							1271 text 核实收款 / 应收
++							1272 text 待收金额
++							1273 text 付款资料
++							1274 text 票据进度
++							1275 text 核实收款 / 应收
++							1276 text 待收金额
++							1277 text 付款资料
++							1278 text 票据进度
++							1279 text 核实收款 / 应收
++							1280 text 待收金额
+The focused UI element is 1146 button ▦ 工单工作台

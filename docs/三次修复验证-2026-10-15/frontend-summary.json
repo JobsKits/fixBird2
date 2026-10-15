@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-15",
+  "scope": [
+    "Workspace/app.js",
+    "Workspace/tests/app.test.cjs"
+  ],
+  "appTests": 54,
+  "dataTests": 14,
+  "workspaceTests": 68,
+  "migratedThirdRoundDiagnostics": 10,
+  "newBoundaryRootTests": 12,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "checks": [
+    {
+      "command": [
+        "node",
+        "--test",
+        "Workspace/tests/app.test.cjs",
+        "Workspace/tests/data.test.cjs"
+      ],
+      "exit": 0,
+      "log": "frontend-workspace-tests.log"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "Workspace/app.js"
+      ],
+      "exit": 0,
+      "log": "frontend-syntax.log"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "Workspace/tests/app.test.cjs"
+      ],
+      "exit": 0,
+      "log": "frontend-syntax.log"
+    }
+  ],
+  "hashes": {
+    "Workspace/app.js": "4806a5f360763fa0005f3ddff2565f24d736fbe91dd54ef560e67f9065937247",
+    "Workspace/tests/app.test.cjs": "f6900d11da292ac9717d35fcf835fb7a726d8f44f7db401d1c71b8c11367202c"
+  },
+  "cleanup": {
+    "removedTemporaryFiles": [
+      "/private/tmp/v38-r3-login-codegraph.txt"
+    ],
+    "noServicesStarted": true,
+    "noIndexChanged": true,
+    "noRuntimeRead": true,
+    "noBackendEdited": true,
+    "noHistoricalEvidenceEdited": true
+  }
+}

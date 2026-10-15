@@ -1,0 +1,898 @@
+---
+paths:
+  "/api/v1/admin/ledger/journals":
+    get:
+      operationId: adminLedgerJournals
+      description: Requires a session administrator. Immutable balanced simulated
+        journals; real mode is currently empty. No correction/write endpoint is exposed.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/LedgerJournal"
+          headers:
+            X-Next-Cursor:
+              "$ref": "./openapi.yaml#/components/headers/NextCursor"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          maxLength: 512
+        description: Opaque X-Next-Cursor; keep identical filters.
+  "/api/v1/admin/ledger/summary":
+    get:
+      operationId: adminLedgerSummary
+      description: Requires a session administrator. Totals use all rows with the
+        same filters, ignoring paging. Values describe net filtered movements, not
+        a bank account balance; from/to is [from,to).
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LedgerSummary"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          maxLength: 512
+        description: Opaque X-Next-Cursor; keep identical filters.
+  "/api/v1/ledger/journals":
+    get:
+      operationId: ownLedgerJournals
+      description: Requires customer/worker session; participant filter is forced
+        to the current user and cannot be forged with headers. Immutable balanced
+        simulated journals; real mode is currently empty. No correction/write endpoint
+        is exposed.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/LedgerJournal"
+          headers:
+            X-Next-Cursor:
+              "$ref": "./openapi.yaml#/components/headers/NextCursor"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          maxLength: 512
+        description: Opaque X-Next-Cursor; keep identical filters.
+  "/api/v1/ledger/summary":
+    get:
+      operationId: ownLedgerSummary
+      description: Requires customer/worker session; participant filter is forced
+        to the current user and cannot be forged with headers. Totals use all rows
+        with the same filters, ignoring paging. Values describe net filtered movements,
+        not a bank account balance; from/to is [from,to).
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LedgerSummary"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          maxLength: 512
+        description: Opaque X-Next-Cursor; keep identical filters.
+  "/api/v1/me/ledger/journals":
+    get:
+      operationId: ownLedgerAliasJournals
+      description: Requires customer/worker session; participant filter is forced
+        to the current user and cannot be forged with headers. Immutable balanced
+        simulated journals; real mode is currently empty. No correction/write endpoint
+        is exposed.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/LedgerJournal"
+          headers:
+            X-Next-Cursor:
+              "$ref": "./openapi.yaml#/components/headers/NextCursor"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          maxLength: 512
+        description: Opaque X-Next-Cursor; keep identical filters.
+  "/api/v1/me/ledger/summary":
+    get:
+      operationId: ownLedgerAliasSummary
+      description: Requires customer/worker session; participant filter is forced
+        to the current user and cannot be forged with headers. Totals use all rows
+        with the same filters, ignoring paging. Values describe net filtered movements,
+        not a bank account balance; from/to is [from,to).
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LedgerSummary"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: cursor
+        in: query
+        schema:
+          type: string
+          maxLength: 512
+        description: Opaque X-Next-Cursor; keep identical filters.
+  "/api/v1/admin/ledger/export.csv":
+    get:
+      operationId: exportAdminLedgerCSV
+      description: Session admin only. UTF-8 BOM CSV, one row per debit/credit entry.
+        Same filters as journals, no cursor. More than 10000 journals returns 413
+        and never silently truncates. Spreadsheet formula text is escaped.
+      responses:
+        '200':
+          description: Complete filtered journal entries.
+          content:
+            text/csv:
+              schema:
+                type: string
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - simulated
+          - actual
+      - name: kind
+        in: query
+        schema:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - posted
+          - reversed
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+      - name: orderId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: customerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: workerId
+        in: query
+        schema:
+          type: string
+          maxLength: 64
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: 'Half-open range: from inclusive, to exclusive.'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+components:
+  schemas:
+    LedgerJournal:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        eventKey:
+          type: string
+        orderId:
+          type: string
+        customerId:
+          type: string
+        workerId:
+          type: string
+        settlementId:
+          type: string
+        actorId:
+          type: string
+        reason:
+          type: string
+        reversalOfId:
+          type: string
+        mode:
+          type: string
+          enum:
+          - simulated
+          - actual
+        simulated:
+          type: boolean
+        kind:
+          type: string
+          enum:
+          - collection
+          - manual_payout
+          - reversal
+        channel:
+          type: string
+          enum:
+          - demo
+          - manual
+          - wechat
+          - alipay
+          - aggregate
+        status:
+          type: string
+          enum:
+          - posted
+          - reversed
+        amountCents:
+          type: integer
+          minimum: 0
+        workerShareCents:
+          type: integer
+          minimum: 0
+        platformFeeCents:
+          type: integer
+          minimum: 0
+        occurredAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        entries:
+          type: array
+          items:
+            "$ref": "#/components/schemas/LedgerEntry"
+      required:
+      - id
+      - eventKey
+      - orderId
+      - customerId
+      - workerId
+      - settlementId
+      - actorId
+      - reason
+      - reversalOfId
+      - mode
+      - simulated
+      - kind
+      - channel
+      - status
+      - amountCents
+      - workerShareCents
+      - platformFeeCents
+      - occurredAt
+      - createdAt
+      - entries
+    LedgerEntry:
+      type: object
+      additionalProperties: false
+      properties:
+        account:
+          type: string
+          enum:
+          - platform_funds
+          - worker_payable
+          - platform_revenue
+        direction:
+          type: string
+          enum:
+          - debit
+          - credit
+        amountCents:
+          type: integer
+          minimum: 1
+          maximum: 100000000
+      required:
+      - account
+      - direction
+      - amountCents
+    LedgerSummary:
+      type: object
+      additionalProperties: false
+      properties:
+        mode:
+          type: string
+          enum:
+          - simulated
+          - actual
+        simulated:
+          type: boolean
+        currency:
+          type: string
+          const: CNY
+        scope:
+          type: string
+          const: filtered_movements
+        journalCount:
+          type: integer
+        collectedCents:
+          type: integer
+        workerAccruedCents:
+          type: integer
+        platformRevenueCents:
+          type: integer
+        payoutCents:
+          type: integer
+        platformFundsCents:
+          type: integer
+        workerPayableCents:
+          type: integer
+      required:
+      - mode
+      - simulated
+      - currency
+      - scope
+      - journalCount
+      - collectedCents
+      - workerAccruedCents
+      - platformRevenueCents
+      - payoutCents
+      - platformFundsCents
+      - workerPayableCents

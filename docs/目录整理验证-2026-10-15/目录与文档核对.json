@@ -1,0 +1,167 @@
+{
+  "beforeFiles": 635,
+  "unchanged": 605,
+  "changed": [
+    {
+      "before": "AGENTS.md",
+      "current": "AGENTS.md",
+      "sha256": "d0dfd30f24d6363bd64c1b83ad187fb299128149ac65546feda50c936249d4e2"
+    },
+    {
+      "before": "README.md",
+      "current": "README.md",
+      "sha256": "d35d7f8fcfa2c50b246ff7a7a1ccf00b8aadbc824e72ad16c65a0f5b41fb686f"
+    },
+    {
+      "before": "Scripts/【MacOS】启动维修工作台.command/README.md",
+      "current": "后端/部署/macOS/deployment/【MacOS】启动维修工作台.command/README.md",
+      "sha256": "7c976e8b0a10d01eaccfd302526518cd8363224126df17c09d357e47cfdeb275"
+    },
+    {
+      "before": "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+      "current": "后端/部署/macOS/deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+      "sha256": "cae841375844d9b8934c3b575e5315a19f4ee4028d9ca044b56f19bbbcac0d6c"
+    },
+    {
+      "before": "Scripts/离线预览.mjs",
+      "current": "前端/Web网页/离线预览.mjs",
+      "sha256": "94a24f2851f7117bb0fc63ca197ab0da6e33cdb7a429a6ac13239973437c9661"
+    },
+    {
+      "before": "Scripts/验证工作台.mjs",
+      "current": "验证/验证工作台.mjs",
+      "sha256": "4dc473fecb9734842072e6d7130f039dfda46ee0818f6cfd8e433aa82418e133"
+    },
+    {
+      "before": "Server/.env.example",
+      "current": "后端/Go服务端/.env.example",
+      "sha256": "6a26bc7e0c5586f536f107a55f6bb6e77cf0ae1b51fb3ae7ec88023a19670a6b"
+    },
+    {
+      "before": "Server/README.md",
+      "current": "后端/Go服务端/README.md",
+      "sha256": "aafafa7cfc0731cb3d3179b03f656e85ef954faef51a19f3356d2e71ef796175"
+    },
+    {
+      "before": "Server/cmd/workbench/main.go",
+      "current": "后端/Go服务端/cmd/workbench/main.go",
+      "sha256": "7b9d4f81e83b3b18e96265c0edbdd7b2196b7fa9349557ed6a7c66a75867246b"
+    },
+    {
+      "before": "Server/internal/config/config.go",
+      "current": "后端/Go服务端/internal/config/config.go",
+      "sha256": "3f3bffb4d7a015b9c149c4a30497474b9c329e4169136b9338f10174523851ac"
+    },
+    {
+      "before": "Server/internal/im/README.md",
+      "current": "后端/Go服务端/internal/im/README.md",
+      "sha256": "4c83819337d3ed236e1104f2a5472eed26afee234bb3a89ff10390e832cd1501"
+    },
+    {
+      "before": "Validation/README.md",
+      "current": "验证/旧版基线/README.md",
+      "sha256": "1ab6b39cee4c4d12dddd47c4a564e65c9384db931a6fa92c8287a8d77b0a5336"
+    },
+    {
+      "before": "Validation/parse-powershell.ps1",
+      "current": "验证/旧版基线/parse-powershell.ps1",
+      "sha256": "a2e37682f941f4f2d3d37748f5248f606a118e7bef67174bbd01396d7938e19e"
+    },
+    {
+      "before": "Validation/smoke-api.mjs",
+      "current": "验证/旧版基线/smoke-api.mjs",
+      "sha256": "416a9cd1b0708c9db51062d95d016c0ab21f727f6d7adc5141079030b5d80683"
+    },
+    {
+      "before": "Validation/validate.mjs",
+      "current": "验证/旧版基线/validate.mjs",
+      "sha256": "86dbcbeee966783696063d57396ac0160113bf6f83666b302bf24807112e0d2a"
+    },
+    {
+      "before": "Web/README.md",
+      "current": "前端/Web网页/旧版用户网页/README.md",
+      "sha256": "2435f3130c912c5f72587d7eed4e6c14c19874bd10baf90a6f6d31ff7de6dcb3"
+    },
+    {
+      "before": "WebAdmin/README.md",
+      "current": "后端/管理后台页面/README.md",
+      "sha256": "1a2f7159de777b6c1011183f722f34b350d22d68b5b2a6ca1904dc2ac86e872f"
+    },
+    {
+      "before": "codegraph.json",
+      "current": "codegraph.json",
+      "sha256": "9e37752f7446db9966e28e672533b767ded054772f4a514a45a305f78564b2ad"
+    },
+    {
+      "before": "docs/workbench-contract.md",
+      "current": "docs/workbench-contract.md",
+      "sha256": "a2ab63ad9e1c633a28283717677b90f8ace7ae63c3f300a46f04a07b9fd2cab8"
+    },
+    {
+      "before": "docs/三次修复说明-2026-10-15.md",
+      "current": "docs/三次修复说明-2026-10-15.md",
+      "sha256": "bf7e24dadceb50d4761f9b7ee2440bdce072e99baeac5782ac7d5ae8c6170855"
+    },
+    {
+      "before": "docs/三次回归报告-2026-10-15.md",
+      "current": "docs/三次回归报告-2026-10-15.md",
+      "sha256": "388cce3941994603b0fff5c3f84d05a6b5397fbcc58ec537d6ea9cbe88b39a2f"
+    },
+    {
+      "before": "docs/二次回归报告-2026-10-14.md",
+      "current": "docs/二次回归报告-2026-10-14.md",
+      "sha256": "3a4ca33aab0b7263513580585733b876d968cf703725c62cf714884672b9f590"
+    },
+    {
+      "before": "docs/五次回归报告-2026-10-15.md",
+      "current": "docs/五次回归报告-2026-10-15.md",
+      "sha256": "f4085fa3da060ddd07e130968e71cadb84494770f03fee4983b9b5bcff4e3c7b"
+    },
+    {
+      "before": "docs/四次修复说明-2026-10-15.md",
+      "current": "docs/四次修复说明-2026-10-15.md",
+      "sha256": "7f29cb6517b592eece6094974f2709dd3a482faa000754f73874d91a2bd6f67e"
+    },
+    {
+      "before": "docs/四次回归报告-2026-10-15.md",
+      "current": "docs/四次回归报告-2026-10-15.md",
+      "sha256": "70aa291438880dcd4b5b0c8b05ed6ff18bfcd4a688673413acaec048cd810c46"
+    },
+    {
+      "before": "docs/实现范围.md",
+      "current": "docs/实现范围.md",
+      "sha256": "9122930d52c40743c773127021069cf5ceb93dbea99aef19d01e015c623d95ba"
+    },
+    {
+      "before": "docs/封板说明-2026-10-05.md",
+      "current": "docs/封板说明-2026-10-05.md",
+      "sha256": "e9b5d455d61325fdf7aeb1222877ba07195a4a07d7214e5c9a6340764aefc3ff"
+    },
+    {
+      "before": "docs/心愿单.md",
+      "current": "docs/心愿单.md",
+      "sha256": "fa2fbd36a1b57f45e5daf8ccacebecb6d77c83bd9021e212243a31282ea04c7f"
+    },
+    {
+      "before": "代码地图.md",
+      "current": "代码地图.md",
+      "sha256": "03fd01b1567fa5b77220210dbc1e7865475ba66359540a05c4fa17881a563bb2"
+    },
+    {
+      "before": "部署文档.md",
+      "current": "部署文档.md",
+      "sha256": "741485fb1dfedb327c2b0eae33e807cda223a173ed71ac24be69d0dc8653b9c6"
+    }
+  ],
+  "missing": [],
+  "unexpectedChanges": [],
+  "requiredFolders": 27,
+  "missingFolders": [],
+  "oldPathsRemaining": [],
+  "shortcutValid": true,
+  "documents": 51,
+  "localLinks": 1210,
+  "documentErrors": [],
+  "historyRawFilesChanged": [],
+  "passed": true
+}

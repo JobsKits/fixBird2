@@ -1,0 +1,39 @@
+{
+  "exclude": [
+    "Tools/",
+    ".runtime/",
+    ".cache/",
+    "docs/",
+    "需求/",
+    "**/vendor/**",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/*.min.js",
+    "**/*.log",
+    "**/Pods/**",
+    "**/DerivedData/**",
+    "**/ManualBySwiftPods@Pods/**",
+    "前端/iOS/Tests/Artifacts/**"
+  ],
+  "deprioritize": [
+    "验证/旧版基线/",
+    "验证/",
+    "后端/Go服务端/api/",
+    "后端/Go服务端/cmd/api/",
+    "后端/Go服务端/cmd/migrate/",
+    "后端/Go服务端/internal/config/",
+    "后端/Go服务端/internal/domain/",
+    "后端/Go服务端/internal/httpapi/",
+    "后端/Go服务端/internal/identity/",
+    "后端/Go服务端/internal/im/",
+    "后端/Go服务端/internal/ledger/",
+    "后端/Go服务端/internal/migration/",
+    "后端/Go服务端/internal/payment/",
+    "后端/Go服务端/internal/repository/",
+    "后端/Go服务端/internal/service/",
+    "后端/Go服务端/internal/workers/",
+    "前端/Web网页/旧版用户网页/",
+    "后端/管理后台页面/"
+  ]
+}

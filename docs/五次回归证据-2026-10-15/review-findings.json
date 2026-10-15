@@ -1,0 +1,195 @@
+{
+  "date": "2026-10-15",
+  "reviewer": "r5_frontend",
+  "completed": true,
+  "mode": "只读交叉复核；未重跑他人的专项测试，核查重复运行日志、实际产品源及合同/PRD依据",
+  "inputs": {
+    "backend-findings.json": "d4338092f8b5910012925646d6d540ef77b1ba0067d0c3f80c94f9f9029aaf5d",
+    "demo-findings.json": "8603a01c49f9c17a8013d076902d1e16adac4e0eb1e0235e2fbff598f770ea1c",
+    "backend-boundaries_test.go": "ec4fa80daf9ac69e70d991d24550b65b435e6d9fef7efb310e6511371e68935d",
+    "demo-sequences.cjs": "ccafc9b8030cf8747ac819db9077df5dfea3c268e3eb849ef9aadd56e59633ef"
+  },
+  "decision": {
+    "backendKept": 4,
+    "demoKept": 10,
+    "removed": [],
+    "downgraded": [],
+    "crossGroupMerges": [],
+    "severity": "保留14组P2；均为一般优先级的本机框架/合同问题，无证据提升为P1、真实资金损失、生产越权或数据泄露。"
+  },
+  "backend": [
+    {
+      "id": "B01",
+      "keep": true,
+      "priority": "P2",
+      "reachable": "http.go:151-158 把严格JSON解码到包含 originalOrderId 的 CreateOrderInput 后调用 createOrder；actions.go:185-227 只核对新单客户/企业，未核对原单，故 API 入口可达。",
+      "support": "专用 rework actions.go:949-967 已要求有效验收并构造稳定 OriginalOrderID；PRD §10.1 要求原单及历史关联。",
+      "qualification": "仅写入关系完整性。foreign_parent_itself_remains_unreadable 正对照仍拒绝原单详情，不应写成跨企业读越权。普通网页创建没有父单输入，并不消除公开API入口缺口。"
+    },
+    {
+      "id": "B02",
+      "keep": true,
+      "priority": "P2",
+      "reachable": "诊断先通过真实 rework/intake/diagnose 后调用 quote Handler；免费标记有可见UI，quote分支 actions.go:324 的 amount(...,false) 拒绝0。",
+      "support": "PRD §10.1 明写客户价格可0、免费返修用零价合并单确认；§10.2 零价按无需收款办理。实现范围已列返修关联，未明确把免费零价排除，只有整体非全部PRD验收说明。",
+      "qualification": "应标需求落地缺口，不称第四轮修复回退；free 目前仅记在 remark，不应暗示已有完整免费政策状态机。root 另做真实 UI 复验。"
+    },
+    {
+      "id": "B03",
+      "keep": true,
+      "priority": "P2",
+      "reachable": "已有 r4Delivery 前置走真实已提交业务动作（calendar_acceptance_regression_test.go:25-35；不直接赋造验收状态）；最终 issue/accept:false、resolve_issue、auto-accept 都走 Handler。未结扫描正对照先证明阻塞。",
+      "support": "PRD §4.3 明确异议暂停、客服登记恢复剩余或新窗口且须客户确认；§4.5 处理人须选择恢复动作。actions.go:744-751 仅改单项resolved，inventory.go:238-242随后重用旧截止。",
+      "qualification": "并非未结异议检查失效，也不否定合同规定的正常停机补跑按旧截止生效；问题是明确仍等客户复验的已解决任务被当作恢复依据。"
+    },
+    {
+      "id": "B04",
+      "keep": true,
+      "priority": "P2",
+      "reachable": "诊断通过真实当前报价签署、开修、完工、质检 Handler 后，deliver Handler 接受早于创建与签署两年的日期；自动扫描同样可达。",
+      "support": "actions.go:465仅检未来上限，无订单/当前签署时间下界；PRD §3.2 当前范围先确认后履约，§4.3 可靠实际交付启动窗口。",
+      "qualification": "允许有依据的离线补录不意味着可接受早于该订单成立/当前确认的普通交付。应拒绝不可能时间或走人工例外，不能把所有历史录入一概禁止。"
+    }
+  ],
+  "backendSeparation": {
+    "B03vsB04": "保留两组。B03是验收暂停/恢复状态机和客户确认依据缺失，即使交付日期完全正确也出现；B04是交付输入生命周期时间一致性，即使从无异议也出现。两者同被自动验收扫描放大，但修复点、触发事实和正对照不同。",
+    "B01vsFrontendF01": "保留。B01真实新建API允许污染原单引用；frontend F01是在坏2xx下注入错误返修结果未核对父子关系。服务端写入防线和客户端结果确认防线不同，失败证据也不同。"
+  },
+  "demo": [
+    {
+      "id": "R5-D01",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q01-consume",
+        "Q01-dispose",
+        "Q01-transfer"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "globalForm本地借还处置未核对admin审批角色；仓库按钮本就可见。",
+      "qualification": "仅独立演示审批语义错，真实API inventory.go:113-135严格admin，不能称后端越权。"
+    },
+    {
+      "id": "R5-D02",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q02",
+        "Q14"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "completed 变更条件缺少统一受控重开守卫，关联借用和客户异议两向量合为一组。",
+      "qualification": "影响限独立合成副本；真实API已有相应业务保护，不能外推真实库存、资金或生产事实。"
+    },
+    {
+      "id": "R5-D03",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q03"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "consume缺少关联工单/成本归属前提；与操作者审批权限相互独立。",
+      "qualification": "影响限独立合成副本；真实API已有相应业务保护，不能外推真实库存、资金或生产事实。"
+    },
+    {
+      "id": "R5-D04",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q04"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "borrower选项及本地借出未匹配现行API内部engineer账号合同；与操作者权限相互独立。",
+      "qualification": "不是“财务在所有未来业务中绝不允许借用”的PRD禁令；当前API显式engineer、现有页面提供其它选项，属当前合同一致性。真API会拒绝不合格责任人。"
+    },
+    {
+      "id": "R5-D05",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q05"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "verify_cash缺净核实收款上限；真实服务端actions.go:570-576已有保护。",
+      "qualification": "影响限独立合成副本；真实API已有相应业务保护，不能外推真实库存、资金或生产事实。"
+    },
+    {
+      "id": "R5-D06",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q06"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "derive明确排除refund的未交接检查；测试退款在净收范围内，与超额退款组独立。",
+      "qualification": "影响限独立合成副本；真实API已有相应业务保护，不能外推真实库存、资金或生产事实。"
+    },
+    {
+      "id": "R5-D07",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q07",
+        "Q08",
+        "Q09"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "invoice本地仅要求非空files，缺requirement、有效原件和有效号码约束；已将三个向量合为一组。",
+      "qualification": "Q07/Q08使用种子文字证据，与Q09存在附件类型混杂；报告可以描述观测到重复号/none仍入账，但不声称已对有效PDF隔离验证各自负向守卫。Q09与Q21合法PDF正对照、data.js:964-966足以确认整体缺口，不拆三组计数。"
+    },
+    {
+      "id": "R5-D08",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q10"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "documents未在sent=true时要求recipient；UI该字段本就optional，非harness跳过原生required。",
+      "qualification": "影响限独立合成副本；真实API已有相应业务保护，不能外推真实库存、资金或生产事实。"
+    },
+    {
+      "id": "R5-D09",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q11",
+        "Q12"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "failure直接覆盖outcome，未保护既有accepted或已停止结果；两向量合为一组。",
+      "qualification": "影响限独立合成副本；真实API已有相应业务保护，不能外推真实库存、资金或生产事实。"
+    },
+    {
+      "id": "R5-D10",
+      "keep": true,
+      "priority": "P2",
+      "tests": [
+        "Q13"
+      ],
+      "reachability": "已核查 demo-sequences.cjs：通过当前 actual app showAction/globalForm 生成表单并运行其原提交回调；getAll 仅补轻量 VM harness 原生 FormData 接口，未改产品校验。",
+      "rootCause": "quote仅true先款分支限制prepay<=amount，false分支遗漏通用金额约束；不改变用户确认的无约定不拦开修口径。",
+      "qualification": "使用未约定先款但预付高于总价的非法金额，不恢复旧的“cash维修必须全款”过时断言。"
+    }
+  ],
+  "scopeReview": {
+    "explicitlyDeferred": "范围中明确延期的是多设备/分批、规范化明细、独立媒体、外部电子签/物流支付、生产及全PRD验收。未发现将本次四项基础关系/零价/窗口/时间控制明确排除的专项条款。演示合同仍要求可演示操作与真实规则对应，故本地业务缺口可作为P2记录。",
+    "syntheticBoundary": "10组demo和3组frontend坏响应问题必须在摘要/表格中保留“演示”或“客户端坏2xx防护”限定；后端4组真实Handler可达也仅在隔离合成测试中验证。",
+    "crossGroupDedup": "D01/D03/D04同属借用但分别是操作批准角色、维修耗用归属、借用对象有效性，独立业务约束；D05/D06分别金额核实上限与完结交接，各有隔离向量；D07自身3向量已合组。无需仅按文件相同而再合并。"
+  },
+  "checks": {
+    "codegraphUsedBeforeProductReads": true,
+    "productSourcesEdited": false,
+    "formalTestsEdited": false,
+    "otherAgentEvidenceEdited": false,
+    "servicesStarted": 0,
+    "containersStarted": 0,
+    "browserTabsOpened": 0,
+    "pendingOwnedProcesses": 0
+  },
+  "notes": [
+    "交叉复核未更改任何断言或失败退出码；本文件不重复计算测试数。",
+    "第三方、原仓、.runtime 均未触碰。"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "rootTestsPassed": 12,
+  "testResultsPassed": 52,
+  "failures": [],
+  "skipped": [],
+  "race": true,
+  "selection": "TestInternalRemark|TestObligation|TestSecondPassPermissions",
+  "newFormalProtectionTests": [
+    "hidden remark patch preserves stored value",
+    "foreign obligation owner rejected",
+    "cached full Order replay requires persisted read audit"
+  ],
+  "vetExit": 0,
+  "businessRuntimeRead": false,
+  "originalDatabaseUsed": false,
+  "dockerStarted": false
+}

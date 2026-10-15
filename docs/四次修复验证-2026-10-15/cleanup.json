@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "ownedTemporaryDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-fix4-browser-0pD3am",
+  "ownedTemporaryDirectoryRemoved": true,
+  "firstInterruptedOwnedDirectoryRemoved": true,
+  "listeners": [
+    {
+      "port": 14048,
+      "listening": false
+    },
+    {
+      "port": 18088,
+      "listening": false
+    },
+    {
+      "port": 18070,
+      "listening": false
+    },
+    {
+      "port": 18071,
+      "listening": false
+    },
+    {
+      "port": 18072,
+      "listening": false
+    }
+  ],
+  "testContainerRemoved": true,
+  "existingContainers": {
+    "modifiedByTask": false,
+    "currentRuntimeStatus": "unavailable"
+  },
+  "browserTabsClosed": true,
+  "timeoutRestored": 2500,
+  "viewportOverrideUsed": false,
+  "user8098ServiceUntouched": true,
+  "originalRepositoryAndRuntimeUntouched": true,
+  "gitCommitOrPush": false,
+  "success": true,
+  "currentDockerInspection": {
+    "available": false,
+    "reason": "Docker daemon socket unavailable during final inspection; no Docker start or changes attempted."
+  },
+  "testContainerRemovalEvidence": "validation-run-summary.json and test-database-stop.log"
+}

@@ -1,0 +1,19 @@
+Browser tab: 8, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18043/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18043/
+	1 container formContent
+		2 container
+			3 heading 编辑工单备注, Value: 2
+				4 text 编辑工单备注
+			5 button 关闭表单
+		6 container actionForm
+			7 container
+				8 text 内部备注（默认不向客户展示）
+				9 text entry area (settable) 内部备注（默认不向客户展示）, Value: 合成样例；内部交接说明仅公司授权人员可见
+			10 container
+				11 text 单独发布的客户说明
+				12 text entry area (settable) 单独发布的客户说明, Value: 本单为开发演示样例，请勿提交真实资料。
+			13 container
+				14 button 取消
+				15 button 确认本次事实, ID: submitAction
+
+The focused UI element is 5 button 关闭表单

@@ -1,0 +1,80 @@
+require 'fileutils'
+require 'securerandom'
+
+platform :ios, '15.0'
+source 'https://cdn.cocoapods.org/'
+
+install! 'cocoapods',
+  :disable_input_output_paths => true,
+  :warn_for_unused_master_specs_repo => false
+use_frameworks! :linkage => :static
+inhibit_all_warnings!
+
+target 'RepairWorkbench' do
+  dependency_file = File.join(__dir__, 'Podfile.deps')
+  if File.file?(dependency_file)
+    instance_eval(File.read(dependency_file), dependency_file, 1)
+  else
+    warn "[Podfile] 未找到依赖清单，跳过加载：#{dependency_file}"
+  end
+
+  target 'RepairWorkbenchTests' do
+    inherit! :search_paths
+  end
+end
+
+post_install do |installer|
+  project_path = installer.pods_project.path
+  project_file = File.join(project_path, 'project.pbxproj')
+  backup_path = "#{project_file}.repair-backup-#{SecureRandom.hex(8)}"
+  FileUtils.cp(project_file, backup_path) if File.file?(project_file)
+
+  begin
+    project = installer.pods_project
+    root_uuid = project.root_object.uuid
+    dependency_path = '../Podfile.deps'
+    dependency_refs = project.main_group.files.select do |file|
+      file.path == dependency_path
+    end
+    raise 'Podfile.deps 根组中存在重复引用' if dependency_refs.length > 1
+
+    file_ref = dependency_refs.first
+    file_ref ||= project.main_group.new_file(dependency_path)
+    file_ref.explicit_file_type = 'text.script.ruby'
+    project.targets.each do |target|
+      target.build_configurations.each do |configuration|
+        configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+        configuration.build_settings['SWIFT_VERSION'] = '5.0'
+      end
+    end
+    project.save
+
+    reopened = Xcodeproj::Project.open(project_path)
+    dependency_refs = reopened.main_group.files.select do |file|
+      file.path == dependency_path
+    end
+    dependency_ref_found = dependency_refs.length == 1 &&
+      dependency_refs.first.explicit_file_type == 'text.script.ruby'
+    build_phase_refs = reopened.targets.flat_map(&:build_phases).flat_map do |phase|
+      phase.respond_to?(:files_references) ? phase.files_references : []
+    end
+    dependency_ref_in_build_phase = build_phase_refs.any? do |file|
+      file.path == dependency_path && file.explicit_file_type == 'text.script.ruby'
+    end
+    unless reopened.root_object.isa == 'PBXProject' &&
+        reopened.root_object.uuid == root_uuid &&
+        dependency_ref_found &&
+        !dependency_ref_in_build_phase
+      raise 'Podfile.deps 引用写入后核验失败'
+    end
+  rescue StandardError => error
+    begin
+      FileUtils.cp(backup_path, project_file) if File.file?(backup_path)
+    rescue StandardError => restore_error
+      warn "[Podfile.deps] Pods 工程恢复失败：#{restore_error.message}"
+    end
+    warn "[Podfile.deps] Xcode 展示引用维护失败，已跳过：#{error.message}"
+  ensure
+    FileUtils.rm_f(backup_path)
+  end
+end

@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "signal": null,
+  "cwd": "/tmp",
+  "script": "验证/验证工作台.mjs",
+  "groups": 6,
+  "output": "V3.8 工作台验证：临时回环服务、独立合成数据；不连接现有实例，不部署。\n✔ 健康、账号登录与匿名访问拒绝\n✔ 新建销售单与跨企业读取、写入拒绝\n✔ 报价审核、客户签署、版本冲突和同键幂等\n✔ 销售交付、独立验收、现金核实交接与完结门槛\n✔ 借用归还和可用库存守恒\n✔ 退出后旧会话撤销\n验证完成：6 组通过。此结果仅覆盖脚本列出的合同，不代表 PRD 全部验收。\n",
+  "stderr": "",
+  "scope": "Own temporary loopback service and synthetic data; script finally cleans own process/data/key; no TiDB or existing service."
+}

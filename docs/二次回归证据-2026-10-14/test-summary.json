@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-14",
+  "overall": "not_all_passed",
+  "go": {
+    "passResults": 132,
+    "failResults": 2,
+    "skipTests": 0,
+    "rootPass": 67,
+    "rootFail": 1,
+    "failedTests": [
+      "TestRepositoryContract/tidb-optimistic",
+      "TestRepositoryContract"
+    ],
+    "workbenchPassed": 35
+  },
+  "webExisting": {
+    "passed": 48,
+    "failed": 0
+  },
+  "http": {
+    "groupsPassed": 6
+  },
+  "vet": {
+    "exit": 0
+  },
+  "syntax": {
+    "goVet": true,
+    "js": true,
+    "zsh": true
+  },
+  "frontendDiagnostics": {
+    "tests": 11,
+    "passed": 8,
+    "failed": 3
+  },
+  "supplementalGo": {
+    "rootTests": 13,
+    "note": "Some tests assert defects exist. A pass of those tests is not a fix pass; see report.",
+    "failed": [
+      "TestRestoreSecondPostBackupAuthorizationKeysRemainConsumed/account_disable_then_reenable",
+      "TestRestoreSecondPostBackupAuthorizationKeysRemainConsumed/contact_handover_then_handover_back",
+      "TestRestoreSecondPostBackupAuthorizationKeysRemainConsumed",
+      "TestRestoreSecondMalformedCurrentAccountCannotAuthorizeWrites"
+    ],
+    "latestRootResults": [
+      {
+        "test": "TestSecondPassPermissionsQueryAndPendingCashScope",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      },
+      {
+        "test": "TestSecondPassPermissionsGlobalMetricsAndPages",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      },
+      {
+        "test": "TestSecondPassPermissionsDownloadAuditAndOldAuthorization",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      },
+      {
+        "test": "TestSecondPassPermissionsAuditPaginationBounds",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      },
+      {
+        "test": "TestSecondPassPermissionsReproduceHiddenRemarkOverwrite",
+        "action": "pass",
+        "meaning": "assertion confirms defect"
+      },
+      {
+        "test": "TestSecondPassPermissionsReproduceHiddenObligationResolution",
+        "action": "pass",
+        "meaning": "assertion confirms defect"
+      },
+      {
+        "test": "TestSecondPassPermissionsReproduceReplayWithoutReadAudit",
+        "action": "pass",
+        "meaning": "assertion confirms defect"
+      },
+      {
+        "test": "TestRestoreSecondPostBackupAuthorizationKeysRemainConsumed",
+        "action": "fail",
+        "meaning": "expected behavior failed"
+      },
+      {
+        "test": "TestRestoreSecondMutationRetryCannotReadNewPrivateDataWhenAuditFails",
+        "action": "fail",
+        "meaning": "expected behavior failed"
+      },
+      {
+        "test": "TestRestoreSecondMalformedCurrentAccountCannotAuthorizeWrites",
+        "action": "fail",
+        "meaning": "expected behavior failed"
+      },
+      {
+        "test": "TestRestoreSecondBackupKeysAndRollbackFactsStayCoherent",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      },
+      {
+        "test": "TestRestoreSecondCorruptionRefusedBeforeExposure",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      },
+      {
+        "test": "TestRestoreSecondFailedCashTransactionLeavesNoMutationOrConsumedKey",
+        "action": "pass",
+        "meaning": "expected behavior passed"
+      }
+    ]
+  },
+  "replayAuditProbe": [
+    "TestRestoreSecondMutationRetryCannotReadNewPrivateDataWhenAuditFails"
+  ],
+  "confirmedFindings": {
+    "new": 8,
+    "previousIntermittent": 1,
+    "total": 9
+  },
+  "browser": {
+    "lateActionAfterNavigationReproduced": true,
+    "backendAndProxy": "independent loopback services",
+    "responseDelayMs": 1200,
+    "source": "actual Workspace/app.js"
+  }
+}

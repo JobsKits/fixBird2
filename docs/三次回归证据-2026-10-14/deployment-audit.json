@@ -1,0 +1,585 @@
+{
+  "schema": 1,
+  "auditDate": "2026-10-14",
+  "project": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8",
+  "kind": "read_only_deployment_document_consistency",
+  "auditor": "fix_restore_authorization",
+  "outcome": "本次限定范围未发现新的误导执行项或实现不一致；本结论不代替生产验收。",
+  "boundary": {
+    "productSourceModified": false,
+    "formalTestsModified": false,
+    "deliveryDocumentsModified": false,
+    "indexModified": false,
+    "memoryModified": false,
+    "runtimeRead": false,
+    "realDatabaseRead": false,
+    "servicesStarted": false,
+    "newFullSuiteRun": false,
+    "onlyOutput": "docs/三次回归证据-2026-10-14/deployment-audit.json"
+  },
+  "scope": [
+    "README.md",
+    "部署文档.md",
+    "docs/workbench-contract.md",
+    "docs/二次修复说明-2026-10-14.md",
+    "代码地图.md"
+  ],
+  "documentHashes": [
+    {
+      "file": "README.md",
+      "sha256": "20b6e44681da589b097330aea6f5d9d22e5a36a1a8f5393d90dc2aa0f5d45dbe"
+    },
+    {
+      "file": "部署文档.md",
+      "sha256": "bb78d703e571da8c48718bf46502e37f7e196a311b84634e7809a5ec09ef769e"
+    },
+    {
+      "file": "docs/workbench-contract.md",
+      "sha256": "3bf409a73ae5396a5200ee38c1d19cd729e0b94a61023ac705bd3154a8f9cd4b"
+    },
+    {
+      "file": "docs/二次修复说明-2026-10-14.md",
+      "sha256": "71cbf7df81e1185099cc6601288f8873c5a1c2196f46605f101922e0106fa79b"
+    },
+    {
+      "file": "代码地图.md",
+      "sha256": "2ee5e096c49fc275a62132c23e8f9a10cd9313bcc7dd13787ed0fba572207a29"
+    }
+  ],
+  "method": [
+    "读取项目规约、现有代码地图和相关永久记忆；复用已加载 jobs-markdown-docs 规则。",
+    "CodeGraph 优先读取当前源码定位；对未被索引的 MacOS 启动脚本进行限定文件静态读取。",
+    "逐项比较启动/路径/CLI 参数、文件和 TiDB 边界、恢复授权与消费键、会话、字段权限、审计及网页回退合同。",
+    "检查 5 份资料的本地 Markdown 链接与锚点；仅读取二次修复已有日志校对历史验证数字。"
+  ],
+  "findings": [],
+  "checks": [
+    {
+      "id": "startup-and-platforms",
+      "status": "consistent",
+      "claim": "项目根命令明确数据/密钥/网页目录；MacOS 入口确认后构建，失败不启动旧二进制；默认回环监听，Linux/Windows 未实机验证已明确标注。",
+      "documents": [
+        {
+          "file": "README.md",
+          "line": 21
+        },
+        {
+          "file": "部署文档.md",
+          "line": 38
+        },
+        {
+          "file": "部署文档.md",
+          "line": 65
+        },
+        {
+          "file": "部署文档.md",
+          "line": 111
+        },
+        {
+          "file": "部署文档.md",
+          "line": 210
+        },
+        {
+          "file": "部署文档.md",
+          "line": 252
+        }
+      ],
+      "implementation": [
+        {
+          "file": "Server/cmd/workbench/main.go",
+          "line": 44,
+          "symbol": "run"
+        },
+        {
+          "file": "Server/cmd/workbench/main.go",
+          "line": 78,
+          "symbol": "run"
+        },
+        {
+          "file": "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+          "line": 52,
+          "symbol": "show_script_intro_and_wait"
+        },
+        {
+          "file": "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+          "line": 107,
+          "symbol": "configure_paths"
+        },
+        {
+          "file": "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+          "line": 141,
+          "symbol": "build_workbench"
+        }
+      ]
+    },
+    {
+      "id": "database-and-backup",
+      "status": "consistent",
+      "claim": "TiDB 单加密聚合表只建表不建数据库，TLS 拒绝未验证模式；定时备份配置不等于成功，启动即尝试，密钥不进备份；CLI 恢复拒绝 TiDB 模式。",
+      "documents": [
+        {
+          "file": "部署文档.md",
+          "line": 186
+        },
+        {
+          "file": "部署文档.md",
+          "line": 208
+        },
+        {
+          "file": "部署文档.md",
+          "line": 279
+        },
+        {
+          "file": "部署文档.md",
+          "line": 281
+        },
+        {
+          "file": "部署文档.md",
+          "line": 296
+        }
+      ],
+      "implementation": [
+        {
+          "file": "Server/internal/workbench/storage_tidb.go",
+          "line": 23,
+          "symbol": "NewTiDBPersistence"
+        },
+        {
+          "file": "Server/cmd/workbench/main.go",
+          "line": 46,
+          "symbol": "run"
+        },
+        {
+          "file": "Server/cmd/workbench/main.go",
+          "line": 104,
+          "symbol": "run"
+        },
+        {
+          "file": "Server/cmd/workbench/main.go",
+          "line": 146,
+          "symbol": "backupMonitor.run"
+        },
+        {
+          "file": "Server/internal/workbench/storage.go",
+          "line": 218,
+          "symbol": "WriteBackup"
+        }
+      ]
+    },
+    {
+      "id": "restore-auth-and-consumed-requests",
+      "status": "consistent",
+      "claim": "恢复要求尚不存在的新目标、原密钥、备份清单及最新源；旧业务事实保留而账号/工单授权与删除约束取最新。合并已消费键及摘要，跨恢复核对标记保留；最新仅有可信账号状态键返回当前授权，其它业务键 409 人工核对且不执行；撤权工单不放出资料。",
+      "documents": [
+        {
+          "file": "部署文档.md",
+          "line": 298
+        },
+        {
+          "file": "部署文档.md",
+          "line": 311
+        },
+        {
+          "file": "部署文档.md",
+          "line": 313
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 117
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 121
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 123
+        },
+        {
+          "file": "docs/二次修复说明-2026-10-14.md",
+          "line": 37
+        }
+      ],
+      "implementation": [
+        {
+          "file": "Server/internal/workbench/storage.go",
+          "line": 256,
+          "symbol": "RestoreBackup"
+        },
+        {
+          "file": "Server/internal/workbench/storage.go",
+          "line": 317,
+          "symbol": "mergeRestrictions"
+        },
+        {
+          "file": "Server/internal/workbench/storage.go",
+          "line": 489,
+          "symbol": "mergeRecoveryRequests"
+        },
+        {
+          "file": "Server/internal/workbench/storage.go",
+          "line": 525,
+          "symbol": "isRecoveryAccountStatusRequest"
+        },
+        {
+          "file": "Server/internal/workbench/idempotency.go",
+          "line": 37,
+          "symbol": "replayRequest"
+        },
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 198,
+          "symbol": "transact"
+        }
+      ]
+    },
+    {
+      "id": "accounts-and-sessions",
+      "status": "consistent",
+      "claim": "完整账号清单拒绝缺失/重复/非法约束，只有明确 active 可登录/鉴权/提交；token 仅在内存且 authVersion 撤销旧会话，恢复/重启需重新登录。",
+      "documents": [
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 21
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 23
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 119
+        },
+        {
+          "file": "部署文档.md",
+          "line": 93
+        },
+        {
+          "file": "部署文档.md",
+          "line": 329
+        }
+      ],
+      "implementation": [
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 48,
+          "symbol": "New"
+        },
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 109,
+          "symbol": "login"
+        },
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 159,
+          "symbol": "authenticate"
+        },
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 180,
+          "symbol": "transact"
+        },
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 265,
+          "symbol": "activeActor"
+        },
+        {
+          "file": "Server/internal/workbench/service.go",
+          "line": 278,
+          "symbol": "validateAccounts"
+        }
+      ]
+    },
+    {
+      "id": "field-read-write-and-audit",
+      "status": "consistent",
+      "claim": "财务完整读取、工程师/仓库本人成本/待核实现金、QC 和外部脱敏及证据阶段边界吻合；备注字段省略保留，QC/仓库空串兼容保留与非空拒绝；余项只由本人或 admin/dispatcher 办理。详情/完整幂等工单重试/下载/导出先保存审计再给资料。",
+      "documents": [
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 49
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 82
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 93
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 109
+        },
+        {
+          "file": "README.md",
+          "line": 185
+        },
+        {
+          "file": "README.md",
+          "line": 187
+        }
+      ],
+      "implementation": [
+        {
+          "file": "Server/internal/workbench/permissions.go",
+          "line": 6,
+          "symbol": "readsFinancialDetails"
+        },
+        {
+          "file": "Server/internal/workbench/permissions.go",
+          "line": 19,
+          "symbol": "canEditInternalRemark"
+        },
+        {
+          "file": "Server/internal/workbench/permissions.go",
+          "line": 23,
+          "symbol": "canResolveObligation"
+        },
+        {
+          "file": "Server/internal/workbench/permissions.go",
+          "line": 29,
+          "symbol": "filterOrderFields"
+        },
+        {
+          "file": "Server/internal/workbench/permissions.go",
+          "line": 164,
+          "symbol": "canReadEvidence"
+        },
+        {
+          "file": "Server/internal/workbench/actions.go",
+          "line": 221,
+          "symbol": "act"
+        },
+        {
+          "file": "Server/internal/workbench/http.go",
+          "line": 132,
+          "symbol": "Handler detail route"
+        },
+        {
+          "file": "Server/internal/workbench/http.go",
+          "line": 243,
+          "symbol": "Handler export route"
+        },
+        {
+          "file": "Server/internal/workbench/idempotency.go",
+          "line": 37,
+          "symbol": "replayRequest"
+        }
+      ]
+    },
+    {
+      "id": "client-response-fallback",
+      "status": "consistent",
+      "claim": "网页 HTTP 成功且结构有效才使用服务数据；读失败进入独立合成副本，后续有效刷新返回服务；真实写超时/坏响应保留输入与原意图，未知结果无模拟成功、无自动重放；地址同源，file:// 明确纯离线，静态预览只服务 Workspace 且 API 503。",
+      "documents": [
+        {
+          "file": "README.md",
+          "line": 189
+        },
+        {
+          "file": "部署文档.md",
+          "line": 254
+        },
+        {
+          "file": "部署文档.md",
+          "line": 265
+        },
+        {
+          "file": "部署文档.md",
+          "line": 267
+        },
+        {
+          "file": "部署文档.md",
+          "line": 269
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 136
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 138
+        }
+      ],
+      "implementation": [
+        {
+          "file": "Workspace/app.js",
+          "line": 149,
+          "symbol": "normalizeBase"
+        },
+        {
+          "file": "Workspace/app.js",
+          "line": 338,
+          "symbol": "request"
+        },
+        {
+          "file": "Workspace/app.js",
+          "line": 663,
+          "symbol": "enterFallback"
+        },
+        {
+          "file": "Workspace/app.js",
+          "line": 1457,
+          "symbol": "refresh"
+        },
+        {
+          "file": "Workspace/app.js",
+          "line": 2991,
+          "symbol": "mutateOrder"
+        },
+        {
+          "file": "Scripts/离线预览.mjs",
+          "line": 21,
+          "symbol": "serve"
+        }
+      ]
+    },
+    {
+      "id": "map-and-evidence-boundary",
+      "status": "consistent",
+      "claim": "地图按稳定符号区分新 V3.8 与旧基线，源码/索引范围排除 runtime、工具及证据；旧回归失败保留为历史，当前二次修复记录与已声明未验收生产项分开。",
+      "documents": [
+        {
+          "file": "代码地图.md",
+          "line": 124
+        },
+        {
+          "file": "代码地图.md",
+          "line": 126
+        },
+        {
+          "file": "代码地图.md",
+          "line": 141
+        },
+        {
+          "file": "代码地图.md",
+          "line": 155
+        },
+        {
+          "file": "README.md",
+          "line": 11
+        },
+        {
+          "file": "README.md",
+          "line": 154
+        },
+        {
+          "file": "docs/二次修复说明-2026-10-14.md",
+          "line": 11
+        },
+        {
+          "file": "docs/二次修复说明-2026-10-14.md",
+          "line": 62
+        }
+      ],
+      "implementation": [
+        {
+          "file": "codegraph.json",
+          "line": 2,
+          "symbol": "exclude"
+        },
+        {
+          "file": "codegraph.json",
+          "line": 15,
+          "symbol": "deprioritize"
+        }
+      ],
+      "note": "索引数字仅为文档明确注明的二次修复时间点，本次未同步或全面重验索引。"
+    }
+  ],
+  "localLinks": {
+    "checkedLocalLinks": 135,
+    "remoteLinksExcluded": 45,
+    "missing": []
+  },
+  "recordedSecondFixEvidence": {
+    "source": "docs/二次修复验证-2026-10-14/",
+    "freshRun": false,
+    "go": {
+      "passRoots": 95,
+      "passResults": 234,
+      "failResults": 0,
+      "skippedTests": 0
+    },
+    "web": {
+      "tests": 66,
+      "pass": 66,
+      "fail": 0,
+      "skipped": 0
+    },
+    "httpGroups": 6,
+    "note": "仅重算/读取已有日志中的计数；不声称这些是本轮三次回归全套结果。"
+  },
+  "declaredUnfinishedItems": [
+    {
+      "category": "production_identity_and_network",
+      "documents": [
+        {
+          "file": "部署文档.md",
+          "line": 392
+        }
+      ],
+      "detail": "真实账号/企业最小权限、可信 HTTPS、生产网络及数据库身份尚须实现和验收。",
+      "newDefect": false
+    },
+    {
+      "category": "disaster_recovery",
+      "documents": [
+        {
+          "file": "部署文档.md",
+          "line": 313
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 132
+        }
+      ],
+      "detail": "最新源彻底损失时的全灾备、TiDB 完整恢复、密钥保管/轮换与独立媒体告警尚未交付；现有恢复合同依赖最新源。",
+      "newDefect": false
+    },
+    {
+      "category": "data_model_and_scale",
+      "documents": [
+        {
+          "file": "部署文档.md",
+          "line": 135
+        },
+        {
+          "file": "部署文档.md",
+          "line": 137
+        },
+        {
+          "file": "docs/workbench-contract.md",
+          "line": 132
+        }
+      ],
+      "detail": "聚合快照、库存/采购未分页、正式用途授权/独立运维审计、生产容量和并发验收仍有缺口。",
+      "newDefect": false
+    },
+    {
+      "category": "platform_and_business_acceptance",
+      "documents": [
+        {
+          "file": "部署文档.md",
+          "line": 252
+        },
+        {
+          "file": "docs/二次修复说明-2026-10-14.md",
+          "line": 70
+        }
+      ],
+      "detail": "Windows/Linux 实机、实体手机、多角色全部流程及需求分阶段外部能力未全部验收。",
+      "newDefect": false
+    }
+  ],
+  "limitations": [
+    "本次为限定文档与当前实现的静态一致性审查；没有执行部署、备份/恢复或新全套业务测试。",
+    "未读业务 .runtime、原数据库、凭据内容；未启动 Docker 或服务。",
+    "未校验远端参考链接可用性或新版产品推荐；文档的 TiDB 镜像已明确标注历史演示基线。",
+    "CodeGraph 未索引 MacOS 启动脚本，已按指定单文件静态读取补核；代码地图也明确动态关系可能缺边。",
+    "字段权限/前端多时序的完整运行验证由主任务的独立专项负责，本 JSON 不扩大为全部角色生产验收。"
+  ]
+}

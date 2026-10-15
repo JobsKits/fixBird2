@@ -1,0 +1,16 @@
+{
+  "documents": 12,
+  "checkedLocalLinks": 555,
+  "errors": [],
+  "reportCopiesSameContentAfterLinkBaseAdjustment": true,
+  "thirdCopyMatches": true,
+  "browserPreview": {
+    "evidenceImageLoaded": true,
+    "findingsHeadingVisible": true,
+    "findingsJump": true,
+    "findingsRows": 2,
+    "horizontalOverflow": false,
+    "endJump": true,
+    "backToIntroduction": true
+  }
+}

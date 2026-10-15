@@ -1,0 +1,16 @@
+{
+  "documents": 10,
+  "checkedLocalLinks": 443,
+  "errors": [],
+  "reportCopiesSameContentAfterLinkBaseAdjustment": true,
+  "browserPreview": {
+    "evidenceImageLoaded": true,
+    "fixesRows": 9,
+    "horizontalOverflow": false,
+    "resultsJump": true,
+    "endJump": true,
+    "backToIntroduction": true,
+    "strictSpanTopCheck": false,
+    "resultsTableVisuallyVerified": true
+  }
+}

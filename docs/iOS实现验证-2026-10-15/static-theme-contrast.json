@@ -1,0 +1,293 @@
+{
+  "generatedAt": "2026-10-15T16:23:49.865Z",
+  "method": "Read App JobsThemeResources.json; alpha-composite foreground over each declared grouped background; WCAG sRGB relative luminance; numeric threshold 4.5.",
+  "scope": "Static declared colors only; not runtime resolved control states or screenshot validation.",
+  "source": {
+    "path": "前端/iOS/App/Resource/JobsThemeResources.json",
+    "sha256": "909fcccd6e1c50049a4bd489925233dec856b9f506796446bc309e006e05bcf1"
+  },
+  "count": 31,
+  "passed": 31,
+  "minimum": 5.4164,
+  "records": [
+    {
+      "mode": "light",
+      "fg": "text.primary",
+      "fgHex": "#000000",
+      "bg": "background.grouped",
+      "bgHex": "#F2F2F7",
+      "ratio": 18.8194,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.primary",
+      "fgHex": "#000000",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#FFFFFF",
+      "ratio": 21,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.primary",
+      "fgHex": "#000000",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#F2F2F7",
+      "ratio": 18.8194,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.secondary",
+      "fgHex": "#595961",
+      "bg": "background.grouped",
+      "bgHex": "#F2F2F7",
+      "ratio": 6.2185,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.secondary",
+      "fgHex": "#595961",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#FFFFFF",
+      "ratio": 6.9391,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.secondary",
+      "fgHex": "#595961",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#F2F2F7",
+      "ratio": 6.2185,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.tertiary",
+      "fgHex": "#616169",
+      "bg": "background.grouped",
+      "bgHex": "#F2F2F7",
+      "ratio": 5.4993,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.tertiary",
+      "fgHex": "#616169",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#FFFFFF",
+      "ratio": 6.1365,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.tertiary",
+      "fgHex": "#616169",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#F2F2F7",
+      "ratio": 5.4993,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.quaternary",
+      "fgHex": "#62626A",
+      "bg": "background.grouped",
+      "bgHex": "#F2F2F7",
+      "ratio": 5.4164,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.quaternary",
+      "fgHex": "#62626A",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#FFFFFF",
+      "ratio": 6.044,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.quaternary",
+      "fgHex": "#62626A",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#F2F2F7",
+      "ratio": 5.4164,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.placeholder",
+      "fgHex": "#62626A",
+      "bg": "background.grouped",
+      "bgHex": "#F2F2F7",
+      "ratio": 5.4164,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.placeholder",
+      "fgHex": "#62626A",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#FFFFFF",
+      "ratio": 6.044,
+      "passes": true
+    },
+    {
+      "mode": "light",
+      "fg": "text.placeholder",
+      "fgHex": "#62626A",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#F2F2F7",
+      "ratio": 5.4164,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.primary",
+      "fgHex": "#FFFFFF",
+      "bg": "background.grouped",
+      "bgHex": "#000000",
+      "ratio": 21,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.primary",
+      "fgHex": "#FFFFFF",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#1C1C1E",
+      "ratio": 17.0147,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.primary",
+      "fgHex": "#FFFFFF",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#2C2C2E",
+      "ratio": 13.9366,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.secondary",
+      "fgHex": "#C8C8D0",
+      "bg": "background.grouped",
+      "bgHex": "#000000",
+      "ratio": 12.6284,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.secondary",
+      "fgHex": "#C8C8D0",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#1C1C1E",
+      "ratio": 10.2318,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.secondary",
+      "fgHex": "#C8C8D0",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#2C2C2E",
+      "ratio": 8.3808,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.tertiary",
+      "fgHex": "#BCBCC4",
+      "bg": "background.grouped",
+      "bgHex": "#000000",
+      "ratio": 11.1287,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.tertiary",
+      "fgHex": "#BCBCC4",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#1C1C1E",
+      "ratio": 9.0167,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.tertiary",
+      "fgHex": "#BCBCC4",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#2C2C2E",
+      "ratio": 7.3855,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.quaternary",
+      "fgHex": "#B5B5BD",
+      "bg": "background.grouped",
+      "bgHex": "#000000",
+      "ratio": 10.3091,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.quaternary",
+      "fgHex": "#B5B5BD",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#1C1C1E",
+      "ratio": 8.3527,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.quaternary",
+      "fgHex": "#B5B5BD",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#2C2C2E",
+      "ratio": 6.8416,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.placeholder",
+      "fgHex": "#B5B5BD",
+      "bg": "background.grouped",
+      "bgHex": "#000000",
+      "ratio": 10.3091,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.placeholder",
+      "fgHex": "#B5B5BD",
+      "bg": "background.grouped.secondary",
+      "bgHex": "#1C1C1E",
+      "ratio": 8.3527,
+      "passes": true
+    },
+    {
+      "mode": "dark",
+      "fg": "text.placeholder",
+      "fgHex": "#B5B5BD",
+      "bg": "background.grouped.tertiary",
+      "bgHex": "#2C2C2E",
+      "ratio": 6.8416,
+      "passes": true
+    },
+    {
+      "mode": "both",
+      "fg": "primaryButton",
+      "fgHex": "#FFFFFF",
+      "bg": "brand",
+      "bgHex": "#0F5144",
+      "ratio": 9.2075,
+      "passes": true
+    }
+  ]
+}

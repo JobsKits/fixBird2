@@ -1,0 +1,6 @@
+{"ImportPath":"repair-platform/internal/workbench [repair-platform/internal/workbench.test]","Action":"build-output","Output":"# repair-platform/internal/workbench [repair-platform/internal/workbench.test]\n"}
+{"ImportPath":"repair-platform/internal/workbench [repair-platform/internal/workbench.test]","Action":"build-output","Output":"internal/workbench/restore_second_test.go:6:2: \"net/http\" imported and not used\n"}
+{"ImportPath":"repair-platform/internal/workbench [repair-platform/internal/workbench.test]","Action":"build-fail"}
+{"Time":"2026-10-14T05:15:10.394977+08:00","Action":"start","Package":"repair-platform/internal/workbench"}
+{"Time":"2026-10-14T05:15:10.395013+08:00","Action":"output","Package":"repair-platform/internal/workbench","Output":"FAIL\trepair-platform/internal/workbench [build failed]\n","OutputType":"frame"}
+{"Time":"2026-10-14T05:15:10.395021+08:00","Action":"fail","Package":"repair-platform/internal/workbench","Elapsed":0,"FailedBuild":"repair-platform/internal/workbench [repair-platform/internal/workbench.test]"}

@@ -1,0 +1,10 @@
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { marked } from '/Users/jobs/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/marked/lib/marked.esm.js';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
+const server=http.createServer((req,res)=>{try{const location=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname==='/ReadMePreview' ? '/README.md' : new URL(req.url,'http://localhost').pathname));if(!location.startsWith(root+path.sep)||!location.endsWith('.md')||!fs.statSync(location).isFile())throw new Error('not document');const source=fs.readFileSync(location,'utf8');const toc=[...source.matchAll(/^## [^\n]*<span id="([^"]+)">([^<]+)<\/span>/gm)].filter(m=>m[1]!=='前言').map(m=>`<a href="#${m[1]}">${m[2]}</a>`).join(' · ');res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(`<!doctype html><html lang="zh"><meta charset="utf-8"><title>V3.8 目录说明</title><style>body{margin:0;color:#24332b;background:#edf3ef;font:16px/1.65 system-ui,sans-serif}main{max-width:1200px;margin:24px auto;padding:32px;background:white;border-radius:12px}h1{font-size:30px}h2{margin-top:40px;scroll-margin-top:15px}a{color:#136a48}img{width:100%;max-height:200px;object-fit:cover}pre{background:#f2f5f3;padding:20px;overflow:auto;font:14px/1.55 monospace}table{border-collapse:collapse;width:100%}td,th{border:1px solid #d9e1db;padding:9px;text-align:left}th{background:#edf4ef}nav{line-height:2}</style><main>${marked.parse(source.replace('[toc]',`<nav>${toc}</nav>`))}</main></html>`);}catch{res.writeHead(404);res.end('Not found');}});
+server.listen(0,'127.0.0.1',()=>console.log('DOCUMENT_PREVIEW_PORT='+server.address().port));
+process.on('SIGINT',()=>server.close());
+process.on('SIGTERM',()=>server.close());

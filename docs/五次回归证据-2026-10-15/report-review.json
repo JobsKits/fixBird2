@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "scope": "当前报告草稿的只读实质复核。完整Go补跑及D07附加隔离样例尚在执行，不操作环境、不改产品或报告，只写本复核JSON。",
+  "reviewedReport": "docs/五次回归报告-2026-10-15.md",
+  "reportSha256": "e227047f8ed6b3864f276e00388e749fceab8776df2f96f3a1313956cbb73ff5",
+  "substantiveIssues": [],
+  "substantiveIssueCount": 0,
+  "confirmed": {
+    "findingGroups": {
+      "total": 17,
+      "backend": 4,
+      "frontend": 3,
+      "demo": 10,
+      "newlyFound": 15,
+      "priorFixOmissions": [
+        "R5-F03",
+        "R5-D10"
+      ]
+    },
+    "diagnosticCounts": "后端5根20条(10过10失败)、16叶(9过7失败)及4根16条复跑；前端25项13过12失败两次；演示有效24项8过16失败两次，均与对应汇总一致。父子/叶及旧探索未混加。",
+    "scopeBoundary": "后端4组均公开Handler/事务可达；前端3组明确限坏2xx注入，不冒充正常后端越权；演示10组明确限合成台账，与Go源码逐项比较。",
+    "freeReworkEvidence": "报告及browser-summary正确区分正常UI在请求发出前拒绝零价，网络无零价quote；独立Handler另返回422，合计B02一组。未把页面拦截当浏览器收到422。",
+    "requirementSupport": "B01关系完整性、B02免费零价、B03异议后明确恢复窗口、B04生命周期时间一致性与项目V3.8 PRD引用吻合。演示规则对应当前Go保护；D04说明为较低紧急合同一致性，未设未来业务禁令。",
+    "invoiceConfounding": "D07原24项中Q07/Q08使用文字种子原件的混杂已经明确披露，未将3条失败拆成3组；目前尚未在草稿中伪写隔离附加测试通过。",
+    "sourceReadonly": "source-verification.json确认124文件与第四轮修复一致；本复核抽查JS/Go也与既有诊断哈希相同。"
+  },
+  "finalizationGates": [
+    {
+      "id": "pending_go_baseline",
+      "state": "pending_at_review",
+      "required": "保留首轮Go全套10分钟超时/exit1的事实。剩余根补跑完成后，以包+完整测试名去重合并结果，说明覆盖重建方法；仅已完成的通过根可抵扣，不把运行中未完成根或已通过子测试当根通过。最终不得把单次原全套命令写成exit0。",
+      "reason": "当前BASELINE_RESULTS占位符合事实，当前尚不能复核最终315条等预期数字。"
+    },
+    {
+      "id": "pending_invoice_isolation",
+      "state": "pending_at_review",
+      "required": "D07使用合法PDF隔离重复票号与无需开票约定两项，收到实际结果后补充独立日志和计数；若脚本失败来源不是预期守卫，则只保留当前已确认组总体结论与已披露限制。",
+      "reason": "源代码已支持该组三类守卫遗漏，但最终报告应把附加隔离证据与原24项单列，不能相加冒充原24项通过/失败变化。"
+    },
+    {
+      "id": "pending_cleanup_and_documents",
+      "state": "pending_at_review",
+      "required": "最终停库/停止独立进程并核验端口后，再完成cleanup.json；写好当前文件夹副本并执行document-check.json后保留对应交付完成表述。",
+      "reason": "读取时cleanup.json与document-check.json尚不存在，环境补跑仍在进行；这是待完成交付，不是当前产品缺陷。"
+    }
+  ],
+  "readyForFinal": false,
+  "productHashes": {
+    "Workspace/app.js": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7",
+    "Workspace/data.js": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f",
+    "Server/internal/workbench/actions.go": "e2d66146832394913ab5cdf48f6ce60b742fb3f9719d466d39e7d26e1a8d3f1f",
+    "Server/internal/workbench/inventory.go": "a4550f37e46f89df4c26e4c7ac8a7ebb27a3dfa8c015de201f1e61d3e7717492",
+    "Server/internal/workbench/service.go": "9c6284544aef5deee7dd80d8be0c01f52e49cf18843821042ca4668f712c5bae"
+  },
+  "productUnchangedDuringReview": true,
+  "mutations": {
+    "product": 0,
+    "formalTests": 0,
+    "report": 0,
+    "environment": 0,
+    "written": [
+      "docs/五次回归证据-2026-10-15/report-review.json"
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "reportDate": "2026-10-15",
+  "evidenceStartDate": "2026-10-14",
+  "completed": true,
+  "exitCode": 0,
+  "command": "./Tools/go/bin/go -C <owned-temp>/Server test -race -json ./internal/workbench -run ^TestBackendDeep -count=1",
+  "classification": "safe_expectation",
+  "rootTests": 6,
+  "childTests": 18,
+  "passResults": 24,
+  "failResults": 0,
+  "skipResults": 0,
+  "packageResults": [
+    {
+      "package": "repair-platform/internal/workbench",
+      "action": "pass",
+      "elapsed": 12.656,
+      "finishedAt": "2026-10-15T07:34:02.337629+08:00"
+    }
+  ],
+  "roots": [
+    {
+      "name": "TestBackendDeepDemotedPrincipalRestartedSameKeyReplay",
+      "action": "pass",
+      "elapsed": 1.81
+    },
+    {
+      "name": "TestBackendDeepRejectedFailedThenSuccessfulSameIntentAtomicity",
+      "action": "pass",
+      "elapsed": 1.81
+    },
+    {
+      "name": "TestBackendDeepRestoredAccountRequestUsesCurrentPrincipal",
+      "action": "pass",
+      "elapsed": 1.96
+    },
+    {
+      "name": "TestBackendDeepRepeatedRestoreWithPostRestoreIntent",
+      "action": "pass",
+      "elapsed": 1.85
+    },
+    {
+      "name": "TestBackendDeepAccountScopeWithOrderLikeAccountID",
+      "action": "pass",
+      "elapsed": 1.95
+    },
+    {
+      "name": "TestBackendDeepPatchParserAndAuthorizationAgree",
+      "action": "pass",
+      "elapsed": 1.81
+    }
+  ],
+  "confirmedNewDefects": [],
+  "coverage": [
+    "管理员降为 QC/仓库/工程师/供应商并重启，旧授权同键重试拒绝，新授权同键读取按当前工单可见性与字段范围返回，不重复业务写入",
+    "隐藏备注非空写入拒绝后，纠正载荷沿用同键；保存失败不能释放成功结果、消费幂等键或改变内存与存储；恢复存储后仅提交一次",
+    "本人余项完成、客户说明单字段更新、兼容脱敏空备注与授权明确清空的失败原子性和成功重试",
+    "恢复后的账号状态请求沿用同键，现管理员读取当前授权，降级操作者与停用账号拒绝重放，不重新执行账号变更",
+    "三次恢复合并中，恢复前及首次恢复后新增请求保持 reconciliation 标记；同键拒绝重执，回滚业务事实不凭空恢复，三次恢复审计保留",
+    "账号 ID 与 wo_ 工单 ID 重名时，账号状态恢复重试仍按准确账号路由解析返回",
+    "JSON null、大小写及重复键在备注 patch 和字段授权中含义一致，拒绝不能部分提交"
+  ],
+  "limitations": [
+    "独立合成 State 与测试内存持久化器，角色降级模拟同步提升 AuthVersion；不代表产品已有在线改角色接口",
+    "恢复诊断调用 mergeRestrictions 并重新 New，未执行真实备份 CLI/数据库/媒体或生产灾备流程",
+    "本轮仅运行六组交叉诊断，并非主任务完整测试套件；未做真实 TiDB、进程故障或吞吐测试",
+    "没有新增坏行为确认用例；所有诊断为安全预期断言，结论仅限所覆盖时序与输入"
+  ],
+  "productSourceModified": false,
+  "formalTestsModified": false,
+  "documentOrIndexModified": false,
+  "runtimeRead": false,
+  "productionDatabaseUsed": false,
+  "comparedGoFiles": 89,
+  "changedCopiedGoFiles": 0,
+  "currentFilesMissingFromCopy": [],
+  "diagnosticSHA256": "6850186277708744484e98c530b64bc07f04a60e7c9bd498f5d91c13836edb35"
+}

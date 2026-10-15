@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "status": "new-confirmed-findings-unfixed",
+  "defects": {
+    "confirmed": 17,
+    "newlyDiscovered": 15,
+    "followupOmissions": 2,
+    "unfixed": 17,
+    "backend": 4,
+    "frontend": 3,
+    "demo": 10
+  },
+  "sources": {
+    "files": 124,
+    "unchanged": 124,
+    "matchFourthFix": true
+  },
+  "baseline": {
+    "initialGoCommandExitCode": 1,
+    "initialGoPackageTimeout": "repair-platform/internal/workbench after 10m, no test assertion failures",
+    "recheckRoots": 34,
+    "recheckPassResults": 111,
+    "recheckTerminalPackagePassed": true,
+    "coverage": {
+      "rootsPassed": 109,
+      "passResults": 315,
+      "assertionFailures": 0,
+      "skipResults": 0,
+      "initialPackageTimeouts": [
+        "repair-platform/internal/workbench"
+      ],
+      "allWorkbenchRootsCovered": true
+    },
+    "web": {
+      "tests": 166,
+      "pass": 166,
+      "fail": 0,
+      "skip": 0
+    },
+    "httpGroupsPassed": 6,
+    "contentionRepeatsPassed": 10,
+    "goVetPassed": true,
+    "syntaxFilesPassed": 6
+  },
+  "diagnostics": {
+    "frontend": {
+      "tests": 25,
+      "pass": 13,
+      "fail": 12,
+      "repeated": true,
+      "exitCode": 1
+    },
+    "backend": {
+      "roots": 5,
+      "totalWithParents": 20,
+      "pass": 10,
+      "fail": 10,
+      "leaves": 16,
+      "leafPass": 9,
+      "leafFail": 7,
+      "repeatedFailures": true,
+      "exitCode": 1
+    },
+    "demo": {
+      "tests": 24,
+      "pass": 8,
+      "fail": 16,
+      "repeated": true,
+      "exitCode": 1
+    },
+    "demoInvoiceIsolation": {
+      "tests": 3,
+      "pass": 1,
+      "fail": 2,
+      "repeated": true,
+      "exitCode": 1,
+      "separateFromOriginal24": true
+    }
+  },
+  "browser": {
+    "freeReworkFlowConfirmed": true,
+    "zeroQuoteBlockedBeforeRequest": true,
+    "api422ConfirmedSeparately": true
+  },
+  "crossReviews": [
+    "review-findings.json",
+    "backend-cross-review.json",
+    "report-review.json"
+  ],
+  "cleanup": {
+    "success": true,
+    "evidence": "cleanup.json"
+  },
+  "productOrFormalTestEdits": false,
+  "commitOrPush": false,
+  "documentation": {
+    "files": 20,
+    "checkedLocalLinks": 1147,
+    "errors": 0,
+    "copyMatches": true,
+    "preview": "report-preview.json"
+  },
+  "memory": {
+    "evidence": "memory-check.json",
+    "updatedProjectStatus": true
+  },
+  "evidenceHashes": [
+    {
+      "file": "go-tests.log",
+      "sha256": "75a172406b0245d283c4bfdbe1db3c4df5660bb0996fc997ce0c25c3b7e1148a"
+    },
+    {
+      "file": "go-unfinished.log",
+      "sha256": "9670e29972671a4410a528565a70ea148c5ea234209b5df8465cb10a7cd0d068"
+    },
+    {
+      "file": "web-tests.log",
+      "sha256": "15d563999ea49fb6b3ee8308e4838fb1885d60586e9591b7833fe8aa53379c66"
+    },
+    {
+      "file": "backend-boundaries_test.go",
+      "sha256": "ec4fa80daf9ac69e70d991d24550b65b435e6d9fef7efb310e6511371e68935d"
+    },
+    {
+      "file": "frontend-regression.cjs",
+      "sha256": "508c00b1caba7fb851b1aad0a58d15cb8e7d8fbdab5313012f38dbfa1078853d"
+    },
+    {
+      "file": "demo-sequences.cjs",
+      "sha256": "ccafc9b8030cf8747ac819db9077df5dfea3c268e3eb849ef9aadd56e59633ef"
+    },
+    {
+      "file": "demo-invoice-isolation.cjs",
+      "sha256": "e01dbe458d472ce61514c2a987b80f7e8bdc92f0b1d07712d9c82a51c54fd83e"
+    },
+    {
+      "file": "audit-findings.json",
+      "sha256": "218c97fa6b1aebf44af0ce2cc568b919713d54754d13bfe39ce74ec10a691a00"
+    }
+  ]
+}

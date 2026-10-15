@@ -1,0 +1,6 @@
+{
+  "temporaryDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-fix3-browser-VMiWfr",
+  "backend": "http://127.0.0.1:18054",
+  "proxy": "http://127.0.0.1:18055",
+  "syntheticOnly": true
+}

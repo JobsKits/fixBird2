@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-15",
+  "checks": [
+    {
+      "name": "syntax 验证/验证工作台.mjs",
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "syntax 验证/旧版基线/validate.mjs",
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "syntax 验证/旧版基线/smoke-api.mjs",
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "gofmt changed Go defaults",
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Go all packages compile only",
+      "status": 0,
+      "signal": null,
+      "log": "backend-compile.log"
+    },
+    {
+      "name": "Go config existing tests",
+      "status": 0,
+      "signal": null,
+      "log": "backend-config.log"
+    },
+    {
+      "name": "module default paths",
+      "status": 0
+    },
+    {
+      "name": "PowerShell BOM preserved",
+      "status": 0
+    }
+  ],
+  "files": [
+    {
+      "path": "后端/Go服务端/cmd/workbench/main.go",
+      "sha256": "7b9d4f81e83b3b18e96265c0edbdd7b2196b7fa9349557ed6a7c66a75867246b"
+    },
+    {
+      "path": "后端/Go服务端/internal/config/config.go",
+      "sha256": "3f3bffb4d7a015b9c149c4a30497474b9c329e4169136b9338f10174523851ac"
+    },
+    {
+      "path": "后端/Go服务端/.env.example",
+      "sha256": "6a26bc7e0c5586f536f107a55f6bb6e77cf0ae1b51fb3ae7ec88023a19670a6b"
+    },
+    {
+      "path": "验证/验证工作台.mjs",
+      "sha256": "4dc473fecb9734842072e6d7130f039dfda46ee0818f6cfd8e433aa82418e133"
+    },
+    {
+      "path": "验证/旧版基线/validate.mjs",
+      "sha256": "86dbcbeee966783696063d57396ac0160113bf6f83666b302bf24807112e0d2a"
+    },
+    {
+      "path": "验证/旧版基线/smoke-api.mjs",
+      "sha256": "416a9cd1b0708c9db51062d95d016c0ab21f727f6d7adc5141079030b5d80683"
+    },
+    {
+      "path": "验证/旧版基线/parse-powershell.ps1",
+      "sha256": "a2e37682f941f4f2d3d37748f5248f606a118e7bef67174bbd01396d7938e19e"
+    },
+    {
+      "path": "验证/旧版基线/README.md",
+      "sha256": "1ab6b39cee4c4d12dddd47c4a564e65c9384db931a6fa92c8287a8d77b0a5336"
+    }
+  ],
+  "scope": "Only location defaults and validation path/scope adaptation. No business logic or formal test change; compile only is not a full regression; HTTP smoke is a separate step.",
+  "goPathOnlyProof": [
+    {
+      "file": "后端/Go服务端/cmd/workbench/main.go",
+      "onlyExpectedPathLiteralsChanged": true
+    },
+    {
+      "file": "后端/Go服务端/internal/config/config.go",
+      "onlyExpectedPathLiteralsChanged": true
+    }
+  ],
+  "readmeLinks": [
+    {
+      "link": "../验证工作台.mjs",
+      "exists": true
+    },
+    {
+      "link": "../../后端/Go服务端/go.mod",
+      "exists": true
+    },
+    {
+      "link": "../../后端/Go服务端/",
+      "exists": true
+    },
+    {
+      "link": "../../后端/管理后台页面/tests/",
+      "exists": true
+    },
+    {
+      "link": "../../前端/Web网页/旧版用户网页/tests/",
+      "exists": true
+    },
+    {
+      "link": "../../后端/部署/",
+      "exists": true
+    },
+    {
+      "link": "../../docs/五次回归报告-2026-10-15.md",
+      "exists": true
+    }
+  ],
+  "additionalResults": [
+    "backend-http-summary.json",
+    "backend-legacy-scripts-summary.json"
+  ],
+  "notes": [
+    "Received root redundant-compile notice after the already-started compile-only step completed; no repeat test run was added.",
+    "No full TiDB/race suite or old API database smoke run.",
+    "PowerShell syntax was not executed because this host lacks PowerShell; BOM check passed and script-only validator reported one explicit skip.",
+    "Native iOS is not provided in this desktop copy; default full validator now reports unavailable rather than invoking an empty Swift parse."
+  ]
+}

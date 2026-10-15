@@ -1,0 +1,16 @@
+{
+  "checks": [
+    {
+      "name": "00-记忆入口.md",
+      "duplicateIds": 0,
+      "currentReport": true,
+      "projectWikiTargetExists": true
+    },
+    {
+      "name": "40-项目记忆/啄木鸟维修平台.md",
+      "duplicateIds": 0,
+      "currentReport": true,
+      "projectWikiTargetExists": true
+    }
+  ]
+}

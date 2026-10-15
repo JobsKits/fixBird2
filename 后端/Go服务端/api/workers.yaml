@@ -1,0 +1,432 @@
+---
+paths:
+  "/api/v1/workers/me/application":
+    get:
+      operationId: myWorkerApplication
+      description: Worker session only. Initial absence returns 404 not_found.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/WorkerApplication"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+    post:
+      operationId: submitWorkerApplication
+      description: Worker session only. First expectedRevision=0; subsequent submissions
+        use the current revision and return pending with revision+1. Re-submission
+        pauses new acceptance. Contact phone is a bounded contact field, not verified
+        identity. Skills are free text. Attach 1..6 existing private assets owned
+        by this worker.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/WorkerApplication"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/WorkerSubmit"
+  "/api/v1/admin/worker-applications":
+    get:
+      operationId: listWorkerApplications
+      description: Session admin only. Default limit 100; array plus X-Next-Cursor.
+        Latest application state, not OCR or automated identity approval.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/WorkerApplication"
+          headers:
+            X-Next-Cursor:
+              "$ref": "./openapi.yaml#/components/headers/NextCursor"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+      - "$ref": "./openapi.yaml#/components/parameters/Limit"
+      - "$ref": "./openapi.yaml#/components/parameters/Cursor"
+  "/api/v1/admin/worker-applications/{id}/review":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+        minLength: 1
+    post:
+      operationId: reviewWorkerApplication
+      description: Session admin only. Review a pending application using expectedRevision;
+        stale revision conflicts. Rejection requires a nonempty note. Approval and
+        worker acceptance qualification persist in one transaction.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/WorkerApplication"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/WorkerReview"
+  "/api/v1/worker-assets":
+    post:
+      operationId: uploadWorkerAsset
+      description: Worker session only. Single multipart field file, actual JPEG/PNG
+        <=5 MiB, <=4096 pixels per side and <=16 million pixels. Server decodes/re-encodes
+        images, strips metadata, stores random private ID and no public URL.
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/WorkerAsset"
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+  "/api/v1/worker-assets/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+        minLength: 1
+    get:
+      operationId: readPrivateWorkerAsset
+      description: Session owner worker or session admin only. No public FileServer;
+        Cache-Control private, no-store.
+      responses:
+        '200':
+          description: Private image bytes.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                const: private, no-store
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '401':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '403':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '404':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '409':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '413':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '429':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '503':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+        '504':
+          "$ref": "./openapi.yaml#/components/responses/Error"
+components:
+  schemas:
+    WorkerApplication:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        workerId:
+          type: string
+          maxLength: 64
+        displayName:
+          type: string
+          maxLength: 120
+          minLength: 1
+        contactPhone:
+          type: string
+          maxLength: 40
+          minLength: 1
+        serviceAreas:
+          type: array
+          items:
+            type: string
+            maxLength: 120
+            minLength: 1
+          minItems: 1
+          maxItems: 20
+        skills:
+          type: array
+          items:
+            type: string
+            maxLength: 120
+            minLength: 1
+          minItems: 1
+          maxItems: 20
+        bio:
+          type: string
+          maxLength: 2000
+        assetIds:
+          type: array
+          items:
+            type: string
+            pattern: "^asset_[a-f0-9]{32}$"
+          minItems: 1
+          maxItems: 6
+        status:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+        revision:
+          type: integer
+          minimum: 1
+        reviewNote:
+          type: string
+          maxLength: 1000
+        reviewedBy:
+          type: string
+          maxLength: 64
+        reviewedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - workerId
+      - displayName
+      - contactPhone
+      - serviceAreas
+      - skills
+      - bio
+      - assetIds
+      - status
+      - revision
+      - reviewNote
+      - reviewedBy
+      - reviewedAt
+      - createdAt
+      - updatedAt
+    WorkerSubmit:
+      type: object
+      additionalProperties: false
+      properties:
+        displayName:
+          type: string
+          maxLength: 120
+          minLength: 1
+        contactPhone:
+          type: string
+          maxLength: 40
+          minLength: 1
+        serviceAreas:
+          type: array
+          items:
+            type: string
+            maxLength: 120
+            minLength: 1
+          minItems: 1
+          maxItems: 20
+        skills:
+          type: array
+          items:
+            type: string
+            maxLength: 120
+            minLength: 1
+          minItems: 1
+          maxItems: 20
+        bio:
+          type: string
+          maxLength: 2000
+        assetIds:
+          type: array
+          items:
+            type: string
+            pattern: "^asset_[a-f0-9]{32}$"
+          minItems: 1
+          maxItems: 6
+        expectedRevision:
+          type: integer
+          minimum: 0
+          maximum: 999999
+          default: 0
+      required:
+      - displayName
+      - contactPhone
+      - serviceAreas
+      - skills
+      - assetIds
+      - expectedRevision
+    WorkerReview:
+      type: object
+      additionalProperties: false
+      properties:
+        decision:
+          type: string
+          enum:
+          - approved
+          - rejected
+        note:
+          type: string
+          maxLength: 1000
+        expectedRevision:
+          type: integer
+          minimum: 1
+      required:
+      - decision
+      - expectedRevision
+    WorkerAsset:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          pattern: "^asset_[a-f0-9]{32}$"
+        mimeType:
+          type: string
+          enum:
+          - image/jpeg
+          - image/png
+        sizeBytes:
+          type: integer
+          minimum: 1
+          maximum: 5242880
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - mimeType
+      - sizeBytes
+      - createdAt

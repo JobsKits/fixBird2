@@ -1,0 +1,14 @@
+{
+  "documents": 9,
+  "checkedLocalLinks": 480,
+  "errors": [],
+  "reportCopiesSameContentAfterLinkBaseAdjustment": true,
+  "browserPreview": {
+    "titleVerified": true,
+    "findingsRows": 9,
+    "horizontalOverflow": false,
+    "contentsJump": true,
+    "endJump": true,
+    "backToIntroduction": true
+  }
+}

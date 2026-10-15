@@ -1,0 +1,18 @@
+{
+  "anchorTop": 0.234375,
+  "bodyWidth": 1280,
+  "brokenLocalAnchors": [],
+  "hash": "#tests",
+  "tableCount": 4,
+  "viewport": 1280,
+  "navigationVerified": {
+    "testsAnchor": true,
+    "footerDown": true,
+    "returnToPreface": true
+  },
+  "visualInspection": {
+    "tablesReadable": true,
+    "horizontalOverflow": false,
+    "screenshot": "report-preview.png"
+  }
+}

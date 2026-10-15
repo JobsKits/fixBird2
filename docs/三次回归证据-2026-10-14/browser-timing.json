@@ -1,0 +1,17 @@
+{
+  "pendingDelay": 0,
+  "held": false,
+  "released": 1,
+  "events": [
+    {
+      "type": "response_held",
+      "path": "/api/v38/bootstrap",
+      "at": 1791979637391
+    },
+    {
+      "type": "response_released",
+      "path": "/api/v38/bootstrap",
+      "at": 1791979639000
+    }
+  ]
+}

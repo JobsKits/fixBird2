@@ -1,0 +1,234 @@
+{
+  "date": "2026-10-15",
+  "mode": "read_only_product_diagnostics",
+  "completed": true,
+  "command": "Tools/go/bin/go test -race -count=1 -run ^TestR4Backend -json ./internal/workbench（独立 Server 副本）",
+  "tests": {
+    "exitCode": 1,
+    "tests": 27,
+    "pass": 17,
+    "fail": 10,
+    "skip": 0,
+    "roots": {
+      "tests": 7,
+      "pass": 3,
+      "fail": 4,
+      "skip": 0
+    },
+    "children": {
+      "tests": 20,
+      "pass": 14,
+      "fail": 6,
+      "skip": 0
+    },
+    "leaves": {
+      "tests": 21,
+      "pass": 14,
+      "fail": 7,
+      "skip": 0
+    },
+    "failedTests": [
+      "TestR4BackendManualWarrantyCalendar/nonleap_month_end",
+      "TestR4BackendManualWarrantyCalendar/leap_february",
+      "TestR4BackendManualWarrantyCalendar/china_date_across_utc",
+      "TestR4BackendManualWarrantyCalendar",
+      "TestR4BackendAutoWarrantyCalendar",
+      "TestR4BackendWarrantyInclusiveFinalDay/cutoff_day_exact_original_clock",
+      "TestR4BackendWarrantyInclusiveFinalDay/cutoff_day_last_second",
+      "TestR4BackendWarrantyInclusiveFinalDay",
+      "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature/submitted_signature_is_durably_retained",
+      "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature"
+    ],
+    "raceDetected": false
+  },
+  "repeat": {
+    "exitCode": 1,
+    "tests": 14,
+    "pass": 0,
+    "fail": 14,
+    "skip": 0,
+    "roots": {
+      "tests": 8,
+      "pass": 0,
+      "fail": 8,
+      "skip": 0
+    },
+    "children": {
+      "tests": 6,
+      "pass": 0,
+      "fail": 6,
+      "skip": 0
+    },
+    "leaves": {
+      "tests": 8,
+      "pass": 0,
+      "fail": 8,
+      "skip": 0
+    },
+    "failedTests": [
+      "TestR4BackendManualWarrantyCalendar/nonleap_month_end",
+      "TestR4BackendManualWarrantyCalendar",
+      "TestR4BackendAutoWarrantyCalendar",
+      "TestR4BackendWarrantyInclusiveFinalDay/cutoff_day_last_second",
+      "TestR4BackendWarrantyInclusiveFinalDay",
+      "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature/submitted_signature_is_durably_retained",
+      "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature",
+      "TestR4BackendManualWarrantyCalendar/nonleap_month_end",
+      "TestR4BackendManualWarrantyCalendar",
+      "TestR4BackendAutoWarrantyCalendar",
+      "TestR4BackendWarrantyInclusiveFinalDay/cutoff_day_last_second",
+      "TestR4BackendWarrantyInclusiveFinalDay",
+      "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature/submitted_signature_is_durably_retained",
+      "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature"
+    ],
+    "raceDetected": false
+  },
+  "findings": [
+    {
+      "id": "R4-B01",
+      "priority": "P2",
+      "title": "真实端质保日历月计算溢出且未按中国日期截月末",
+      "status": "confirmed",
+      "file": "Server/internal/workbench/actions.go",
+      "line": 970,
+      "requirement": {
+        "file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md",
+        "line": 1832
+      },
+      "impact": "人工和自动验收持久化错误质保截止日，可能延长数日；与独立演示及已约定截止日期不一致。",
+      "examples": [
+        {
+          "acceptedAt": "2026-01-31T10:00:00+08:00",
+          "months": 3,
+          "actual": "2026-05-01T02:00:00Z",
+          "expected": "2026-04-30T02:00:00Z"
+        },
+        {
+          "acceptedAt": "2024-01-31T10:00:00+08:00",
+          "months": 1,
+          "actual": "2024-03-02T02:00:00Z",
+          "expected": "2024-02-29T02:00:00Z"
+        },
+        {
+          "acceptedAt": "2026-01-31T02:00:00+08:00",
+          "months": 1,
+          "actual": "2026-03-02T18:00:00Z",
+          "expected": "2026-02-27T18:00:00Z"
+        }
+      ],
+      "tests": [
+        "TestR4BackendManualWarrantyCalendar",
+        "TestR4BackendAutoWarrantyCalendar"
+      ],
+      "reproduction": "控制墙钟后，对 wo_quote 依次 quote（新报价时长）、approve_quote、sign_quote、start、finish、qc、deliver、accept；实际 Service.transact 保存后检查响应与持久快照。自动验收改为 deliver 后跨过自然日截止再 SweepAutoAcceptance。"
+    },
+    {
+      "id": "R4-B02",
+      "priority": "P2",
+      "title": "截止日当天在原验收时刻即提前显示质保到期",
+      "status": "confirmed",
+      "file": "Server/internal/workbench/service.go",
+      "line": 533,
+      "related": [
+        {
+          "file": "Workspace/data.js",
+          "line": 374
+        }
+      ],
+      "requirement": {
+        "file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md",
+        "line": 1832
+      },
+      "impact": "截止日尚未结束时客户查询已显示到期；可能造成售后处理依据错误。演示同因由另一路独立测试确认。",
+      "example": {
+        "acceptedAt": "2026-10-06T10:00:00+08:00",
+        "months": 3,
+        "now": "2027-01-06T23:59:59+08:00",
+        "actual": "质保到期",
+        "expected": "质保中",
+        "expiration": "2027-01-07T00:00:00+08:00"
+      },
+      "tests": [
+        "TestR4BackendWarrantyInclusiveFinalDay"
+      ],
+      "reproduction": "实际交易链完成普通3个月验收，单独控制墙钟检查截止日09:59:59、10:00:00、23:59:59和次日00:00；中间两项错误，前后正对照正确。"
+    },
+    {
+      "id": "R4-B03",
+      "priority": "P2",
+      "title": "不通过的验收提交接受签名后未保留签署原件",
+      "status": "confirmed",
+      "file": "Server/internal/workbench/actions.go",
+      "line": 475,
+      "requirement": {
+        "file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md",
+        "lines": [
+          401,
+          409,
+          1219,
+          1229
+        ]
+      },
+      "impact": "API 接受 passed=false 的有效客户签名并成功保存异议，却丢弃签名原件；重启后无法还原客户此次签署依据。",
+      "limits": "普通页面的当前手写入口固定 passed=true；确认的是已公开合同支持的 API passed=false 路径。此缺陷不会自动转为验收通过，也不属于绕过权限。",
+      "tests": [
+        "TestR4BackendRejectedAcceptanceRetainsSubmittedSignature/submitted_signature_is_durably_retained"
+      ],
+      "reproduction": "完整动作链达到待验收；客户发送 accept passed=false、唯一有效PNG签名和文字异议；确认事务成功、异议保留且未起保，检查持久快照不存在该签名，再重启核验拒绝仍保留。"
+    }
+  ],
+  "suspicions": [],
+  "sourceVerification": {
+    "copied": 91,
+    "goFiles": 89,
+    "allProductSourceUnchanged": true,
+    "allIsolatedBaselineMatches": true
+  },
+  "artifacts": [
+    "backend-deep-fourth_test.go",
+    "backend-deep.log",
+    "backend-reproduction-repeat.log",
+    "backend-runtime.json"
+  ],
+  "hashes": [
+    {
+      "path": "internal/workbench/actions.go",
+      "sha256": "52b3ac9b37c64117bf9e223869df2be57d6c62f57bc75f5e8d35af9a816e2b9d"
+    },
+    {
+      "path": "internal/workbench/inventory.go",
+      "sha256": "e1c6d0604454954979f2df8527247697375ca3d47a22fae584b58d0dd86ca7fe"
+    },
+    {
+      "path": "internal/workbench/models.go",
+      "sha256": "cbb0fb96538e97bb910821da6b4018c647fff08b18147f0d3a86a7cb1e4526da"
+    },
+    {
+      "path": "internal/workbench/service.go",
+      "sha256": "cd121bdcf6a49e13cb34b000b39f78f1817d060760be83318ddf55e4f90dfa1e"
+    },
+    {
+      "path": "backend-deep-fourth_test.go",
+      "sha256": "0f351eb50699aea95de9f392ea9db7700eff5f0ffa66f4d8e38764877daa7ba7"
+    },
+    {
+      "path": "backend-deep.log",
+      "sha256": "9d8e14a2e0d4522311af67e836ba39b9c363270a51fb2bffa9f44c59f70efbcb"
+    },
+    {
+      "path": "backend-reproduction-repeat.log",
+      "sha256": "1f21b50ad09edf6adeb103fdb1cea60c417f4609bfd22fd6f6c5670dc9b195d3"
+    },
+    {
+      "path": "backend-runtime.json",
+      "sha256": "48aea3f24c10b63782d63f13db2dd7236e3ac8101489f28a24fa989ae8c8fd67"
+    }
+  ],
+  "cleanup": {
+    "temporaryPath": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-r4-backend-UWL1y8",
+    "removed": true,
+    "createdListeners": false,
+    "createdContainers": false,
+    "touchedExistingRuntime": false
+  }
+}

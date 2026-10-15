@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "web": {
+    "tests": 94,
+    "pass": 94,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "exitCode": 0,
+    "oldWebTests": 26,
+    "workspaceAppTests": 54,
+    "workspaceDataTests": 14
+  },
+  "externalFrontend": {
+    "tests": 10,
+    "pass": 10,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "exitCode": 0,
+    "note": "与正式迁入用例重叠，不额外相加成独立覆盖数"
+  },
+  "syntax": [
+    {
+      "file": "Workspace/app.js",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "file": "Workspace/data.js",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "file": "Workspace/tests/app.test.cjs",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "file": "Workspace/tests/data.test.cjs",
+      "exitCode": 0,
+      "output": ""
+    }
+  ],
+  "http": {
+    "groups": 6,
+    "exitCode": 0
+  },
+  "nativeBuild": {
+    "platform": "darwin-arm64",
+    "exitCode": 0
+  },
+  "browser": {
+    "passed": true,
+    "manualReloadAfterCustomerLogin": false,
+    "heldResponses": 2,
+    "listReturnedBeforeBootstrap": true
+  },
+  "source": {
+    "checked": 119,
+    "changed": 4,
+    "unchanged": 115,
+    "backendUnchanged": true
+  },
+  "historicalOnly": {
+    "goRootTests": 95,
+    "goAllTests": 234,
+    "optimisticContentionRuns": 10,
+    "extraBackendRoots": 6,
+    "extraBackendAllTests": 24,
+    "fullGoOrDatabaseRerunThisFix": false
+  }
+}

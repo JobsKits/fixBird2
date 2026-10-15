@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>啄木鸟维修平台 · PC 登录</title><link rel="stylesheet" href="./styles.css"></head>
+<body>
+  <header><img src="./assets/RepairLogo.png" alt="维修平台标志"><div><h1>维修平台 · 用户 / 师傅端</h1><p>手机扫码授权，多设备独立登录</p></div><a href="../admin/">运营后台</a></header>
+  <main>
+    <section class="panel connection"><label>环境 <select id="environment"><option value="test">本机测试</option><option value="production">线上（待配置）</option></select></label><label>服务地址 <input id="baseURL" type="url"></label><button id="saveEnvironment">保存</button><span id="environmentState"></span></section>
+    <p id="feedback" class="notice" role="status" aria-live="polite">扫码授权成功前不会创建本地登录身份。</p>
+    <section class="panel" id="loginPanel">
+      <h2>手机扫码登录 PC</h2><p>在已登录的 iOS App 中打开“扫码登录授权”，扫描后核对设备信息并确认。</p>
+      <button id="createQR">生成 / 更换登录二维码</button><div id="qrCode" aria-label="PC 登录二维码"></div>
+      <p id="qrState" role="status">二维码有效期两分钟；请求失败可重新生成。</p>
+      <details><summary>模拟器联调：复制二维码内容</summary><textarea id="qrPayload" readonly aria-label="二维码内容"></textarea><p>在 iOS 授权页粘贴此内容。二维码不是登录凭据，需要登录手机确认。</p></details>
+      <details><summary>使用账号密码登录 PC</summary><form id="passwordLogin"><label>账号 <input id="username" autocomplete="username" required maxlength="64"></label><label>密码 <input id="password" type="password" autocomplete="current-password" required maxlength="128"></label><button id="passwordButton" type="submit">登录</button></form></details>
+    </section>
+    <section class="panel" id="accountPanel" hidden><h2 id="accountTitle"></h2><p id="sessionState"></p><button id="logout">退出当前 PC</button><button id="refreshOrders">刷新订单</button><button id="refreshLedger">查询我的账务</button></section>
+    <section class="panel" id="createPanel" hidden><h2>提交维修订单</h2><form id="createOrder"><label>分类 <select id="category"><option>家电维修</option><option>家电清洗</option><option>家电安装</option><option>水电维修</option><option>管道疏通</option><option>防水补漏</option><option>家具门窗</option><option>房屋修缮</option><option>数码维修</option></select></label><label>设备 <input id="equipment" required maxlength="160"></label><label>故障 <textarea id="issue" required maxlength="4000"></textarea></label><label>地址 <input id="address" required maxlength="500"></label><button type="submit" id="createButton">提交报修</button></form></section>
+    <section class="panel"><h2>维修订单</h2><p id="ordersSource"></p><div id="orders"></div><button id="ordersMore" hidden>加载更多</button></section>
+    <section class="panel"><h2>我的账务</h2><p>真实支付尚未接入；当前查询模拟账本。</p><p id="ledgerSource"></p><div id="ledger"></div><button id="ledgerMore" hidden>加载更多账务</button></section>
+  </main>
+  <script src="./environment.js"></script><script src="./ThirdParty/QRCodeJS/qrcode.min.js"></script><script src="./portal.js"></script>
+</body></html>

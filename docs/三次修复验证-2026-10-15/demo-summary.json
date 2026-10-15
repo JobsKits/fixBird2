@@ -1,0 +1,78 @@
+{
+  "reportDate": "2026-10-15",
+  "issue": "R3-F02",
+  "fixed": true,
+  "productFilesChanged": [
+    "Workspace/data.js",
+    "Workspace/tests/data.test.cjs"
+  ],
+  "scope": "仅演示备注权限与 remark 分支、正式 data 测试；无后端/应用交互/文档/索引/运行数据修改",
+  "behavior": [
+    "省略/undefined/null 保留原字段；两个字段独立更新",
+    "admin/dispatcher/finance/engineer 可明确提交空字符串清空内部备注和客户说明；补齐 finance 的 remark 演示权限",
+    "QC/warehouse 可更正或清空客户说明；兼容脱敏空内部备注并保留隐藏原值；非空含空白内部备注拒绝整次操作",
+    "备注字段只接受字符串或空值；大小写与重复名称覆盖顺序与后端已验证语义一致",
+    "错误权限/格式不能修改输入、台账、版本、事件；纠正后调用只生成一次更新结果"
+  ],
+  "before": {
+    "exitCode": 1,
+    "classification": "修复前保护预期失败，非最终通过结果",
+    "tests": 14,
+    "pass": 9,
+    "fail": 5,
+    "skipped": 0,
+    "cancelled": 0,
+    "failures": [
+      "not ok 9 - 备注按字段更新，省略与 null 都保留未修改的原值",
+      "not ok 10 - 授权角色可明确清空任一备注字段，另一字段仍保留",
+      "not ok 11 - 质检与仓库兼容脱敏空备注，只更正或清空客户说明",
+      "not ok 12 - 备注权限或格式校验失败时保留台账、版本、事件和输入，纠正后仅更新一次",
+      "not ok 14 - 备注字段大小写、重复名称与 null 的覆盖顺序和后端一致"
+    ]
+  },
+  "after": {
+    "exitCode": 0,
+    "classification": "修复后安全预期",
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "failures": []
+  },
+  "newRootTests": 6,
+  "existingRootTests": 8,
+  "childTests": 0,
+  "syntaxChecks": [
+    {
+      "command": "node --check Workspace/data.js",
+      "exitCode": 0,
+      "log": "demo-data-syntax.log"
+    },
+    {
+      "command": "node --check Workspace/tests/data.test.cjs",
+      "exitCode": 0,
+      "log": "demo-tests-syntax.log"
+    }
+  ],
+  "finalCommand": "node --test --test-reporter=tap Workspace/tests/data.test.cjs",
+  "snapshots": [
+    {
+      "source": "Workspace/data.js",
+      "snapshot": "demo-data.js",
+      "sha256": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222"
+    },
+    {
+      "source": "Workspace/tests/data.test.cjs",
+      "snapshot": "demo-data.test.cjs",
+      "sha256": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+    }
+  ],
+  "limitations": [
+    "验证对象为独立合成演示计算；服务端权限仍由后端统一校验",
+    "真实 app.js 的 T10 表单交互保护由前端 agent 集成，主任务统一运行整套网页测试",
+    "本分工未运行后端或真实浏览器，也未验证生产部署"
+  ],
+  "temporaryProcessOrDirectoryCreated": false,
+  "completedAt": "2026-10-15T10:23:52.827Z"
+}

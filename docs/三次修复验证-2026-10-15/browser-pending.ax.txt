@@ -1,0 +1,73 @@
+Browser tab: 5, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18055/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18055/
+	1 container
+		2 link Description: 啄木鸟维修平台 啄木鸟 维修协同平台, Value: 127.0.0.1:18055/
+		3 text 公司工作空间 V3.8
+		4 container 工作空间导航
+			5 button ▦ 工单工作台 0
+				6 text ▦
+				7 text 工单工作台
+				314 text 0
+			9 button ☷ 我的待办 0
+				10 text ☷
+				11 text 我的待办
+				315 text 0
+			13 button ¥ 现金与票据
+				14 text ¥
+				15 text 现金与票据
+			19 button ⚙ 账号与连接
+				20 text ⚙
+				21 text 账号与连接
+		22 text 本机业务框架 人工确认 · 全程留痕
+	23 container
+		24 text 工作空间  /
+		316 text 现金与票据
+		317 text 服务端 · 待重连
+		27 button Description: 重新加载, ID: refresh
+		28 button 客 海棠物业联系人 ⌄, ID: accountButton
+			318 text 客
+			319 text 海棠物业联系人
+			31 text ⌄
+	32 container mainContent
+		33 container
+			34 text OPERATIONS WORKSPACE
+			35 heading 现金与票据, Value: 1, ID: pageTitle
+				320 text 现金与票据
+			321 text 每一笔现金独立登记、核实与交接，资料票据持续可查。
+			38 button ＋ 新建工单, ID: createOrder
+		322 text 当前账号已认证 · 正在读取授权资料。
+		40 container Description: 经营概览, ID: metrics
+			323 container
+				324 text 进行中工单 ▦ 0 当前授权范围 全链路跟踪至整单完结
+			325 container
+				326 text 结算待办理 ☷ 0 当前授权范围 资料 · 票据 · 现金及余项
+			327 container
+				328 text 客户待收款 ¥ ¥0.00 当前授权范围 仅计入财务核实净收款
+			329 container
+				330 text 待完结确认 ✓ 0 当前授权范围 负责人一次核对确认
+		331 container financeView
+			332 container
+				333 heading 现金登记与核实, Value: 2
+					334 text 现金登记与核实
+				335 text 待核实不计实收；内部现金交接不重复计收入；退款关联原业务
+				336 button 重新加载
+				337 text ▤
+				338 heading 暂无现金记录, Value: 3
+					339 text 暂无现金记录
+				340 text 进入工单详情登记每笔收款或退款，再由财务核实。
+				341 button 重新加载
+			342 heading 资料与票据待办, Value: 2
+				343 text 资料与票据待办
+			344 container
+				345 text ▤
+				346 heading 暂无资料票据事项, Value: 3
+					347 text 暂无资料票据事项
+				348 text 可以调整筛选条件，或重新加载当前列表。
+				349 button 重新加载
+				350 text 按工单分页 · 共 0 张 · 第 1 / 1 页
+				351 button (disabled) 上一页
+				352 button (disabled) 下一页
+	312 container
+		313 text 啄木鸟维修协同平台 第一阶段 · 现金登记与人工确认
+
+The focused UI element is 13 button ¥ 现金与票据

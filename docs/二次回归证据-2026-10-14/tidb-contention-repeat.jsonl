@@ -1,0 +1,28 @@
+{"Time":"2026-10-14T18:46:04.713042+08:00","Action":"start","Package":"repair-platform/internal/repository"}
+{"Time":"2026-10-14T18:46:05.270877+08:00","Action":"run","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract"}
+{"Time":"2026-10-14T18:46:05.271034+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Output":"=== RUN   TestRepositoryContract\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.271281+08:00","Action":"run","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic"}
+{"Time":"2026-10-14T18:46:05.271303+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Output":"=== RUN   TestRepositoryContract/tidb-optimistic\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.591924+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Output":"--- PASS: TestRepositoryContract/tidb-optimistic (0.32s)\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.591984+08:00","Action":"pass","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Elapsed":0.32}
+{"Time":"2026-10-14T18:46:05.592056+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Output":"--- PASS: TestRepositoryContract (0.32s)\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.592071+08:00","Action":"pass","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Elapsed":0.32}
+{"Time":"2026-10-14T18:46:05.592179+08:00","Action":"run","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract"}
+{"Time":"2026-10-14T18:46:05.592199+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Output":"=== RUN   TestRepositoryContract\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.592472+08:00","Action":"run","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic"}
+{"Time":"2026-10-14T18:46:05.592482+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Output":"=== RUN   TestRepositoryContract/tidb-optimistic\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.882549+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Output":"--- PASS: TestRepositoryContract/tidb-optimistic (0.29s)\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.88261+08:00","Action":"pass","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Elapsed":0.29}
+{"Time":"2026-10-14T18:46:05.882628+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Output":"--- PASS: TestRepositoryContract (0.29s)\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.882638+08:00","Action":"pass","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Elapsed":0.29}
+{"Time":"2026-10-14T18:46:05.882805+08:00","Action":"run","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract"}
+{"Time":"2026-10-14T18:46:05.882825+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Output":"=== RUN   TestRepositoryContract\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:05.883058+08:00","Action":"run","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic"}
+{"Time":"2026-10-14T18:46:05.883071+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Output":"=== RUN   TestRepositoryContract/tidb-optimistic\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:06.179772+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Output":"--- PASS: TestRepositoryContract/tidb-optimistic (0.30s)\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:06.179847+08:00","Action":"pass","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract/tidb-optimistic","Elapsed":0.3}
+{"Time":"2026-10-14T18:46:06.179859+08:00","Action":"output","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Output":"--- PASS: TestRepositoryContract (0.30s)\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:06.179867+08:00","Action":"pass","Package":"repair-platform/internal/repository","Test":"TestRepositoryContract","Elapsed":0.3}
+{"Time":"2026-10-14T18:46:06.179976+08:00","Action":"output","Package":"repair-platform/internal/repository","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-10-14T18:46:07.185978+08:00","Action":"output","Package":"repair-platform/internal/repository","Output":"ok  \trepair-platform/internal/repository\t2.473s\n"}
+{"Time":"2026-10-14T18:46:07.186029+08:00","Action":"pass","Package":"repair-platform/internal/repository","Elapsed":2.473}

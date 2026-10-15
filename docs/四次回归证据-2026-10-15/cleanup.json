@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-15",
+  "ports": [
+    {
+      "port": 14046,
+      "closed": true
+    },
+    {
+      "port": 18086,
+      "closed": true
+    },
+    {
+      "port": 18060,
+      "closed": true
+    },
+    {
+      "port": 18061,
+      "closed": true
+    },
+    {
+      "port": 18062,
+      "closed": true
+    }
+  ],
+  "browserTemporaryDirectoryRemoved": true,
+  "backendCopyRemoved": true,
+  "testDatabaseContainerRemoved": true,
+  "browserTabsClosed": true,
+  "timeoutRestoredMs": 2500,
+  "viewportChanged": false,
+  "originalRuntimeReadOrChanged": false,
+  "existingContainersUntouched": [
+    "repair-marketplace-api-1\tUp 2 days",
+    "minikube\tExited (137) 8 days ago",
+    "repair-marketplace-tidb-1\tUp 2 days"
+  ]
+}

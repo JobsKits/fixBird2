@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-15",
+  "scope": "Desktop V3.8 independent synthetic demonstration. Findings D-01 through D-07 are not evidence of a backend authorization or production financial defect. D-08 is a frontend manifestation of the cross-mode warranty calendar-day issue reported independently by the backend agent.",
+  "tests": 24,
+  "pass": 8,
+  "fail": 16,
+  "skip": 0,
+  "failureClassification": {"confirmedDefectAssertions": 14, "contractMismatchAssertionsPendingBusinessClarification": 2},
+  "repeated": true,
+  "repeatCounts": {"tests": 24, "pass": 8, "fail": 16, "skip": 0},
+  "evidence": ["demo-contract-tests.cjs", "demo-contract-tests.log", "demo-repeat.log", "demo-results.json"],
+  "harness": "Uses actual Workspace/data.js plus the existing formal test harness prefix to execute the current actual app.js in a VM. Only an in-memory getDemo/available test export is added, and D15 explicitly prepares one synthetic acceptance-ready boundary fixture. No product or formal test files are edited. Form number inputs are represented so the actual integer/amount conversion callback runs. UI-facing actions use actual showAction/globalForm/createForm submit handlers; D05-D08/D19/D20 additionally exercise data.js directly.",
+  "findings": [
+    {
+      "id": "R4-D01",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "演示未解决异议仍可开修、销售出库、交付与形成验收结果",
+      "tests": ["D05-start", "D05-stock_ready", "D05-deliver", "D05-accept"],
+      "reproduce": [
+        "在独立合成订单加入未解决异议，报价及付款条件等其它条件均有效。",
+        "对start / stock_ready / deliver / accept分别准备有效阶段，以相应角色执行实际D.apply动作。"
+      ],
+      "expected": "未解决异议阻止开修、销售出库、交付与验收。拒绝时不扣库存或改变阶段。",
+      "actual": "四种有异议动作全部成功，其中出库还会扣库存，验收会形成accepted结果。",
+      "source": [
+        {"file": "Workspace/data.js", "start": 775, "end": 781, "reason": "start缺noIssues检查"},
+        {"file": "Workspace/data.js", "start": 792, "end": 811, "reason": "销售检查现金与库存，但未检查异议"},
+        {"file": "Workspace/data.js", "start": 817, "end": 831, "reason": "交付和验收未检查异议"}
+      ],
+      "contract": [
+        {"file": "Server/internal/workbench/actions.go", "start": 118, "end": 141},
+        {"file": "Server/internal/workbench/actions.go", "start": 372, "end": 380},
+        {"file": "Server/internal/workbench/actions.go", "start": 436, "end": 485},
+        {"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 602, "end": 602}
+      ],
+      "limit": "四项未解决异议拦截有PRD602独立支持。cash维修先款口径已移到discrepancies，不能将其写成PRD绝对要求或机械收紧演示。不把演示差异扩大为真实服务放行。"
+    },
+    {
+      "id": "R4-D02",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "演示报价忽略接受期限，过期仍可审核和签署",
+      "tests": ["D06", "D07"],
+      "reproduce": ["合成报价设置validUntil=2000-01-01，金额与版本等其它条件有效。", "分别以管理员审核发送，以及以客户签署当前审核版本。"],
+      "expected": "期限已过拒绝审核发送或接受；已在期限内签署后的正常履约不应因此受影响。",
+      "actual": "两项动作都成功；approve进入待客户确认，sign进入待执行。",
+      "source": [{"file": "Workspace/data.js", "start": 757, "end": 773, "reason": "两个分支均未验证validUntil"}],
+      "contract": [{"file": "Server/internal/workbench/actions.go", "start": 335, "end": 361}, {"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 288, "end": 288}],
+      "limit": "这两条用例直接调用实际D.apply；实际报价表单提供有效期字段，演示走同一动作分支。未把非PNG合成签名视为缺陷。"
+    },
+    {
+      "id": "R4-D03",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "未结算提成没有进入演示完结缺项，允许带义务完结",
+      "tests": ["D09"],
+      "reproduce": ["打开seed的demo-003待完结订单，以实际app登记100分提成。", "保持settled=false，再执行核对整单完结。"],
+      "expected": "本单待结提成在未批准转独立结算前列入缺项，主阶段回结算，不能完结。",
+      "actual": "登记后仍pending_completion、missing=[]；随后complete成功到completed，提成仍settled=false。",
+      "source": [{"file": "Workspace/data.js", "start": 337, "end": 344, "reason": "derive检查未审核成本但遗漏未结算提成"}, {"file": "Workspace/data.js", "start": 1010, "end": 1027}],
+      "contract": [{"file": "Server/internal/workbench/service.go", "start": 515, "end": 519}, {"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 628, "end": 628}],
+      "observations": ["demo-results.json observations.unsettledCommission"]
+    },
+    {
+      "id": "R4-D04",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "演示重开立即被派生回待完结，没有复核余项",
+      "tests": ["D11"],
+      "reproduce": ["实际app将demo-003完结，再打开重开表单填写凭证需重核的原因并提交。"],
+      "expected": "回结算并生成对应未完成复核事项，保留验收和完结历史，核实前不能再次完结。",
+      "actual": "reopen暂设settling后，统一派生因missing=[]立即改回pending_completion；obligations=[]、complete入口再次可用。",
+      "source": [{"file": "Workspace/data.js", "start": 1029, "end": 1033}, {"file": "Workspace/data.js", "start": 1072, "end": 1075}],
+      "contract": [{"file": "Server/internal/workbench/actions.go", "start": 921, "end": 930}, {"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 634, "end": 634}],
+      "observations": ["demo-results.json observations.reopen"]
+    },
+    {
+      "id": "R4-D05",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "返修子单整单复制旧财务、质保、外包和摘要，尚未受理却有旧收款展示",
+      "tests": ["D12", "D13"],
+      "reproduce": [
+        "通过实际app创建新维修单，报价10000分，客户签署，履约、质检、交付、验收，确认无需资料和发票，现金登记/核实/交接10000分，授权负责人整单完结。",
+        "实际返修表单选择免费并填写原因。",
+        "另将seed已验收单登记合成旧外包、完结，再用同一返修表单创建子单。"
+      ],
+      "expected": "新子单只继承客户/设备等稳定信息与originalOrderId，自身待受理、未报价、应收0、现金0、未起保、无本单外包事实，并重算自己的摘要。",
+      "actual": "子单pending_intake且quote.amountCents=0、cash=[]，却receivableCents=10000；保留原质保和外包。缓存summary仍显示原单collectedCents=10000、remainingCents=0、资料票据无需、missing=[]，与重算结果collected=0、remaining=10000及多个未知缺项冲突。app.summary优先使用这个旧summary，页面会展示旧单金额/状态。",
+      "source": [
+        {"file": "Workspace/data.js", "start": 1034, "end": 1052, "reason": "将整个原单spread进createOrder，再只清部分数组且提前返回，没有清应收/质保/outsource/summary"},
+        {"file": "Workspace/data.js", "start": 677, "end": 710},
+        {"file": "Workspace/app.js", "start": 404, "end": 405, "reason": "优先使用已继承summary"}
+      ],
+      "contract": [{"file": "Server/internal/workbench/actions.go", "start": 932, "end": 950}, {"file": "Server/internal/workbench/actions.go", "start": 217, "end": 218}],
+      "observations": ["demo-results.json observations.reworkFinancial", "demo-results.json observations.reworkCopiedFields"]
+    },
+    {
+      "id": "R4-D06",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "部分借用转独立跟踪被当作整条转出，剩余未转数量也解除工单阻塞",
+      "tests": ["D14"],
+      "reproduce": ["实际globalForm借出2件关联demo-003。", "管理员实际转独立跟踪表单只转1件，填写依据/责任人/期限。"],
+      "expected": "库存和全局尚欠仍为2，1件转独立跟踪，只释放1件对应的工单阻塞；未转出的1件仍阻塞。",
+      "actual": "outstanding=2、transfer.quantity=1，但单个transferred=true令D.derive完全忽略该条借用，blocked=false。",
+      "source": [{"file": "Workspace/app.js", "start": 3385, "end": 3389}, {"file": "Workspace/data.js", "start": 340, "end": 344}],
+      "contract": [{"file": "Server/internal/workbench/inventory.go", "start": 129, "end": 146}, {"file": "Server/internal/workbench/service.go", "start": 520, "end": 530}, {"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 309, "end": 309}],
+      "observations": ["demo-results.json observations.partialTransfer"]
+    },
+    {
+      "id": "R4-D07",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo",
+      "title": "借还清掉最后缺项后未同步工单主阶段，页面无完结入口",
+      "tests": ["D15"],
+      "reproduce": [
+        "显式合成边界fixture将seed的demo-004准备为待验收，资料票据无需、款项已核实并交接，保留唯一未归还关联借用。",
+        "实际app客户accept成功后为settling，仅缺关联借用；管理员用实际globalForm归还全部尚欠。"
+      ],
+      "expected": "关联借用清零后同步摘要与主阶段到pending_completion，显示完结入口。",
+      "actual": "outstanding=0、summary.missing=[]，但status仍settling；available没有complete，无法直接完成本单，需要额外无关动作才能触发D.apply重新派生状态。",
+      "source": [{"file": "Workspace/app.js", "start": 3432, "end": 3434, "reason": "全局借还只重算summary，未派生主阶段"}, {"file": "Workspace/app.js", "start": 60, "end": 72}],
+      "contract": [{"file": "Server/internal/workbench/inventory.go", "start": 163, "end": 170}, {"file": "Server/internal/workbench/service.go", "start": 552, "end": 557}],
+      "observations": ["demo-results.json observations.loanClearedStage"],
+      "limit": "该用例声明一处合成fixture，随后验收与归还均执行实际app；未声称使用默认seed不做准备即可重现。"
+    },
+    {
+      "id": "R4-D08",
+      "priority": "P2",
+      "status": "confirmed-repeated",
+      "affectedMode": "synthetic-demo and browser label; merge with independently verified real backend warranty-day issue",
+      "mergeWithBackendWarrantyDay": true,
+      "title": "质保按截止瞬间比较，截止日内提前显示已到期",
+      "tests": ["D20-seed-date", "D20-accepted-iso"],
+      "reproduce": ["质保截止分别为2027-01-12（seed日期）和2027-01-12T02:00Z（实际验收生成的带时间形式）。", "固定Date.now为北京时间2027-01-12 20:00，调用实际D.derive。"],
+      "expected": "按Asia/Shanghai自然日，截止日全天有效，此时仍质保中，次日过期。",
+      "actual": "两种形式均显示质保已到期。",
+      "source": [{"file": "Workspace/data.js", "start": 374, "end": 378, "reason": "Date.parse(end)>Date.now使用截止瞬间，忽略合同截止日全天有效"}],
+      "contract": [{"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 1832, "end": 1833}],
+      "observations": ["demo-results.json observations.warranty-2027-01-12", "demo-results.json observations.warranty-2027-01-12T02:00:00.000Z"],
+      "limit": "演示addMonths对月末/闰年夹取的正对照通过；此项只报告截止日比较错误，不把真实后端AddDate月底错误倒写为演示加月也失败。"
+    }
+  ],
+  "discrepancies": [
+    {
+      "id": "R4-X01",
+      "status": "confirmed-implementation-difference-business-rule-unresolved",
+      "notCountedAsConfirmedDefect": true,
+      "title": "cash付款条款的维修单开修条件在演示与真实服务不一致，先款业务口径待澄清",
+      "tests": ["D02", "D03"],
+      "reproduce": ["实际app独立演示新建个人寄修单，prepayChoice=none，cash报价10000分且prepayCents=0，客户合成签署后不收款，提交实际开修表单。", "另一个合成单只登记全额现金但未核实，执行start。"],
+      "expectedByCurrentServerImplementation": "当前真实服务executionReady对cash付款条款要求核实全款，因此该合同对照断言期待拒绝。",
+      "actualDemoImplementation": "两项都放行开修；完整实际app链显示collectedCents=0且status=repairing。",
+      "businessUncertainty": "PRD393说明个人单未选择到账后开修时不应因无预付款被卡，1074的start_requires_prepayment默认false；288的现款全款明确用于销售。当前真实实现规则不自动等于已批准维修业务要求。需先澄清先款约定与cash付款条款的关系，再决定统一哪一端。不得把这2条合同对照fail算成2个已确认业务缺陷。",
+      "source": [{"file": "Workspace/data.js", "start": 775, "end": 781}, {"file": "Server/internal/workbench/actions.go", "start": 118, "end": 141}],
+      "contract": [{"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 393, "end": 393}, {"file": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md", "start": 1074, "end": 1074}],
+      "observations": ["demo-results.json observations.cashRepair"]
+    }
+  ],
+  "excluded": [
+    "首版D14错误假定seed尚欠2件，已改为实际新建借出2件；首版D16/D17错误假定seed有采购，已改为实际新建采购。上述测试夹具错误不计入最终失败或业务发现。",
+    "合成签名允许测试字符串属于独立演示机制，没有将真实PNG验签与合成签名能力差异报告为漏洞。",
+    "未穷尽全部角色合同组合；没有把静态看到但未复现的权限差异计入确认发现。"
+  ],
+  "cleanup": {"productEdits": false, "formalTestEdits": false, "sourceIndexEdits": false, "existingRuntimeTouched": false, "servicesCreated": 0, "containersCreated": 0, "tempDirectoriesCreated": 0, "realDataUsed": false, "secretsPersisted": false, "note": "All mutable fixtures existed in terminating Node VM memory. Only demo-prefixed evidence files in the assigned evidence folder were written."}
+}

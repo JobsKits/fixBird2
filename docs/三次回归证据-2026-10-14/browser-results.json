@@ -1,0 +1,30 @@
+{
+  "navigationRefresh": {
+    "address": "第三轮独立回归 · 配置 B",
+    "identity": "\n            系公司负责人⌄\n          ",
+    "page": "账号与连接"
+  },
+  "qcForm": {
+    "customerNoteInputPresent": true,
+    "internalRemarkInputPresent": false
+  },
+  "qcSave": {
+    "customerNoteShown": true,
+    "formOpen": false
+  },
+  "adminAfterQc": {
+    "customerNotePreserved": true,
+    "internalRemarkPreserved": true
+  },
+  "mobileDetail": {
+    "detailWidth": 390,
+    "horizontalOverflow": false,
+    "viewportWidth": 390
+  },
+  "mobileEmpty": {
+    "emptyText": "▤暂无符合条件的工单可以调整筛选条件，或重新加载当前列表。重新加载",
+    "horizontalOverflow": false,
+    "metrics": "进行中工单▦8当前授权范围全链路跟踪至整单完结结算待办理☷2当前授权范围资料 · 票据 · 现金及余项客户待收款¥¥4,920.00当前授权范围仅计入财务核实净收款待完结确认✓1当前授权范围负责人一次核对确认",
+    "reloadAvailable": true
+  }
+}

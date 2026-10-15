@@ -1,0 +1,6 @@
+{
+  "temporaryDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-fix4-browser-0pD3am",
+  "backend": "http://127.0.0.1:18070",
+  "proxy": "http://127.0.0.1:18071",
+  "syntheticOnly": true
+}

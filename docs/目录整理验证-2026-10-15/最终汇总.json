@@ -1,0 +1,52 @@
+{
+  "completedAt": "2026-10-15T15:26:44.746Z",
+  "scope": "桌面V3.8目录整理及路径适配；17组P2仍待修复",
+  "checks": {
+    "filesAndDocuments": true,
+    "web": {
+      "tests": 166,
+      "passed": true
+    },
+    "goBuildAndVet": true,
+    "goPathChecks": true,
+    "http": {
+      "groups": 6,
+      "passed": true
+    },
+    "offline": {
+      "checks": 5,
+      "passed": true
+    },
+    "macAndDeployment": true,
+    "reportCopies": true,
+    "legacyScripts": {
+      "passed": true,
+      "powershellParsingSkipped": true
+    },
+    "codeGraph": {
+      "files": 119,
+      "nodes": 2168,
+      "edges": 8427,
+      "pendingChanges": {
+        "added": 0,
+        "modified": 0,
+        "removed": 0
+      },
+      "state": "complete"
+    }
+  },
+  "cleanup": {
+    "offlinePortClosed": true,
+    "documentPreviewPortClosed": true,
+    "httpHarnessExited": true
+  },
+  "unavailable": [
+    "四个原生/小程序客户端工程",
+    "Linux与Windows自动部署脚本",
+    "全部系统自动反部署脚本",
+    "Windows/Linux实机部署验证",
+    "本机PowerShell实际语法解析"
+  ],
+  "historicalEvidenceRawUnchanged": true,
+  "passed": true
+}

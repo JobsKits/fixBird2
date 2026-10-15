@@ -1,0 +1,16 @@
+{
+  "page": {
+    "hash": "#frontend",
+    "scrollWidth": 1280,
+    "tableRows": [
+      12,
+      5,
+      4,
+      8
+    ],
+    "width": 1280
+  },
+  "bottom": "#%F0%9F%94%9A",
+  "top": "#%E5%89%8D%E8%A8%80",
+  "passed": true
+}

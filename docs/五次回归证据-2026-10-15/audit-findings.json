@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-15",
+  "confirmedGroups": 17,
+  "newlyDiscoveredGroups": 15,
+  "followupOmissionGroups": 2,
+  "unfixedGroups": 17,
+  "allRepeated": true,
+  "priority": {
+    "P2": 17
+  },
+  "countsByScope": {
+    "backend": 4,
+    "frontend": 3,
+    "demo": 10
+  },
+  "findings": [
+    {
+      "id": "R5-B01",
+      "title": "新建工单可写入不存在、未验收或跨企业的返修原单引用",
+      "priority": "P2",
+      "scope": "actual-backend",
+      "evidence": "backend-findings.json"
+    },
+    {
+      "id": "R5-B02",
+      "title": "免费返修子单无法提交零价报价，正常履约流程被阻断",
+      "priority": "P2",
+      "scope": "actual-backend",
+      "evidence": "backend-findings.json"
+    },
+    {
+      "id": "R5-B03",
+      "title": "跨截止异议仅标为解决即静默恢复旧窗口并追溯自动验收",
+      "priority": "P2",
+      "scope": "actual-backend",
+      "evidence": "backend-findings.json"
+    },
+    {
+      "id": "R5-B04",
+      "title": "实收日期可早于本单创建及当前报价签署，产生不可能的追溯验收与质保",
+      "priority": "P2",
+      "scope": "actual-backend",
+      "evidence": "backend-findings.json"
+    },
+    {
+      "id": "R5-F01",
+      "title": "动作成功确认未检查当前写入的版本与返修子单关联",
+      "priority": "P2",
+      "scope": "injected-bad-2xx-client-protection",
+      "followupOmission": false,
+      "evidence": "frontend-summary.json"
+    },
+    {
+      "id": "R5-F02",
+      "title": "导出未核对响应 actor 与当前认证会话",
+      "priority": "P2",
+      "scope": "injected-bad-2xx-client-protection",
+      "followupOmission": false,
+      "evidence": "frontend-summary.json"
+    },
+    {
+      "id": "R5-F03",
+      "title": "现金必需字段与库存写响应仍未完整校验",
+      "priority": "P2",
+      "scope": "injected-bad-2xx-client-protection",
+      "followupOmission": true,
+      "evidence": "frontend-summary.json"
+    },
+    {
+      "id": "R5-D01",
+      "title": "仓库角色可在独立演示自行完成须管理员批准的借用品耗用、处置和转独立跟踪",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D02",
+      "title": "已完结演示工单不经受控重开，仍能新增关联借用或未结异议并保持completed",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D03",
+      "title": "独立演示允许未关联工单的借用品直接转维修耗用",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D04",
+      "title": "借用表单提供财务等不符合现行借用API合同的责任人，演示仍扣库借出",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D05",
+      "title": "财务核实超额退款未被演示拒绝，净实收可直接变负",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D06",
+      "title": "演示完结清单漏掉已核实退款的内部交接，handedOver=false仍可整单完结",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D07",
+      "title": "演示发票登记只检查非空引用，可重复有效票号、违反无需开票约定或引用普通文字",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D08",
+      "title": "付款资料发送未填写接收对象，演示仍形成已发送事实",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D09",
+      "title": "停止履约表单可覆盖演示原有效验收或已确认停止结果",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": false,
+      "evidence": "demo-findings.json"
+    },
+    {
+      "id": "R5-D10",
+      "title": "未约定先款开修时演示漏掉预付不得超过报价的通用金额约束",
+      "priority": "P2",
+      "scope": "independent-synthetic-demo",
+      "followupOmission": true,
+      "evidence": "demo-findings.json"
+    }
+  ],
+  "sourceFilesUnchanged": 124,
+  "notEvidenceOfBackendReadBypass": true,
+  "crossReviews": [
+    "review-findings.json",
+    "backend-cross-review.json"
+  ]
+}

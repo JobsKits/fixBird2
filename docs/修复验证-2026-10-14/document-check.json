@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-14",
+  "documents": [
+    {
+      "file": "代码地图.md",
+      "localLinks": 58,
+      "anchors": 9
+    },
+    {
+      "file": "AGENTS.md",
+      "localLinks": 7,
+      "anchors": 2
+    },
+    {
+      "file": "README.md",
+      "localLinks": 41,
+      "anchors": 12
+    },
+    {
+      "file": "部署文档.md",
+      "localLinks": 63,
+      "anchors": 25
+    },
+    {
+      "file": "docs/workbench-contract.md",
+      "localLinks": 26,
+      "anchors": 9
+    },
+    {
+      "file": "docs/实现范围.md",
+      "localLinks": 24,
+      "anchors": 6
+    },
+    {
+      "file": "docs/修复说明-2026-10-14.md",
+      "localLinks": 54,
+      "anchors": 8
+    },
+    {
+      "file": "/Users/jobs/Documents/Github/啄木鸟维修平台/需求/回归与优化报告-V3.8-2026-10-14.md",
+      "localLinks": 106,
+      "anchors": 21
+    }
+  ],
+  "checkedLocalLinks": 379,
+  "errors": [],
+  "browserPreview": {
+    "codeMap": {
+      "tablePreviewSaved": true,
+      "contentsJump": true,
+      "endJump": true,
+      "backToIntroduction": true,
+      "contractLink": true,
+      "horizontalOverflow": false
+    },
+    "repairRecord": {
+      "tablePreviewSaved": true,
+      "localEvidenceImagesLoaded": 2,
+      "horizontalOverflow": false
+    },
+    "updatedDocuments": [
+      {
+        "hash": "#verification",
+        "horizontalOverflow": false,
+        "targetExists": true,
+        "title": "啄木鸟维修平台 · V3.8 工作台"
+      },
+      {
+        "hash": "#verification",
+        "horizontalOverflow": false,
+        "targetExists": true,
+        "title": "啄木鸟维修平台 V3.8 部署文档"
+      },
+      {
+        "hash": "#verified",
+        "horizontalOverflow": false,
+        "targetExists": true,
+        "title": "V3.8 工作台实现范围与验证边界"
+      }
+    ]
+  }
+}

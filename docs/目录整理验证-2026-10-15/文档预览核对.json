@@ -1,0 +1,16 @@
+{
+  "document": "README.md",
+  "method": "临时只读 Markdown 预览服务 + Codex in-app browser；查看目录截图，实际点击目录、文末及返回前言链接",
+  "verified": {
+    "heading": "啄木鸟维修平台 · V3.8",
+    "directoryAnchor": true,
+    "treeContainsBackend": true,
+    "chapterLinks": 36,
+    "jumps": [
+      "#directory",
+      "#🔚",
+      "#前言"
+    ]
+  },
+  "temporaryTabClosed": true
+}

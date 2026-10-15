@@ -1,0 +1,307 @@
+{
+  "scope": "真实 Workspace/app.js 的外部 VM 诊断；不连接业务实例",
+  "counts": {
+    "addedScenarios": 10,
+    "passed": 8,
+    "failedProtectionExpectations": 2,
+    "expectedRejectionsPassed": 4,
+    "directedR3F01Executions": 2,
+    "directedR3F01Reproduced": 2
+  },
+  "findings": [
+    {
+      "id": "R3-F01",
+      "priority": "P1",
+      "title": "换身份期间旧授权快照仍显示给新客户",
+      "source": [
+        "Workspace/app.js:1531",
+        "Workspace/app.js:1548",
+        "Workspace/app.js:480",
+        "Workspace/app.js:1440"
+      ],
+      "conditions": [
+        "管理员已加载跨企业列表及全范围概览",
+        "客户登录成功，新bootstrap迟到",
+        "等待期间导航到财务页并取得新客户分页"
+      ],
+      "expected": "立即清除旧身份快照，客户只显示当前范围或独立演示占位；新分页不得携带旧概览",
+      "actual": {
+        "oldListVisibleDuringNewLogin": true,
+        "retainedSnapshotActor": "admin",
+        "selectedRole": "customer",
+        "shownRemainingCents": 99000000,
+        "expectedCustomerRemainingCents": 123
+      },
+      "risk": "同一浏览器换身份时，新客户界面可见先前管理员缓存的跨企业记录与经营汇总；此证据仅验证前端显示，未进行后端越权测试",
+      "diagnostic": "T05",
+      "stages": [
+        {
+          "stage": "login_success_bootstrap_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "settings",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "finance_navigation_new_page_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": true,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "customer_page_arrived_before_bootstrap",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "new_customer_bootstrap_arrived_final",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        }
+      ]
+    },
+    {
+      "id": "R3-F02",
+      "priority": "P2",
+      "title": "离线演示备注 patch 与服务端行为不一致",
+      "source": [
+        "Workspace/data.js:888",
+        "Workspace/data.js:889"
+      ],
+      "conditions": [
+        "独立QC或仓库演示",
+        "表单只提交customerNote，省略remark",
+        "接口不可达，在D.apply内处理"
+      ],
+      "expected": "保留未提交的内部remark",
+      "actual": "原remark被赋值undefined，客户说明更新成功",
+      "risk": "删除独立合成台账中的内部备注；不涉及真实后端数据",
+      "diagnostic": "T10",
+      "uiPath": [
+        "打开独立QC合成演示",
+        "工单详情中实际生成remark按钮",
+        "document click触发remark表单",
+        "表单无remark输入，只提交customerNote",
+        "正常表单submit，经实际app.js read生成POST payload",
+        "连接失败后D.apply处理"
+      ],
+      "sentPayload": {
+        "customerNote": "合成客户说明更新"
+      }
+    }
+  ],
+  "artifacts": [
+    "frontend-deep-tests.cjs",
+    "frontend-deep-tests.log",
+    "frontend-r3-f01-repeat-1.log",
+    "frontend-r3-f01-repeat-2.log",
+    "frontend-findings.json"
+  ],
+  "productFilesModified": false,
+  "formalTestsModified": false,
+  "indexModified": false,
+  "temporaryFilesRemoved": true,
+  "finishedDate": "2026-10-15",
+  "evidenceStartDate": "2026-10-14",
+  "runs": [
+    {
+      "file": "frontend-deep-tests.log",
+      "tests": 10,
+      "pass": 8,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0,
+      "stages": [
+        {
+          "stage": "login_success_bootstrap_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "settings",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "finance_navigation_new_page_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": true,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "customer_page_arrived_before_bootstrap",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "new_customer_bootstrap_arrived_final",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        }
+      ]
+    },
+    {
+      "file": "frontend-r3-f01-repeat-1.log",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "stages": [
+        {
+          "stage": "login_success_bootstrap_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "settings",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "finance_navigation_new_page_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": true,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "customer_page_arrived_before_bootstrap",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "new_customer_bootstrap_arrived_final",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        }
+      ]
+    },
+    {
+      "file": "frontend-r3-f01-repeat-2.log",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "stages": [
+        {
+          "stage": "login_success_bootstrap_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "settings",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "finance_navigation_new_page_pending",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": true,
+          "oldCrossCompanyVisible": true,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "customer_page_arrived_before_bootstrap",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        },
+        {
+          "stage": "new_customer_bootstrap_arrived_final",
+          "actor": "customer",
+          "actorRole": "customer",
+          "snapshotActor": "admin",
+          "snapshotRole": "admin",
+          "view": "finance",
+          "oldCrossCompanyCached": false,
+          "oldCrossCompanyVisible": false,
+          "remainingCents": 99000000,
+          "dataKind": "server"
+        }
+      ]
+    }
+  ]
+}

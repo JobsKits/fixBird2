@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-15",
+  "syntheticOnly": true,
+  "completed": true,
+  "createUnquoted": {
+    "pass": true,
+    "evidence": "browser-create-unquoted.json",
+    "session": 1
+  },
+  "revocation": {
+    "pass": true,
+    "real401": true,
+    "oldCustomerRemoved": true,
+    "session": 2
+  },
+  "bootstrapNavigation503": {
+    "pass": true,
+    "injected503": true,
+    "isolatedFallback": true,
+    "recoveredCustomerOrders": 7,
+    "recoveredReceivableCents": 492000
+  },
+  "explicitPrepayment": {
+    "pass": true,
+    "prepayCents": 10000,
+    "quoteVersion": 2
+  },
+  "timeoutRestored": 2500,
+  "temporaryTabsClosed": true,
+  "viewportOverrideUsed": false,
+  "note": "User interruption recycled first test environment; session2 restarted with fresh seed data. No production data."
+}

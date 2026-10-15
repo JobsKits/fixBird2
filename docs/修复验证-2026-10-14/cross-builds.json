@@ -1,0 +1,18 @@
+[
+  {
+    "platform": "windows",
+    "architecture": "amd64",
+    "exit": 0,
+    "output": "",
+    "bytes": 11777536,
+    "sha256": "900f1036b26d58e39252c236510097b4086b04c545ab4d9f7a5721f06bb10e84"
+  },
+  {
+    "platform": "linux",
+    "architecture": "amd64",
+    "exit": 0,
+    "output": "",
+    "bytes": 11599572,
+    "sha256": "75d58b2ca812943daa190920bfc3e82f96c09bd56f596e7e224e2827dd459b66"
+  }
+]

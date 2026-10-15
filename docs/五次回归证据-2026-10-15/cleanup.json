@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "ports": [
+    {
+      "port": 14058,
+      "listening": false
+    },
+    {
+      "port": 18098,
+      "listening": false
+    },
+    {
+      "port": 14059,
+      "listening": false
+    },
+    {
+      "port": 18099,
+      "listening": false
+    },
+    {
+      "port": 18080,
+      "listening": false
+    },
+    {
+      "port": 18081,
+      "listening": false
+    },
+    {
+      "port": 18082,
+      "listening": false
+    }
+  ],
+  "ownedContainers": [
+    {
+      "name": "jobs-v38-reg5-tidb-1792072560129",
+      "removed": true
+    },
+    {
+      "name": "jobs-v38-reg5-workbench-recheck",
+      "removed": true
+    }
+  ],
+  "runtimeDirectory": {
+    "path": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-reg5-browser-xr5thu",
+    "removed": true
+  },
+  "backendDiagnosticCleanupEvidence": "backend-run-summary.json",
+  "backendDiagnosticTemporaryRemoved": true,
+  "browserTabsClosed": true,
+  "viewportOverrideUsed": false,
+  "timeoutSettingsChanged": false,
+  "dockerStartedForValidation": true,
+  "dockerLeftRunning": true,
+  "existingContainersManuallyChanged": false,
+  "currentExistingContainers": [
+    "repair-marketplace-api-1\trunning",
+    "minikube\texited",
+    "repair-marketplace-tidb-1\trunning"
+  ],
+  "originalRuntimeOrRepositoryModified": false,
+  "user8098Untouched": true,
+  "success": true
+}

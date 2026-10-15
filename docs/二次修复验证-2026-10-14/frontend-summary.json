@@ -1,0 +1,21 @@
+{
+  "scope": [
+    "Workspace/app.js",
+    "Workspace/tests/app.test.cjs"
+  ],
+  "hashes": {
+    "Workspace/app.js": "e0e56d4d38c8456b119f740633d612534312e9822566eba18826b9d6ee4cc077",
+    "Workspace/tests/app.test.cjs": "c7a72d1d2cd419f4a0f5d9dc4a1526f0c0632a1f25e4726df291a3b399633892"
+  },
+  "nodeChecks": true,
+  "workspaceTests": {
+    "tests": 40,
+    "pass": 40,
+    "fail": 0,
+    "log": "frontend-final-tests.log"
+  },
+  "migratedDiagnosticCases": 11,
+  "additionalContextAndFieldCases": 5,
+  "additionalNavigationRefreshCases": 2,
+  "indexSync": "delegated to root as requested"
+}

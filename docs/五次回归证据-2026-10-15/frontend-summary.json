@@ -1,0 +1,272 @@
+{
+  "date": "2026-10-15",
+  "mode": "只读前端诊断，实际 Workspace/app.js 在 VM 中运行，受控 fetch/DOM 接口；不启动服务或浏览器",
+  "completed": true,
+  "sourceFiles": {
+    "Workspace/app.js": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7",
+    "Workspace/data.js": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f",
+    "Workspace/tests/app.test.cjs": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78"
+  },
+  "diagnostic": {
+    "file": "frontend-regression.cjs",
+    "sha256": "508c00b1caba7fb851b1aad0a58d15cb8e7d8fbdab5313012f38dbfa1078853d",
+    "harness": "复制正式 app.test.cjs 的 fixture/harness，仅导出运行时内部函数及记录合成下载；未改写产品逻辑。初版 22 项脚本与首跑/重跑日志另存 frontend-regression-initial22.cjs、frontend-first.log、frontend-repeat.log；最终增加合法递增/合法子单/幂等重试三项正对照，共 25 项。",
+    "runs": [
+      {
+        "log": "frontend-final-first.log",
+        "exitCode": 1,
+        "total": 25,
+        "passed": 13,
+        "failed": 12,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "log": "frontend-final-repeat.log",
+        "exitCode": 1,
+        "total": 25,
+        "passed": 13,
+        "failed": 12,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ],
+    "observations": [
+      "frontend-observations-final-first.json",
+      "frontend-observations-final-repeat.json"
+    ]
+  },
+  "findings": [
+    {
+      "id": "R5-F01",
+      "severity": "P2",
+      "title": "动作成功确认未检查当前写入的版本与返修子单关联",
+      "caseIds": [
+        "R5-F01/0",
+        "R5-F01/-1",
+        "R5-F02"
+      ],
+      "failedCases": 3,
+      "relationToPrior": "第四轮已校验响应对象的结构及普通动作工单 ID；本轮新增针对请求版本及 rework 子单关联的语义校验。",
+      "reproduction": [
+        "当前已认证管理员，当前工单 version=8，以新意图提交新备注；响应注入同 ID、合法完整结构、version=8 或 7 且旧备注的 2xx。",
+        "另以 rework 提交返修，响应注入原工单本身而非新子单的合法结构 2xx。"
+      ],
+      "expected": "结果未知，不能报保存/返修成功；原意图键仍应保留；rework 必须是新 ID 且 originalOrderId 为当前原单。",
+      "actual": "两种版本均写入 detail cache 并提示「已保存：编辑工单备注」；同体第二次明确提交产生不同请求键。rework 无子单却提示「已保存：创建关联返修单」。",
+      "source": [
+        {
+          "path": "Workspace/app.js",
+          "line": 470,
+          "reason": "仅 validOrder 及普通动作 ID 匹配，未比较请求版本；rework 跳过 ID 匹配后没有父子关联检查"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 554,
+          "reason": "通过浅语义校验即释放该意图键"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 3425,
+          "reason": "接受并写入详情缓存，再显示成功"
+        },
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "line": 235,
+          "reason": "真实普通新动作先校验请求版本"
+        },
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "line": 949,
+          "reason": "rework 新子单包含 OriginalOrderID 并返回"
+        },
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "line": 971,
+          "reason": "普通成功动作统一追加事件、版本加一"
+        },
+        {
+          "path": "Server/internal/workbench/idempotency.go",
+          "line": 71,
+          "reason": "幂等重试返回当前真实资源，非再次执行；因此版本允许大于原提交版本，不要求恰加一"
+        }
+      ],
+      "contract": [
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 83,
+          "reason": "rework 返回新子Order"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 137,
+          "reason": "同一意图保留原键，明确成功后才用新键"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 158,
+          "reason": "资源字段/类型/关联校验；坏2xx保留输入与意图且不能报成功"
+        }
+      ],
+      "scope": "受控坏2xx的客户端确认保护；未观察到正常 Go 服务返回该错误包。已复现假成功、旧详情缓存及请求键改变，未声称真实重复资金入账。",
+      "positiveControls": [
+        "R5-C11 接受响应版本为提交版本+1或+3",
+        "R5-C12 接受新关联子单 version=1，不与父版本8混比",
+        "R5-C13 首次未知后同键合法幂等响应 version=9 被接受"
+      ]
+    },
+    {
+      "id": "R5-F02",
+      "severity": "P2",
+      "title": "导出未核对响应 actor 与当前认证会话",
+      "caseIds": [
+        "R5-F03/id",
+        "R5-F03/role",
+        "R5-F03/companyId",
+        "R5-F03/authVersion"
+      ],
+      "failedCases": 4,
+      "relationToPrior": "bootstrap 已校验当前会话身份，export 分支未采用相同关联判断。",
+      "reproduction": [
+        "管理员会话触发真实模式导出，保留完整合法导出结构，只依次改变返回 actor.id、role、companyId、authVersion；工单含可识别合成客户名称。"
+      ],
+      "expected": "导出身份不匹配应明确拒绝，不生成当前授权文件；不能提示授权导出成功。",
+      "actual": "四种错误 actor 2xx 均生成一份含另一合成客户的 JSON Blob，并提示「已导出当前角色授权资料」。",
+      "source": [
+        {
+          "path": "Workspace/app.js",
+          "line": 499,
+          "reason": "export 仅 validActor 和 validOrder，无 sameSessionActor 匹配"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 850,
+          "reason": "已有 sameSessionActor 能比较当前认证锚点"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 4035,
+          "reason": "结果直接 download 并提示授权导出完成"
+        }
+      ],
+      "contract": [
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 40,
+          "reason": "授权导出服从当前职责字段"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 158,
+          "reason": "成功且资源关联校验后才采用服务结果"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 164,
+          "reason": "恢复响应身份与当前会话一致后使用"
+        }
+      ],
+      "scope": "仅坏2xx注入可复现的客户端防护不足；正常服务端未观察到错 actor 导出，不能据此归为后端越权。跨身份切换后的迟到导出已被 epoch 正确拦截。",
+      "positiveControls": [
+        "R5-C01 当前导出等待时换身份不生成原身份文件",
+        "R5-C02 同身份只导航的合法导出可完成"
+      ]
+    },
+    {
+      "id": "R5-F03",
+      "severity": "P2",
+      "title": "现金必需字段与库存写响应仍未完整校验",
+      "caseIds": [
+        "R5-F04/缺收款金额",
+        "R5-F04/空收款金额",
+        "R5-F04/非法现金方向",
+        "R5-F04/缺现金ID",
+        "R5-F05"
+      ],
+      "failedCases": 5,
+      "relationToPrior": "属于第四轮 F03 嵌套校验修复的剩余缺口，不重复计为五个独立缺陷。",
+      "reproduction": [
+        "财务列表返回结构其余合法的工单，cash 条目分别去掉 amountCents、置 null、kind 改为未知值、去掉 id。",
+        "借用归还写响应仅包含 id、递增 version、quantity、outstanding，缺少实际 Loan 合同其它必需字段，后续刷新正常返回旧完整数据。"
+      ],
+      "expected": "坏财务记录在采用前拒绝；不完整库存写结果应视为未知、保留表单和键且不报保存。",
+      "actual": "四种现金记录仍采用为 server 事实；缺/空金额显示 ¥0.00，非法 kind 按正向 ¥100.00，缺 ID 仍生成 data-record=\"\" 的核实按钮。浅 Loan 写响应关闭表单并提示「已保存：核对实际归还」。",
+      "source": [
+        {
+          "path": "Workspace/app.js",
+          "line": 185,
+          "reason": "fields 对字段缺失/null直接放行"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 261,
+          "reason": "现金采用通用可选 record，未要求现金ID/金额/方向"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 479,
+          "reason": "库存写响应未复用 validLoan，仅检查少数浅字段"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 1184,
+          "reason": "财务直接消费 cash 字段生成金额和核实按钮"
+        },
+        {
+          "path": "Workspace/app.js",
+          "line": 3737,
+          "reason": "浅 Loan 2xx通过后关闭表单并提示保存"
+        }
+      ],
+      "contract": [
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 47,
+          "reason": "cash 必需字段与 receipt/refund 枚举"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 103,
+          "reason": "完整 Loan 写响应合同"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 158,
+          "reason": "坏写2xx不能报保存成功"
+        },
+        {
+          "path": "docs/workbench-contract.md",
+          "line": 166,
+          "reason": "嵌套实际消费记录须采用前校验"
+        }
+      ],
+      "scope": "坏响应边界防护，未声称当前后端正常响应会缺少这些字段；正常真实现金/库存流程由 root 的 API 回归另行验证。"
+    }
+  ],
+  "passingCoverage": [
+    "同会话/跨会话导出并发",
+    "未知备注/账号授权意图跨无关表单重试",
+    "同内容跨资源不同键",
+    "动作提交防双击",
+    "附件读取遇网络回退不下载旧原件",
+    "非401回退保留可信会话且不自动重放写入",
+    "坏审计resourceIds受控拒绝",
+    "人工签署历史只读",
+    "合法版本推进、关联子单、幂等当前版本正对照"
+  ],
+  "cleanup": {
+    "servicesStarted": 0,
+    "containersStarted": 0,
+    "browserTabsOpened": 0,
+    "productFilesEdited": 0,
+    "formalTestsEdited": 0,
+    "originalEvidenceEdited": 0,
+    "temporaryRuntimeCreated": 0,
+    "pendingProcesses": 0
+  },
+  "notes": [
+    "两次最终诊断均真实保留退出码1；没有改断言使失败变绿。",
+    "初版22项的失败同样保留，最终25项两次结果才是本轮最终统计，不相加。",
+    "所有记录仅合成业务字段；未保存 token、Authorization 或请求键原值。"
+  ]
+}

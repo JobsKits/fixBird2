@@ -1,0 +1,205 @@
+---
+paths:
+  /api/v1/admin/accounts:
+    get:
+      operationId: listAccounts
+      description: 管理员分页查询所有后台与移动账号
+      parameters:
+        - name: cursor
+          in: query
+          schema: {type: string, maxLength: 64}
+      responses:
+        "200":
+          description: 服务端确认成功
+          headers:
+            X-Next-Cursor:
+              description: 下一页游标；未返回表示已到末页
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: "./identity.yaml#/components/schemas/User"}}
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+    post:
+      operationId: addAccount
+      description: 管理员在设置中新增后台账号，指定 admin 或 operator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AccountInput" }
+      responses:
+        "201":
+          description: 服务端确认成功
+          content:
+            application/json:
+              schema: {type: object, required: [user], properties: {user: {$ref: "./identity.yaml#/components/schemas/User"}}}
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "409":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+  /api/v1/admin/accounts/{username}/status:
+    post:
+      operationId: setAccountStatus
+      description: 管理员封停或解封指定账号；封停撤销全部会话，禁止封停自己
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: {type: string, minLength: 3, maxLength: 64}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AccountStatusInput" }
+      responses:
+        "204":
+          description: 服务端确认成功
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+  /api/v1/admin/accounts/{username}/password:
+    post:
+      operationId: resetAccountPassword
+      description: 管理员修改任意用户密码，撤销旧会话及恢复码
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema: {type: string, minLength: 3, maxLength: 64}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PasswordInput" }
+      responses:
+        "204":
+          description: 服务端确认成功
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+  /api/v1/auth/password:
+    post:
+      operationId: changeOwnPassword
+      description: 已登录账号核对当前密码后修改自己的密码，撤销全部旧会话
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OwnPasswordInput" }
+      responses:
+        "204":
+          description: 服务端确认成功
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+  /api/v1/auth/recovery-code:
+    post:
+      operationId: newRecoveryCode
+      description: 已登录账号生成一次性显示的新恢复码，旧恢复码立即失效
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EmptyInput" }
+      responses:
+        "200":
+          description: 服务端确认成功
+          content:
+            application/json:
+              schema: {type: object, required: [recoveryCode], properties: {recoveryCode: {type: string, minLength: 43, maxLength: 43}}}
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+  /api/v1/auth/password-reset:
+    post:
+      operationId: resetPassword
+      description: 未登录时使用账号与恢复码重置密码；恢复码仅可消费一次
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RecoveryPasswordInput" }
+      responses:
+        "204":
+          description: 服务端确认成功
+        "401":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "403":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "400":
+          $ref: "./openapi.yaml#/components/responses/Error"
+        "429":
+          $ref: "./openapi.yaml#/components/responses/Error"
+components:
+  schemas:
+    EmptyInput: {type: object, additionalProperties: false}
+    AccountInput:
+      type: object
+      additionalProperties: false
+      required: [username, displayName, password, role]
+      properties:
+        username: {type: string, pattern: "^[a-zA-Z0-9_.-]{3,64}$"}
+        displayName: {type: string, minLength: 1, maxLength: 120}
+        password: {type: string, minLength: 12, maxLength: 128}
+        role: {type: string, enum: [admin, operator]}
+    AccountStatusInput:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status: {type: string, enum: [active, disabled]}
+    PasswordInput:
+      type: object
+      additionalProperties: false
+      required: [password]
+      properties:
+        password: {type: string, minLength: 12, maxLength: 128}
+    OwnPasswordInput:
+      type: object
+      additionalProperties: false
+      required: [currentPassword, password]
+      properties:
+        currentPassword: {type: string, maxLength: 128}
+        password: {type: string, minLength: 12, maxLength: 128}
+    RecoveryPasswordInput:
+      type: object
+      additionalProperties: false
+      required: [username, recoveryCode, password]
+      properties:
+        username: {type: string, minLength: 3, maxLength: 64}
+        recoveryCode: {type: string, minLength: 43, maxLength: 43}
+        password: {type: string, minLength: 12, maxLength: 128}

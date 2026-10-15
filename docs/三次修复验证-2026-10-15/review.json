@@ -1,0 +1,347 @@
+{
+  "schema": 1,
+  "date": "2026-10-15",
+  "project": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8",
+  "kind": "independent_read_only_identity_boundary_review",
+  "status": "completed",
+  "scope": [
+    "Workspace/app.js",
+    "Workspace/tests/app.test.cjs",
+    "Workspace/data.js",
+    "Workspace/tests/data.test.cjs"
+  ],
+  "permissions": {
+    "productSourceModified": false,
+    "testsModified": false,
+    "deliveryDocumentsModified": false,
+    "indexModified": false,
+    "memoryModified": false,
+    "runtimeRead": false,
+    "databaseRead": false,
+    "fullGoRun": false,
+    "onlyOwnArtifact": "docs/三次修复验证-2026-10-15/review.json"
+  },
+  "preFixAssessment": {
+    "R3F01": {
+      "confirmed": true,
+      "type": "previous_authorization_client_snapshot_retention",
+      "serverAuthorizationBypassDemonstrated": false,
+      "chain": [
+        "login clears details and increments epoch but retained data/data.actor",
+        "new token/actor installed before delayed bootstrap completes",
+        "navigation render trusts server data and displays previous orders/metrics",
+        "navigation increments listRevision; applySnapshotMetadata rejects new identity because data.actor remains previous identity",
+        "loadOrders replaces orders only, leaving old actor/metrics/loans/purchases/settings"
+      ]
+    },
+    "R3F02": {
+      "confirmed": true,
+      "type": "independent_synthetic_patch_overwrite",
+      "realBackendDataAffected": false,
+      "chain": [
+        "QC/warehouse remark form omits internal remark",
+        "offline nonsensitive write calls D.apply",
+        "remark branch assigned payload.remark despite omitted field, clearing synthetic value"
+      ]
+    },
+    "adjacentRisk": {
+      "type": "pre_fix_fallback_inflight_detail_cache",
+      "chain": [
+        "enterFallback clears details but did not change epoch",
+        "completeOrder commits returned detail when captured epoch still matches",
+        "old detail can refill details map after switching into demo"
+      ],
+      "visibleLeakConfirmed": false,
+      "note": "相邻源码风险，需修复后验证；未将其扩大为已确认服务端或可见资料泄漏。"
+    }
+  },
+  "acceptanceConditions": [
+    {
+      "id": "A01",
+      "condition": "从已有服务端管理员快照开始，login 请求待返、登录失败和登录成功待 bootstrap 期间均不能显示上一个身份 orders/metrics/parts/loans/purchases/settings；旧详情、表单、账号与审计 DOM 不应保留可重新展示路径。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B01",
+        "R3/B05",
+        "R3-F01/T05"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A02",
+      "condition": "新身份 bootstrap 延迟时分别导航 orders/tasks/finance/inventory/settings，且分页先于 bootstrap 或 bootstrap 先于分页；最终 data.actor、metrics 和列表都必须归属新身份，不能只修列表。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B02",
+        "R3-F01/T05"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A03",
+      "condition": "同一请求 epoch 内，bootstrap.actor 的 id/role/companyId/authVersion 必须与可信登录身份相符；错误 2xx 不可替换身份或并入分页。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B04",
+        "R3/T03"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A04",
+      "condition": "非401读取失败后保留可信会话锚点，独立演示显示 actor 不能冒充该锚点；后续有效刷新应自动回真数据，不能因 synthetic actor 与真实 actor 不同而永久演示。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B03",
+        "R3/B07"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A05",
+      "condition": "退出、保存合法连接、openDemo 与进入 fallback 应阻止旧 bootstrap/list/detail/accounts/audit/export/download 和表单附件异步结果回填或继续释放原身份内容；非法连接输入不得改变现行身份。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B06",
+        "F10",
+        "切换身份或环境后迟到写响应",
+        "连接设置拒绝跨源"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A06",
+      "condition": "连续两次身份切换，较早登录/首屏成功、失败或超时均不得覆盖当前身份；同ID但企业/角色/authVersion变化也按授权变化处理。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B08",
+        "R3/T04",
+        "R3/B04"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A07",
+      "condition": "未知写入仍保留原请求意图核对合同，请求键按原身份隔离，不以清缓存为由生成新键自动重放；真实表单与签名/附件不被复制成演示事实。",
+      "status": "final_source_review_consistent",
+      "formalTestCoverage": [
+        "R3/B10",
+        "F06",
+        "F04"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试",
+      "scopeNote": "已核对本修复未在clearSessionViews中清除请求键，B10验证同一身份未知公司配置保存跨回退/恢复的原键；不同身份后端请求作用域沿用原合同，未在本专项重跑资金/库存或全Go。"
+    },
+    {
+      "id": "A08",
+      "condition": "独立QC/仓库只改customerNote省略remark时保留原值；授权角色显式空串可清空，未授权内部remark省略/空串保留、非空拒绝，与服务器patch语义一致。",
+      "status": "final_source_review_consistent",
+      "source": [
+        {
+          "file": "Workspace/data.js",
+          "line": 889,
+          "symbol": "apply/remark"
+        },
+        {
+          "file": "Workspace/data.js",
+          "line": 714,
+          "symbol": "apply role gate"
+        }
+      ],
+      "evidence": {
+        "file": "docs/三次修复验证-2026-10-15/demo-summary.json",
+        "authorRun": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0
+        },
+        "independentRerun": false,
+        "sourceHashesMatch": true
+      },
+      "formalTestCoverage": [
+        "R3-F02/T10",
+        "data新增6项patch保护"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    },
+    {
+      "id": "A09",
+      "condition": "login 请求待返期间新开的独立演示新建/采购/附件表单，在验证成功建立真实会话时必须失效；其旧回调与FileReader不得在新token下提交，须重新打开核对。",
+      "status": "final_source_review_consistent",
+      "preFixSourceChain": [
+        "login开始清理后，authenticating期间仍可打开demo modal并捕获该epoch",
+        "login成功安装新token但旧版本不再清理该间隙formRevision/epoch",
+        "modal提交仅检查epoch/formRevision，createForm/globalForm可使用新token发送等待期合成输入"
+      ],
+      "ownerNotified": true,
+      "ownerConfirmed": true,
+      "note": "属于本次身份边界相邻缺口；作者已确认并正在补修，尚未记为完成。",
+      "formalTestCoverage": [
+        "R3/B11",
+        "R3/B12"
+      ],
+      "validationMode": "独立源码审查＋正式保护用例内容核对＋作者已保存日志/哈希复核；本审查者未重复执行测试"
+    }
+  ],
+  "method": [
+    "任务前扫描相关永久记忆，已读取项目规约及代码地图。",
+    "CodeGraph优先读取login/refresh/applySnapshotMetadata/loadOrders/openDemo/enterFallback/request/settingsMetadata/loadAudit/completeOrder/previewFile。",
+    "未命名logout/connection事件闭包使用限定rg片段补查；未运行服务或全套测试。",
+    "已向源码负责代理和root发送边界建议；等待实现冻结后独立复核。"
+  ],
+  "limitations": [
+    "本次为已冻结源码与正式保护用例、作者日志和哈希的独立只读复核；审查者未重复执行全Go、网页或真实浏览器。",
+    "root的94正式网页、原10外部、HTTP6及真实浏览器结果仅作为主任务已报告状态列出，准确执行证据以root交付为准。",
+    "未读取业务.runtime、原数据库、真实凭据，未启动服务/Docker，未修改产品、正式测试、交付文档、索引或永久记忆。",
+    "本结论限定R3-F01身份切换/快照/导航/缓存及R3-F02备注patch，不代表全部角色生产验收或完整PRD验收。"
+  ],
+  "partialReview": {
+    "R3F02": {
+      "status": "consistent_with_target_patch_contract",
+      "sourceFrozenByAuthor": true,
+      "notes": [
+        "仅在克隆工单上操作；类型/权限拒绝前不会修改原台账。",
+        "字段独立更新，授权明确空串清空；QC/仓库省略/null/空内部字段保留。"
+      ],
+      "hashes": [
+        {
+          "file": "Workspace/data.js",
+          "actual": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222",
+          "expected": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222"
+        },
+        {
+          "file": "Workspace/tests/data.test.cjs",
+          "actual": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b",
+          "expected": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+        }
+      ]
+    }
+  },
+  "completedAt": "2026-10-15T11:03:16.773Z",
+  "outcome": {
+    "blockingFindings": [],
+    "newConfirmedDefects": [],
+    "conclusion": "已冻结修复代码在本次限定身份/缓存边界中未发现新的阻断问题。R3-F01旧快照残留、R3-F02合成备注patch及增量A09等待期表单边界的源码保护一致；不将源码推断写为新增已实测缺陷。",
+    "serverAuthorizationClaim": "R3-F01为旧客户端授权快照残留，不声称已证实服务端越权；真实HTTP与全套结论由root独立记录。"
+  },
+  "finalSourceReview": {
+    "hashesMatch": true,
+    "hashes": [
+      {
+        "file": "Workspace/app.js",
+        "sha256": "4806a5f360763fa0005f3ddff2565f24d736fbe91dd54ef560e67f9065937247",
+        "expected": "4806a5f360763fa0005f3ddff2565f24d736fbe91dd54ef560e67f9065937247"
+      },
+      {
+        "file": "Workspace/tests/app.test.cjs",
+        "sha256": "f6900d11da292ac9717d35fcf835fb7a726d8f44f7db401d1c71b8c11367202c",
+        "expected": "f6900d11da292ac9717d35fcf835fb7a726d8f44f7db401d1c71b8c11367202c"
+      },
+      {
+        "file": "Workspace/data.js",
+        "sha256": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222",
+        "expected": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222"
+      },
+      {
+        "file": "Workspace/tests/data.test.cjs",
+        "sha256": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b",
+        "expected": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+      }
+    ],
+    "implementation": [
+      {
+        "file": "Workspace/app.js",
+        "line": 666,
+        "symbol": "sameSessionActor",
+        "result": "可信sessionActor/token及active状态，逐项比对id/role/companyId/authVersion；不以独立演示显示actor作为恢复锚点。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 676,
+        "symbol": "clearSessionViews",
+        "result": "撤销表单/详情/metadata/audit票据，清selectedId、详情map及请求map，关闭弹窗并清settings/account/audit/detail/form DOM和toast。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 702,
+        "symbol": "emptyServerSnapshot",
+        "result": "新身份bootstrap待返期间orders/库存/借还/采购/settings及metrics均为空/零；snapshotReady拦截公司配置占位保存。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 722,
+        "symbol": "enterFallback",
+        "result": "递增epoch并清票据，旧读取不能回填；401清token/sessionActor；非401保留可信会话以支持后续刷新恢复。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 1511,
+        "symbol": "applySnapshotMetadata",
+        "result": "校验当前可信身份；导航只取代分页时可应用新metadata，demo恢复只保留空列表，避免把合成记录挂入真身份。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 1529,
+        "symbol": "refresh",
+        "result": "认证等待期不发旧授权首屏；bootstrap完整提交与导航metadata分支均检查可信身份；epoch/listRevision/refreshJob防反序覆盖。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 1612,
+        "symbol": "login",
+        "result": "请求发出前立即清旧快照/会话/DOM；成功验证后再次递增epoch并清等待期票据，随后安装新token/锚点/空快照。失败不回放旧高权限数据。"
+      },
+      {
+        "file": "Workspace/app.js",
+        "line": 1669,
+        "symbol": "openDemo",
+        "result": "清token/sessionActor并撤旧读取票据；logout调用先发旧会话请求再进入该路径，合法连接保存也进入该路径；非法地址在身份变更前拒绝。"
+      },
+      {
+        "file": "Workspace/data.js",
+        "line": 889,
+        "symbol": "apply/remark",
+        "result": "字段独立patch；省略/null保留；授权显式空串清空；QC/仓库内部空串保留、非空拒绝。克隆对象在拒绝时不修改原台账。"
+      }
+    ],
+    "A09": {
+      "source": {
+        "file": "Workspace/app.js",
+        "line": 1644
+      },
+      "formalTests": [
+        {
+          "file": "Workspace/tests/app.test.cjs",
+          "line": 2017,
+          "name": "R3/B11"
+        },
+        {
+          "file": "Workspace/tests/app.test.cjs",
+          "line": 2046,
+          "name": "R3/B12"
+        }
+      ],
+      "result": "成功验证登录后再递增epoch，等待期modal的oldSubmit和附件FileReader均必须重新核对，不使用新账号发送旧输入。",
+      "classification": "相邻源码风险由作者确认并已补正式保护；本独立专项未另运行浏览器复现。"
+    }
+  },
+  "validationEvidence": {
+    "independentTestsRun": false,
+    "authorWorkspaceLog": "docs/三次修复验证-2026-10-15/frontend-workspace-tests.log",
+    "authorSummary": "docs/三次修复验证-2026-10-15/frontend-summary.json",
+    "authorCounts": {
+      "app": 54,
+      "data": 14,
+      "workspace": 68,
+      "fail": 0
+    },
+    "demoSummary": "docs/三次修复验证-2026-10-15/demo-summary.json",
+    "logTailVerified": "Workspace tests=68 pass=68 fail=0 skipped=0 exit=0",
+    "rootReportedAdditionalValidation": {
+      "formalWeb": 94,
+      "externalDiagnostics": 10,
+      "httpGroups": 6,
+      "realBrowser": "通过；root独立保存证据，本review不替代该执行记录"
+    }
+  }
+}

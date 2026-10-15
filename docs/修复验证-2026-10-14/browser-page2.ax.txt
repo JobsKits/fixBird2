@@ -1,0 +1,653 @@
+Browser tab: 6, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18040/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18040/
+	1 container
+		2 link Description: 啄木鸟维修平台 啄木鸟 维修协同平台, Value: 127.0.0.1:18040/
+		3 text 公司工作空间 V3.8
+		4 container 工作空间导航
+			5 button ▦ 工单工作台 48
+				6 text ▦
+				7 text 工单工作台
+				1141 text 48
+			9 button ☷ 我的待办 50
+				10 text ☷
+				11 text 我的待办
+				1142 text 50
+			13 button ¥ 现金与票据
+				14 text ¥
+				15 text 现金与票据
+			16 button ▣ 库存与借还
+				17 text ▣
+				18 text 库存与借还
+			19 button ⚙ 账号与连接
+				20 text ⚙
+				21 text 账号与连接
+		22 text 本机业务框架 人工确认 · 全程留痕
+	23 container
+		24 text 工作空间  /
+		192 text 工单工作台
+		1143 text 服务端数据
+		27 button Description: 重新加载, ID: refresh
+		28 button 系 公司负责人 ⌄, ID: accountButton
+			1144 text 系
+			1145 text 公司负责人
+			31 text ⌄
+	32 container mainContent
+		33 container
+			34 text OPERATIONS WORKSPACE
+			35 heading 每一张工单，都有下一步。, Value: 1, ID: pageTitle
+				196 text 每一张工单，都有下一步。
+			197 text 从受理到整单完结，业务进度、资料票款与责任人一目了然。
+			38 button ＋ 新建工单, ID: createOrder
+		39 text 服务端已连接 · 所有数据按当前账号权限返回，保存后自动刷新。
+		40 container Description: 经营概览, ID: metrics
+			1146 container
+				1147 text 进行中工单 ▦ 48 当前授权范围 全链路跟踪至整单完结
+			1148 container
+				1149 text 结算待办理 ☷ 2 当前授权范围 资料 · 票据 · 现金及余项
+			1150 container
+				1151 text 客户待收款 ¥ ¥4,920.00 当前授权范围 仅计入财务核实净收款
+			1152 container
+				1153 text 待完结确认 ✓ 1 当前授权范围 负责人一次核对确认
+		206 container ordersView
+			207 heading 工单列表 48, Value: 2
+				208 text 工单列表
+				1154 text 48
+			210 text 同时查看主阶段与资料、票据和回款进度
+			211 button ↓ 导出清单, ID: exportOrders
+			212 container quickFilters
+				213 button 全部工单
+				214 button 我负责的
+				215 button 结算中
+				216 button 待完结确认
+				217 button 有未解决异议 0
+					218 text 有未解决异议 
+					1155 text 0
+			220 container filterForm
+				221 container
+					222 text ⌕
+					223 text field (settable) ⌕, ID: search
+				224 container
+					225 text 主阶段
+					226 pop up button (collapsed, settable) 主阶段, Value: 全部主阶段, ID: statusFilter, Secondary Actions: Expand
+						227 menu
+							228 (selected) 全部主阶段
+							229 待受理
+							230 待安排
+							231 检测 / 报价中
+							232 待客户确认
+							233 待执行
+							234 维修中
+							235 待质检
+							236 待交付
+							237 待验收
+							238 结算中
+							239 待完结确认
+							240 已完结
+				241 container
+					242 text 付款资料
+					243 pop up button (collapsed, settable) 付款资料, Value: 全部资料进度, ID: documentFilter, Secondary Actions: Expand
+						244 menu
+							245 (selected) 全部资料进度
+							246 资料待办理
+							247 已发送
+							248 无需资料
+				249 container
+					250 text 客户回款
+					251 pop up button (collapsed, settable) 客户回款, Value: 全部回款, ID: paymentFilter, Secondary Actions: Expand
+						252 menu
+							253 (selected) 全部回款
+							254 仍有待收
+							255 现金待核实
+							256 已结清
+				257 button 重置, ID: clearFilters
+			258 table
+				259 row
+					260 cell
+						261 text 工单 / 客户
+					262 cell
+						263 text 主阶段 / 履约结果
+					264 cell
+						265 text 付款资料
+					266 cell
+						267 text 票据进度
+					268 cell
+						269 text 核实收款 / 应收
+					270 cell
+						271 text 待收
+					272 cell
+						273 text 下一步 / 责任人
+				274 container ordersBody
+					1156 row
+						1157 cell
+							1158 text ZM20261014-22F77F
+							1159 text 合成分页客户
+							1160 text 合成设备 10 寄修
+						1161 cell
+							1162 container
+								1163 text 待受理
+							1164 text 履约进行中
+						1165 cell
+							1166 button 待确认需求
+								1167 text 待确认需求
+							1168 text 资料包 v1
+						1169 cell
+							1170 button 待确认需求
+								1171 text 待确认需求
+							1172 text ¥0.00 / ¥0.00
+						1173 cell
+							1174 container
+								1175 text ¥0.00  / ¥0.00
+							1176 text 应收待确认
+						1177 cell
+							1178 text ¥0.00
+						1179 cell
+							1180 text 客服确认受理
+							1181 text 负责人待安排 · 10/14 03:45
+						1182 cell
+							1183 button 办理 →
+					1184 row
+						1185 cell
+							1186 text ZM20261014-D56271
+							1187 text 合成分页客户
+							1188 text 合成设备 9 寄修
+						1189 cell
+							1190 container
+								1191 text 待受理
+							1192 text 履约进行中
+						1193 cell
+							1194 button 待确认需求
+								1195 text 待确认需求
+							1196 text 资料包 v1
+						1197 cell
+							1198 button 待确认需求
+								1199 text 待确认需求
+							1200 text ¥0.00 / ¥0.00
+						1201 cell
+							1202 container
+								1203 text ¥0.00  / ¥0.00
+							1204 text 应收待确认
+						1205 cell
+							1206 text ¥0.00
+						1207 cell
+							1208 text 客服确认受理
+							1209 text 负责人待安排 · 10/14 03:45
+						1210 cell
+							1211 button 办理 →
+					1212 row
+						1213 cell
+							1214 text ZM20261014-292BB3
+							1215 text 合成分页客户
+							1216 text 合成设备 8 寄修
+						1217 cell
+							1218 container
+								1219 text 待受理
+							1220 text 履约进行中
+						1221 cell
+							1222 button 待确认需求
+								1223 text 待确认需求
+							1224 text 资料包 v1
+						1225 cell
+							1226 button 待确认需求
+								1227 text 待确认需求
+							1228 text ¥0.00 / ¥0.00
+						1229 cell
+							1230 container
+								1231 text ¥0.00  / ¥0.00
+							1232 text 应收待确认
+						1233 cell
+							1234 text ¥0.00
+						1235 cell
+							1236 text 客服确认受理
+							1237 text 负责人待安排 · 10/14 03:45
+						1238 cell
+							1239 button 办理 →
+					1240 row
+						1241 cell
+							1242 text ZM20261014-57DC62
+							1243 text 合成分页客户
+							1244 text 合成设备 7 寄修
+						1245 cell
+							1246 container
+								1247 text 待受理
+							1248 text 履约进行中
+						1249 cell
+							1250 button 待确认需求
+								1251 text 待确认需求
+							1252 text 资料包 v1
+						1253 cell
+							1254 button 待确认需求
+								1255 text 待确认需求
+							1256 text ¥0.00 / ¥0.00
+						1257 cell
+							1258 container
+								1259 text ¥0.00  / ¥0.00
+							1260 text 应收待确认
+						1261 cell
+							1262 text ¥0.00
+						1263 cell
+							1264 text 客服确认受理
+							1265 text 负责人待安排 · 10/14 03:45
+						1266 cell
+							1267 button 办理 →
+					1268 row
+						1269 cell
+							1270 text ZM20261014-8E0298
+							1271 text 合成分页客户
+							1272 text 合成设备 6 寄修
+						1273 cell
+							1274 container
+								1275 text 待受理
+							1276 text 履约进行中
+						1277 cell
+							1278 button 待确认需求
+								1279 text 待确认需求
+							1280 text 资料包 v1
+						1281 cell
+							1282 button 待确认需求
+								1283 text 待确认需求
+							1284 text ¥0.00 / ¥0.00
+						1285 cell
+							1286 container
+								1287 text ¥0.00  / ¥0.00
+							1288 text 应收待确认
+						1289 cell
+							1290 text ¥0.00
+						1291 cell
+							1292 text 客服确认受理
+							1293 text 负责人待安排 · 10/14 03:45
+						1294 cell
+							1295 button 办理 →
+					1296 row
+						1297 cell
+							1298 text ZM20261014-308883
+							1299 text 合成分页客户
+							1300 text 合成设备 5 寄修
+						1301 cell
+							1302 container
+								1303 text 待受理
+							1304 text 履约进行中
+						1305 cell
+							1306 button 待确认需求
+								1307 text 待确认需求
+							1308 text 资料包 v1
+						1309 cell
+							1310 button 待确认需求
+								1311 text 待确认需求
+							1312 text ¥0.00 / ¥0.00
+						1313 cell
+							1314 container
+								1315 text ¥0.00  / ¥0.00
+							1316 text 应收待确认
+						1317 cell
+							1318 text ¥0.00
+						1319 cell
+							1320 text 客服确认受理
+							1321 text 负责人待安排 · 10/14 03:45
+						1322 cell
+							1323 button 办理 →
+					1324 row
+						1325 cell
+							1326 text ZM20261014-4D959E
+							1327 text 合成分页客户
+							1328 text 合成设备 4 寄修
+						1329 cell
+							1330 container
+								1331 text 待受理
+							1332 text 履约进行中
+						1333 cell
+							1334 button 待确认需求
+								1335 text 待确认需求
+							1336 text 资料包 v1
+						1337 cell
+							1338 button 待确认需求
+								1339 text 待确认需求
+							1340 text ¥0.00 / ¥0.00
+						1341 cell
+							1342 container
+								1343 text ¥0.00  / ¥0.00
+							1344 text 应收待确认
+						1345 cell
+							1346 text ¥0.00
+						1347 cell
+							1348 text 客服确认受理
+							1349 text 负责人待安排 · 10/14 03:45
+						1350 cell
+							1351 button 办理 →
+					1352 row
+						1353 cell
+							1354 text ZM20261014-6366F3
+							1355 text 合成分页客户
+							1356 text 合成设备 3 寄修
+						1357 cell
+							1358 container
+								1359 text 待受理
+							1360 text 履约进行中
+						1361 cell
+							1362 button 待确认需求
+								1363 text 待确认需求
+							1364 text 资料包 v1
+						1365 cell
+							1366 button 待确认需求
+								1367 text 待确认需求
+							1368 text ¥0.00 / ¥0.00
+						1369 cell
+							1370 container
+								1371 text ¥0.00  / ¥0.00
+							1372 text 应收待确认
+						1373 cell
+							1374 text ¥0.00
+						1375 cell
+							1376 text 客服确认受理
+							1377 text 负责人待安排 · 10/14 03:45
+						1378 cell
+							1379 button 办理 →
+					1380 row
+						1381 cell
+							1382 text ZM20261014-A8EB14
+							1383 text 合成分页客户
+							1384 text 合成设备 2 寄修
+						1385 cell
+							1386 container
+								1387 text 待受理
+							1388 text 履约进行中
+						1389 cell
+							1390 button 待确认需求
+								1391 text 待确认需求
+							1392 text 资料包 v1
+						1393 cell
+							1394 button 待确认需求
+								1395 text 待确认需求
+							1396 text ¥0.00 / ¥0.00
+						1397 cell
+							1398 container
+								1399 text ¥0.00  / ¥0.00
+							1400 text 应收待确认
+						1401 cell
+							1402 text ¥0.00
+						1403 cell
+							1404 text 客服确认受理
+							1405 text 负责人待安排 · 10/14 03:45
+						1406 cell
+							1407 button 办理 →
+					1408 row
+						1409 cell
+							1410 text ZM20261014-5770EB
+							1411 text 合成分页客户
+							1412 text 合成设备 1 寄修
+						1413 cell
+							1414 container
+								1415 text 待受理
+							1416 text 履约进行中
+						1417 cell
+							1418 button 待确认需求
+								1419 text 待确认需求
+							1420 text 资料包 v1
+						1421 cell
+							1422 button 待确认需求
+								1423 text 待确认需求
+							1424 text ¥0.00 / ¥0.00
+						1425 cell
+							1426 container
+								1427 text ¥0.00  / ¥0.00
+							1428 text 应收待确认
+						1429 cell
+							1430 text ¥0.00
+						1431 cell
+							1432 text 客服确认受理
+							1433 text 负责人待安排 · 10/14 03:45
+						1434 cell
+							1435 button 办理 →
+					1436 row
+						1437 cell
+							1438 text ZM20261013-0008
+							1439 text 青禾物业（合成）
+							1440 text 温度传感器 销售
+						1441 cell
+							1442 container
+								1443 text 待受理
+							1444 text 履约进行中
+						1445 cell
+							1446 button 待确认需求
+								1447 text 待确认需求
+							1448 text 资料包 v1
+						1449 cell
+							1450 button 待确认需求
+								1451 text 待确认需求
+							1452 text ¥0.00 / ¥0.00
+						1453 cell
+							1454 container
+								1455 text ¥0.00  / ¥0.00
+							1456 text 应收待确认
+						1457 cell
+							1458 text ¥0.00
+						1459 cell
+							1460 text 客服确认受理
+							1461 text dispatcher · 10/12 03:44
+						1462 cell
+							1463 button 办理 →
+					1464 row
+						1465 cell
+							1466 text ZM20261013-0007
+							1467 text 海棠物业管理有限公司（合成）
+							1468 text 停产控制模块 寄修
+						1469 cell
+							1470 container
+								1471 text 结算中
+							1472 text 履约进行中 · 未起保
+						1473 cell
+							1474 button 无需，已确认
+								1475 text 无需，已确认
+							1476 text 需求已确认
+						1477 cell
+							1478 button 无需，已确认
+								1479 text 无需，已确认
+							1480 text 需求已确认
+						1481 cell
+							1482 container
+								1483 text ¥0.00  / ¥0.00
+							1484 text 已结清
+						1485 cell
+							1486 text ¥0.00
+						1487 cell
+							1488 text 待办：核实设备退件及客户实收
+							1489 text dispatcher · 10/12 03:44
+						1490 cell
+							1491 button 办理 →
+					1492 row
+						1493 cell
+							1494 text ZM20261013-0006
+							1495 text 海棠物业管理有限公司（合成）
+							1496 text 门禁控制板 寄修
+						1497 cell
+							1498 container
+								1499 text 待完结确认
+							1500 text 已验收 · 质保中
+						1501 cell
+							1502 button 无需，已确认
+								1503 text 无需，已确认
+							1504 text 需求已确认
+						1505 cell
+							1506 button 无需，已确认
+								1507 text 无需，已确认
+							1508 text 需求已确认
+						1509 cell
+							1510 container
+								1511 text ¥500.00  / ¥500.00
+							1512 text 已结清
+						1513 cell
+							1514 text ¥0.00
+						1515 cell
+							1516 text 负责人核对并确认整单完结
+							1517 text dispatcher · 10/12 03:44
+						1518 cell
+							1519 button 办理 →
+					1520 row
+						1521 cell
+							1522 text ZM20261013-0005
+							1523 text 海棠物业管理有限公司（合成）
+							1524 text 消防报警控制主机 寄修
+						1525 cell
+							1526 container
+								1527 text 结算中
+							1528 text 已验收 · 质保中
+						1529 cell
+							1530 button 已做未送
+								1531 text 已做未送
+							1532 text 资料包 v1
+						1533 cell
+							1534 button 未开
+								1535 text 未开
+							1536 text ¥0.00 / ¥3,000.00
+						1537 cell
+							1538 container
+								1539 text ¥1,000.00  / ¥3,000.00
+							1540 text 部分 / 尚未收款
+						1541 cell
+							1542 text ¥2,000.00
+						1543 cell
+							1544 text 客户账款未收齐；付款资料尚未发送；发票金额或附件未满足
+							1545 text dispatcher · 10/12 03:44
+						1546 cell
+							1547 button 办理 →
+					1548 row
+						1549 cell
+							1550 text ZM20261013-0004
+							1551 text 海棠物业管理有限公司（合成）
+							1552 text 24V 电源模块 × 2 销售
+						1553 cell
+							1554 container
+								1555 text 检测 / 报价中
+							1556 text 履约进行中
+						1557 cell
+							1558 button 待确认需求
+								1559 text 待确认需求
+							1560 text 资料包 v1
+						1561 cell
+							1562 button 待确认需求
+								1563 text 待确认需求
+							1564 text ¥0.00 / ¥0.00
+						1565 cell
+							1566 container
+								1567 text ¥0.00  / ¥960.00
+							1568 text 部分 / 尚未收款
+						1569 cell
+							1570 text ¥960.00
+						1571 cell
+							1572 text 检测／询价并审核报价
+							1573 text dispatcher · 10/12 03:44
+						1574 cell
+							1575 button 办理 →
+					1576 row
+						1577 cell
+							1578 text ZM20261013-0003
+							1579 text 海棠物业管理有限公司（合成）
+							1580 text 排污泵控制系统 上门
+						1581 cell
+							1582 container
+								1583 text 维修中
+							1584 text 履约进行中
+						1585 cell
+							1586 button 待确认需求
+								1587 text 待确认需求
+							1588 text 资料包 v1
+						1589 cell
+							1590 button 待确认需求
+								1591 text 待确认需求
+							1592 text ¥0.00 / ¥0.00
+						1593 cell
+							1594 container
+								1595 text ¥0.00  / ¥680.00
+							1596 text 部分 / 尚未收款
+						1597 cell
+							1598 text ¥680.00
+						1599 cell
+							1600 text 执行维修并提交完工
+							1601 text dispatcher · 10/12 03:44
+						1602 cell
+							1603 button 办理 →
+					1604 row
+						1605 cell
+							1606 text ZM20261013-0002
+							1607 text 海棠物业管理有限公司（合成）
+							1608 text 工业控制主板 寄修
+						1609 cell
+							1610 container
+								1611 text 待客户确认
+							1612 text 履约进行中
+						1613 cell
+							1614 button 待确认需求
+								1615 text 待确认需求
+							1616 text 资料包 v1
+						1617 cell
+							1618 button 待确认需求
+								1619 text 待确认需求
+							1620 text ¥0.00 / ¥0.00
+						1621 cell
+							1622 container
+								1623 text ¥0.00  / ¥1,280.00
+							1624 text 部分 / 尚未收款
+						1625 cell
+							1626 text ¥1,280.00
+						1627 cell
+							1628 text 客户签署当前报价
+							1629 text dispatcher · 10/12 03:44
+						1630 cell
+							1631 button 办理 →
+					1632 row
+						1633 cell
+							1634 text ZM20261013-0001
+							1635 text 海棠物业管理有限公司（合成）
+							1636 text 变频水泵控制柜 上门
+						1637 cell
+							1638 container
+								1639 text 待受理
+							1640 text 履约进行中
+						1641 cell
+							1642 button 待确认需求
+								1643 text 待确认需求
+							1644 text 资料包 v1
+						1645 cell
+							1646 button 待确认需求
+								1647 text 待确认需求
+							1648 text ¥0.00 / ¥0.00
+						1649 cell
+							1650 container
+								1651 text ¥0.00  / ¥0.00
+							1652 text 应收待确认
+						1653 cell
+							1654 text ¥0.00
+						1655 cell
+							1656 text 客服确认受理
+							1657 text dispatcher · 10/12 03:44
+						1658 cell
+							1659 button 办理 →
+			1660 text 本页 18 条 / 共 48 张工单
+			1116 text 金额以财务核实事实为准
+			1117 container orderPagination
+				1661 text 按工单分页 · 共 48 张 · 第 2 / 2 页
+				1662 button 上一页
+				1663 button (disabled) 下一页
+			1121 container
+				1122 heading 当前关注, Value: 2
+					1123 text 当前关注
+				1124 button 查看待办 →
+				1125 container attentionList
+					1664 text ✓
+					1665 text 负责人核对并确认整单完结
+					1666 text ZM20261013-0006 · 海棠物业管理有限公司（合成）
+					1667 text 查看 → ◷
+					1668 text 客服确认受理
+					1669 text ZM20261014-22F77F · 合成分页客户
+					1670 text 查看 → ◷
+					1671 text 客服确认受理
+					1672 text ZM20261014-D56271 · 合成分页客户
+					1673 text 查看 →
+			1136 container
+				1137 text ONE ORDER · ONE JOURNEY
+				1138 heading 验收之后，继续跟到整单完结。, Value: 2
+					1139 text 验收之后，继续跟到整单完结。
+				1140 text 所需资料发出、真实票据齐备、现金核实及内部余项办妥，再由负责人一次确认。 待验收 → 结算中 → 待完结确认 → 已完结 完结不终止有效质保。失败、取消也继续跟踪退款与退件。
+	188 container
+		189 text 啄木鸟维修协同平台 第一阶段 · 现金登记与人工确认
+
+The focused UI element is 0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18040/

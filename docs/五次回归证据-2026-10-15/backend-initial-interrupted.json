@@ -1,0 +1,12 @@
+{
+  "reason": "Stopped own diagnostic processes to cache immutable seed fixture and sessions; all business assertions unchanged. Full uncached seed PBKDF work under parallel race suites was needlessly repeated.",
+  "pids": [
+    79083,
+    79137,
+    79556
+  ],
+  "temporaryRoot": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-r5-backend-v31wmz",
+  "temporaryRemoved": true,
+  "ownedGoBuildDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/go-build3766040769",
+  "ownedGoBuildDirectoryRemoved": true
+}

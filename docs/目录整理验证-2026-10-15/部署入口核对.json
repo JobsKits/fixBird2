@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-15",
+  "scope": "Read-only post-reorganization deployment review; only this evidence JSON is written",
+  "performedThisReview": true,
+  "actualMethods": {
+    "syntax": "spawnSync /bin/zsh -n on moved launcher; no execution",
+    "paths": "Read current launcher source, remove only final main invocation, evaluate definitions in isolated zsh, call prepare_display_context/configure_paths for direct entry and root symlink, assert root/defaults/relative overrides and source/page existence. Never call initialize_runtime/check_environment/build_workbench/run_workbench.",
+    "documents": "Read exactly19 deployment Markdown files; check local links, explicit anchor IDs, duplicate IDs and fenced-code closure. Scan current docs/script/root snapshots for old Server/Workspace path words and unsupported platform implementation claims.",
+    "buildExamples": "Static resolution of Go -C module path plus -o relative output; no Go build or execution. Caller remains document/project root for WB_WEB_DIR and runtime invocation."
+  },
+  "syntax": {
+    "command": [
+      "/bin/zsh",
+      "-n",
+      "后端/部署/macOS/deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "paths": {
+    "exitCode": 0,
+    "stdout": "PASS /Users/jobs/Desktop/啄木鸟维修平台-V3.8/后端/部署/macOS/deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command\nPROJECT_DIR=/Users/jobs/Desktop/啄木鸟维修平台-V3.8\nWB_DATA_DIR=/Users/jobs/Desktop/啄木鸟维修平台-V3.8/.runtime/data\nWB_WEB_DIR=/Users/jobs/Desktop/啄木鸟维修平台-V3.8/前端/Web网页/维修工作台\nPASS /Users/jobs/Desktop/啄木鸟维修平台-V3.8/【MacOS】启动维修工作台.command\nPROJECT_DIR=/Users/jobs/Desktop/啄木鸟维修平台-V3.8\nWB_DATA_DIR=/Users/jobs/Desktop/啄木鸟维修平台-V3.8/.runtime/data\nWB_WEB_DIR=/Users/jobs/Desktop/啄木鸟维修平台-V3.8/前端/Web网页/维修工作台\nPASS relative overrides\n",
+    "stderr": "",
+    "directAndSymlinkResolveProjectRoot": true,
+    "customRelativeStorageKeyBackupPreserved": true,
+    "symlinkTarget": "后端/部署/macOS/deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+    "scriptMode": "755"
+  },
+  "structure": [
+    {
+      "system": "Linux/Ubuntu",
+      "children": [
+        "deployment",
+        "undeployment",
+        "部署文档.md"
+      ],
+      "document": true,
+      "deployment": true,
+      "undeployment": true
+    },
+    {
+      "system": "Linux/Debian",
+      "children": [
+        "deployment",
+        "undeployment",
+        "部署文档.md"
+      ],
+      "document": true,
+      "deployment": true,
+      "undeployment": true
+    },
+    {
+      "system": "Linux/RockyLinux",
+      "children": [
+        "deployment",
+        "undeployment",
+        "部署文档.md"
+      ],
+      "document": true,
+      "deployment": true,
+      "undeployment": true
+    },
+    {
+      "system": "Linux/AlibabaCloudLinux",
+      "children": [
+        "deployment",
+        "undeployment",
+        "部署文档.md"
+      ],
+      "document": true,
+      "deployment": true,
+      "undeployment": true
+    },
+    {
+      "system": "Windows",
+      "children": [
+        "deployment",
+        "undeployment",
+        "部署文档.md"
+      ],
+      "document": true,
+      "deployment": true,
+      "undeployment": true
+    },
+    {
+      "system": "macOS",
+      "children": [
+        "deployment",
+        "undeployment",
+        "部署文档.md"
+      ],
+      "document": true,
+      "deployment": true,
+      "undeployment": true
+    }
+  ],
+  "structurePassed": true,
+  "documents": {
+    "count": 19,
+    "relativeLinks": 68,
+    "failures": [],
+    "oldPathHits": [],
+    "unsubstantiatedImplementationClaims": [],
+    "hashes": {
+      "后端/部署/Linux/Ubuntu/部署文档.md": "a6c47b739faecfd9c9f3948552817cf01433e7397581391efa653c8e93f92a4c",
+      "后端/部署/Linux/Ubuntu/deployment/README.md": "6e20efa42fb08bfe411ba38229be262018c7b8eac16c8068b77ac6d0fbb7c152",
+      "后端/部署/Linux/Ubuntu/undeployment/README.md": "94c3775f1c6c5d6fb74be951bb5474225c67b77eb5ce4cbff4757dcfb5f85904",
+      "后端/部署/Linux/Debian/部署文档.md": "03d003b3570e22ba6f7d5c27fa9abceddaba6b64dea590ad79eeff10d53c6209",
+      "后端/部署/Linux/Debian/deployment/README.md": "42a18b18be4398d0bb0683824b813a09396558adf5bca3acf3b036aad8994af1",
+      "后端/部署/Linux/Debian/undeployment/README.md": "965227c70ef49be201858e77458ec99ee3d62c5bcbb7a01f3fbedb0dfd3abe6d",
+      "后端/部署/Linux/RockyLinux/部署文档.md": "30f32d7da4d6de4268091e0092e91f39a44ed0be7f8d2a14ee5f717d569a98f5",
+      "后端/部署/Linux/RockyLinux/deployment/README.md": "1041d32348c4dd9bff73a018e873966ef83e5dd6cfe91ad0b50256b0d662daf1",
+      "后端/部署/Linux/RockyLinux/undeployment/README.md": "f3fb96fe13061c62ffaf829a7979c63a95735784dde116de241cfb0519b411ae",
+      "后端/部署/Linux/AlibabaCloudLinux/部署文档.md": "43c750cd35e54be008cf255a04066454a6c73f4cd771a671b6839cbbc6ed7f2d",
+      "后端/部署/Linux/AlibabaCloudLinux/deployment/README.md": "bec9259ecce4094b0572dab4f51dd2549fe836a0af74fd9bda265ffbbfe82d1c",
+      "后端/部署/Linux/AlibabaCloudLinux/undeployment/README.md": "fad990b0214d99bac7eaf73279e02bf0a468e86fd187822778c41b1b25bd80c8",
+      "后端/部署/Windows/部署文档.md": "f252362f3cd313a288eb1734af2b730d43b0c4f10e654ce4b18544652740a4d4",
+      "后端/部署/Windows/deployment/README.md": "131129a2a13cfe142f196e0bd7716de9a6b705b03f21a6de7dfd35d0b0b65b04",
+      "后端/部署/Windows/undeployment/README.md": "1d1acc786c196cd6c68ab19047b407aab68e75fc35cf89a5cf3896ddd66e1c36",
+      "后端/部署/macOS/部署文档.md": "de377c8c19bfa7ebc090fcbca26737dc6710f99dd3a19c48bb9b98b515b4b776",
+      "后端/部署/macOS/deployment/README.md": "bd0684a6a45c4fbf559cc05e82a5e298d35227f055e7db5aac4c5666a18ba6e2",
+      "后端/部署/macOS/undeployment/README.md": "0a45346f9ca7124ab8a4b9cd4270348794dedb0e9c8f20f426f230d9231a9d0e",
+      "后端/部署/macOS/deployment/【MacOS】启动维修工作台.command/README.md": "7c976e8b0a10d01eaccfd302526518cd8363224126df17c09d357e47cfdeb275"
+    }
+  },
+  "rootDeployment": {
+    "sha256": "741485fb1dfedb327c2b0eae33e807cda223a173ed71ac24be69d0dc8653b9c6",
+    "buildChecks": [
+      {
+        "command": "go -C ./后端/Go服务端 build -o ../../.runtime/workbench ./cmd/workbench",
+        "module": "./后端/Go服务端",
+        "output": "../../.runtime/workbench",
+        "resolvedOutput": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/.runtime/workbench",
+        "expectedOutput": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/.runtime/workbench",
+        "correct": true
+      },
+      {
+        "command": "go -C ./后端/Go服务端 build -o ../../.runtime/workbench.exe ./cmd/workbench",
+        "module": "./后端/Go服务端",
+        "output": "../../.runtime/workbench.exe",
+        "resolvedOutput": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/.runtime/workbench.exe",
+        "expectedOutput": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/.runtime/workbench.exe",
+        "correct": true
+      }
+    ],
+    "webChecks": {
+      "linux": true,
+      "windows": true,
+      "resolvedFromDocumentWorkingDirectory": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/前端/Web网页/维修工作台",
+      "indexExists": true
+    },
+    "correct": true,
+    "note": "Linux and Windows outputs ../../.runtime/workbench(.exe) resolve from 后端/Go服务端 to project-root .runtime. Environment/page path and executable path resolve from caller project root; no actual cross-platform deployment performed."
+  },
+  "rootReadmeSnapshot": {
+    "sha256": "67e34c184e5523993035e2fd263607dff84c0d6d4edd8cae63f7fa848292e361",
+    "reviewedPaths": [
+      "前端/Web网页/维修工作台",
+      "后端/Go服务端",
+      "后端/部署/macOS",
+      "后端/部署/Windows",
+      "后端/部署/Linux"
+    ],
+    "note": "Read current snapshot only; another agent owns its writes."
+  },
+  "findings": [],
+  "limits": [
+    "Only deployment directory/path/document effects reviewed; prior17P2 not retested or changed.",
+    "No dependency install, service/browser/container start/stop, Go compilation or .runtime content reads/writes. Platform-specific deployment/undeployment remains reserved except existing macOS foreground launcher.",
+    "No rendered UI/Markdown preview performed by this reviewer; syntax/link/source checks are not live deployment validation."
+  ],
+  "cleanup": "Isolated zsh subprocesses exited; no listeners/temp directories created. Only docs/目录整理验证-2026-10-15/部署入口核对.json written.",
+  "passed": true
+}

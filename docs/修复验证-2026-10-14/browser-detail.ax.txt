@@ -1,0 +1,85 @@
+Browser tab: 6, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18040/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18040/
+	1 container detailDialog
+		2 container detailContent
+			3 container
+				4 text ZM20261013-0006 · VERSION 1
+				5 heading 海棠物业管理有限公司（合成） · 门禁控制板, Value: 2
+					6 text 海棠物业管理有限公司（合成） · 门禁控制板
+				7 text 待完结确认 · 已验收 · 服务端授权数据
+				8 button 关闭详情
+			9 container 工单详情
+				10 button 工单总览
+				11 button 报价与确认
+				12 button 全链路证据
+				13 button 资料 · 票据 · 现金
+				14 button 协商与上门
+				15 button 外包 · 成本 · 提成
+				16 button 借还余项
+				17 button 操作时间轴
+			18 text 待受理 待安排 检测 / 报价中 待客户确认 待执行 维修中 待质检 待交付 待验收 结算中 待完结确认 已完结
+			19 container
+				20 heading 工单信息, Value: 3
+					21 text 工单信息
+				22 definition list
+					23 container 客户 / 企业
+						24 text 客户 / 企业
+					25 text 海棠物业管理有限公司（合成）
+					26 container 设备 / 配件
+						27 text 设备 / 配件
+					28 text 门禁控制板
+					29 container 项目 / 类型
+						30 text 项目 / 类型
+					31 text 松风花园 · 控制室 · 寄修
+					32 container 故障 / 需求
+						33 text 故障 / 需求
+					34 text 资料票款均齐，等待负责人最终完结
+					35 container 负责人
+						36 text 负责人
+					37 text dispatcher / 执行 engineer
+					38 container 客户说明
+						39 text 客户说明
+					40 text 本单为开发演示样例，请勿提交真实资料。
+					41 container 内部备注
+						42 text 内部备注
+					43 text 合成样例；内部交接说明仅公司授权人员可见
+					44 container 质保
+						45 text 质保
+					46 text 质保中 · 至 01/14 03:44
+			47 container
+				48 heading 当前可办理动作, Value: 3
+					49 text 当前可办理动作
+				50 text 负责人核对并确认整单完结
+				51 text 提交本次真实事实一次，服务端同步摘要和主阶段。报价与最终验收必须由客户分别签署。
+				52 button 核对并整单完结
+				53 button 交接客户经办人
+				54 button 确认资料与开票约定
+				55 button 制作 / 发送付款资料
+				56 button 登记现金收款 / 退款
+				57 button 登记真实发票
+				58 button 编辑工单备注
+				59 button 归档证据
+				60 button 登记异议 / 协商
+				61 button 新增内部余项
+				62 button 登记外包 / 后续流向
+				63 button 登记内部成本
+				64 button 登记提成
+			65 container
+				66 heading 整单完结核对, Value: 3
+					67 text 整单完结核对
+				68 text 适用条件已齐，等待授权负责人一次确认。
+				69 content list
+					70 container
+						71 text ✓ 有效履约结果
+					72 container
+						73 text ✓ 付款资料齐备且已发送 / 确认无需
+					74 container
+						75 text ✓ 有效票据金额及附件齐备 / 确认无需
+					76 container
+						77 text ✓ 核实净收款满足应收，超收与待核实均处理
+				78 button 核对并整单完结
+			79 container
+				80 text 工单事实提交一次 · 主阶段由服务端统一判定
+				81 button 刷新当前数据 ↻
+
+The focused UI element is 1 container detailDialog

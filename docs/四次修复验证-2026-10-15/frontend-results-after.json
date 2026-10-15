@@ -1,0 +1,458 @@
+{
+  "date": "2026-10-15",
+  "mode": "read-only-external",
+  "script": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次修复验证-2026-10-15/frontend-adversarial-after.cjs",
+  "actualSource": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Workspace/app.js",
+  "tests": 22,
+  "pass": 22,
+  "fail": 0,
+  "sourceUnchanged": true,
+  "sourceHashes": {
+    "Workspace/app.js": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7",
+    "Workspace/data.js": "ba3f79d940d3c35c940d7c362c2c4fd0c7ff14c9e286f26769aa6334865ddf42",
+    "Workspace/tests/app.test.cjs": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78",
+    "Workspace/tests/data.test.cjs": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+  },
+  "results": [
+    {
+      "id": "R4-C01",
+      "title": "完整详情401后撤销会话和旧真实资料",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C02",
+      "title": "附件原件401后撤销会话和旧真实资料",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C03",
+      "title": "授权导出401后撤销会话和旧真实资料",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "导出未完成：身份或连接已切换，请重新核对。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C04",
+      "title": "业务写401后撤销会话和旧真实资料，不能显示旧账号仍已连接",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C05",
+      "title": "账号元数据401后撤销会话和旧真实资料",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C06",
+      "title": "管理员审计401后撤销会话和旧真实资料",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C07",
+      "title": "同一身份bootstrap401即使被导航列表先到也必须撤销会话",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C08",
+      "title": "新身份bootstrap失败被导航抢先时应明确回退或重试，不能保持已连接且概览永久为零",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "customer",
+        "dataActor": "customer",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C09",
+      "title": "服务返回部分坏库存2xx时可控回退，不使render抛错并留下半套真资料",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C10",
+      "title": "服务返回缺missing的详情2xx时显示可重试错误，不使详情直接抛错",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": true,
+        "detailOpen": true,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": "",
+        "detailHTML": "<button class=\"close-button\" data-close=\"detail\" aria-label=\"关闭详情\">×</button><div class=\"empty-state\"><div class=\"empty-icon\">▤</div><h3>工单详情未加载</h3><p>服务端响应格式不完整，未确认保存成功。请核对服务端结果后重试。 · 请重新加载后办理。</p><button class=\"button\" data-reload>重新加载</button></div>"
+      }
+    },
+    {
+      "id": "R4-C11",
+      "title": "403业务拒绝保留真实事实和表单，无模拟成功",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "synthetic forbidden（输入保留，未改写任何事实）"
+      }
+    },
+    {
+      "id": "R4-C12",
+      "title": "旧身份详情401迟到不能撤销新身份成功会话",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "finance",
+        "dataActor": "finance",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 财务",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C13",
+      "title": "附件读取失败时保留当前真实表单且不发送动作",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "无法读取文件。"
+      }
+    },
+    {
+      "id": "R4-C14",
+      "title": "当前列表401按既有路径撤销会话，作为401对照组",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C15",
+      "title": "当前bootstrap网络失败无导航抢先时进入独立回退，作为并发失败对照组",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C16",
+      "title": "坏JSON写响应不能提示成功或迁入演示",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "服务端响应无法解析。 未自动重放此写请求；请重新核对服务端结果。"
+      }
+    },
+    {
+      "id": "R4-C17",
+      "title": "当前有效空bootstrap和空列表正常显示空态",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 0,
+        "remainingCents": 0,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C18",
+      "title": "打开无关动作表单不应丢失公司配置未知提交的请求键",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "无法连接服务，请检查地址或启动服务。",
+        "error": "",
+        "sameIdempotencyKey": true,
+        "settingsWrites": 2
+      }
+    },
+    {
+      "id": "R4-C19",
+      "title": "超限附件在读取前本地拒绝，不发送文件和动作",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "文件不得超过 8 MB。",
+        "readerCount": 0,
+        "newCalls": 0
+      }
+    },
+    {
+      "id": "R4-C20",
+      "title": "错误授权资料被导航抢先后不被合入，随后显式刷新可恢复",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C21",
+      "title": "新身份bootstrap503被导航抢先后不应留在零概览的真实身份",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "customer",
+        "dataActor": "customer",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C22",
+      "title": "新身份bootstrap空2xx被导航抢先后不应留在零概览的真实身份",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "customer",
+        "dataActor": "customer",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "",
+        "error": ""
+      }
+    }
+  ]
+}

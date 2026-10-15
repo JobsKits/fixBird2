@@ -1,0 +1,25 @@
+{
+  "reportClientDate": "2026-10-15",
+  "ownedPortsListening": {
+    "backend18050": false,
+    "proxy18051": false,
+    "testTiDB14042": false
+  },
+  "ownedDatabaseContainerRemoved": true,
+  "browserDataKeyAndBinaryRemoved": true,
+  "browserTabsClosed": true,
+  "defaultTimeoutRestored": 2500,
+  "viewportReset": true,
+  "backendCopyRemoved": true,
+  "frontendTemporaryFilesCleaned": true,
+  "originalContainersUntouched": [
+    "repair-marketplace-api-1",
+    "repair-marketplace-tidb-1",
+    "minikube"
+  ],
+  "existingRuntimeReadOrChanged": false,
+  "documentPreview": {
+    "port18052Listening": false,
+    "tabClosed": true
+  }
+}

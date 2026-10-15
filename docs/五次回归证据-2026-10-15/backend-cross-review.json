@@ -1,0 +1,210 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "method": "只读交叉复核代理摘要、诊断源码/结果、CodeGraph当前Go与JS；本次复核未重新运行大套、未新增服务/容器/浏览器。只写本JSON。",
+  "inputs": {
+    "frontend-summary.json": "0f1a284c72df4ae98c395d04cd06e86ed76980ccbd5b19b194748629453722e5",
+    "frontend-regression.cjs": "508c00b1caba7fb851b1aad0a58d15cb8e7d8fbdab5313012f38dbfa1078853d",
+    "demo-findings.json": "8603a01c49f9c17a8013d076902d1e16adac4e0eb1e0235e2fbff598f770ea1c",
+    "demo-sequences.cjs": "ccafc9b8030cf8747ac819db9077df5dfea3c268e3eb849ef9aadd56e59633ef"
+  },
+  "frontend": [
+    {
+      "id": "R5-F01",
+      "decision": "retain",
+      "priority": "P2",
+      "scope": "错误2xx的客户端成功确认保护，不是正常Go新事务错误/真实重复资金入账。",
+      "basis": [
+        "actions.go:235校验当前版本，971-974普通成功动作统一version+1；没有不加版本的普通成功noop。",
+        "actions.go:949-967返修创建新ID子单、OriginalOrderID=父ID，返回child；父版本不能与child.version=1混比。",
+        "idempotency.go:71-79从当前工单重建幂等响应，可能已经被其它事务继续推进，因此应接受result.version>submitted.version，而非硬编码只等于+1。",
+        "最终诊断C11(+1/+3)、C12(合法child.version=1)、C13(未知后同键当前幂等结果)是必要且正确的正对照。"
+      ],
+      "relationToPrior": "新增语义关系覆盖，不把一个组的3个失败断言写成3个独立问题。"
+    },
+    {
+      "id": "R5-F02",
+      "decision": "retain",
+      "priority": "P2",
+      "scope": "错actor注入的客户端导出保护，不是后端正常导出越权证据。",
+      "basis": [
+        "http.go:243-270在业务锁内重新currentActorLocked、角色/工单授权与持久审计后调用bootstrap(actor)。",
+        "http.go:376-404返回同一个当前Actor及其visible工单，正常Go不产生诊断所注入的不同actor。",
+        "app.js:499-504只validActor，未sameSessionActor；850-858现有认证锚点包含id/role/companyId/authVersion。",
+        "跨epoch已正确拦截、同身份仅导航允许下载的正对照，排除了把合法等待导出误判成错误。"
+      ],
+      "relationToPrior": "导出端点的身份关联遗漏；可与F01同属“响应关联校验”章节，但保留独立组，原因和后果不同。"
+    },
+    {
+      "id": "R5-F03",
+      "decision": "retain_as_prior_fix_omission",
+      "priority": "P2",
+      "scope": "不完整/非法财务与借用写2xx，不能宣称真实Go正常会丢字段。",
+      "basis": [
+        "models.go:66-76的Cash id/amountCents/kind等没有omitempty；actions.go:546-576构造并校验receipt/refund现金。",
+        "models.go:253-268 Loan数量去向全部JSON输出；inventory.go:73-175返回完整Loan。诊断中仅id/version/quantity/outstanding的响应不是合法Loan。",
+        "app.js:185-190把缺失/null视为可选；261-292通用record未要求cash必需ID/金额/方向；479-486的写Loan分支比已有validLoan更浅。",
+        "renderFinance(1184-1218)直接消费amountCents/kind/id，错误金额或空核实ID具有真实页面后果。"
+      ],
+      "relationToPrior": "明确标为第四轮F03嵌套校验修复的“补充遗漏/覆盖不全”，不是全新5项，也没有证据是四轮修改引入回退。"
+    }
+  ],
+  "demo": [
+    {
+      "id": "R5-D01",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "inventory.go:113-135的consume/dispose/transfer均明确要求admin；app.js演示全局callback仅检数量，没有批准角色。",
+      "note": "本机演示权限与API合同一致性问题，不是服务端权限绕过。",
+      "repeatedCases": [
+        "Q01-consume",
+        "Q01-dispose",
+        "Q01-transfer"
+      ]
+    },
+    {
+      "id": "R5-D02",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "inventory.go:44-51拒绝completed新增关联借用；actions.go:250-255已完结白名单不含issue。演示两个入口绕过重开保护。",
+      "note": "两条路径同属已完结义务写保护，应保持一组；保留completed的派生函数本身不应被单独算缺陷。",
+      "repeatedCases": [
+        "Q02",
+        "Q14"
+      ]
+    },
+    {
+      "id": "R5-D03",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "inventory.go:120-124无OrderID返回order_required；演示consume无关联检查。",
+      "note": "只说缺少维修工单归属，不宣称Go已经自动创建成本过账（Go只校验关联与原因）。",
+      "repeatedCases": [
+        "Q03"
+      ]
+    },
+    {
+      "id": "R5-D04",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "inventory.go:33-38当前明确仅有效engineer可借用；app.js:3555-3561实际选项允许finance等，localApply照样扣库。",
+      "note": "这是现行人员合同/可见选项/演示一致性；不主张真实业务永久禁止其他内部角色借用。P2普通修正项可保留，优先级低于资金/结果不实项。",
+      "repeatedCases": [
+        "Q04"
+      ]
+    },
+    {
+      "id": "R5-D05",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "actions.go:570-576核实退款不得超过当前净实收；data.js:950-955仅置verified。",
+      "note": "限定演示超退事实，真实Go已有拒绝。",
+      "repeatedCases": [
+        "Q05"
+      ]
+    },
+    {
+      "id": "R5-D06",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "service.go:418-429对每笔已核实现金检查handedOver，含refund；data.js:367显式排除refund导致完结遗漏。",
+      "note": "与D05上限校验独立；一个是核实事实错误，一个是合法退款之后的完结义务遗漏。",
+      "repeatedCases": [
+        "Q06"
+      ]
+    },
+    {
+      "id": "R5-D07",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "actions.go:590-605要求invoiceRequirement=required、有效票据原件、有效票号不重复；service.go:398-414要求存续PDF/图片且有Data。演示只检查files.length。",
+      "note": "三种发票断言已合理合并一组；Q21有效唯一票号+PDF正对照及补齐原生FormData.getAll的诊断修正可信。",
+      "repeatedCases": [
+        "Q07",
+        "Q08",
+        "Q09"
+      ]
+    },
+    {
+      "id": "R5-D08",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "actions.go:536-543发送资料要求prepared且非空Recipient；data.js:931-938缺Recipient判断，表单允许空。",
+      "note": "资料发送事实不同于发票原件，不与D07合并；Q22填写接收对象的正对照成立。",
+      "repeatedCases": [
+        "Q10"
+      ]
+    },
+    {
+      "id": "R5-D09",
+      "priority": "P2",
+      "decision": "retain",
+      "basis": "actions.go:764-766对已有Outcome返回outcome_exists；data.js:1039-1043直接覆写。",
+      "note": "已验收及已失败两种记录均属不可覆盖的履约结果，一组合并正确；未称该行为擦除了旧事件或真实Go验收历史。",
+      "repeatedCases": [
+        "Q11",
+        "Q12"
+      ]
+    },
+    {
+      "id": "R5-D10",
+      "priority": "P2",
+      "decision": "retain_as_prior_fix_omission",
+      "basis": "actions.go:327对所有报价要求0<=prepay<=amount，330仅额外对明确先款要求正数；data.js:821-827把上限夹在明确先款分支。",
+      "note": "X01实现后的通用金额合法性补充遗漏；保留用户“无明确约定可以零付款开修”的新规则，不恢复废弃全款断言。",
+      "repeatedCases": [
+        "Q13"
+      ]
+    }
+  ],
+  "triage": {
+    "reviewedGroups": 13,
+    "retainGroups": 13,
+    "excludeGroups": 0,
+    "mandatoryDowngradeGroups": 0,
+    "newlyFoundGroups": 11,
+    "priorFixSupplementaryOmissions": [
+      "R5-F03",
+      "R5-D10"
+    ],
+    "mergeRecommendations": [
+      "保持前端F03五条坏记录/Loan断言合为一组，不拆成五项。",
+      "保持演示D02两条completed写入口为一组，D07三条发票校验为一组，D09两个既有结果覆盖为一组。",
+      "不把客户端坏2xx父子关联与后端B01请求可伪造父单合并：前者错响应确认保护，后者真实公开创建接口的持久化完整性。",
+      "D01/D03/D04可在报告同一“借还演示合同”小节展示，但其审批权限、耗用归属及借用人选项三个约束与修复位置不同，保留3组合理。"
+    ],
+    "priorityNotes": [
+      "D04属于较低紧急程度P2一致性问题，不应与真实资金错误/后端越权等量描述。",
+      "所有独立演示发现不代表真实库存资金被改；所有前端坏2xx发现不代表正常后端授权失效。",
+      "四轮已通过的测试保持历史通过事实，本轮补充遗漏不能表述为四轮修复全部无效或已证实新引入回退。"
+    ]
+  },
+  "sourceHashes": {
+    "Workspace/app.js": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7",
+    "Workspace/data.js": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f",
+    "Workspace/tests/app.test.cjs": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78",
+    "Server/internal/workbench/actions.go": "e2d66146832394913ab5cdf48f6ce60b742fb3f9719d466d39e7d26e1a8d3f1f",
+    "Server/internal/workbench/inventory.go": "a4550f37e46f89df4c26e4c7ac8a7ebb27a3dfa8c015de201f1e61d3e7717492",
+    "Server/internal/workbench/models.go": "7c3268c47ee205f1cdd4aff73f85c466bad23de411e3ec3324f7480d2d64ff3e",
+    "Server/internal/workbench/http.go": "3a899761016317df4af5ec97148c2bdd58865f476ee9d82f7c6b2f4f47982845",
+    "Server/internal/workbench/service.go": "9c6284544aef5deee7dd80d8be0c01f52e49cf18843821042ca4668f712c5bae",
+    "Server/internal/workbench/idempotency.go": "2a9149d43e4714de4e5f823493dca3a8a9a5b56751bf424477177f779a522d5e"
+  },
+  "sourceChecks": {
+    "frontendAllMatchDiagnostic": true,
+    "demoAllMatchDiagnostic": true,
+    "goAllMatchBackendBaseline": true
+  },
+  "mutation": {
+    "productFiles": 0,
+    "formalTests": 0,
+    "originalEvidence": 0,
+    "services": 0,
+    "containers": 0,
+    "browserTabs": 0,
+    "indexSync": 0,
+    "written": [
+      "docs/五次回归证据-2026-10-15/backend-cross-review.json"
+    ]
+  }
+}

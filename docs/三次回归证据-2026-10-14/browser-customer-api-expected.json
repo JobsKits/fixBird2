@@ -1,0 +1,15 @@
+{
+  "actorId": "customer",
+  "role": "customer",
+  "companyId": "company-a",
+  "metrics": {
+    "blockedCount": 0,
+    "openCount": 7,
+    "readyCount": 1,
+    "remainingCents": 492000,
+    "settlingCount": 2,
+    "tasksCount": 7
+  },
+  "total": 7,
+  "otherCompanyPresent": false
+}

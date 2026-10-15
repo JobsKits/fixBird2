@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-15",
+  "stage": "frozen-source-final-review",
+  "completed": true,
+  "status": "no-confirmed-open-blocker-in-reviewed-scope",
+  "scope": "Cross-review of frontend/backend/data source and formal protections; a root-authorized temporary unfreeze corrected one confirmed data-layer sale gate. All product editing is now stopped. No services, full-suite reruns, runtime reads or index sync by reviewer.",
+  "frozenSourcesVerified": [
+    {
+      "path": "Workspace/app.js",
+      "sha256": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7"
+    },
+    {
+      "path": "Workspace/tests/app.test.cjs",
+      "sha256": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78"
+    },
+    {
+      "path": "Server/internal/workbench/actions.go",
+      "sha256": "e2d66146832394913ab5cdf48f6ce60b742fb3f9719d466d39e7d26e1a8d3f1f"
+    },
+    {
+      "path": "Server/internal/workbench/models.go",
+      "sha256": "7c3268c47ee205f1cdd4aff73f85c466bad23de411e3ec3324f7480d2d64ff3e"
+    },
+    {
+      "path": "Server/internal/workbench/calendar.go",
+      "sha256": "7382ba0cf60e48e7bda8b3e689696a74d46701c2eec9fd84ec3accddc237ec22"
+    },
+    {
+      "path": "Server/internal/workbench/inventory.go",
+      "sha256": "a4550f37e46f89df4c26e4c7ac8a7ebb27a3dfa8c015de201f1e61d3e7717492"
+    },
+    {
+      "path": "Server/internal/workbench/service.go",
+      "sha256": "9c6284544aef5deee7dd80d8be0c01f52e49cf18843821042ca4668f712c5bae"
+    },
+    {
+      "path": "Server/internal/workbench/permissions.go",
+      "sha256": "0c749de43d158f493e78634f508260d798ef1791d56f2ab94f9d987a8546c6ac"
+    },
+    {
+      "path": "Server/internal/workbench/query.go",
+      "sha256": "482d8394974edac745735adfcce20e319ded6385ec9c210e1c74b5e55c3e6c25"
+    },
+    {
+      "path": "Server/internal/workbench/calendar_acceptance_regression_test.go",
+      "sha256": "dbb1f325e27b59531984f39896d147ede0e59dd44ed1a6a778020e4538df90a3"
+    },
+    {
+      "path": "Server/internal/workbench/acceptance_history_test.go",
+      "sha256": "936a49bd957f49a7e96cddf735d11a074667d9437f36c49f0ed86ef8791ed00b"
+    },
+    {
+      "path": "Server/internal/workbench/prepayment_contract_test.go",
+      "sha256": "f3ad2603931f6e28b7287f45f84884a8b19b1532e7bb4697f53e99f0cc3d9bfd"
+    },
+    {
+      "path": "Workspace/data.js",
+      "sha256": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f"
+    },
+    {
+      "path": "Workspace/tests/data.test.cjs",
+      "sha256": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+    },
+    {
+      "path": "Workspace/tests/data-boundaries.test.cjs",
+      "sha256": "aa3c69df1acd10b37dd6f2ee9f2a6b6f92797a8993e3666fad6df1eeb2036081"
+    }
+  ],
+  "checks": [
+    {
+      "id": "R4-F01",
+      "result": "reviewed",
+      "evidence": "request/previewFile/settingsMetadata central revokeSession executes on current epoch 401 before JSON decode; old epoch ignored; C01-C07/C12/C14/C25 cover revoked/current and delayed old paths"
+    },
+    {
+      "id": "R4-F02",
+      "result": "reviewed",
+      "evidence": "refresh no longer drops bootstrap failures when navigation changed listRevision; metadata accepted only from trusted matching actor; pending metrics are explicit placeholder; C08/C20-C22/C26/C27"
+    },
+    {
+      "id": "R4-F03",
+      "result": "reviewed-after-correction",
+      "evidence": "nested array records, summary missing/actions, dates/inventory validated before adoption/cache; new real Go unquoted zero Quote initially over-rejected by positive months, fixed and guarded by C28/C29"
+    },
+    {
+      "id": "R4-F04",
+      "result": "reviewed",
+      "evidence": "modal no longer clears request-key map; same path/body retry retains key, success releases exact key; login/openDemo/current401 clear expired identity scope; C18"
+    },
+    {
+      "id": "R4-D06/D07",
+      "result": "reviewed",
+      "evidence": "global loan transfer quantities count individually; returns/consumes/disposals decrement transfers first, then outstanding; refreshOrder synchronizes accepted/failure stages and summary; D14/D15/D21"
+    },
+    {
+      "id": "R4-B01/B02",
+      "result": "reviewed",
+      "evidence": "Asia/Shanghai month clamp; historical EndsAt retained; coverage expires next China day midnight; manual/automatic/leap/timezone/1-60 month/bounds atomic tests; demo date-only and ISO legacy/current keys"
+    },
+    {
+      "id": "R4-B03",
+      "result": "reviewed",
+      "evidence": "manual passed=false and later passed=true append distinct signed records; no rejection success/warranty; authorization and redaction shared by detail/export/retry, pagination strips originals; restart/encrypted backup/restore/current handover and save-failure atomic formal coverage"
+    },
+    {
+      "id": "R4-X01-repair",
+      "result": "reviewed",
+      "evidence": "explicit bool defaults false; true requires positive prepay<=quote and verified net threshold; cash/credit without flag do not imply requirement; UI quote/signing terms and scalar/atomic protection"
+    },
+    {
+      "id": "R4-X01-sale",
+      "result": "reviewed-after-correction",
+      "evidence": "Cash-sale threshold is frozen quote total, independent of mutable receivable; credit prepay unchanged. New 3-case actual D.apply chains exercise both adjusted-receivable directions, net refunds and top-ups. 44-case before42/2 -> after44/0; prior41 evidence retained separately."
+    }
+  ],
+  "findings": [
+    {
+      "id": "REVIEW-F03-ZERO-QUOTE",
+      "status": "fixed-and-formally-guarded",
+      "priority": "P2",
+      "title": "Legitimate real newOrder zero Quote over-rejected by nested validator",
+      "file": "Workspace/app.js",
+      "lines": "313-324",
+      "resolution": "warrantyMonths=0 allowed only for unquoted version0; C28 creation/bootstrap/detail and C29 positive-version invalid-month rejection added"
+    },
+    {
+      "id": "REVIEW-X01-SALE-RECEIVABLE",
+      "status": "fixed-and-formally-guarded",
+      "priority": "P2",
+      "title": "Demo cash-sale stock gate incorrectly depends on adjusted receivable rather than accepted quote total",
+      "file": "Workspace/data.js",
+      "reproduction": "signed sale cash quote10000 -> adjust_receivable5000 -> cash receipt5000 -> verify_cash -> stock_ready; demo accepts but real executionReady still requires quote10000",
+      "requiredFix": "Compare verified net collected against quote.amountCents, preserve existing prepay gate; protect reduced and increased receivable cases",
+      "reportedBy": "r4_fix_backend and escalated to root; this read-only review did not edit product",
+      "resolution": "Verified net collected now compared to accepted quote.amountCents; independent prepay gate retained. Actual D.apply receipt/refund/adjustment chains cover lowered receivable rejection, increased receivable original-price allowance, cash refund/top-up and unchanged credit prepay threshold.",
+      "authorization": "root explicitly authorized temporary unfreeze of data.js and data-boundaries.test.cjs only, followed by refreeze",
+      "evidence": [
+        "demo-sale-gate-before.log",
+        "demo-after.log",
+        "demo-summary.json"
+      ]
+    }
+  ],
+  "testEvidenceRead": {
+    "frontendFormal": {
+      "command": "node --test Workspace/tests/app.test.cjs",
+      "tests": 96,
+      "pass": 96,
+      "fail": 0,
+      "skip": 0,
+      "log": "frontend-after.log"
+    },
+    "frontendExternal": {
+      "script": "frontend-adversarial-after.cjs",
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "skip": 0,
+      "log": "frontend-external-after.log",
+      "results": "frontend-results-after.json"
+    },
+    "backendTarget": {
+      "total": 81,
+      "pass": 81,
+      "fail": 0,
+      "skip": 0,
+      "roots": 14
+    },
+    "demoFormal": {
+      "command": "node --test Workspace/tests/data.test.cjs Workspace/tests/data-boundaries.test.cjs",
+      "tests": 44,
+      "pass": 44,
+      "fail": 0,
+      "skip": 0,
+      "original": 14,
+      "added": 30
+    },
+    "saleGateCorrection": {
+      "reportedBy": "r4_fix_backend cross-review",
+      "authorizedBy": "root authorized temporary unfreeze of only data.js and data-boundaries.test.cjs",
+      "before": {
+        "tests": 44,
+        "pass": 42,
+        "fail": 2,
+        "skip": 0,
+        "log": "demo-sale-gate-before.log",
+        "source": "demo-data-before-sale-gate.js",
+        "sha256": "ba3f79d940d3c35c940d7c362c2c4fd0c7ff14c9e286f26769aa6334865ddf42"
+      },
+      "after": {
+        "tests": 44,
+        "pass": 44,
+        "fail": 0,
+        "skip": 0,
+        "log": "demo-after.log"
+      },
+      "guards": [
+        "cash-sale quote total remains frozen payment threshold even when receivable is reduced or increased",
+        "cash-sale verified receipt/refund net amount below quote blocks, top-up restores permission",
+        "credit-sale existing prepay threshold remains unaffected by receivable adjustment and refunds"
+      ],
+      "reason": "stock_ready previously used adjustable receivable remaining==0; now uses verified net collected >= quote.amountCents while retaining independent prepay gate"
+    },
+    "note": "Frontend/backend logs and final source hashes inspected only; data suite was rerun solely after authorized sale-gate source correction. Root owns final full Go/web/HTTP/browser verification."
+  },
+  "limitations": [
+    "Static cross-review is not production or real browser acceptance.",
+    "Old already-discarded non-passing signatures are not fabricated; new AcceptanceRecords field is optional for existing stored orders.",
+    "User-confirmed X01 supersedes historic cash-only repair expectations; historic diagnostic evidence remains untouched."
+  ],
+  "finalAuthority": {
+    "frontend": "r4_fix_frontend declared app.js/app.test.cjs frozen; current 2 hashes verified",
+    "backend": "r4_fix_backend declared 10 Go files frozen; current 10 hashes verified",
+    "data": "r4_fix_demo declared data.js/new boundary tests frozen after authorized correction; current hashes verified; original data.test unchanged"
+  },
+  "openFindings": 0
+}

@@ -1,0 +1,14 @@
+{
+  "browserServiceStopped": true,
+  "databaseContainerStopped": true,
+  "browserTabClosed": true,
+  "viewportReset": true,
+  "ownedTemporaryStorageKeysBinariesRemoved": true,
+  "runtimeArchivesModified": false,
+  "originalRepositorySourceModified": false,
+  "documentPreview": {
+    "serviceStopped": true,
+    "tabClosed": true,
+    "temporaryFilesRemoved": true
+  }
+}

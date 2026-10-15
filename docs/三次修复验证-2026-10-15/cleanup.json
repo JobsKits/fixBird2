@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-15",
+  "ports": [
+    {
+      "port": 18054,
+      "closed": true
+    },
+    {
+      "port": 18055,
+      "closed": true
+    },
+    {
+      "port": 18056,
+      "closed": true
+    }
+  ],
+  "removedTemporaryDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-fix3-browser-VMiWfr",
+  "temporaryDirectoryAbsent": true,
+  "browserTestTabClosed": true,
+  "timeoutRestoredMs": 2500,
+  "viewportOverrideUsed": false,
+  "existingRuntimeUntouched": true,
+  "noContainersCreatedOrModified": true,
+  "existingContainers": [
+    "repair-marketplace-api-1\tUp 2 days",
+    "minikube\tExited (137) 8 days ago",
+    "repair-marketplace-tidb-1\tUp 2 days"
+  ],
+  "previewTabClosed": true
+}

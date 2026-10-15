@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-15",
+  "scope": "Desktop V3.8 independent synthetic demo data layer only",
+  "fixes": [
+    "R4-D01",
+    "R4-D02",
+    "R4-D03",
+    "R4-D04",
+    "R4-D05",
+    "R4-B02 demo calendar-day boundary",
+    "R4-X01 user-confirmed explicit prepayment agreement"
+  ],
+  "sources": {
+    "Workspace/data.js": "ba3f79d940d3c35c940d7c362c2c4fd0c7ff14c9e286f26769aa6334865ddf42",
+    "Workspace/tests/data.test.cjs": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b",
+    "Workspace/tests/data-boundaries.test.cjs": "b1b1c6526dc29c3bb335dfa8c2f3b6f2bb3b0a77d37044311968e83fcee64c26"
+  },
+  "beforeSource": {
+    "file": "demo-data-before.js",
+    "sha256": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222",
+    "verifiedAgainstTaskBaseline": true
+  },
+  "formalTests": {
+    "command": "node --test Workspace/tests/data.test.cjs Workspace/tests/data-boundaries.test.cjs",
+    "tests": 41,
+    "pass": 41,
+    "fail": 0,
+    "skip": 0,
+    "original": 14,
+    "added": 27
+  },
+  "comparableBefore": {
+    "command": "node --test docs/四次修复验证-2026-10-15/demo-before-runner.cjs",
+    "tests": 41,
+    "pass": 20,
+    "fail": 21,
+    "skip": 0,
+    "note": "Current same 41 formal cases run against preserved pre-fix data source via isolated Module compilation; no historical external test or log was changed."
+  },
+  "originalBefore": {
+    "tests": 34,
+    "pass": 17,
+    "fail": 17,
+    "skip": 0,
+    "note": "Initial 34-case protection run before user clarified X01 and its 7 formal cases were added."
+  },
+  "syntax": {
+    "files": [
+      "Workspace/data.js",
+      "Workspace/tests/data.test.cjs",
+      "Workspace/tests/data-boundaries.test.cjs"
+    ],
+    "exitCodes": [
+      0,
+      0,
+      0
+    ]
+  },
+  "sharedInterfaces": {
+    "loanBlockingQuantity": "Count outstanding less unresolved transferred quantities; prefer transfers[], support legacy transfer{} and transferred boolean",
+    "refreshOrder": "Mutate summary and accepted/failure settling/pending_completion state only; preserve completed state, versions and event history"
+  },
+  "limits": [
+    "Data-layer tests exercise actual D.apply/derive and immutable-input boundaries; actual app form/global-action coverage belongs to frontend agent/root.",
+    "No independent commission transfer contract exists in the current backend; unsettled commissions block completion even when arbitrary transferred=true is supplied.",
+    "Historic external D02/D03 full-cash repair expectations and D04 missing explicit flag are superseded by user-confirmed X01; they were not edited or counted as current-contract failures."
+  ],
+  "evidence": [
+    "demo-before.log",
+    "demo-comparable-before.log",
+    "demo-after.log",
+    "demo-before-runner.cjs",
+    "demo-data-before.js",
+    "demo-data-after.js",
+    "demo-data-boundaries.test.cjs"
+  ],
+  "cleanup": "No services, containers, keys, real data, index sync or temporary directories created by this agent; test state stays in terminating Node processes."
+}

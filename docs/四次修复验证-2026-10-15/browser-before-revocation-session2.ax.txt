@@ -1,0 +1,343 @@
+Browser tab: 1, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18071/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18071/
+	1 container
+		2 link Description: 啄木鸟维修平台 啄木鸟 维修协同平台, Value: 127.0.0.1:18071/
+		3 text 公司工作空间 V3.8
+		4 container 工作空间导航
+			5 button ▦ 工单工作台 7
+				6 text ▦
+				7 text 工单工作台
+				314 text 7
+			9 button ☷ 我的待办 7
+				10 text ☷
+				11 text 我的待办
+				315 text 7
+			13 button ¥ 现金与票据
+				14 text ¥
+				15 text 现金与票据
+			19 button ⚙ 账号与连接
+				20 text ⚙
+				21 text 账号与连接
+		22 text 本机业务框架 人工确认 · 全程留痕
+	23 container
+		24 text 工作空间  /
+		316 text 工单工作台
+		317 text 服务端数据
+		27 button Description: 重新加载, ID: refresh
+		28 button 客 海棠物业联系人 ⌄, ID: accountButton
+			318 text 客
+			319 text 海棠物业联系人
+			31 text ⌄
+	32 container mainContent
+		33 container
+			34 text OPERATIONS WORKSPACE
+			35 heading 每一张工单，都有下一步。, Value: 1, ID: pageTitle
+				320 text 每一张工单，都有下一步。
+			321 text 从受理到整单完结，业务进度、资料票款与责任人一目了然。
+			38 button ＋ 新建工单, ID: createOrder
+		322 text 服务端已连接 · 所有数据按当前账号权限返回，保存后自动刷新。
+		40 container Description: 经营概览, ID: metrics
+			323 container
+				324 text 进行中工单 ▦ 7 当前授权范围 全链路跟踪至整单完结
+			325 container
+				326 text 结算待办理 ☷ 2 当前授权范围 资料 · 票据 · 现金及余项
+			327 container
+				328 text 客户待收款 ¥ ¥4,920.00 当前授权范围 仅计入财务核实净收款
+			329 container
+				330 text 待完结确认 ✓ 1 当前授权范围 负责人一次核对确认
+		331 container ordersView
+			332 heading 工单列表 7, Value: 2
+				333 text 工单列表
+				334 text 7
+			335 text 同时查看主阶段与资料、票据和回款进度
+			336 button ↓ 导出清单, ID: exportOrders
+			337 container quickFilters
+				338 button 全部工单
+				339 button 我负责的
+				340 button 结算中
+				341 button 待完结确认
+				342 button 有未解决异议 0
+					343 text 有未解决异议 
+					344 text 0
+			345 container filterForm
+				346 container
+					347 text ⌕
+					348 text field (settable) ⌕, ID: search
+				349 container
+					350 text 主阶段
+					351 pop up button (collapsed, settable) 主阶段, Value: 全部主阶段, ID: statusFilter, Secondary Actions: Expand
+						352 menu
+							353 (selected) 全部主阶段
+							354 待受理
+							355 待安排
+							356 检测 / 报价中
+							357 待客户确认
+							358 待执行
+							359 维修中
+							360 待质检
+							361 待交付
+							362 待验收
+							363 结算中
+							364 待完结确认
+							365 已完结
+				366 container
+					367 text 付款资料
+					368 pop up button (collapsed, settable) 付款资料, Value: 全部资料进度, ID: documentFilter, Secondary Actions: Expand
+						369 menu
+							370 (selected) 全部资料进度
+							371 资料待办理
+							372 已发送
+							373 无需资料
+				374 container
+					375 text 客户回款
+					376 pop up button (collapsed, settable) 客户回款, Value: 全部回款, ID: paymentFilter, Secondary Actions: Expand
+						377 menu
+							378 (selected) 全部回款
+							379 仍有待收
+							380 现金待核实
+							381 已结清
+				382 button 重置, ID: clearFilters
+			383 table
+				384 row
+					385 cell
+						386 text 工单 / 客户
+					387 cell
+						388 text 主阶段 / 履约结果
+					389 cell
+						390 text 付款资料
+					391 cell
+						392 text 票据进度
+					393 cell
+						394 text 核实收款 / 应收
+					395 cell
+						396 text 待收
+					397 cell
+						398 text 下一步 / 责任人
+				399 container ordersBody
+					400 row
+						401 cell
+							402 text ZM20261013-0007
+							403 text 海棠物业管理有限公司（合成）
+							404 text 停产控制模块 寄修
+						405 cell
+							406 container
+								407 text 结算中
+							408 text 履约进行中 · 未起保
+						409 cell
+							410 button 无需，已确认
+								411 text 无需，已确认
+							412 text 需求已确认
+						413 cell
+							414 button 无需，已确认
+								415 text 无需，已确认
+							416 text 需求已确认
+						417 cell
+							418 container
+								419 text ¥0.00  / ¥0.00
+							420 text 已结清
+						421 cell
+							422 text ¥0.00
+						423 cell
+							424 text 公司正在办理资料、票据及结算
+							425 text dispatcher · 10/13 21:29
+						426 cell
+							427 button 办理 →
+					428 row
+						429 cell
+							430 text ZM20261013-0006
+							431 text 海棠物业管理有限公司（合成）
+							432 text 门禁控制板 寄修
+						433 cell
+							434 container
+								435 text 待完结确认
+							436 text 已验收 · 质保中
+						437 cell
+							438 button 无需，已确认
+								439 text 无需，已确认
+							440 text 需求已确认
+						441 cell
+							442 button 无需，已确认
+								443 text 无需，已确认
+							444 text 需求已确认
+						445 cell
+							446 container
+								447 text ¥500.00  / ¥500.00
+							448 text 已结清
+						449 cell
+							450 text ¥0.00
+						451 cell
+							452 text 公司正在办理资料、票据及结算
+							453 text dispatcher · 10/13 21:29
+						454 cell
+							455 button 办理 →
+					456 row
+						457 cell
+							458 text ZM20261013-0005
+							459 text 海棠物业管理有限公司（合成）
+							460 text 消防报警控制主机 寄修
+						461 cell
+							462 container
+								463 text 结算中
+							464 text 已验收 · 质保中
+						465 cell
+							466 button 已做未送
+								467 text 已做未送
+							468 text 资料包 v1
+						469 cell
+							470 button 未开
+								471 text 未开
+							472 text ¥0.00 / ¥3,000.00
+						473 cell
+							474 container
+								475 text ¥1,000.00  / ¥3,000.00
+							476 text 部分 / 尚未收款
+						477 cell
+							478 text ¥2,000.00
+						479 cell
+							480 text 公司正在办理资料、票据及结算
+							481 text dispatcher · 10/13 21:29
+						482 cell
+							483 button 办理 →
+					484 row
+						485 cell
+							486 text ZM20261013-0004
+							487 text 海棠物业管理有限公司（合成）
+							488 text 24V 电源模块 × 2 销售
+						489 cell
+							490 container
+								491 text 检测 / 报价中
+							492 text 履约进行中
+						493 cell
+							494 button 待确认需求
+								495 text 待确认需求
+							496 text 资料包 v1
+						497 cell
+							498 button 待确认需求
+								499 text 待确认需求
+							500 text ¥0.00 / ¥0.00
+						501 cell
+							502 container
+								503 text ¥0.00  / ¥960.00
+							504 text 部分 / 尚未收款
+						505 cell
+							506 text ¥960.00
+						507 cell
+							508 text 公司正在处理，请查看进度
+							509 text dispatcher · 10/13 21:29
+						510 cell
+							511 button 办理 →
+					512 row
+						513 cell
+							514 text ZM20261013-0003
+							515 text 海棠物业管理有限公司（合成）
+							516 text 排污泵控制系统 上门
+						517 cell
+							518 container
+								519 text 维修中
+							520 text 履约进行中
+						521 cell
+							522 button 待确认需求
+								523 text 待确认需求
+							524 text 资料包 v1
+						525 cell
+							526 button 待确认需求
+								527 text 待确认需求
+							528 text ¥0.00 / ¥0.00
+						529 cell
+							530 container
+								531 text ¥0.00  / ¥680.00
+							532 text 部分 / 尚未收款
+						533 cell
+							534 text ¥680.00
+						535 cell
+							536 text 公司正在处理，请查看进度
+							537 text dispatcher · 10/13 21:29
+						538 cell
+							539 button 办理 →
+					540 row
+						541 cell
+							542 text ZM20261013-0002
+							543 text 海棠物业管理有限公司（合成）
+							544 text 工业控制主板 寄修
+						545 cell
+							546 container
+								547 text 待客户确认
+							548 text 履约进行中
+						549 cell
+							550 button 待确认需求
+								551 text 待确认需求
+							552 text 资料包 v1
+						553 cell
+							554 button 待确认需求
+								555 text 待确认需求
+							556 text ¥0.00 / ¥0.00
+						557 cell
+							558 container
+								559 text ¥0.00  / ¥1,280.00
+							560 text 部分 / 尚未收款
+						561 cell
+							562 text ¥1,280.00
+						563 cell
+							564 text 请确认报价与履约条款
+							565 text dispatcher · 10/13 21:29
+						566 cell
+							567 button 办理 →
+					568 row
+						569 cell
+							570 text ZM20261013-0001
+							571 text 海棠物业管理有限公司（合成）
+							572 text 变频水泵控制柜 上门
+						573 cell
+							574 container
+								575 text 待受理
+							576 text 履约进行中
+						577 cell
+							578 button 待确认需求
+								579 text 待确认需求
+							580 text 资料包 v1
+						581 cell
+							582 button 待确认需求
+								583 text 待确认需求
+							584 text ¥0.00 / ¥0.00
+						585 cell
+							586 container
+								587 text ¥0.00  / ¥0.00
+							588 text 应收待确认
+						589 cell
+							590 text ¥0.00
+						591 cell
+							592 text 公司正在处理，请查看进度
+							593 text dispatcher · 10/13 21:29
+						594 cell
+							595 button 办理 →
+			596 text 本页 7 条 / 共 7 张工单
+			597 text 金额以财务核实事实为准
+			598 container orderPagination
+				599 text 按工单分页 · 共 7 张 · 第 1 / 1 页
+				600 button (disabled) 上一页
+				601 button (disabled) 下一页
+			602 container
+				603 heading 当前关注, Value: 2
+					604 text 当前关注
+				605 button 查看待办 →
+				606 container attentionList
+					607 text ✓
+					608 text 公司正在办理资料、票据及结算
+					609 text ZM20261013-0006 · 海棠物业管理有限公司（合成）
+					610 text 查看 → ◷
+					611 text 公司正在办理资料、票据及结算
+					612 text ZM20261013-0007 · 海棠物业管理有限公司（合成）
+					613 text 查看 → ◷
+					614 text 公司正在办理资料、票据及结算
+					615 text ZM20261013-0005 · 海棠物业管理有限公司（合成）
+					616 text 查看 →
+			617 container
+				618 text ONE ORDER · ONE JOURNEY
+				619 heading 验收之后，继续跟到整单完结。, Value: 2
+					620 text 验收之后，继续跟到整单完结。
+				621 text 所需资料发出、真实票据齐备、现金核实及内部余项办妥，再由负责人一次确认。 待验收 → 结算中 → 待完结确认 → 已完结 完结不终止有效质保。失败、取消也继续跟踪退款与退件。
+	312 container
+		313 text 啄木鸟维修协同平台 第一阶段 · 现金登记与人工确认
+	622 text 已登录为 客户经办人
+
+The focused UI element is 5 button ▦ 工单工作台 7

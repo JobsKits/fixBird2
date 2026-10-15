@@ -1,0 +1,347 @@
+{
+  "date": "2026-10-15",
+  "scope": "external synthetic demo business regression; no product writes",
+  "tests": 24,
+  "pass": 8,
+  "fail": 16,
+  "skip": 0,
+  "source": {
+    "Workspace/data.js": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222",
+    "Workspace/app.js": "4806a5f360763fa0005f3ddff2565f24d736fbe91dd54ef560e67f9065937247"
+  },
+  "fixtures": "All data are synthetic D.seed, plus one explicitly declared acceptance-ready boundary fixture in D15; actual app loaded through VM harness.",
+  "cleanup": "No services, containers, temp directories, real data or credentials created; VM and test inputs exist only in the terminating Node process.",
+  "observations": {
+    "cashRepair": {
+      "mode": "cash",
+      "collectedCents": 0,
+      "amountCents": 10000,
+      "actualStatus": "repairing",
+      "currentMode": "demo"
+    },
+    "unsettledCommission": {
+      "beforeCompletion": "pending_completion",
+      "afterCompletion": "completed",
+      "commission": {
+        "person": "合成提成人员",
+        "amountCents": 100,
+        "note": "合成批准依据",
+        "id": "demo-commission-mv9g0tm1-31klq",
+        "settled": false
+      },
+      "missing": []
+    },
+    "reopen": {
+      "actualStatus": "pending_completion",
+      "obligations": [],
+      "available": [
+        "complete",
+        "handover_contact",
+        "requirements",
+        "documents",
+        "cash",
+        "invoice",
+        "remark",
+        "evidence",
+        "issue",
+        "failure",
+        "obligation",
+        "visit",
+        "outsource",
+        "cost",
+        "commission"
+      ]
+    },
+    "reworkFinancial": {
+      "original": {
+        "status": "completed",
+        "receivableCents": 10000,
+        "collectedCents": 10000
+      },
+      "child": {
+        "status": "pending_intake",
+        "quoteAmountCents": 0,
+        "receivableCents": 10000,
+        "cashCount": 0,
+        "cachedSummary": {
+          "documentStatus": "not_required",
+          "invoiceStatus": "not_required",
+          "collectedCents": 10000,
+          "receivableCents": 10000,
+          "remainingCents": 0,
+          "overpaidCents": 0,
+          "pendingCashCents": 0,
+          "invoiceCents": 0,
+          "missing": [],
+          "nextTask": "有效质保继续，按需登记售后",
+          "warrantyLabel": "质保中"
+        },
+        "recalculatedSummary": {
+          "documentStatus": "unknown",
+          "invoiceStatus": "unknown",
+          "collectedCents": 0,
+          "receivableCents": 10000,
+          "remainingCents": 10000,
+          "overpaidCents": 0,
+          "pendingCashCents": 0,
+          "invoiceCents": 0,
+          "missing": [
+            "有效履约结果尚未明确",
+            "付款资料要求待确认",
+            "票据要求待确认",
+            "仍有客户待收款"
+          ],
+          "nextTask": "客服确认受理并安排负责人",
+          "warrantyLabel": "质保中"
+        },
+        "warranty": {
+          "startsAt": "2026-10-15T11:16:10.371Z",
+          "endsAt": "2027-01-15T11:16:10.371Z"
+        }
+      }
+    },
+    "reworkCopiedFields": {
+      "status": "pending_intake",
+      "outsource": [
+        {
+          "provider": "合成旧单外包机构",
+          "contact": "合成联系人",
+          "destination": "合成旧流向",
+          "note": "原单事实",
+          "id": "demo-outsource-mv9g0tn4-mdx7g"
+        }
+      ],
+      "warranty": {
+        "startAt": "2026-10-12",
+        "endAt": "2027-01-12"
+      },
+      "warrantyLabel": "质保中"
+    },
+    "partialTransfer": {
+      "quantity": 2,
+      "outstanding": 2,
+      "transferred": true,
+      "transfer": {
+        "quantity": 1,
+        "reason": "合成部分转独立跟踪",
+        "ownerId": "engineer",
+        "dueAt": "2099-01-01T15:59:59.000Z"
+      },
+      "blocked": false
+    },
+    "loanClearedStage": {
+      "status": "settling",
+      "missing": [],
+      "available": [
+        "handover_contact",
+        "requirements",
+        "documents",
+        "cash",
+        "invoice",
+        "remark",
+        "evidence",
+        "issue",
+        "failure",
+        "obligation",
+        "visit",
+        "outsource",
+        "cost",
+        "commission"
+      ],
+      "outstanding": 0
+    },
+    "warranty-2027-01-12": {
+      "end": "2027-01-12",
+      "now": "2027-01-12T20:00:00+08:00",
+      "actual": "质保已到期",
+      "expected": "质保中",
+      "requirement": "PRD V3.8 line 1832: 截止日当日仍在质保内，次日过期"
+    },
+    "warranty-2027-01-12T02:00:00.000Z": {
+      "end": "2027-01-12T02:00:00.000Z",
+      "now": "2027-01-12T20:00:00+08:00",
+      "actual": "质保已到期",
+      "expected": "质保中",
+      "requirement": "PRD V3.8 line 1832: 截止日当日仍在质保内，次日过期"
+    }
+  },
+  "rows": [
+    {
+      "id": "D01",
+      "title": "批准企业账期且无异议允许开始维修（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D02",
+      "title": "现款维修未收款不能开始维修（实际 app 完整新单链）",
+      "passed": false,
+      "message": "未核实全款却进入 repairing\n+ actual - expected\n\n+ 'repairing'\n- 'pending_execution'\n",
+      "expected": "pending_execution",
+      "actual": "repairing",
+      "stack": "AssertionError [ERR_ASSERTION]: 未核实全款却进入 repairing\n+ actual - expected\n\n+ 'repairing'\n- 'pending_execution'\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:106:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D03",
+      "title": "已登记但未核实的全额现金不能开始现款维修",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:112:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D04",
+      "title": "明确预付款未核实仍被拒绝（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D05-start",
+      "title": "未解决异议不能推进 start",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:133:12)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D05-stock_ready",
+      "title": "未解决异议不能推进 stock_ready",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:133:12)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D05-deliver",
+      "title": "未解决异议不能推进 deliver",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:133:12)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D05-accept",
+      "title": "未解决异议不能推进 accept",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:133:12)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D06",
+      "title": "已过期报价不能审核发送",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:143:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D07",
+      "title": "已审核但过期报价不能由客户签署",
+      "passed": false,
+      "message": "Missing expected exception.",
+      "expected": {},
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:150:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D08",
+      "title": "旧报价版本签署被拒绝（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D09",
+      "title": "未结算提成阻止整单完结（实际 app 动作）",
+      "passed": false,
+      "message": "提成待结算但主阶段为 pending_completion\n+ actual - expected\n\n+ 'pending_completion'\n- 'settling'\n",
+      "expected": "settling",
+      "actual": "pending_completion",
+      "stack": "AssertionError [ERR_ASSERTION]: 提成待结算但主阶段为 pending_completion\n+ actual - expected\n\n+ 'pending_completion'\n- 'settling'\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:168:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D10",
+      "title": "结算提成后允许完结（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D11",
+      "title": "重开必须停留结算并保留未完成复核事项（实际 app 表单）",
+      "passed": false,
+      "message": "重开后立即回到 pending_completion\n+ actual - expected\n\n+ 'pending_completion'\n- 'settling'\n",
+      "expected": "settling",
+      "actual": "pending_completion",
+      "stack": "AssertionError [ERR_ASSERTION]: 重开后立即回到 pending_completion\n+ actual - expected\n\n+ 'pending_completion'\n- 'settling'\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:185:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D12",
+      "title": "新返修单不能继承已完结旧单应收（实际 app 完整新单链）",
+      "passed": false,
+      "message": "子单重新待受理但应收仍为 10000\n\n10000 !== 0\n",
+      "expected": 0,
+      "actual": 10000,
+      "stack": "AssertionError [ERR_ASSERTION]: 子单重新待受理但应收仍为 10000\n\n10000 !== 0\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:200:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D13",
+      "title": "未验收返修单不能继承旧质保与旧外包流向（实际 app 表单）",
+      "passed": false,
+      "message": "新子单继承旧外包\n\n1 !== 0\n",
+      "expected": 0,
+      "actual": 1,
+      "stack": "AssertionError [ERR_ASSERTION]: 新子单继承旧外包\n\n1 !== 0\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:215:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D14",
+      "title": "部分独立跟踪只解除对应数量的工单阻塞（实际 app 全局表单）",
+      "passed": false,
+      "message": "仅转 1/2 件后全部关联借用阻塞被解除",
+      "expected": true,
+      "actual": false,
+      "stack": "AssertionError [ERR_ASSERTION]: 仅转 1/2 件后全部关联借用阻塞被解除\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:231:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D15",
+      "title": "最后关联借用归还后主阶段同步到待完结（真实 app 全局表单）",
+      "passed": false,
+      "message": "缺项已清而主阶段仍为 settling\n+ actual - expected\n\n+ 'settling'\n- 'pending_completion'\n",
+      "expected": "pending_completion",
+      "actual": "settling",
+      "stack": "AssertionError [ERR_ASSERTION]: 缺项已清而主阶段仍为 settling\n+ actual - expected\n\n+ 'settling'\n- 'pending_completion'\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:256:10)\n    at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:7"
+    },
+    {
+      "id": "D16",
+      "title": "采购分批收货库存守恒（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D17",
+      "title": "采购超收失败不改变库存或采购版本（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D18",
+      "title": "完好归还借用保持数量守恒并增加可用库存（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D19",
+      "title": "自然月质保闰年与月末夹取（正对照）",
+      "passed": true
+    },
+    {
+      "id": "D20-seed-date",
+      "title": "质保截止日 20 点仍有效：2027-01-12",
+      "passed": false,
+      "message": "Expected values to be strictly equal:\n\n'质保已到期' !== '质保中'\n",
+      "expected": "质保中",
+      "actual": "质保已到期",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'质保已到期' !== '质保中'\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:312:14)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    },
+    {
+      "id": "D20-accepted-iso",
+      "title": "质保截止日 20 点仍有效：2027-01-12T02:00:00.000Z",
+      "passed": false,
+      "message": "Expected values to be strictly equal:\n\n'质保已到期' !== '质保中'\n",
+      "expected": "质保中",
+      "actual": "质保已到期",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'质保已到期' !== '质保中'\n\n    at Object.fn (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:312:14)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/demo-contract-tests.cjs:320:18"
+    }
+  ]
+}

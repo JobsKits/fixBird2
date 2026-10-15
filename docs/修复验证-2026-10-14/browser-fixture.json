@@ -1,0 +1,13 @@
+{
+  "createdSyntheticOrders": 40,
+  "firstPageItems": 30,
+  "total": 48,
+  "metrics": {
+    "blockedCount": 0,
+    "openCount": 48,
+    "readyCount": 1,
+    "remainingCents": 492000,
+    "settlingCount": 2,
+    "tasksCount": 50
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "pendingDelay": 0,
+  "held": false,
+  "released": 1,
+  "events": [
+    {
+      "type": "detail_requested",
+      "at": 1791977740259
+    },
+    {
+      "type": "detail_released",
+      "at": 1791977741470
+    }
+  ]
+}

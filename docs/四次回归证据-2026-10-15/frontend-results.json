@@ -1,0 +1,542 @@
+{
+  "date": "2026-10-15",
+  "mode": "read-only-external",
+  "script": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs",
+  "actualSource": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Workspace/app.js",
+  "tests": 22,
+  "pass": 9,
+  "fail": 13,
+  "sourceUnchanged": true,
+  "sourceHashes": {
+    "Workspace/app.js": "4806a5f360763fa0005f3ddff2565f24d736fbe91dd54ef560e67f9065937247",
+    "Workspace/data.js": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222",
+    "Workspace/tests/app.test.cjs": "f6900d11da292ac9717d35fcf835fb7a726d8f44f7db401d1c71b8c11367202c",
+    "Workspace/tests/data.test.cjs": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+  },
+  "results": [
+    {
+      "id": "R4-C01",
+      "title": "完整详情401后撤销会话和旧真实资料",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": true,
+        "detailOpen": true,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:57:48\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:54:3)"
+      }
+    },
+    {
+      "id": "R4-C02",
+      "title": "附件原件401后撤销会话和旧真实资料",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": true,
+        "formOpen": false,
+        "toast": "下载拒绝或原件已删除。 未生成替代原件。",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:62:69\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:59:3)"
+      }
+    },
+    {
+      "id": "R4-C03",
+      "title": "授权导出401后撤销会话和旧真实资料",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "导出未完成：synthetic revoked",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:66:45\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:64:3)"
+      }
+    },
+    {
+      "id": "R4-C04",
+      "title": "业务写401后撤销会话和旧真实资料，不能显示旧账号仍已连接",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "synthetic revoked（输入保留，未改写任何事实）"
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:71:74\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:68:3)"
+      }
+    },
+    {
+      "id": "R4-C05",
+      "title": "账号元数据401后撤销会话和旧真实资料",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:76:52\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:73:3)"
+      }
+    },
+    {
+      "id": "R4-C06",
+      "title": "管理员审计401后撤销会话和旧真实资料",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:81:52\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:78:3)"
+      }
+    },
+    {
+      "id": "R4-C07",
+      "title": "同一身份bootstrap401即使被导航列表先到也必须撤销会话",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 当前会话收到明确401后必须撤销本地服务端会话\n+ actual - expected\n\n+ 'synthetic-test-token'\n- ''\n\n    at expectRevoked (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:43:10)\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:86:110\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:83:3)"
+      }
+    },
+    {
+      "id": "R4-C08",
+      "title": "新身份bootstrap失败被导航抢先时应明确回退或重试，不能保持已连接且概览永久为零",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "customer",
+        "dataActor": "customer",
+        "orders": 1,
+        "remainingCents": 0,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 客户经办人",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "bootstrap失败后应回退独立演示或成功补读当前身份概览，不能停留部分真数据+零概览",
+        "stack": "AssertionError [ERR_ASSERTION]: bootstrap失败后应回退独立演示或成功补读当前身份概览，不能停留部分真数据+零概览\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:97:12\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:88:3)"
+      }
+    },
+    {
+      "id": "R4-C09",
+      "title": "服务返回部分坏库存2xx时可控回退，不使render抛错并留下半套真资料",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": "",
+        "thrown": "Cannot read properties of null (reading 'available')"
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "坏响应应拒绝并回退，不应逃出render造成页面未完成\n+ actual - expected\n\n+ TypeError: Cannot read properties of null (reading 'available')\n+     at evalmachine.<anonymous>:1100:19\n+     at Array.map (<anonymous>)\n+     at renderInventory (evalmachine.<anonymous>:1097:14)\n+     at render (evalmachine.<anonymous>:1473:5)\n+     at evalmachine.<anonymous>:1596:66\n+     at async Object.refresh (evalmachine.<anonymous>:1604:7)\n+     at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:102:20\n+     at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n+     at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:100:3)\n- undefined\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 坏响应应拒绝并回退，不应逃出render造成页面未完成\n+ actual - expected\n\n+ TypeError: Cannot read properties of null (reading 'available')\n+     at evalmachine.<anonymous>:1100:19\n+     at Array.map (<anonymous>)\n+     at renderInventory (evalmachine.<anonymous>:1097:14)\n+     at render (evalmachine.<anonymous>:1473:5)\n+     at evalmachine.<anonymous>:1596:66\n+     at async Object.refresh (evalmachine.<anonymous>:1604:7)\n+     at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:102:20\n+     at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n+     at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:100:3)\n- undefined\n\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:104:12\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:100:3)"
+      }
+    },
+    {
+      "id": "R4-C10",
+      "title": "服务返回缺missing的详情2xx时显示可重试错误，不使详情直接抛错",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": true,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": "",
+        "thrown": "Cannot read properties of undefined (reading 'length')",
+        "detailHTML": "<div class=\"empty-state\"><div class=\"empty-icon\">▤</div><h3>正在读取完整工单</h3><p>核对全部资料与记录后才能办理事实。</p><button class=\"button\" data-reload>重新加载</button></div>"
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "详情缺必填派生字段应拒绝并显示完整空态，不应向事件循环抛错\n+ actual - expected\n\n+ TypeError: Cannot read properties of undefined (reading 'length')\n+     at renderDetail (evalmachine.<anonymous>:1850:20)\n+     at Object.openDetail (evalmachine.<anonymous>:1767:5)\n+     at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:109:59\n+     at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n+     at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:107:3)\n- undefined\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 详情缺必填派生字段应拒绝并显示完整空态，不应向事件循环抛错\n+ actual - expected\n\n+ TypeError: Cannot read properties of undefined (reading 'length')\n+     at renderDetail (evalmachine.<anonymous>:1850:20)\n+     at Object.openDetail (evalmachine.<anonymous>:1767:5)\n+     at async /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:109:59\n+     at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n+     at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:107:3)\n- undefined\n\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:111:12\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:107:3)"
+      }
+    },
+    {
+      "id": "R4-C11",
+      "title": "403业务拒绝保留真实事实和表单，无模拟成功",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "synthetic forbidden（输入保留，未改写任何事实）"
+      }
+    },
+    {
+      "id": "R4-C12",
+      "title": "旧身份详情401迟到不能撤销新身份成功会话",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "finance",
+        "dataActor": "finance",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 财务",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C13",
+      "title": "附件读取失败时保留当前真实表单且不发送动作",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "无法读取文件。"
+      }
+    },
+    {
+      "id": "R4-C14",
+      "title": "当前列表401按既有路径撤销会话，作为401对照组",
+      "status": "passed",
+      "observed": {
+        "hasToken": false,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "会话已失效，请重新登录。合成样例继续可预览。",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C15",
+      "title": "当前bootstrap网络失败无导航抢先时进入独立回退，作为并发失败对照组",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "demo",
+        "connected": false,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C16",
+      "title": "坏JSON写响应不能提示成功或迁入演示",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "服务端响应无法解析。 未自动重放此写请求；请重新核对服务端结果。"
+      }
+    },
+    {
+      "id": "R4-C17",
+      "title": "当前有效空bootstrap和空列表正常显示空态",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 0,
+        "remainingCents": 0,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C18",
+      "title": "打开无关动作表单不应丢失公司配置未知提交的请求键",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "无法连接服务，请检查地址或启动服务。",
+        "error": "",
+        "sameIdempotencyKey": false,
+        "settingsWrites": 2
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "公司配置未知结果的相同输入重试必须保留原键，不能被无关弹窗重置\n+ actual - expected\n\n+ 'demo-request-mv9fxugc-ickk4'\n- 'demo-request-mv9fxugc-bh9gd'\n                         ^\n",
+        "stack": "AssertionError [ERR_ASSERTION]: 公司配置未知结果的相同输入重试必须保留原键，不能被无关弹窗重置\n+ actual - expected\n\n+ 'demo-request-mv9fxugc-ickk4'\n- 'demo-request-mv9fxugc-bh9gd'\n                         ^\n\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:161:12\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:154:3)"
+      }
+    },
+    {
+      "id": "R4-C19",
+      "title": "超限附件在读取前本地拒绝，不发送文件和动作",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [
+          "private-0"
+        ],
+        "privateDOM": true,
+        "detailOpen": false,
+        "formOpen": true,
+        "toast": "已登录为 系统管理员",
+        "error": "文件不得超过 8 MB。",
+        "readerCount": 0,
+        "newCalls": 0
+      }
+    },
+    {
+      "id": "R4-C20",
+      "title": "错误授权资料被导航抢先后不被合入，随后显式刷新可恢复",
+      "status": "passed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "admin",
+        "dataActor": "admin",
+        "orders": 6,
+        "remainingCents": 99000000,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 系统管理员",
+        "error": ""
+      }
+    },
+    {
+      "id": "R4-C21",
+      "title": "新身份bootstrap503被导航抢先后不应留在零概览的真实身份",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "customer",
+        "dataActor": "customer",
+        "orders": 1,
+        "remainingCents": 0,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 客户经办人",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "503应明确降级或补读，不能把未取得的概览当作0",
+        "stack": "AssertionError [ERR_ASSERTION]: 503应明确降级或补读，不能把未取得的概览当作0\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:181:12\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:176:3)"
+      }
+    },
+    {
+      "id": "R4-C22",
+      "title": "新身份bootstrap空2xx被导航抢先后不应留在零概览的真实身份",
+      "status": "failed",
+      "observed": {
+        "hasToken": true,
+        "dataKind": "server",
+        "connected": true,
+        "actor": "customer",
+        "dataActor": "customer",
+        "orders": 1,
+        "remainingCents": 0,
+        "cache": [],
+        "privateDOM": false,
+        "detailOpen": false,
+        "formOpen": false,
+        "toast": "已登录为 客户经办人",
+        "error": ""
+      },
+      "error": {
+        "name": "AssertionError",
+        "message": "空2xx应明确降级或补读，不能把未取得的概览当作0",
+        "stack": "AssertionError [ERR_ASSERTION]: 空2xx应明确降级或补读，不能把未取得的概览当作0\n    at /Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:188:12\n    at async run (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:49:8)\n    at async main (/Users/jobs/Desktop/啄木鸟维修平台-V3.8/docs/四次回归证据-2026-10-15/frontend-adversarial.cjs:183:3)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "QRCodeJS",
+  "commit": "04f46c6a0708418cb7b96fc563eacae0fbf77674",
+  "license": "MIT",
+  "records": [
+    {
+      "file": "qrcode.min.js",
+      "url": "https://raw.githubusercontent.com/davidshimjs/qrcodejs/04f46c6a0708418cb7b96fc563eacae0fbf77674/qrcode.min.js",
+      "sha256": "c541ef06327885a8415bca8df6071e14189b4855336def4f36db54bde8484f36"
+    },
+    {
+      "file": "LICENSE",
+      "url": "https://raw.githubusercontent.com/davidshimjs/qrcodejs/04f46c6a0708418cb7b96fc563eacae0fbf77674/LICENSE",
+      "sha256": "aaa1f349028a59432eb00222b8ddfe4d2ccebdce04cf8348dcb8d41b7068107b"
+    }
+  ]
+}

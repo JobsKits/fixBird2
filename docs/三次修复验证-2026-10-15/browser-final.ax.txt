@@ -1,0 +1,129 @@
+Browser tab: 5, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18055/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18055/
+	1 container
+		2 link Description: 啄木鸟维修平台 啄木鸟 维修协同平台, Value: 127.0.0.1:18055/
+		3 text 公司工作空间 V3.8
+		4 container 工作空间导航
+			5 button ▦ 工单工作台 7
+				6 text ▦
+				7 text 工单工作台
+				332 text 7
+			9 button ☷ 我的待办 7
+				10 text ☷
+				11 text 我的待办
+				333 text 7
+			13 button ¥ 现金与票据
+				14 text ¥
+				15 text 现金与票据
+			19 button ⚙ 账号与连接
+				20 text ⚙
+				21 text 账号与连接
+		22 text 本机业务框架 人工确认 · 全程留痕
+	23 container
+		24 text 工作空间  /
+		316 text 现金与票据
+		334 text 服务端数据
+		27 button Description: 重新加载, ID: refresh
+		28 button 客 海棠物业联系人 ⌄, ID: accountButton
+			335 text 客
+			336 text 海棠物业联系人
+			31 text ⌄
+	32 container mainContent
+		33 container
+			34 text OPERATIONS WORKSPACE
+			35 heading 现金与票据, Value: 1, ID: pageTitle
+				320 text 现金与票据
+			321 text 每一笔现金独立登记、核实与交接，资料票据持续可查。
+			38 button ＋ 新建工单, ID: createOrder
+		337 text 服务端已连接 · 所有数据按当前账号权限返回，保存后自动刷新。
+		40 container Description: 经营概览, ID: metrics
+			338 container
+				339 text 进行中工单 ▦ 7 当前授权范围 全链路跟踪至整单完结
+			340 container
+				341 text 结算待办理 ☷ 2 当前授权范围 资料 · 票据 · 现金及余项
+			342 container
+				343 text 客户待收款 ¥ ¥4,920.00 当前授权范围 仅计入财务核实净收款
+			344 container
+				345 text 待完结确认 ✓ 1 当前授权范围 负责人一次核对确认
+		331 container financeView
+			346 container
+				347 heading 现金登记与核实, Value: 2
+					348 text 现金登记与核实
+				349 text 待核实不计实收；内部现金交接不重复计收入；退款关联原业务
+				350 button 重新加载
+				351 table
+					352 row
+						353 cell
+							354 text 工单 / 客户
+						355 cell
+							356 text 用途
+						357 cell
+							358 text 现金金额
+						359 cell
+							360 text 事实状态
+						361 cell
+							362 text 操作
+					363 row
+						364 cell
+							365 text ZM20261013-0006 海棠物业管理有限公司（合成）
+						366 cell
+							367 text 合成全款 · 10/14 18:23
+						368 cell
+							369 text ¥500.00
+						370 cell
+							371 container
+								372 text 已财务核实
+							373 text 内部已交接
+						374 cell
+							375 button 查看票款
+					376 row
+						377 cell
+							378 text ZM20261013-0005 海棠物业管理有限公司（合成）
+						379 cell
+							380 text 合成预付款 · 10/14 18:23
+						381 cell
+							382 text ¥1,000.00
+						383 cell
+							384 container
+								385 text 已财务核实
+							386 text 内部已交接
+						387 cell
+							388 button 查看票款
+			389 heading 资料与票据待办, Value: 2
+				390 text 资料与票据待办
+			391 container
+				392 heading ZM20261013-0007 · 海棠物业管理有限公司（合成）, Value: 3
+					393 text ZM20261013-0007 · 海棠物业管理有限公司（合成）
+				394 text 资料：无需，已确认 · 票据：无需，已确认 · 待收 ¥0.00
+				395 button 办理 →
+				396 heading ZM20261013-0006 · 海棠物业管理有限公司（合成）, Value: 3
+					397 text ZM20261013-0006 · 海棠物业管理有限公司（合成）
+				398 text 资料：无需，已确认 · 票据：无需，已确认 · 待收 ¥0.00
+				399 button 办理 →
+				400 heading ZM20261013-0005 · 海棠物业管理有限公司（合成）, Value: 3
+					401 text ZM20261013-0005 · 海棠物业管理有限公司（合成）
+				402 text 资料：已做未送 · 票据：未开 · 待收 ¥2,000.00
+				403 button 办理 →
+				404 heading ZM20261013-0004 · 海棠物业管理有限公司（合成）, Value: 3
+					405 text ZM20261013-0004 · 海棠物业管理有限公司（合成）
+				406 text 资料：待确认需求 · 票据：待确认需求 · 待收 ¥960.00
+				407 button 办理 →
+				408 heading ZM20261013-0003 · 海棠物业管理有限公司（合成）, Value: 3
+					409 text ZM20261013-0003 · 海棠物业管理有限公司（合成）
+				410 text 资料：待确认需求 · 票据：待确认需求 · 待收 ¥680.00
+				411 button 办理 →
+				412 heading ZM20261013-0002 · 海棠物业管理有限公司（合成）, Value: 3
+					413 text ZM20261013-0002 · 海棠物业管理有限公司（合成）
+				414 text 资料：待确认需求 · 票据：待确认需求 · 待收 ¥1,280.00
+				415 button 办理 →
+				416 heading ZM20261013-0001 · 海棠物业管理有限公司（合成）, Value: 3
+					417 text ZM20261013-0001 · 海棠物业管理有限公司（合成）
+				418 text 资料：待确认需求 · 票据：待确认需求 · 待收 ¥0.00
+				419 button 办理 →
+				420 text 按工单分页 · 共 7 张 · 第 1 / 1 页
+				421 button (disabled) 上一页
+				422 button (disabled) 下一页
+	312 container
+		313 text 啄木鸟维修协同平台 第一阶段 · 现金登记与人工确认
+
+The focused UI element is 13 button ¥ 现金与票据

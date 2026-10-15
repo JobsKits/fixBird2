@@ -1,0 +1,2575 @@
+{
+  "source": "/Users/jobs/Documents/Github/JobsBaseConfig/JobsBaseConfig@JobsSwiftBaseConfigDemo",
+  "sourceRole": "用户指定Swift侧工程脚手架，20个所需本地Pod源码快照",
+  "files": [
+    {
+      "pod": "JobsByQuartzCore",
+      "file": "JobsByPods/JobsByQuartzCore@Pods/JobsByQuartzCore.podspec",
+      "sha256": "4ebb6f85f659f6453e011547be5f78b7bda3fdf4fd266e3704e203ce7277f9d3"
+    },
+    {
+      "pod": "JobsByQuartzCore",
+      "file": "JobsByPods/JobsByQuartzCore@Pods/JobsByQuartzCore.swift",
+      "sha256": "7cc8672ddfca841f01c8edbbe0e904e1746b2e7fc6490e79deee930e6d75fa47"
+    },
+    {
+      "pod": "JobsByQuartzCore",
+      "file": "JobsByPods/JobsByQuartzCore@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsByQuartzCore",
+      "file": "JobsByPods/JobsByQuartzCore@Pods/README.md",
+      "sha256": "450b9a92d4e210469b6aaf9209fd8a375fbad8277f79694ea3432fa226ff238d"
+    },
+    {
+      "pod": "JobsByQuartzCore",
+      "file": "JobsByPods/JobsByQuartzCore@Pods/Resource/icon.png",
+      "sha256": "e727c3b2081d46ddedb05ca1c34ed13f57abd30d9fdfc6ed8f88468ae08325ef"
+    },
+    {
+      "pod": "JobsByQuartzCore",
+      "file": "JobsByPods/JobsByQuartzCore@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/JobsByUIKit.podspec",
+      "sha256": "82447c8b0a4942057410be27142962e536472bab4b79dfa3df045f438c178239"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/JobsByUIKitDSLBridge.swift",
+      "sha256": "cbae6e176918137203a58446bdaa65e07947fc3b99d7dd68c63048a03a893544"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/README.md",
+      "sha256": "e216cfc377cdb16fd06978af699162f115b164b483f91d09c65cb3cf3475331e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "a331d51864743ebe4e00dd22360b4a538b6b3ac26a6b3eb54094e60a36959a12"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/Resource/iOS.SDK/icon.png",
+      "sha256": "74ea9de027fc96ee49b85f641c2e8d26cdaa1ca884297a1a458466fedbd182af"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/Resource/icon.png",
+      "sha256": "68af9176532a8e509f6993b8ea17923604caaf912f2fc954898920ec0935b84f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Bundle/Bundle+language.swift",
+      "sha256": "9e5224b4c54d78eb0829518de88025a061837d70e0d25c8001cf10b9ea72a407"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/DateFormatter/DateFormatter+预置.swift",
+      "sha256": "b6a8140c1a48ee6ba16a044dd1822a4aa5297d45b02e7f60a193dc36e41467ca"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/DateFormatter/DateFormatter.swift",
+      "sha256": "465c2b3f5a1cfc357ae145931acb749baf9bce229b3237f88caf4b8c0fd63144"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject+Rx.swift",
+      "sha256": "6bb6bcc308f51e153601e7c9c80504708c1de33d1ce17b4af4f14f02de47e600"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject+UI.swift",
+      "sha256": "df3da4de2f316f687707e54f24cca0f7c23e611a94d87230c2cc9d20cc3af107"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject+万物回调.swift",
+      "sha256": "116a856e9dfcfe7d05edb4cf547c2890b8b49bb8d1a2081daeb960202f5996f7"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject+屏幕常亮.swift",
+      "sha256": "b9f09a1e26ccba481c92babf18fb444f27afded2f40e03c5a8baee8ecc909040"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject+软键盘退出.swift",
+      "sha256": "4643ceb077b01aef66a0445ac537c61bb8231ac2619fa63b63aa53b2824f30d8"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject+通知.swift",
+      "sha256": "1bd2670608338349577868479c4e0e84294a2889ee9ab351ea1d430999e63e9f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSObject/NSObject.swift",
+      "sha256": "333a2a5076b7da681a8d653a02084c8c580ec0cc257efc4f299399ca035b0d5f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NSUserActivity/NSUserActivity.swift",
+      "sha256": "3df9a60bf7eab84ce2f249b216973b7a082c3e0f234c44fe27e160a6680ee549"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/NumberFormatter/NumberFormatter.swift",
+      "sha256": "e20433e552f20d9fca08465a18b835e6ea63f9afd82a9e2d4642b440b9da2631"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/NSTextAttachment.swift",
+      "sha256": "73163191d5c5ef8f312d471e9194f22c107ffe8de0a35cebbd7fb682bb701786"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIAction.swift",
+      "sha256": "aa369e6b83cccca923ac4560d0bcc229e6efcc6b8249cdc1ecd051517a7ae82a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIAlertAction.swift",
+      "sha256": "9a1fdf76597d962707218abc9b000d6187f98bc9ad862f84580604a6f1d1e965"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIAlertController.swift",
+      "sha256": "68ed48c15ace35edd38511d0c86de8dcc892de5796478391a4f2cd4ef1a578b0"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIBarAppearance.swift",
+      "sha256": "3ed4c5ab18f128f932f7784adcf656ddab593a9710a7523940b63ecaed816f89"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIBarItem.swift",
+      "sha256": "2444a23ae3788bd8997552d1cd6b60a9790c2d30aca2cc20474815d5590b9a5e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UICollectionViewFlowLayout.swift",
+      "sha256": "df749d6fffc4330aa2d547ac68718bba906e44fee369c31e606edf8bcab85503"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIDatePicker.swift",
+      "sha256": "c13abd599fe63230103069e51e88d19e6bb83bc02e1df93c3dad231aaea90204"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIEdgeInsets.swift",
+      "sha256": "08ce83bd88f483e0f865b07a4f8f17b5fb999c7c9af3b2c4136abed8580a9b3c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIKitAttributes.swift",
+      "sha256": "6399898c45e15269350c471ec2bc95d20f8ccb3a32f06b416815cbb311d002f5"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIListContentConfiguration.swift",
+      "sha256": "7aa45822bf7fb2ea008bf692e3e477d50f389503c7fc7f2cfab6511599d8bdaf"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIMenu.swift",
+      "sha256": "f80f937201af963cf6bdb97fd33ccd192639ee6993fd0448f428683dfc528eee"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIPageViewController.swift",
+      "sha256": "eb39964531cf96fa68d5591da838123b7b6cb5d9e282975c31a3981eee816418"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIPickerView.swift",
+      "sha256": "bf466002c1123011b617ceafc03480d133fb300314983dc60b6d4bbdc320cf12"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIPopoverPresentationController.swift",
+      "sha256": "5c7f39f138df858a5467fe33060a28fd8a02c3047f82f779a33d0428266d7ef2"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIProgressView.swift",
+      "sha256": "e86c84e9faa4d6f87dbaaed96eff5fc5fd2cd346d88c12880d24baaaaecb1f90"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIResponder.swift",
+      "sha256": "a42d436b6fa8be02cd35ce8cfaadbdf4795cfc40158b621fa148626ee4e13dfb"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UISearchBar.swift",
+      "sha256": "991ec553140e7ad6a6ec7e20744e1ae6ea854fd8c50d6a17540f74b822c073f7"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UISegmentedControl.swift",
+      "sha256": "8bbd2a9c1892f6e87207af5e1495badb834196570f09f8695743498e319cffe5"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UISlider.swift",
+      "sha256": "01cb54775b4226d663a1d3bf37bb95f3dfff4e8bace3597b62736126b6632c2b"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIStackView.swift",
+      "sha256": "fedbc1fd44630d5c79eebac3e30330e7737f68fb01256ae60ad74f5d4900208d"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIStepper.swift",
+      "sha256": "ee723bfad6d76c8098c96e51ebb6b20661d2f140bd13ef34ae4921873132c9ee"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UISwitch.swift",
+      "sha256": "c00e4daa147fcae57bbae13f1cae2b7b25c0374dff80f384cd30862e33974902"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UITabBarController.swift",
+      "sha256": "6b758f8f21ef034584ede2dc7026056a8d24a579dc1b03d504dca4913667c722"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/Others@SDK/UIWindowScene.swift",
+      "sha256": "671d8e1d5d037fd9c958bf99626ce10832b17b2cf01041b47c02c8fef54c37a5"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/PHPickerViewController/PHPickerViewController.swift",
+      "sha256": "a65f69f38be7316a6481adcdcdb16e5b8b0c016f0976bc3c2847d9d0251c2b3a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/README.md",
+      "sha256": "91a83dcafbecd57c9b96d7b00fe048c27a2b6f3fb21403ef1c77ebcd5219fd58"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+Emoji.swift",
+      "sha256": "119b3ca75f4053a23cfc670870ac8dfca06d701c29fb50bf1a96facfa7b5bc2c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+Optional.swift",
+      "sha256": "9978933a409b25d26d4d227774a918a3ed54c6e82d0fa438139ecda8ba4e36b4"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+SVG.swift",
+      "sha256": "77bf3c87fbf3c9a681e40096e999bd239b9d31a4e9916e3e073969c7fb2621b4"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+二维码.swift",
+      "sha256": "7e4bf15bf12f03f44d79ab7c482c61d76a1f6572524615061a661794d8800ea3"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+取色.swift",
+      "sha256": "b136d54e4a1d1630c88a87ea43977e8a6208531e0f9ce0311f182fe65673f1fb"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+多语言国际化.swift",
+      "sha256": "aa2e4b1038b979a414818164d59d3af83f32d8d79551b6eb1f6b43d0ba916df8"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+条形码.swift",
+      "sha256": "8c76bb2e0e016302dbe2a15a202e8b7ae39fdeb6ce09f0285d9eff51aebd86ad"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+格式转换.swift",
+      "sha256": "f7b4b90349ce3a6e7e1d70a8b22ca4b26811631789fc2fa5b0874390615202b8"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+系统功能调用.swift",
+      "sha256": "5011118da57fb6428df22a058eb2d9acc6e9cce600a0d40bc9126e6b5d2ce46e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+获取资源.swift",
+      "sha256": "52f6cafd730eadc5654cc19337cd4237c333550ece07b9246a65401a8768a757"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+裁剪.swift",
+      "sha256": "527267790b48c51c7308997f44581b3819e36114abab46c51467b5b33652eede"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/String/String+通用工具.swift",
+      "sha256": "6f537cdddb0e802877ba1237bcbe0e8fc088592ae6647c7219aa0a9c411130e9"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIActivityIndicatorView/UIActivityIndicatorView+Style.swift",
+      "sha256": "a6bfa012cb0528543514912ba00422656b9fa35d48fb1584e147f9f76823d11f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIBarButtonItem/UIBarButtonItem.swift",
+      "sha256": "7ca722685a630d2613e680e1ab66f324ff7ed5438e3a0b480fa267b03aa71d76"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIBarButtonItem/UIBarButtonItemAppearance.swift",
+      "sha256": "f79529bc4654df8e459c7c7045ac206067f1901eac19a9b1482a6c33086adeb2"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIBezierPath/UIBezierPath.swift",
+      "sha256": "57c062aa118eccfe5ca908e8df7d785ed963ced8f95b00532ed5b476153b9493"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+Init.swift",
+      "sha256": "756e8b1bd54aa2196897338d0434007f465230d3cafd0d6e1c500f3e3ac2de9f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+Kingfisher.swift",
+      "sha256": "900379fa5a79c78d36388e81d0826a13a36cf370560c0e3b5522942b139615b9"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+SDWebImage.swift",
+      "sha256": "1b775356193bdef4ff554fa176239a0b3e77c832586b3e2a6c7ec3e5e1dee0b1"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+UIButtonConfiguration.swift",
+      "sha256": "edc56ffdf23fa918975d888328e5e52fd88c4b1ca0e21852502f9817c50c7f58"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+倒计时.swift",
+      "sha256": "78b069fc291e2a01deb7115f2198dfcc21e23b30ddae78338d88743502aa83bc"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+动效数字标题.swift",
+      "sha256": "67bcbb0e8ecdb4171b166c942a289211354842733c9a47f6e54962067e81b94c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+呼吸占位效果.swift",
+      "sha256": "76055cf0f85763142f0a84e0db521ea4cefce63c10195f688798f6d9c20c5067"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+声音.swift",
+      "sha256": "a384b0a6a19fcb3bf2efd1dfbaae6010aa107a3a03fdd08ac03a3f02d7d83e43"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+字体颜色渐变.swift",
+      "sha256": "57a47e1ee08520f71fc0f432157f834ddf24a411b81a8eeea3033b603031e3af"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+旋转动画.swift",
+      "sha256": "7cac3ad3a5f91e1a4be55fbc404e88bb9838f3f0e9bdc8f076aaceb7e4fec09c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+点按事件.swift",
+      "sha256": "013675b406f680205c5534ed3bee2017f0644ffa9209df260c605dc89628474d"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+空态图.swift",
+      "sha256": "803de140a15e71a5947d31b2bba5e27ff40f44a6665339ba857e0821d39e2c77"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+获取UI.swift",
+      "sha256": "dbbd586b7782b17ae952c3558427038761eb4b78c334126b322a365278c90131"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+锁定TintColor.swift",
+      "sha256": "dc1e5a812234a17442eb4efde150971d9014ac7e575fdc10cbf9eb470f885ad8"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton+防止快速连点.swift",
+      "sha256": "e4e3db9fdf117e088f4813ce522590a74c741a2fd86812bc6ccce6322eaf9e93"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIButton/UIButton.swift",
+      "sha256": "a6174ea322f5d42abb299f8492890aa85eaae43212e6d69443b98899fbc06818"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionView/UICollectionView+DequeueReusable.swift",
+      "sha256": "6339831edb9536a32e2f8039bfd45941bdd61046ece0bbbc4d747df2bcff31ed"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionView/UICollectionView+Register.swift",
+      "sha256": "627b67cc048365c902c390fc879680fe60125cb82127004b916aeccdaac6f9f1"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionView/UICollectionView+校验.swift",
+      "sha256": "c9e77fb28833a97fc882f9f4270966359ae3b1b7cbc2f185074d6926490a550f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionView/UICollectionView+空态数据占位按钮.swift",
+      "sha256": "a5ba0c4f99210e3a79eafeaa276c99d282573575ebe1fd29324f2873c496f830"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionView/UICollectionView.swift",
+      "sha256": "378142a0ee8cb50ee50d82d3efaa2e448dbcd396d611cc6763e57ccfef6d2321"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionViewCell/UICollectionViewCell+数据渲染.swift",
+      "sha256": "efe49185eb89b908bd2c9ad1dc6d960ffeccc9dc7fa4f995eedc1a8bf7afe139"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionViewCell/UICollectionViewCell.swift",
+      "sha256": "f55e36254096049ba084660d285a4b6a9b3dfef50273e19d4b1d8fbac3063ad4"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UICollectionViewCell/UICollectionViewListCell.swift",
+      "sha256": "c0981bcca4b66f74a4dd0435f0ab5ed532fd90db4b42db9b0cb4bc05d7089037"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIControl/UIControl.swift",
+      "sha256": "c7e5313e23b08002ccfc6a8df24cfcb01faf13b784d22dde3b0e518388ddf777"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+Avenir.swift",
+      "sha256": "b8509e0b5a65f9f9bf972b7ff31db2cfd7e1a7398a9526fc17a68869da18fd04"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+DIN.swift",
+      "sha256": "9bd1c4924df9fd5e54ff78ca6516917b2031764984b9b7c8899f99b826ca9b8a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+DSDigital.swift",
+      "sha256": "49d8aed524af4a8c122266a3f9ef99310455767b73c8a4f35d2545ba25248138"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+FZZCHJW.swift",
+      "sha256": "a848f62779e898230b138e4fb5cd2cfd012d0cc3eb460203dc2bad7d802d8fe4"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+HYNuoMiTuanW.swift",
+      "sha256": "c5da7ed21bdbdec253629b1b0c1a5111fd458772c30e98780ec792a89be6a417"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+Mitr.swift",
+      "sha256": "e2cdd4ac688fd63afb4c3b0f2e847bc1af5bd1027fee9692dd6bbc3e4b171f5d"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+Montserrat.swift",
+      "sha256": "492d84ba485ec6ec60559a6872edfd7c6b65bbb929db486432594ce889b2ac17"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+PingFangSC.swift",
+      "sha256": "5f47c1696b85885bd7cba5fcd7a92241c095ddd4d7ffd0cc775f5018e7610b95"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+Roboto.swift",
+      "sha256": "cefabe2aa927ce02b20d83003e239b5b118263cec2ce43636ca7fabb4398c29f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+SFArabic.swift",
+      "sha256": "0e7484ab9bced70cb09ff9d296403598ee7fa3f0737257f6660d6bbf82c248bf"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+SFPro.swift",
+      "sha256": "df568963fc6f42381b12a502946dc96edd40e30668b4b8d62be1b522c2d8114a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont+SourceSansPro.swift",
+      "sha256": "c6dc4f7c13a626d93b0318bd37010f023217700fbcb7e565fa6176bb42eaf2fd"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIFont/UIFont.swift",
+      "sha256": "de8122696d9144761c49bb35a70481197a9c4ce0df8b6e5c5f7884526487d56e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIGestureRecognizer/UIGestureRecognizer.swift",
+      "sha256": "b0011db24ccaa01f88a7f5c61616a8b831ab56deab5bf8c68ec8650a7e36bc2b"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImage/UIImage+Cor.swift",
+      "sha256": "4ac4af303ed7c569bfcee92ed271146d159fb24ff91bb005ac5ca200abb93dae"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImage/UIImage.swift",
+      "sha256": "f5e2abe23fde5ce74fc992d5b191df15bf1cd8aa104f66311b492fe611139732"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImagePickerController/UIImagePickerController+Proxy.swift",
+      "sha256": "9b0e34352e893f0c110b03289445169fd60600e93345117e52163243af61824a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImagePickerController/UIImagePickerController.swift",
+      "sha256": "6be2064362ae6117952a4c82adf26f557c016139fbcc17ad063f5ff784c2dc8f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImageView/UIImageView+Kingfisher.swift",
+      "sha256": "b15d2186dc7cc74b22af311d911b3c1c6d377d78e78c8dda1c586bbe3bf1c416"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImageView/UIImageView+SDWebImage.swift",
+      "sha256": "af9dbb4e3d38489d3456059bb446cf945a78c385b6b889ffa7ef0f473739c703"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImageView/UIImageView+自研骨架屏呼吸占位效果Shimmer.swift",
+      "sha256": "61b2c57c5d1c125a82ae02ba62a0ec2c205d4d063fd32e62fca8042d4c63f3e9"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIImageView/UIImageView.swift",
+      "sha256": "f055cc28e6b8ac055bf30e5d1b24b53aaa36126ecc7bc594dceceb5866376bcb"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+Tools.swift",
+      "sha256": "c6c4e672c0cad73276f0d0f605e201eb6661dde8550a47ab2eb5a8694e53f035"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+内边距.swift",
+      "sha256": "a42ae3be1b11db7e10532efaa1ba05e1ddc767b7ca3f4f41929c4cc7da761791"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+动效数字.swift",
+      "sha256": "b83c94ed3b68e60c15ff03bd7f2af36ffc4649a78286690b2b0dbf7316b0109f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+字体颜色渐变.swift",
+      "sha256": "1ca4f06c7e690a31c840877918d2c8de13ca2adc5d7b7adeb552a97d4132da7b"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+富文本.swift",
+      "sha256": "f9f90f03f0d0df978aeb142962bdf9dd8df5fd2972fbad141e31c5df692e5264"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+方向变换.swift",
+      "sha256": "9ebf220fef467cbc6312922a33ead76fac3c1b481a436d87679fa72312054415"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel+点击事件.swift",
+      "sha256": "f7c7f626f73ed285f9f351428c4361e30653c601bd10b4cecc701291e8649a56"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UILabel/UILabel.swift",
+      "sha256": "380f21267609c5b8d6bf9f6fdaadd09e1787d3ae6719309b0cf79af2f14d955c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UINavigationBar/UINavigationBar.swift",
+      "sha256": "1c2cc2f21656e3ce9eaa34a01cdac8ee0e2c4273514d8e10b9c9d883a3f09d5e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UINavigationBar/UINavigationBarAppearance.swift",
+      "sha256": "d529c2e7ed9ffb8e36ff29d1a5499ab3c27525e7550981014d517954c716e56e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UINavigationController/UINavigationController.swift",
+      "sha256": "880d585e841278e9403762685525c1e69e173af3633f9244951544bbecb640ba"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIPageControl/UIPageControl+网络背景图.swift",
+      "sha256": "2e63ecec6c8d7bbde5e20659d405b99d06d5aaf9ba7962d285292cfcf91530c5"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIScrollView/UIScrollView+ESPullToRefresh.swift",
+      "sha256": "c8cade25111457121e7c22f43d7d4edbe3dbabdf827b7a8ece198a71e284ed17"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIScrollView/UIScrollView+空态数据占位按钮.swift",
+      "sha256": "6128d80033fca7c597c1e24230e69121d4e3ba4a269470a3a56095c19601a0d0"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIScrollView/UIScrollView+空态数据占位视图.swift",
+      "sha256": "5089f6d8e4e80484ec75b482e6055c49e04b392764392b17cd8a9a63b8551973"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIScrollView/UIScrollView.swift",
+      "sha256": "cf110a64f511593498024e7060242d6051276d4d00f8d38002b01f8da9922d25"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableView/UITableView+DequeueReusable.swift",
+      "sha256": "4c6b6c9250ceb354cace4f4f09c35e0269572b90f825d475877f87f6d998792f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableView/UITableView+Register.swift",
+      "sha256": "a46e5594b3d9ff3f31bc39a46820d5e7e7daf8f9b462f1cb8b32f99150e84f2a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableView/UITableView+刷新.swift",
+      "sha256": "c34d7ae80b6d85a63285c65a1a3fd31c1c447362e40520ca392f91a6c5ffce34"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableView/UITableView+校验.swift",
+      "sha256": "0445701ea0cb105161acaa52f5d38eb5a222d0908731164874518a44db6beb2f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableView/UITableView+空态数据占位按钮.swift",
+      "sha256": "e92a285298b58c3032dc9ca4c29e2b2d64ed92c9206cc4dd8209c59500785c46"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableView/UITableView.swift",
+      "sha256": "be9e9ebb3ee0663a7ba06bd4b499ec84b4bc968d044120068573531ab53198ac"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableViewCell/UITableViewCell+数据渲染.swift",
+      "sha256": "f6b226e7ee3fcb4e95909d2e7464f6dfbafedd6230ca52f6f75a3a751f689f8a"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITableViewCell/UITableViewCell.swift",
+      "sha256": "42c3e9ee53bc5d237e4957e61d2342206a83ee47eab7c78ac2b950efb7333ab1"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextField/UITextField+Placeholder.swift",
+      "sha256": "1c3f2b41e49af330bd5f6722c36f30c9b89c14bc0d3851b2fd4cd48874d91a3c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextField/UITextField+富文本.swift",
+      "sha256": "21d1d19a22ef3a1c9729131e610e1805031a90a6f679a1544a03de6d5b99319e"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextField/UITextField+监听.swift",
+      "sha256": "de51ebdb590197723fc84a51e198128935b99cbb2f55e56bf26bb9584846d7f3"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextView/UITextView+Placeholder.swift",
+      "sha256": "9a138daace5de5fcb9360c8d99cc210cf011153949b29d14ebbe44e9dab79a5c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextView/UITextView+富文本.swift",
+      "sha256": "059ac25a02b9ea4b8e3abcff2b09efb91853bd3e3f46eb26c3c8b38ae613338c"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextView/UITextView+监听.swift",
+      "sha256": "68759b154e439da87f51c0b8e38df93fa5bee1eb0e1a6d1313d79a47a4adc1f6"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UITextView/UITextView+输入字数限制显示.swift",
+      "sha256": "f85e6bac9302e3810c3355ed9b1876e36b3f9807cc8be340d99a61e1015d796f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIToolbar/UIToolbarAppearance.swift",
+      "sha256": "492cac31aa80752839b07cc9052a35690fa931b0fed5ae2a3dbb5ba0d8cbbe34"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+GKNavigationBarSwift.swift",
+      "sha256": "4c5e720adba9f16a0aeee5b8ac4eb8907d3d4d5da838188caed57e116ffcf0f6"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+JobsNavBar.swift",
+      "sha256": "6f51c2eba7417f944defabc39d6e6a02365b6ad231f99d6fd4e03dc2fc6639b6"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+Lottie.swift",
+      "sha256": "c6129ea6a1a067ba784f1282399c8544a8c8fa125dca8fc9420162934dd6e348"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+Rx.swift",
+      "sha256": "5d112ea06c555c72af32eb20badbcc566dc32f0ef81dbacf4191e9ebf1ed4ded"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+SkeletonView.swift",
+      "sha256": "0202e2040a4af5d2acd9518d36350dfa95c512f105bd5e6b0fe9d6fe2e004dd1"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+SnapKit.swift",
+      "sha256": "4ef7d4bafd0fa626f65c2552bf8f6ca67a3ef6ea2d440b0635a01efb56983fee"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+Subview.swift",
+      "sha256": "86033cb887c358c4086b2b5204d1329585e443e1a8c93182411ba540a10a91ee"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+keyboard.swift",
+      "sha256": "a349981363680df4bb31a8bb8e49dd04f564e421fc6becb7003c3d4906691f86"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+传值回调.swift",
+      "sha256": "22161a1f94afed3d7bcf187839abbeb77c8c77fc19b75aa2af5c53bef108e52f"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+动画.swift",
+      "sha256": "86299059085038575c23a5a81f45e8de87216a09980dfb3318aa7c4563147dbf"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+右上角角标.swift",
+      "sha256": "3f860138d30dafc33404031f3488c5751d41b9d1742fd1fdfbe1d8d141c634af"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+回调@确认和取消.swift",
+      "sha256": "11d0f35edb00c35f82ec878ba5172112c1c4d4df7d792629a40fdaa10feeafdb"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+外圈Layer导火索倒计时效果.swift",
+      "sha256": "a0d4c65ad1685a76d4cec1f45738aec57cdb94c6af9c63ee11621ca4d85c1b77"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+悬浮.swift",
+      "sha256": "49e37beb1015ff91c8f040dda41afbc119df4e8af80998cf76d16bc8d6645f80"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+手势（支持叠加不覆盖）.swift",
+      "sha256": "64b96103228572834a4f3c3068cd78af0fec48b8f834b296ae396db46da6f69d"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+折页.swift",
+      "sha256": "8e472facc516738bac2b7d5eaf1134dc5f173faf256339556ff8f59fdcfa7e73"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+统一点击事件.swift",
+      "sha256": "e7a79c601758bf4f9f314c5b82c4177763e7e44d66b85b12a133b1277f4d9983"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView+自研骨架屏呼吸占位效果Shimmer.swift",
+      "sha256": "64025c9c8821bdb61f3a8e94b1b2beca8ae1cbd99836b247f9f3b442ad57c812"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIView/UIView.swift",
+      "sha256": "bfa60bec4173554a67ff8909f267026abfb8a753342a737dbd36b4b2143aa810"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController+GKNavigationBarSwift.swift",
+      "sha256": "26b0bf691cf39fd5f4395041f6934702d20534c90ade0847487b2c377fc61da2"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController+SnapKit.swift",
+      "sha256": "73c424c78a89dd89b33a2e5d74da11c66c8e8c3427953bb197f6ba957178ec52"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController+传值回调.swift",
+      "sha256": "0d23c604f9746b8cc9830adee9fbbbef925ee3cfc5f0ab73ee05681038099a24"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController+生命周期探针.swift",
+      "sha256": "4d4aef68795d201fcb1e78f41f6fc4caf328ab7a7746a2a453b64c0afe3d8d57"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController+系统导航栏设置.swift",
+      "sha256": "a1727a2249f9044036e26f8a01aa92b1693f38981b147bba03f77f3516cc9407"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController+自定义进入方向.swift",
+      "sha256": "481562a0fdbfc6704783cecc4bc2d2ee256001096f4b95b4f6aa2eced8f6cf31"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/UIViewController/UIViewController.swift",
+      "sha256": "26a099d8ba528878f62b056a91e2479b07c23c3d1ce9328a373ecc06ff7c76f7"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/URL/UIKit+Kingfisher.swift",
+      "sha256": "fe335327b1bfdd63159beca6a12a38478ea378254cff386b33fa75314166eab2"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/URL/URL+SDWebImage.swift",
+      "sha256": "caf1c453af87223112541a781b6f4f9b0576b0cdf4b9e6ba9de15cd8671391e4"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/iOS.SDK/URL/URL.swift",
+      "sha256": "0a24c05c513896b349807f14b380a143bddc25bc7bcf0c61ee41ac5ab4f86716"
+    },
+    {
+      "pod": "JobsByUIKit",
+      "file": "JobsByPods/JobsByUIKit@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsByWebKit",
+      "file": "JobsByPods/JobsByWebKit@Pods/JobsByWebKit.podspec",
+      "sha256": "c65f331a280d068bf36a705d82b6d561df55799924debdf99aaa7a26b40ad49d"
+    },
+    {
+      "pod": "JobsByWebKit",
+      "file": "JobsByPods/JobsByWebKit@Pods/JobsByWebKitDSLBridge.swift",
+      "sha256": "fc4b909980cebbf02d710ea9414c6f9d3f799ac92bb6c1e4f0d8c0db33848984"
+    },
+    {
+      "pod": "JobsByWebKit",
+      "file": "JobsByPods/JobsByWebKit@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsByWebKit",
+      "file": "JobsByPods/JobsByWebKit@Pods/README.md",
+      "sha256": "bfd78e99c2853a4533f9e94af081b87f72e68c7136607edc4c44ec87ac66f219"
+    },
+    {
+      "pod": "JobsByWebKit",
+      "file": "JobsByPods/JobsByWebKit@Pods/Resource/icon.png",
+      "sha256": "88744d0930e52da16aeadb97c409b1beea970632919bcd2f7c2b32d32faaa115"
+    },
+    {
+      "pod": "JobsByWebKit",
+      "file": "JobsByPods/JobsByWebKit@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/Inlines.swift",
+      "sha256": "c6e5a96383224ce8cc290432c9ad08b1a5efbf598e1431c2dff0777cdc60c115"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/JobsGetWindow.podspec",
+      "sha256": "fcd4c1440f4a6032642d0abb46e7b6bc6ed578b6d8965264b18b1dffe661a456"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/README.md",
+      "sha256": "bacb681d7ed9ac9c723c238ed17e5b5c7f5daa3a9da6e1281683f79f00e36b9f"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/Resource/icon.png",
+      "sha256": "f21a81e0783f5826a9b4719a4b1e04563d51e00bd82c94968a17b5688ee7781c"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/UIApplication.swift",
+      "sha256": "71ce869d0df3d81f30ce2da4c57cd6a5ebf69b68733849cb5a6d72703945ad82"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/UIWindowScene.swift",
+      "sha256": "53640fe50a013bd58fcea77af79cd3cd3d801fcd109d338e45c200497446dd9a"
+    },
+    {
+      "pod": "JobsGetWindow",
+      "file": "JobsByPods/JobsGetWindow@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/JobsImageCacheCleaner.swift",
+      "sha256": "d3dd12eed6929334b9afafaef10afc4bbcbcc78b15740a7000e0ebb3747d67c4"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/JobsImageCacheCleanerByUIKit.swift",
+      "sha256": "1ec568a2545ca2693f47059bc252713c48be8233480a7f4b8972b6cf7cce5390"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/JobsImageTools.podspec",
+      "sha256": "f05cae79804f94e6fe1e49fb5ec57e6356d09f101f1f401f8239120d460a2c14"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/JobsSimpleImageLoader.swift",
+      "sha256": "8ea9900c879f9c370049a005157e45ab9b80470d815421f80e2c20489a115e44"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/README.md",
+      "sha256": "75d05d7c7617399a1056d5414a86e855498bb166a4a0e051d68aae7acb9f9485"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/Resource/icon.png",
+      "sha256": "9f0f0bba9f4066fc158850c3ba83b5330b88f070b8558ebc6a8dcecc33363a12"
+    },
+    {
+      "pod": "JobsImageTools",
+      "file": "JobsByPods/JobsImageTools@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/JobsButton/JobsButton.swift",
+      "sha256": "75720689d33829a10cea24f04ea6e458de79ad85fa9abbc3cf1c80d992f45da7"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/JobsInheritance.podspec",
+      "sha256": "e1cc0d5656dbd5ddc0aec7f5011f9cf91165f0a7b5e66c84e96fc38beff5ff22"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/README.md",
+      "sha256": "13a240513e5e4afc47121860e045dfa3883f6a59ff1f3ad238bffea23d0e74c6"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/Resource/icon.png",
+      "sha256": "d9026c7ff2e41815ecff1671c8baada744a40a5facf7c093e89cb2727810ab17"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UILabel/JobsPaddedLabel.swift",
+      "sha256": "f75fce5b426c43c18edae65f1259c37524648ee7abf5af07a86f0c5ff17f9f95"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UITableViewCell/BaseTableViewCellByDefault.swift",
+      "sha256": "a65185e68f88aec7fee13fdb71f63740b6e14a2807588b897806f0aa2e7a7bf5"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UITableViewCell/BaseTableViewCellBySubtitle.swift",
+      "sha256": "09a94699274ae15bf851f040356cb7f6b9eb85e8a9df7f241070b71c66a065d5"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UITableViewCell/BaseTableViewCellByValue1.swift",
+      "sha256": "8dfb43b3d06a4077385884f2243c464f190d42212d5a654240b33cfa0631c439"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UITableViewCell/BaseTableViewCellByValue2.swift",
+      "sha256": "004bbb9d6f32a9c10a1841af2bd5b863835af0bf752c1357f4f75e4f93f859fb"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UITextField/JobsTextField.swift",
+      "sha256": "4e6923c5e39357adcfc1c6ff98999a4d15600fbb86e6f65c946b31eb7876d504"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIViewController/BaseVC.swift",
+      "sha256": "fa47a3d57e99a37aa0868f6400c288bfc476bf179ddcf495ef8cc42409cf531f"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIViewController/BaseWebVC.swift",
+      "sha256": "e9ff81e9b58599443b3ca71c70b2e10fd867911f31d5d7ec5a9d7cf5c05bc9fd"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIViewController/JobsTabBarCtrl.swift",
+      "sha256": "0818c9e655a83e9f7fee0c78dfadd9c2ccbd86cc89b3f0d23b5cd77d4bca6384"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/AnyDecodable.swift",
+      "sha256": "1708c4202660a27786927198e1905d0950eae0de97496897532c3e57cb22f8c6"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+Bridge.swift",
+      "sha256": "872f979475231436388ef18b93f5ae7df0ad97605db355efa7843f4a9ea0f209"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+ConfigDSL.swift",
+      "sha256": "b1f8c91715fcbb0c6bfb7a0efdbca3d8d7f524f66d81c6e377e615696e481edd"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+Download.swift",
+      "sha256": "1c38100ab4f76560f74f1beced85a4fd651030eac0407e444a20beb1aced1ba7"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+MobileBridge.swift",
+      "sha256": "77a0ee179c626051cb06da704ee837c6ba0fe9e779dd7ca382e1a36b1c4ab9fc"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+NavBarHost.swift",
+      "sha256": "f7ca7e427cca134508ae0ee3adffacbe8769783d5e35bec6d65fbcf305a2a71e"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+Navigation.swift",
+      "sha256": "937522b2b71dde2ade3cf3c5f4be3b0e7a7dbcb05bf7bd41c924b537cc9951eb"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+PullToRefresh.swift",
+      "sha256": "2db1c27758173993f0c544350740ef73e68631f4f7427f405a05581ba315e27f"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+Scripts.swift",
+      "sha256": "3b55a7cd9d55873c5436a74e2b5d33ed09940f9d80612ef18712953713c766bc"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+UIDelegate.swift",
+      "sha256": "1a22c43ebd6f3e9c27815cdbca236ab69f77f65fd86870a8f3f12074c5260a6a"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView+Utils.swift",
+      "sha256": "2b3a1c14bb01a98ab235dcf33b97b361b94eecba7da79dfc1413cbdb9c16c761"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/BaseWebView/BaseWebView.swift",
+      "sha256": "1f0da4d414c3d81827bc7e287a4b0387407f644493856ba7bebec0673f683b05"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/UIWebView/WeakScriptMessageHandlers.swift",
+      "sha256": "06c30d5195eff6d0078d835ba3e58844e2b5179d287551bfd0c903f2f2d290a7"
+    },
+    {
+      "pod": "JobsInheritance",
+      "file": "JobsByPods/JobsInheritance@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/JobsNavBar.podspec",
+      "sha256": "46524124650e3cc1651f94dc5cdefb09f4b07e3048826b420c04948453f586a6"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/JobsNavBar.swift",
+      "sha256": "9328ada66aa1c18d448f66457832415b1ab90968afd4842c87400e5771d488b6"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/JobsNavBarByUIKit.swift",
+      "sha256": "34c4a35fbdb9a14158dce24f9bbb0ebd226a05124499e652c259c5f3d35f8741"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/JobsNavBarDef.swift",
+      "sha256": "325409d83b5e4c5e130dcc2a577ed2687a154c72fc9ff8ff65f9b750d85cc83e"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/JobsNavBarTools.swift",
+      "sha256": "4b957cc9fca97b3119cd3972cb6454efca1afccc241deb4e59fe2bbd8f925d64"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/README.md",
+      "sha256": "099f4525d3ef5a0375419c1429bd4013da5ca25e5bbc6ab4c0e44ceef3a2b7d6"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/Resource/icon.png",
+      "sha256": "11b01b876e5418fee8d3a8d2fd563e1d533756104b3d64f8c01b78f75a93f287"
+    },
+    {
+      "pod": "JobsNavBar",
+      "file": "JobsByPods/JobsNavBar@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Adapters/AF4.x/Compat.swift",
+      "sha256": "d8db1c850ab2936c132b5cd1f10851cca40c337ddcd58cf6fdb7fedc92f643ce"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Adapters/AF4.x/Placeholder.swift",
+      "sha256": "89b6260d7390f505edbfdc855da8ce3ae4096157513c7b1cb6135ff95d4c4449"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Adapters/AF5.x/Compat.swift",
+      "sha256": "6a528ac269c1d8b99def8dc92eea42949877b0ba7ee9ba8570494e5e016c434c"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Adapters/AF5.x/Placeholder.swift",
+      "sha256": "89b6260d7390f505edbfdc855da8ce3ae4096157513c7b1cb6135ff95d4c4449"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Adapters/PromiseKit/JobsAgent+PromiseKit.swift",
+      "sha256": "f7450269e1d6bf08155e7941db4811eb9410c8c0163c98cf61688b8ebf92e13c"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Agent/HTTPClient.swift",
+      "sha256": "c24d18f23273fa940869021643b526d26f6d9c9bc6ae255485eefbc8a9edb9d4"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Agent/JobsAgent.swift",
+      "sha256": "b0eaf3d7a8768f848527c4bfed075a3009d19e49cb48c507c16e24cba837f7e5"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Agent/JobsDefaultAgent.swift",
+      "sha256": "3318f857b28a3799255f9c4d74d1b936f03c753322e34711fc6f45ab17ea82b9"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Agent/JobsPreparedRequest.swift",
+      "sha256": "ff9647b352ad72ea874223c78e6c12d805be9d9a175494428a0510b5b7979095"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Agent/JobsResponseEvent.swift",
+      "sha256": "738415745d7b947570c70cfd8b2213c4b89ba394e8b6c060c4594dbb92466e78"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Async/JobsAgent+Async.swift",
+      "sha256": "7a66d091f0e68b1a9d55fad0506dc0fa601b2ca17c5dad582f42cbf66dbaef18"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Async/JobsBatch.swift",
+      "sha256": "a87a4105ecfea029a428b022f5e948189fcc4f14637e143a9b2427a3621f77fd"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Async/JobsDownload+Async.swift",
+      "sha256": "af4786c46ebecb587b458d310ce781292d99694a8ced5807768cdcb567d2c19e"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Async/JobsUpload+Async.swift",
+      "sha256": "b99542aa4167629154c4c61f92128f90e74d2fbb91c4e80a2c713c9b9a3ebc08"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Async/JobsWorkflow.swift",
+      "sha256": "260bd3ea1188c240a663a0516c2b7e551aa42e3f2d3e9ab7a14f8df1d5b3f701"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Cache/JobsCacheKey.swift",
+      "sha256": "526902285282abe27c83a44025e57bdfa92e75aea8280a5665544f8a46bc8452"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Cache/JobsCachePolicy.swift",
+      "sha256": "48aa3b84b7ece244a185aeae6eb894788b4c6b0893f489540eb3c37240383b43"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Cache/JobsCacheStore.swift",
+      "sha256": "d9f0249d33e6e8773df46c1a9efd245b304ac3d5782377405b36ce828de13383"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Core/APIResponse.swift",
+      "sha256": "d325f375bb91220b21cd5a1ac4c730492291c151fbd6e48513e9e2491ecb2f85"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Core/JobsEnvelope.swift",
+      "sha256": "1cdedf55ef55102ac29c7157f81787a893f0b5fa4f5936e11a559bf6c2520ff5"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Core/JobsError.swift",
+      "sha256": "1fb42d335c55fbfffc3ec53746202c1d2d1670b1abed2772ff0e9f3f0881a39f"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Docs/MIGRATION.md",
+      "sha256": "bf85e59e4d72a462925c8254d46f03cdb59d147d80ffaf2e6529fb32861a9be0"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Download/JobsDefaultAgent+Download.swift",
+      "sha256": "d6fd8acf432713476d735c66dd49256518877b5bebd43e1ef2882bda51522079"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Download/JobsDownload.swift",
+      "sha256": "c1752638bcdc8399df79fc98c835aa0f840086f2162d692754b48dcedc358da0"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Download/JobsDownloadRequest.swift",
+      "sha256": "cfbcd0a304694e928a283471551b1a4fef2a673288f090dcd3e17fe75af5dab6"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Download/JobsDownloadValidator.swift",
+      "sha256": "f0569fababc746a50f828a9a4b81f38f72ccfe5641940b9028f70da16189fe9c"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Examples/Usage.swift",
+      "sha256": "88a6d2df4542e8f23c1602a6c0a3c7800cc9860f9e2eea02b56ca063707ee16c"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/JobsNetworking.podspec",
+      "sha256": "a5237705c05469c2a62aeaf2cf760549eaf2da670cb0606260404e460d73d134"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/README.md",
+      "sha256": "52220d02e40aebb95ccda69b00c6089e7a9082668d143cab8a36c2c52ccabd20"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Request/JobsParameterEncoding.swift",
+      "sha256": "52858ce13bef69d1277cbaad6cb7b6921e67187add51554488d845b8fca97956"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Request/JobsRequest.swift",
+      "sha256": "2b0dd3a7cc45d408faf7b9043313484788fcd94a7c0d3e6fe223f841e455ab4e"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Request/JobsValue.swift",
+      "sha256": "db81ba41bedd9d30f240d06a06f1078ee7026b320aeb00b24ab79d7e66db76a3"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/RequestConfig/JobsHooks.swift",
+      "sha256": "79de818d49930e4b1a36796cc6617d588e25122799d1cd843526bca573408d08"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/RequestConfig/JobsNetworkingDebugEnvironment/JobsNetworkingDebugEnvironment.swift",
+      "sha256": "6b1b145a67fe2d7e7037dc65e10fd15b2681b6c6009a18fa490f0509df8369aa"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/RequestConfig/JobsRequestConfig.swift",
+      "sha256": "de7e5e545ce846afbc7ee5a49fa950055fd0e5adc5e98aa09048217881252da6"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/RequestConfig/JobsRetryPolicy.swift",
+      "sha256": "c63dddd2ce0a09e66bd04104816c2674cb457444e7b3b2719d51c4feabfef6be"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/RequestConfig/JobsSSLPinning.swift",
+      "sha256": "060ac3815fe3ddce72d127ecb9b1f2ecc6310c414cd47d566f3c2b8740ae2160"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "10da67f217824f019288ec328ababc290ab0399c52e9be77a24d494339137da2"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Resource/icon.png",
+      "sha256": "9fe820a17056a32bd91d7ffaf2208081c3340825ebe3c1b35bd04c84ec43d051"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Support/HTTPMethod.swift",
+      "sha256": "32b28c158f300ea4feaf456e7e0d39f87d787e2b908d1ce212b95297e15baccf"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Support/JobsAsyncResultBox.swift",
+      "sha256": "3e7145d73dd011f451f994bb13fb92b2fb83eae5c2d6742cbfec46eac93069ad"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Support/JobsLogger.swift",
+      "sha256": "8ab49a07524dc0986511fcf819f1e40d7962d2e30adc5c4be8046c31743dab23"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Support/JobsRequestToken.swift",
+      "sha256": "937a94d1ab5b7545981c931713e5cd64699747ce010a9b8b37b4443b0b3f368c"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Support/JobsTrace.swift",
+      "sha256": "f4d0c794a1d47ae17a7ad82cf6a8f0702aa9e3e9731d7ab435a3ef2c13456bbd"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Types/AnySendable+Network.swift",
+      "sha256": "ca8fd63dbf4a92acf94301513275bcca469a6fa51bddbf41d215182cc88c5e64"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Upload/JobsDefaultAgent+Upload.swift",
+      "sha256": "1be480de40558ea9829a7a87e28af993911151ace75b7efe4060aa5e40182b25"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Upload/JobsUpload.swift",
+      "sha256": "7ad6ab5caed2ab46d418f702292465421ac4df0ae98e7bb73f3c9afb2742d8d3"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/Upload/JobsUploadRequest.swift",
+      "sha256": "aa3c898cb8bd475c80b0f18c11c5c0f835d221a31e4f23b26a217c56d2503830"
+    },
+    {
+      "pod": "JobsNetworking",
+      "file": "JobsByPods/JobsNetworking@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsScale",
+      "file": "JobsByPods/JobsScale@Pods/JobsScale.podspec",
+      "sha256": "9df50b8305b5caf15c59397426aeaad4778b5dbff58de0caef8756e95b239359"
+    },
+    {
+      "pod": "JobsScale",
+      "file": "JobsByPods/JobsScale@Pods/JobsScale.swift",
+      "sha256": "f7087c7d516ffb78f8436a9422b95801f98056c92c3e230622a22833a44ccbbe"
+    },
+    {
+      "pod": "JobsScale",
+      "file": "JobsByPods/JobsScale@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsScale",
+      "file": "JobsByPods/JobsScale@Pods/README.md",
+      "sha256": "24562cb555757eff7db318f6d1759f6b9603f7c36d6bfbd05e0abeac764d02fb"
+    },
+    {
+      "pod": "JobsScale",
+      "file": "JobsByPods/JobsScale@Pods/Resource/icon.png",
+      "sha256": "6ddce874bfb4bd7a30e05e78ccec911c98c64cfa2c197bb48b71f8fe8c57e8a9"
+    },
+    {
+      "pod": "JobsScale",
+      "file": "JobsByPods/JobsScale@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseCellConfig.swift",
+      "sha256": "837ac3ef7cd910f0bab18c1ab152314867c2f85b7d3317b70295746f6c76eb21"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseCellProtocol.swift",
+      "sha256": "e24cd32c80790704aadba5a47be491f083d3066d0fdc12800b6f083f11fdc729"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseCor.swift",
+      "sha256": "4ad7507423b5c8e23821848a49d4fb3e6d0ca54b4b7404ad59659f6d1ceae70b"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseDebug.swift",
+      "sha256": "80dd2e5f2a9a3a692f30a65d9a098ac6ddb2ebf416fe5032206bd6b3c916e9b4"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseEnumDefs.swift",
+      "sha256": "89942ccf136158f3b7447b6df55334adef94ba24b7b576d37f84cb6dee47ddb2"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseFont.swift",
+      "sha256": "33f189c668e32f7fc3a45eceebab761446d19e9f16bf7bb159e6fdce7f075468"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseLet.swift",
+      "sha256": "50b5b9f5681e20f13566bf4fdb7fbe18d4f108567f43ca9f55b841d09014f4d1"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseMain.swift",
+      "sha256": "9cb298fe0ec9c1fdbc6b9fb4e69a9c1cea411b63019154502ac155213840b603"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseObserver.swift",
+      "sha256": "3a009c0e5b94eeab32266e4970c86a31b4a8f86d35f7f40c2085bb018f092561"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseProtocolDefs.swift",
+      "sha256": "0b0e099a7956545642a7eda30c3381ce3efb1b5eb6ff0d9c145cc582c5784f99"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsBaseStructDefs.swift",
+      "sha256": "5c057645c3c39047f8c03ee9cd4616d1252bd04de945b9c4eea6c54ac80ce808"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsSwiftBaseDefines.podspec",
+      "sha256": "7c0d54d4883a6fc0ba08725e0805aeb277f70199cc3fa9e528124a5228c9ece1"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsSwiftBlockBridge.swift",
+      "sha256": "95e3a291caef2558aa5b0ee4caee36b1e7bf5faa2db51dc413da07e1d1f875c8"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/JobsTheme.swift",
+      "sha256": "defb08d3c9376b23f00babc6dac39a6514cfe1700d6ab8c14505c7b8b82dd88a"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/Notification.swift",
+      "sha256": "e9abb3bf450c28b829e21bea890d3dcf5c6d4a07db0599f023dc2dc02d57c8e7"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/README.md",
+      "sha256": "2c2823d57edd29b88263f66f55a56c7cc21b01fea2ef163d39e6e0070d726cd7"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "a331d51864743ebe4e00dd22360b4a538b6b3ac26a6b3eb54094e60a36959a12"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/Resource/icon.png",
+      "sha256": "c2195a1b49abaf55dc1ea092cbac4c3f563809b8ac55a056b3ff09d265cfb4a6"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/SnapKitBaseModel.swift",
+      "sha256": "f9d9744935b453dbc2c35287da75a9ae103e5c73e6a97a1338bdb6cc4eb4945c"
+    },
+    {
+      "pod": "JobsSwiftBaseDefines",
+      "file": "JobsByPods/JobsSwiftBaseDefines@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/JSONCoder+Make.swift",
+      "sha256": "e96aa1d91270012d27988d9a4bb6c46bb0682defa6e925f4a19e68f4019f0d00"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/JobsCallbackable.swift",
+      "sha256": "095de07925a9318ac307e0812ac2feb0148f33af930912fe8a4d576f6b4cc0aa"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/JobsSwift3rdPodsBlock.swift",
+      "sha256": "4906cf03a78ca2a481e9a7ebdf2bd383f3ad411c3206e9def00a2a88b06d6c0f"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/JobsSwiftBaseBlock.swift",
+      "sha256": "14d022621e168c53b708838dad20bcec549568a080de524cfec4b01482dd5bec"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/JobsSwiftBlock.podspec",
+      "sha256": "fd133737f1aa50d78a5dcdce1f580a202899c6a7dfa7e205180f9369f0982417"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/NSObject+Make.swift",
+      "sha256": "cbbdcae893ee07ebd3e526c3ff2290ec65b62dafa6ebf36dd373a5effe23ccbb"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/README.md",
+      "sha256": "458ed25f5ebdc78a5cc87109d1d16a0b858cc47a9dfc70f997538920d40e36a8"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/Resource/icon.png",
+      "sha256": "197cb80f77cc85e51b2e36c089b2c7d2d5cd0ea1b2a8d773f6a274ed3d38b223"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "file": "JobsByPods/JobsSwiftBlock@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/CoreMotion/CMMotionManager/CMMotionManager+DSL.swift",
+      "sha256": "06940bf4a9c6bd50d56b8c51ca5c3a678f27cd63cb78bb456f4143979321a50d"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/Foundation/JSONDecoder.swift",
+      "sha256": "d15842e14b43a2461c5d284746968cb1cafdeb2c5bf5cc0f8395d913db47b618"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/Foundation/NSMutableAttributedString.swift",
+      "sha256": "3822f55198e78d87f4c0703b9aae4566f4ed48ab8b66fb941e7ebf83c29e4f4f"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/JobsSwiftBlockBridge.swift",
+      "sha256": "4db5e68a1ee38515a1b27073ce9bad38e76cbea323fb35aca9d8c9e382830ff3"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/JobsSwiftDSL.podspec",
+      "sha256": "3c025a42327713f7f0d3b845170fe33822952999c4702f5c68790d465ed0aa46"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/MetalKit/MTKView.swift",
+      "sha256": "f619d33420ef221aa7e9ce75bd635db974ace31b307b08df60978af74081ec58"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/MetalKit/MTLDepthStencilDescriptor.swift",
+      "sha256": "c7bb1ec95faa900930de93f5d2169ad3aa2294af90bc04a48adb78dcd5048440"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/MetalKit/MTLRenderPipelineDescriptor.swift",
+      "sha256": "ad1b4ca720f8e03bfebc96adf10ccab9ed78b4672ba3f71ac34656c063332d53"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/MetalKit/MTLSamplerDescriptor.swift",
+      "sha256": "388a2a1c28db94d3e231eb1dbdf2d1383288c8663d0cdb93005ceeeeed5cbf46"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/PDFKit/PDFThumbnailView.swift",
+      "sha256": "55c61b6e913bda77656ceffcdf1c7a0e5b224d65f8161a41b830e63594502b81"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/PDFKit/PDFView.swift",
+      "sha256": "e4628854dd9af91916993a43e82d12ec5bca19603850c2ab7ae83bf3e0925529"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/PhotosUI/PHPickerConfiguration.swift",
+      "sha256": "a51cb95375faf4e9d700fe6a605d317c56c3a708915144f86ce4c97b118bd08c"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/PhotosUI/PHPickerViewController.swift",
+      "sha256": "c9bfecb562098cf7c8c5064798a4e60e24a6d6994353aa491d147272ce074143"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CAAnimation.swift",
+      "sha256": "1f63380cdd82a2fa3d908834d3694063ecb5e9af8a9804abab655f8260bb6160"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CABasicAnimation.swift",
+      "sha256": "2492f0614c19f31a3afc7f85f5a51dcd65b109a493dfff48abe72b0351ec24a9"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CAGradientLayer.swift",
+      "sha256": "64d1a5f92ef984cdb9efa6e6aa31e75e7f2a6cb2cd11fdd3a48e38083393fc66"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CAKeyframeAnimation.swift",
+      "sha256": "a27e42d3f2adaff32052079cb1b7fdc06e2e3035240c2ee9deaae30397fed597"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CALayer.swift",
+      "sha256": "96ba4dc6f141a1f4f2dbbaa69033f94ef41954c66fea8d4d698b9c8563599bcd"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CAMediaTiming.swift",
+      "sha256": "6a3221aca292bf272a49808e4721927a84549f3f66ef11c35e9634fc1d16cf85"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CAPropertyAnimation.swift",
+      "sha256": "2bee022e37c915402a46b45bbec1fd205eead7810db53495dcf5b802c08bcc79"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CAShapeLayer.swift",
+      "sha256": "e1be95d5997400753d4351007b89e8d63067cab0e4294c7c224f781043605274"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CATextLayer.swift",
+      "sha256": "44f3b03052b6e5ee1c9cb9c5bce619cfbf90d6628234e2feece0c3d7fd48a4e3"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CATransform3D.swift",
+      "sha256": "7a8eb219b6d84ce0390264bc557ef98fe325cf98f0a26d72fc0d598f86f50af3"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/QuartzCore/CATransition.swift",
+      "sha256": "fba133bebb51ebb67fcdbaa674d5b936b9a4d595ef6bdc82dee1551b27d4a64f"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/README.md",
+      "sha256": "6b0da013dc8bae3a288bdd98b68b18c84d20abfc6d23e3d18ff098fc5dc5e11a"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/ThirdParty/BMPlayer+DSL.swift",
+      "sha256": "62681a7df5137a2e48b5066c8a733d8fae44d02b5bca1320162d0ff5d5577607"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/ThirdParty/GKNavigationBarSwift+DSL.swift",
+      "sha256": "accc3cb0c644737465ab00706c59b80fd699851b1bf16763fade61c0663a2817"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/ThirdParty/SnapKit+DSL.swift",
+      "sha256": "563eae9964668194f7939ecceda4f2d41b6e7dbee8cc17513d72006346928efd"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/ThirdParty/YTKNetwork+DSL/YTKBaseRequest+DSL.swift",
+      "sha256": "c7d7d4de765f17820ef9ed25226516cd22e38dc29615834bf8b6d66d06e751e5"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/ThirdParty/YTKNetwork+DSL/YTKBatchRequest+DSL.swift",
+      "sha256": "e594353ab581bb59451b8dd240117e0d1331125d453e1f2b17c14dcc49389784"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/ThirdParty/YTKNetwork+DSL/YTKChainRequest+DSL.swift",
+      "sha256": "60ce36cb3cae24b10a75114e2b6de4a5e4149c48b7cd47609d96eeacc65626c1"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/DateFormatter/DateFormatter+DSL.swift",
+      "sha256": "655a4f9278b5b5217b8f78d85a023ca752f97f8b9cdab22fd3818f8fb6c1d264"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/NSObject/NSObject+Builder.swift",
+      "sha256": "6fcae7772a9111c618d14fba6cdca410375e8b9638fca4381f0b60c2c1401ca9"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/NSUserActivity/NSUserActivity+DSL.swift",
+      "sha256": "002450f79e6c5a395b102be6113446fd19e95ec97005dd2402287c245add5882"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/NumberFormatter/NumberFormatter+DSL.swift",
+      "sha256": "81c43a510af7933d46374c006e770e2f3343a204ef5d05f630da881f2dd0f65d"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/Others@SDK/UIApplication.swift",
+      "sha256": "b145dbc667a6ae28cbfa1a56478bebe9aaedbf5a967d0aa2251d7a0601ceba3b"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/Others@SDK/UIColor.swift",
+      "sha256": "7ee7247a076667740907e0fe731f94ac481bf9d52f124f4fbf56e26e969f97b7"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/Theme/JobsTheme+DSL.swift",
+      "sha256": "d8d0ca6307ece1288134de33ffcc83cc771d7c115f8eaf1cde2881f02d440bfb"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIActivityIndicatorView/UIActivityIndicatorView+DSL.swift",
+      "sha256": "963f1999528b92cc3e4a69377a1e4a6f3cfdd92ddb2ddd4ce4926c944ce0a61f"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIBezierPath/UIBezierPath+DSL.swift",
+      "sha256": "fda31bdc8b47c283d7c08967680fbd9152ca21b955d5d59a2b3c8ede002fb93c"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButton/UIButton+DSL.swift",
+      "sha256": "a766ffb7245eaf707e049b20c05d85881564da72583d88350d1d3553035ee4b7"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButton/UIButton+Subtitle.swift",
+      "sha256": "502b6d9cec35e78226639642d2bfb3c786b4b493072490d917ed262959c552b1"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButton/UIButton+富文本.swift",
+      "sha256": "5c1aed49bd9657ca39bd9b5fedd98c890ab12c6477ce596762c16994b05b8d23"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButton/UIButton+按钮（背景）图.swift",
+      "sha256": "1dba76f1c5ca3b65127e3a87c477e290063a45498394cb8ded6d51c678cdeddc"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButton/UIButton+背景色兜底.swift",
+      "sha256": "29ce50750b0a0c393adf45443765af29b9059c0ccb907deac2df0f2711409ab9"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButtonConfiguration/UIBackgroundConfiguration.swift",
+      "sha256": "1604d3c65d5df299cf2ce0ea311f6f5d25d68e1d5eb43a5029af599566fcbf6e"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIButtonConfiguration/UIButtonConfiguration.swift",
+      "sha256": "2724143e351de8d9f9b17a2bdb006065f6851753921eb127570a25758c065d2b"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UICollectionView/UICollectionView+DSL.swift",
+      "sha256": "5938dca5f8a7f311cc8ffe2fc2f19eee8d9458dca80d7c87811ac8db438865b4"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIControl/UIControl+DSL.swift",
+      "sha256": "7be0c0cbfefd383756b4693191e0d2edea2d49e9ac656dd663f88a66f63354cf"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIDatePicker/UIDatePicker+DSL.swift",
+      "sha256": "f768b5a47f2d65edec848f96b3d5bc032bcda33fceda670682d09b467e9b102d"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIDocumentPickerViewController/UIDocumentPickerViewController+DSL.swift",
+      "sha256": "6048a46a013b69c753150afc5257887bd4f19047948c99777fad8d0477d4e1b8"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIGestureRecognizer/UIGestureRecognizer+Block.swift",
+      "sha256": "0b470214d864c397d766a1d74e11911ae549750ed3b2ad12ecb7970261e3ee3e"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIGestureRecognizer/UIGestureRecognizer+DSL.swift",
+      "sha256": "f07104a10bfd854c88cdd509f3e71f721958beab2b645fb87054d636c489f912"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIImagePickerController/UIImagePickerController+DSL.swift",
+      "sha256": "b5ab225892970aa029067054ecd039674b46cada64e7270ac09fb89d7df4aecf"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIImageView/UIImageView+DSL.swift",
+      "sha256": "565d7673612f0888b7b27d7c0b9ef386cee3cdd9c9520b017cdb36ad32c23afd"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UILabel/UILabel+DSL.swift",
+      "sha256": "f582c9910e6430f379d1079181a701362eb50775abb0a5597d316d36fc67724e"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UINavigationController/UINavigationController+DSL.swift",
+      "sha256": "f5e153862ae159a7609b28c7b8fc8fa03d9d2dff36b3637e8ee52b323c5f829b"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIPageControl/UIPageControl+DSL.swift",
+      "sha256": "b5a815f15086d97a0cb0db0edbd1e7769a439507159ca06ddef2d73182c3a935"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIPickerView/UIPickerView+DSL.swift",
+      "sha256": "4ddb340d2883e60268a8e96e861e28820a1e4cde0d185e6e69ffba885769fc5f"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIScrollView/UIScrollView+DSL.swift",
+      "sha256": "d2a6228d87076652a2726f5644d40a38c984d6746f93a832775887096fa378f2"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UITableView/UITableView+DSL.swift",
+      "sha256": "fbb80f878695e1b0161ed5f514c2c04367a7661809072fc91cb92aa56cacc58d"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UITableViewCell/UITableViewCell+DSL.swift",
+      "sha256": "8ea14950640b5f3bfe968ddcf7dd102fab879db27c93c8630569a8c42f8df182"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UITextField/UITextField+DSL.swift",
+      "sha256": "35809488f5eb3d878121d095fb06145898bff47650413760fd2bdf4ad7d2a91e"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UITextView/UITextView+DSL.swift",
+      "sha256": "22337cc0075a9045dbd3563d30e9600b92749a169fbdf5280fc9d71e1442aadf"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIToolbar/UIToolbar+DSL.swift",
+      "sha256": "a3df9a6c99f46f9b9557aeb8d079c150e5b7f753e5e5094f7b1d1e18a4efbbf0"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIView/UIView+Accessibility.swift",
+      "sha256": "24b86d8db4a38bd6287ce6a4b7d94d65933840117dea8c50b2a03b6a10b4530a"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIView/UIView+AnimationDSL.swift",
+      "sha256": "c774090aff0c0543ef5ef067ab5e7e571e3d2d01edf11a8abf2436b66c936a95"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIView/UIView+DSL.swift",
+      "sha256": "cebadda3a6a09322e4f02fde74fa3fa8702f286ca6b80dc89f5a12d34fbe3dbc"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIView/UIView+修改位置大小.swift",
+      "sha256": "1b0983d1db012d52f7b4255ef643905673f96587c82d0eb9f27755e8c58cfbb9"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIViewController/UIViewController+DSL.swift",
+      "sha256": "6bb0763b3a50c4c25e46c88325af649f70c18d10c10648ea46f0903a0d77a455"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIViewController/UIViewController+JobsRouteComparable.swift",
+      "sha256": "7e040285f9e3fa1c0eff98450337b07ee849f2363a5adecd4d36d036f3663237"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIWindow/UIWindow+DSL.swift",
+      "sha256": "d267a94ce6d8da0d797bb1acb268c40853b9c000a1ffea030dc323e09c322483"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/UIKit/iOS.SDK/UIWindow/UIWindow.swift",
+      "sha256": "e14f6924cf6ac9648e5b0d6866a8cc34de1912de769970bb1bd3d831de59a9b1"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/WebKit/WKPreferences.swift",
+      "sha256": "7135c6566ec03bed6beece7ee4fdb97bf28d299d18c955bd530900946091f0b9"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/WebKit/WKUserContentController.swift",
+      "sha256": "c2f7f4cb47a4188572f62719671761ce19f0964ca978d4ae8be94956ce7c33ad"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/WebKit/WKWebView.swift",
+      "sha256": "89f24d011ce1751138c13f77afcb2c762a98bd1c76f90605ac8c376573d131ca"
+    },
+    {
+      "pod": "JobsSwiftDSL",
+      "file": "JobsByPods/JobsSwiftDSL@Pods/WebKit/WKWebViewConfiguration.swift",
+      "sha256": "cecb6f3b7d8ac3ebf5a975d6e2a10c52b07405cb1360ed304f7ebe5916806e92"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/JobsDebugDeinitAutoLoad.m",
+      "sha256": "79094b06635b4e618eec4eef1545af3ef903f65922c4eb18c7e489b7ff25ab9a"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/JobsDebugLog.swift",
+      "sha256": "8e53dcdb6974244db7cd762f7b32532478c182351947e8543e77636a017ac628"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/JobsSwiftDebugTools.podspec",
+      "sha256": "33cc3c9052e5680779695bb6c3f60ec17b9be89961538e035579d65d882bc748"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/README.md",
+      "sha256": "971d93fadceb03aa9568cab74594e611104d07274316e0a0215ff250e626c12b"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "a331d51864743ebe4e00dd22360b4a538b6b3ac26a6b3eb54094e60a36959a12"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/Resource/icon.png",
+      "sha256": "998251f417e6816b00a440393d72b4a877d7e09d0ddc3ec06c2c340676c8dc76"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/UIViewController+DebugDeallocSwizzle.swift",
+      "sha256": "fc32972623ab086781eff78a39f21d0c016434c61827fbfd7c3f306be8a07f9c"
+    },
+    {
+      "pod": "JobsSwiftDebugTools",
+      "file": "JobsByPods/JobsSwiftDebugTools@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/BinaryFloatingPoint.swift",
+      "sha256": "77345f03120e4896677d152108d7e5f64adc04ae0f9721cb961e9ebbf2e765fa"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/Decimal.swift",
+      "sha256": "b090c90ffd9b9fa1f5dc0fbb1ad74c383f54f93112d09b9ad63ff9378e61da86"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/JobsSwiftFoundation.podspec",
+      "sha256": "8317101e662c1dc30b942b5a66f78c1d4847da7831f02e12b869b0b4d69b1664"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/JobsSwiftFoundationDSLBridge.swift",
+      "sha256": "2e911a5ff39696115ddd5f9f5a670e40a7833662e4c3ea8c06ba0abba3035bea"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/LosslessStringConvertible.swift",
+      "sha256": "47e7c0c3e009c7d2d598effd1b3381a73fedd5816c24129a490ad699562144a5"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/NSAttributedString.swift",
+      "sha256": "bc3d061bfd7a7da9c6d0dc9bc4d5917e836481ee9e36e6b534fb953ed8d92799"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/README.md",
+      "sha256": "1cf53536e6f182e9f84abdad05ae59c2f63c0b9afef9e041be877b27882867b1"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "a331d51864743ebe4e00dd22360b4a538b6b3ac26a6b3eb54094e60a36959a12"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/Resource/icon.png",
+      "sha256": "92bb93955c46189a0613d3fcde36c23b8bcca895c46f48f988bd9c275f3b1513"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/UserDefaults.swift",
+      "sha256": "be3996a026b025cf620a4d1abbd8947e1702295e334f1be9ba78fc2c72b36edb"
+    },
+    {
+      "pod": "JobsSwiftFoundation",
+      "file": "JobsByPods/JobsSwiftFoundation@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/JobsSwiftStandardLibrary.podspec",
+      "sha256": "ba6c665819f85262671c1bbc84516761a65bf82c41898ac1b9e7f63feb0badd9"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/Optional.swift",
+      "sha256": "f471307e3321fbc2857a0796c9cae71c5e41500f757ca1de3a7dd84433bc2df7"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/README.md",
+      "sha256": "12351868240a9de5dbee5b16c9fb5702aaec8b71746cb4fcefd450309d548411"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/Resource/icon.png",
+      "sha256": "330ee6c50ef8e15e46b8461c0736facc332c5f275c55fa9f413e2d5d205ae141"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/容器/Array.swift",
+      "sha256": "c337b70f8e4c91d98ed79235674023dcec885219534870c626c74dd2986fbb67"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/容器/Collection.swift",
+      "sha256": "45bbbc9d68fe2d453d93bdf61b9b04081195121a37a52bd70d271cd896973f64"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/容器/Dictionary.swift",
+      "sha256": "f0c1fe051acbf0625ec759759ce5cdfa75b3caf2c81e90b6937aec0791c15e49"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/容器/Sequence.swift",
+      "sha256": "8cd7f90a25a3b07688dcf4049a89923643948cc2b7329c8990cb209af6b9235b"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/BinaryInteger.swift",
+      "sha256": "3e529796d7a0156b52a302206ccbfa6d7af52373589356e258cd04b6debcca73"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/Int.swift",
+      "sha256": "333009963f562c993b006688e836a945d5c262791eb9bcff163ae74d883f2ffc"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/Int16.swift",
+      "sha256": "f003afee48d96e41b5d9534287b9e41ec06c634fcaa90c82e9acef570a04b194"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/Int32.swift",
+      "sha256": "40b300fd1cc77458893e9f814a7571d06a361d38d3597410ce537330b2a4ace3"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/Int64.swift",
+      "sha256": "40b323a2b018eff8864cbf7e2d3f4743f3ba602898493fcd88d12497afb7e6b6"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/Int8.swift",
+      "sha256": "fe0cdcb35f12de21f2bf2203427ee7c0d8a489c64c0a743e518b5eab72f96b4f"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/UInt.swift",
+      "sha256": "8cd8ae6e9ad460c4af2ac61cb53fed84a2f69ca5fe30a2a4db7ccf1ef3bffc98"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/UInt16.swift",
+      "sha256": "0ceec50a01b802ee5a3b5d0a842a7ace9e7ff839751d2f5dbee29f700808a6e8"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/UInt32.swift",
+      "sha256": "bfed4ff096091108c23f8ccd3d81d070ba8be8d9508e233d9bf28dfacf377303"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/UInt64.swift",
+      "sha256": "3c18c948c096bd8fd4b5cb42d9246f6849a64a155f9370bc7865c91df4759d91"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/整形/UInt8.swift",
+      "sha256": "90c9c810bf71a864930c8772e2436af8fa29170fe4006f3eaab238bbe194660a"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/浮点类型/CGFloat.swift",
+      "sha256": "8d8698316ad899029e7b52eb8c83ddd78050e0ad98a1f2462304911bff18dca7"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/浮点类型/Double.swift",
+      "sha256": "6feb643b24c1c3d3cedebdd82f69981641c578d320b5eac8cf0ed7a39df23700"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/浮点类型/Float.swift",
+      "sha256": "1690e4a0564e1ef13f1e088611bbafddc1065722cb71baa89002b18f21dbd017"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/浮点类型/Float16.swift",
+      "sha256": "12a6bf7b66b4996e60fea68b14140d8cd957327710fb78abc8871733940d3cf0"
+    },
+    {
+      "pod": "JobsSwiftStandardLibrary",
+      "file": "JobsByPods/JobsSwiftStandardLibrary@Pods/浮点类型/Float80.swift",
+      "sha256": "5b02cdbe4f3a384eeeeae4718e05bf5f1f685eb1f1e529a8d51d740f419a4488"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/JobsSwiftTimer.podspec",
+      "sha256": "944d43b5d548d9e67601845144cd94920422c268208875561025b4472c1ba623"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/JobsSwiftTimer.swift",
+      "sha256": "83370ea6b55b562c35917962421f2cda95a87086d1715537307d1935ef5d3803"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/JobsSwiftTimerConfig.swift",
+      "sha256": "5326eb4f6d50d02a9f1bd775425e041d35f4cde5619aa4639e7f33cea9c9c571"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/JobsSwiftTimerCountdown.swift",
+      "sha256": "77c2e17a23b5003e187bde5c3da84ab139f42d681c7a04222818f1281d392417"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/JobsSwiftTimerDefs.swift",
+      "sha256": "e3e0731fae27abca48445e74362dce70d8e1f9732631ef08c1d5e26689d2e32e"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/JobsSwiftTimerProtocol.swift",
+      "sha256": "6896184b27d293572b65241b6b2d9b08a0e5c90a732d4648d478c20150e5d870"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/README.md",
+      "sha256": "5e076dbcea3f532b3c4d25aeb1f206ff448460eb99fc04c5b05515171308ac5b"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "08d90e6946dbfea0d0b5b17fb659d77eed23e443b745d8e7b5b9fa378cb74477"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/Resource/icon.png",
+      "sha256": "79608b3d6288e9ee3ff8315aa7bcd257b324f99d3a2aa173740937a11de8f2b1"
+    },
+    {
+      "pod": "JobsSwiftTimer",
+      "file": "JobsByPods/JobsSwiftTimer@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/JobsRichText.swift",
+      "sha256": "d50b0b24731171e52c092cf70b4e2f36fecfca2e282716a0fef37c9e8d26487d"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/JobsText.swift",
+      "sha256": "abe07486f3407968a69cc4813feff1ae81298e9d111b88c068dd1fc4c51871c3"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/JobsTextTools.podspec",
+      "sha256": "007db354ac2349941e60c8fe106c84bbe778899a2a60e072692f75e650a56d5c"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/README.md",
+      "sha256": "2a7caf3f2402b96b8afb4bfd9891799b98f82af98996377d0510ffa81a8eb56c"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/Resource/icon.png",
+      "sha256": "2b1b2cfb00ff2ddd0aeed44bb35fd34b03abd56f426685e9f816915043b0c1f0"
+    },
+    {
+      "pod": "JobsTextTools",
+      "file": "JobsByPods/JobsTextTools@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsToast",
+      "file": "JobsByPods/JobsToast@Pods/JobsToast.podspec",
+      "sha256": "f1b32c2356bbd09547f1e1a17b2dff613cb55a305b4e1915995b849395c095b7"
+    },
+    {
+      "pod": "JobsToast",
+      "file": "JobsByPods/JobsToast@Pods/JobsToast.swift",
+      "sha256": "e0fa9e657ef632421b838e3bb1510ba56f666c93b9a5d9232dd9dfcdccc21eb5"
+    },
+    {
+      "pod": "JobsToast",
+      "file": "JobsByPods/JobsToast@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "JobsToast",
+      "file": "JobsByPods/JobsToast@Pods/README.md",
+      "sha256": "2c98e6f751710096681f0d8023cce2bd10a675c8fd5678c296cae6c9867f10d8"
+    },
+    {
+      "pod": "JobsToast",
+      "file": "JobsByPods/JobsToast@Pods/Resource/icon.png",
+      "sha256": "278b5fcdea6c7a4e880ae808eb1fd488c6262c3f2fcdec72abc94ae523d48283"
+    },
+    {
+      "pod": "JobsToast",
+      "file": "JobsByPods/JobsToast@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    },
+    {
+      "pod": "JobsViewPush",
+      "file": "JobsByPods/JobsViewPush@Pods/Core/JobsSideDrawer/JobsSideDrawer.swift",
+      "sha256": "79de75d9e3578b24b69e6f0b400d687dfe75f0ecb0ed3f8bd3789eb2bd9a4de0"
+    },
+    {
+      "pod": "JobsViewPush",
+      "file": "JobsByPods/JobsViewPush@Pods/JobsViewPush.podspec",
+      "sha256": "4c0a1119b3c486365ef2a597f09b76b401284a7bec113c5d039094d6978937ba"
+    },
+    {
+      "pod": "JobsViewPush",
+      "file": "JobsByPods/JobsViewPush@Pods/JobsViewPush.swift",
+      "sha256": "887e22227e931ca8051c42f28a085d4e92026a0fcddf261a8daf884ef3fcee38"
+    },
+    {
+      "pod": "JobsViewPush",
+      "file": "JobsByPods/JobsViewPush@Pods/README.md",
+      "sha256": "00af318262b410c27f53ce9eefb9f8852cf356826dc81fed1958f025937e8cb0"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Foundation&UIKit/Bundle+多语言国际化.swift",
+      "sha256": "5023382db26877521021020452557511e8b60dd68991f581f207ad4f2fdd7a4c"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Foundation&UIKit/Notification+多语言国际化.swift",
+      "sha256": "4a8ca99cfd6b10bdf1d7188c6b6b6c4def94f45a2672ab4d695987f39f3b3246"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Foundation&UIKit/String+多语言国际化.swift",
+      "sha256": "83fdd2e0ab5e0021e961f49ea31d86654eacb351a179daad0619c621e1786af1"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Foundation&UIKit/UIKit+多语言国际化.swift",
+      "sha256": "6b1212929ff1d83c3394b8583a7fcb6fdd7fa7104079144869808974aeb80327"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Jobsl10n.podspec",
+      "sha256": "c2a290ca0952fac746d4f16874ae7d1145ca98309ca397c0597b07c13702b54d"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Jobsl10n.swift",
+      "sha256": "3b08589736ddccfade9fe45cc13787b9720b38c4b4edeeef54de710aeb4f2e2f"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/LICENSE",
+      "sha256": "e40282903b96703e3bf35c45a669ffa8bde2824573e1cec0767932c839a0d185"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/LanguageManager.swift",
+      "sha256": "7c8ce31ca00ec689b4df5eb1ca624e1f958ad4a0664541562c20c7530ccbc7fa"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/README.md",
+      "sha256": "b1f8ee919075a79221fd4a13a5f85119d3e99a359bdbede3d3f3aac5dbc8fcde"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/PrivacyInfo.xcprivacy",
+      "sha256": "a331d51864743ebe4e00dd22360b4a538b6b3ac26a6b3eb54094e60a36959a12"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701112459992.png",
+      "sha256": "b3d704f463f39a3fa866ff4cfeaad4168e63b3a0c89de1184c8918f2d18106dc"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701112537304.png",
+      "sha256": "cdf4a6e0b0d264aba5146e8f00f9fb1de9bf78ce95e3cafc1958d5b542b77220"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701112613068.png",
+      "sha256": "aa34e6b181276a8db0172230f94c7346feedbd03547ebf1d01ab81d329aead2b"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701114202890.png",
+      "sha256": "4c9c74c88d7360fe19799aec0c8d55bf2bdcd1afee36cff48582fc2fe5fdb0e9"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701124321212.png",
+      "sha256": "78d8030e17375adede8f144fe3fc9ae9faa4164535bcde3d60ae120248d28d18"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701124832755.png",
+      "sha256": "63be44dfad47a04eb4941162b01097945c0f6c62c1308ef1e75016cb9c6c01ad"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701125902632.png",
+      "sha256": "eb3ffb9b6c1815e8e80b6c6df55a7d3721e402f7d03caa1451b7609c7d18d230"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701125953191.png",
+      "sha256": "c369a9eca03e9f3b8fb14bf19e1b78b199c46f16bfc21029443ef64eed1fe08f"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701130958012.png",
+      "sha256": "66354d48f7373abe45c9b49f97b861d2f349964124b98335fc1d0822a7e8ce9e"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701132729019.png",
+      "sha256": "95c6b04e3160024426592c0162d794dd43fd8899071925cc0a0cee2aa7903a4e"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701133346486.png",
+      "sha256": "4191156846c57038c74cd2d328ae65a86f283710bf4312bbc293b4345acf3744"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701133957265.png",
+      "sha256": "1d8be6b36466d664f76476f15dd6cfc91f01d2c30da98541b27ef16919df9bf1"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701135711515.png",
+      "sha256": "992f6ca034aa95942b88fd622d04209a20b6956645ee06e25b549d9009b2624a"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240701141622517.png",
+      "sha256": "84a8c393d2d34db019078258bb8470787059b4a526d79f5d70b841c13267fde3"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/iOS多语言环境设置.md/assets/image-20240706113027884.png",
+      "sha256": "73917cad96fcad5b48278f4a3680327d02a8bdb5a9ef9700118551018bc8838b"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/Resource/icon.png",
+      "sha256": "ffef21f80134b402a2a84cef9124e8e5e9a5a39c4d82454a8a6ba7421fad6443"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/TRAutoRefresh.swift",
+      "sha256": "9d328b260f4537ed0dc888bfc21229915522a586a2428977fab362de654d1894"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/TRLang.swift",
+      "sha256": "6d14330e6dd204a7d916f0ee86fbb90b4b8acb9d90125e12fccaab7449831b05"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/iOS多语言环境设置.md/iOS多语言环境设置.md",
+      "sha256": "0d023e8cb5d13b8d202e5bebd8841fabf34de8774a1c7628af70e0a97cfc5d46"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/x.strings/README.md",
+      "sha256": "5e12787026b7e38d3f1582215de6ccac7e34a4389e1e08e473ab84fbf999a83c"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/x.strings/en.lproj/InfoPlist.strings",
+      "sha256": "3fa82ff46d112816b8afa0a52d1e32d64af25cb73c4963e3b2e918b9549950ce"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/x.strings/en.lproj/Localizable.strings",
+      "sha256": "10baca1d826ce1eb2ecd05b632ea0ba85e79beb4096a33a6196624dc7b3adc5a"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/x.strings/zh-Hans.lproj/InfoPlist.strings",
+      "sha256": "2c455dcd8b49e0664c8a13a73ec68780c6c9aad9e812f00c4af0e70dc47378f0"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/x.strings/zh-Hans.lproj/Localizable.strings",
+      "sha256": "6fb3f9cf456cd2792a6ba98f5f3fc213ad9980954dc7714560e8091c18feb9ed"
+    },
+    {
+      "pod": "Jobsl10n",
+      "file": "JobsByPods/Jobsl10n@Pods/【MacOS】🫘JobsPublishPods.command",
+      "sha256": "cb56f461adc4dc3f120ded151236736b6043a8ac8efd9b19e32ae9ec948977f1"
+    }
+  ],
+  "adaptation": [
+    {
+      "pod": "JobsSwiftDSL",
+      "change": "移除AFNetworking及YTKNetwork可选兼容依赖；默认请求仅JobsNetworking/Core"
+    },
+    {
+      "pod": "JobsSwiftBlock",
+      "change": "移除YTKNetwork可选兼容依赖"
+    }
+  ],
+  "excluded": [
+    ".git",
+    "Pods",
+    "node_modules",
+    "build",
+    "DerivedData",
+    ".DS_Store",
+    ".codegraph"
+  ]
+}

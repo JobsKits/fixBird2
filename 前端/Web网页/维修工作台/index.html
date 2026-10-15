@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#eef2f6" />
+    <title>啄木鸟 · 维修协同工作台</title>
+    <link rel="icon" href="./assets/RepairLogo.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./data.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="./"
+        ><img src="./assets/RepairLogo.png" alt="啄木鸟维修平台" /><span
+          >啄木鸟<strong>维修协同平台</strong></span
+        ></a
+      >
+      <div class="workspace-caption">公司工作空间 <span>V3.8</span></div>
+      <nav aria-label="工作空间导航">
+        <button class="nav-item active" data-view="orders">
+          <span class="nav-icon">▦</span>工单工作台<span
+            id="navCount"
+            class="nav-count"
+            >0</span
+          >
+        </button>
+        <button class="nav-item" data-view="tasks">
+          <span class="nav-icon">☷</span>我的待办<span
+            id="taskCount"
+            class="nav-count"
+            >0</span
+          >
+        </button>
+        <button class="nav-item" data-view="finance">
+          <span class="nav-icon">¥</span>现金与票据
+        </button>
+        <button class="nav-item" data-view="inventory">
+          <span class="nav-icon">▣</span>库存与借还
+        </button>
+        <button class="nav-item" data-view="settings">
+          <span class="nav-icon">⚙</span>账号与连接
+        </button>
+      </nav>
+      <div class="sidebar-bottom">
+        <span class="live-dot"></span>本机业务框架<small
+          >人工确认 · 全程留痕</small
+        >
+      </div>
+    </aside>
+    <div class="shell">
+      <header class="topbar">
+        <div class="breadcrumbs">
+          工作空间 <span>/</span> <strong id="breadcrumb">工单工作台</strong>
+        </div>
+        <div class="topbar-actions">
+          <span id="sourceBadge" class="source-badge">本地演示</span
+          ><button
+            class="icon-button"
+            id="refresh"
+            title="重新加载"
+            aria-label="重新加载"
+          >
+            ↻</button
+          ><button class="account-button" id="accountButton">
+            <span class="avatar">客</span><span id="accountLabel">演示角色</span
+            ><span>⌄</span>
+          </button>
+        </div>
+      </header>
+      <main id="mainContent">
+        <section class="page-heading">
+          <div>
+            <div class="eyebrow">OPERATIONS WORKSPACE</div>
+            <h1 id="pageTitle">每一张工单，都有下一步。</h1>
+            <p id="pageSubtitle">
+              从受理到整单完结，业务进度、资料票款与责任人一目了然。
+            </p>
+          </div>
+          <button class="button primary" id="createOrder">＋ 新建工单</button>
+        </section>
+        <div id="connectionNote" class="connection-note" role="status">
+          正在连接本机服务。先展示受控样例，稍后自动更新。
+        </div>
+        <section id="metrics" class="metrics" aria-label="经营概览"></section>
+        <div
+          id="capacityNote"
+          class="connection-note capacity-note"
+          role="status"
+          hidden
+        ></div>
+        <section id="ordersView" class="view">
+          <div class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>
+                  工单列表 <span id="orderCount" class="count-badge">0</span>
+                </h2>
+                <p>同时查看主阶段与资料、票据和回款进度</p>
+              </div>
+              <button class="button quiet" id="exportOrders">↓ 导出清单</button>
+            </div>
+            <div class="segment-row" id="quickFilters">
+              <button data-quick="all" class="segment active">全部工单</button
+              ><button data-quick="mine" class="segment">我负责的</button
+              ><button data-quick="settling" class="segment">结算中</button
+              ><button data-quick="pending_completion" class="segment">
+                待完结确认</button
+              ><button data-quick="blocked" class="segment">
+                有未解决异议 <span id="blockedCount">0</span>
+              </button>
+            </div>
+            <form class="filters" id="filterForm">
+              <label class="search-field"
+                ><span>⌕</span
+                ><input
+                  id="search"
+                  placeholder="搜索工单号、企业、设备或负责人"
+                  autocomplete="off" /></label
+              ><label
+                ><span class="sr-only">主阶段</span
+                ><select id="statusFilter">
+                  <option value="">全部主阶段</option>
+                </select></label
+              ><label
+                ><span class="sr-only">付款资料</span
+                ><select id="documentFilter">
+                  <option value="">全部资料进度</option>
+                  <option value="required">资料待办理</option>
+                  <option value="sent">已发送</option>
+                  <option value="not_required">无需资料</option>
+                </select></label
+              ><label
+                ><span class="sr-only">客户回款</span
+                ><select id="paymentFilter">
+                  <option value="">全部回款</option>
+                  <option value="outstanding">仍有待收</option>
+                  <option value="pending">现金待核实</option>
+                  <option value="paid">已结清</option>
+                </select></label
+              ><button class="button quiet" type="button" id="clearFilters">
+                重置
+              </button>
+            </form>
+            <div class="table-container">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>工单 / 客户</th>
+                    <th>主阶段 / 履约结果</th>
+                    <th>付款资料</th>
+                    <th>票据进度</th>
+                    <th>核实收款 / 应收</th>
+                    <th>待收</th>
+                    <th>下一步 / 责任人</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+              </table>
+            </div>
+            <div id="ordersEmpty" hidden></div>
+            <div class="table-footer">
+              <span id="tableSummary">正在加载</span
+              ><button class="button quiet" id="loadMore" hidden>
+                加载更多工单</button
+              ><span class="muted">金额以财务核实事实为准</span>
+            </div>
+          </div>
+          <div id="orderPagination"></div>
+          <div class="bottom-grid">
+            <section class="panel">
+              <div class="panel-heading compact">
+                <h2>当前关注</h2>
+                <button class="text-button" data-view="tasks">
+                  查看待办 →
+                </button>
+              </div>
+              <div id="attentionList" class="attention-list"></div>
+            </section>
+            <section class="panel flow-panel">
+              <div class="eyebrow">ONE ORDER · ONE JOURNEY</div>
+              <h2>验收之后，继续跟到整单完结。</h2>
+              <p>
+                所需资料发出、真实票据齐备、现金核实及内部余项办妥，再由负责人一次确认。
+              </p>
+              <div class="mini-flow">
+                <span>待验收</span><b>→</b><span>结算中</span><b>→</b
+                ><span>待完结确认</span><b>→</b><span class="last">已完结</span>
+              </div>
+              <small
+                >完结不终止有效质保。失败、取消也继续跟踪退款与退件。</small
+              >
+            </section>
+          </div>
+        </section>
+        <section id="tasksView" class="view" hidden></section>
+        <section id="financeView" class="view" hidden></section>
+        <section id="inventoryView" class="view" hidden></section>
+        <section id="settingsView" class="view" hidden></section>
+      </main>
+      <footer class="page-footer">
+        啄木鸟维修协同平台<span>第一阶段 · 现金登记与人工确认</span>
+      </footer>
+    </div>
+    <dialog id="detailDialog" class="detail-dialog">
+      <div id="detailContent"></div>
+    </dialog>
+    <dialog id="formDialog" class="form-dialog">
+      <div id="formContent"></div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>

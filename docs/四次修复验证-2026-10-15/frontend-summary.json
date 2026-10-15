@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "status": "frozen",
+  "scope": "Frontend F01-F04, D06/D07, approved X01 UI, B03 records read-only UI; actual demo D09/D11/D12/D13 migration",
+  "sourceHashes": {
+    "Workspace/app.js": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7",
+    "Workspace/tests/app.test.cjs": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78"
+  },
+  "formal": {
+    "command": "node --test Workspace/tests/app.test.cjs",
+    "tests": 96,
+    "pass": 96,
+    "fail": 0,
+    "skip": 0,
+    "log": "frontend-after.log"
+  },
+  "external": {
+    "script": "frontend-adversarial-after.cjs",
+    "tests": 22,
+    "pass": 22,
+    "fail": 0,
+    "skip": 0,
+    "log": "frontend-external-after.log",
+    "results": "frontend-results-after.json"
+  },
+  "syntax": {
+    "files": [
+      "Workspace/app.js",
+      "Workspace/tests/app.test.cjs"
+    ],
+    "passed": true
+  },
+  "guards": [
+    "current epoch 401 clears token/private cache, DOM and unknown body key map; delayed old epoch 401 cannot affect new session",
+    "navigation only supersedes list, not bootstrap metadata failure; pending metrics explicitly uninitialized",
+    "nested inventory/order records checked before snapshot/cache commit and actual Go unquoted version0 stays valid",
+    "unknown intent key survives unrelated modal, validated successful write releases its exact key",
+    "partial independent loan quantities do not release untransferred units; clearing transfer units first preserves original order block",
+    "global loan action recomputes summary and settling/pending_completion stage",
+    "explicit startRequiresPrepayment boolean defaults false; quote and signing terms visible; true requires positive prepay",
+    "manual acceptance failed/pass records preserve their outcomes and view original PNG read-only"
+  ],
+  "limitations": [
+    "Only synthetic VM fixtures used by this subtask; root performs final whole suite, real HTTP/browser and index sync",
+    "Historical R4-X01 expectations based on cash alone are superseded by user-approved explicit-prepayment rule",
+    "No services/browser/containers opened by this subtask; no original repo, runtime, third-party or historic evidence modified"
+  ]
+}

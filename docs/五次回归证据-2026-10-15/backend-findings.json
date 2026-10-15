@@ -1,0 +1,250 @@
+{
+  "date": "2026-10-15",
+  "status": "confirmed_and_repeated",
+  "productFilesEdited": false,
+  "findings": [
+    {
+      "id": "B01",
+      "priority": 2,
+      "title": "新建工单可写入不存在、未验收或跨企业的返修原单引用",
+      "confirmed": true,
+      "files": [
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "start": 185,
+          "end": 227
+        }
+      ],
+      "actual": "POST /api/v38/orders 将 originalOrderId 直接写入新工单，不查原单存在性、客户/企业或有效验收。customer-b 可把自己企业的新单关联到 company-a 的 wo_ready，并获得 201；随机不存在 ID 及本方未验收 wo_quote 也会持久化。",
+      "expected": "返修原单引用至少应指向可授权、存在且有效验收的真实原单；普通新建不能绕过专用 rework 的关系完整性条件。",
+      "impact": "可污染返修历史、跨企业关系与后续统计；原单详情仍被正确拒绝，本轮未观察到原单内容读取越权。",
+      "requirement": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md:461、1092、1798；专用 rework 目前在 actions.go:949-956 先校验有效验收。",
+      "cases": [
+        "TestR5BackendReworkReferenceGuards/missing_parent",
+        "TestR5BackendReworkReferenceGuards/foreign_company_parent",
+        "TestR5BackendReworkReferenceGuards/own_unaccepted_parent"
+      ],
+      "controls": [
+        "ordinary_no_reference",
+        "foreign_parent_itself_remains_unreadable",
+        "direct_rework_requires_acceptance",
+        "direct_rework_requires_company_role"
+      ],
+      "classification": "本轮新增发现的关系完整性缺陷，非已证实数据泄露。"
+    },
+    {
+      "id": "B02",
+      "priority": 2,
+      "title": "免费返修子单无法提交零价报价，正常履约流程被阻断",
+      "confirmed": true,
+      "files": [
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "start": 320,
+          "end": 328
+        },
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "start": 949,
+          "end": 964
+        }
+      ],
+      "actual": "授权调度通过 rework {free:true} 创建标注免费的关联返修子单，受理及检测后提交 amountCents:0 的完整报价返回 422 invalid_amount；报价分支统一调用 amount(...,false)。同路径收费 10000 分可 200，负价仍正确拒绝。",
+      "expected": "经业务判断的免费返修应允许零价合并报价并照常由客户确认范围、维修、验收，按无需收款办理，保留实际成本。",
+      "impact": "免费售后只能停在报价阶段，或被迫填虚假正价后改应收，无法按需求用零价报价保留准确客户确认。",
+      "requirement": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md:1800、1818；A39:1899。",
+      "cases": [
+        "TestR5BackendFreeReworkQuote/free_zero_quote_must_be_possible"
+      ],
+      "controls": [
+        "charged_positive_quote",
+        "negative_quote_rejected"
+      ],
+      "classification": "免费返修流程需求落地缺口，本轮新增发现，不称为第四轮修复回退。"
+    },
+    {
+      "id": "B03",
+      "priority": 2,
+      "title": "跨截止异议仅标为解决即静默恢复旧窗口并追溯自动验收",
+      "confirmed": true,
+      "files": [
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "start": 744,
+          "end": 763
+        },
+        {
+          "path": "Server/internal/workbench/inventory.go",
+          "start": 231,
+          "end": 249
+        }
+      ],
+      "actual": "完成有效签署及交付后，客户提交异议或带签名拒绝验收；跨过原截止后未结时扫描正确阻止。调度仅 resolve_issue，说明“工程整改已完成，等待客户复验；尚未确认恢复验收窗口”，随后扫描立即用旧截止日自动通过并起保。没有单独的客户确认恢复动作或新窗口。",
+      "expected": "异议解决与恢复自动验收应分开核实；客服按客户确认依据明确恢复剩余窗口或重新交付窗口，不能因单条任务 resolved 就默默恢复已届满窗口。",
+      "impact": "仍待客户复验的单据可被系统追溯判为通过，签名拒绝历史保留但结果被提前结算，质保也从旧日期消耗。",
+      "requirement": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md:586（协商后明确恢复窗口，不得默默重开）、596-602（拒签不默认合格/保留阻塞）。",
+      "cases": [
+        "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance/customer_issue",
+        "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance/signed_rejection"
+      ],
+      "controls": [
+        "同一用例内未结异议扫描正确阻止"
+      ],
+      "classification": "本轮新增发现的验收恢复控制缺口；不是未结异议检查失效。"
+    },
+    {
+      "id": "B04",
+      "priority": 2,
+      "title": "实收日期可早于本单创建及当前报价签署，产生不可能的追溯验收与质保",
+      "confirmed": true,
+      "files": [
+        {
+          "path": "Server/internal/workbench/actions.go",
+          "start": 449,
+          "end": 475
+        },
+        {
+          "path": "Server/internal/workbench/inventory.go",
+          "start": 231,
+          "end": 249
+        }
+      ],
+      "actual": "当前有效报价签署后正常开修、完工及质检，仓库 deliver 提交早于本单创建和签署两年的 deliveredAt，仍返回 200；自动扫描可立即按该日期加七自然日验收并写入两年前的质保。deliver 仅拒绝未来日期，不检查生命周期时间关系。",
+      "expected": "普通交付应与该订单及当前签署版本的履约时间一致；早于创建/当前签署的不可能时间须拒绝或走有依据的人工例外核实，不能直接驱动自动验收。",
+      "impact": "日期误录或越界录入可跳过实际验收窗口，使新订单立即显示早已验收甚至质保到期。",
+      "requirement": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md:161-177（先签当前范围后履约/验收）、582-586（可靠真实签收启动窗口）；合同 execution-payment-contract 与 acceptance-history-contract。",
+      "cases": [
+        "TestR5BackendBackdatedDeliveryCannotPrecedeConfirmedQuote"
+      ],
+      "classification": "本轮新增发现的时间一致性缺陷；正常离线补录历史交付仍可允许，但不可早于该单成立与当前确认。"
+    }
+  ],
+  "scope": [
+    "真实 Handler/事务可达，仅控制测试时钟、合成种子及 t.TempDir",
+    "未启动独立服务、容器或浏览器，未触碰 Tools/原仓/.runtime",
+    "验收历史旧版本拒绝、经办交接追加及撤权重试为控制项；完整备份恢复沿用父任务全工程正式回归"
+  ],
+  "evidence": [
+    "backend-boundaries_test.go",
+    "backend-run.cjs",
+    "backend-all.jsonl",
+    "backend-failures-repeat.jsonl",
+    "backend-run-summary.json"
+  ],
+  "validation": {
+    "sourceUnchanged": true,
+    "copiedSourceFiles": 95,
+    "temporaryRemoved": true,
+    "runs": [
+      {
+        "name": "all",
+        "command": [
+          "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+          "-C",
+          "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-r5-backend-mvTjJj/Server",
+          "test",
+          "-race",
+          "-p",
+          "1",
+          "-json",
+          "./internal/workbench",
+          "-run",
+          "^TestR5Backend",
+          "-count=1"
+        ],
+        "status": 1,
+        "signal": null,
+        "elapsedMs": 204794,
+        "total": {
+          "pass": 10,
+          "fail": 10,
+          "skip": 0
+        },
+        "roots": {
+          "pass": 1,
+          "fail": 4,
+          "skip": 0
+        },
+        "leaves": {
+          "pass": 9,
+          "fail": 7,
+          "skip": 0
+        },
+        "failures": [
+          "TestR5BackendReworkReferenceGuards/missing_parent",
+          "TestR5BackendReworkReferenceGuards/foreign_company_parent",
+          "TestR5BackendReworkReferenceGuards/own_unaccepted_parent",
+          "TestR5BackendReworkReferenceGuards",
+          "TestR5BackendFreeReworkQuote/free_zero_quote_must_be_possible",
+          "TestR5BackendFreeReworkQuote",
+          "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance/customer_issue",
+          "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance/signed_rejection",
+          "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance",
+          "TestR5BackendBackdatedDeliveryCannotPrecedeConfirmedQuote"
+        ],
+        "raceReported": false
+      },
+      {
+        "name": "failures-repeat",
+        "command": [
+          "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+          "-C",
+          "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-r5-backend-mvTjJj/Server",
+          "test",
+          "-race",
+          "-p",
+          "1",
+          "-json",
+          "./internal/workbench",
+          "-run",
+          "^TestR5Backend(ReworkReferenceGuards|FreeReworkQuote|IssueResolutionMustNotSilentlyRestartExpiredAcceptance|BackdatedDeliveryCannotPrecedeConfirmedQuote)$",
+          "-count=1"
+        ],
+        "status": 1,
+        "signal": null,
+        "elapsedMs": 92838,
+        "total": {
+          "pass": 6,
+          "fail": 10,
+          "skip": 0
+        },
+        "roots": {
+          "pass": 0,
+          "fail": 4,
+          "skip": 0
+        },
+        "leaves": {
+          "pass": 6,
+          "fail": 7,
+          "skip": 0
+        },
+        "failures": [
+          "TestR5BackendReworkReferenceGuards/missing_parent",
+          "TestR5BackendReworkReferenceGuards/foreign_company_parent",
+          "TestR5BackendReworkReferenceGuards/own_unaccepted_parent",
+          "TestR5BackendReworkReferenceGuards",
+          "TestR5BackendFreeReworkQuote/free_zero_quote_must_be_possible",
+          "TestR5BackendFreeReworkQuote",
+          "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance/customer_issue",
+          "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance/signed_rejection",
+          "TestR5BackendIssueResolutionMustNotSilentlyRestartExpiredAcceptance",
+          "TestR5BackendBackdatedDeliveryCannotPrecedeConfirmedQuote"
+        ],
+        "raceReported": false
+      }
+    ]
+  },
+  "initialInterrupted": {
+    "reason": "Stopped own diagnostic processes to cache immutable seed fixture and sessions; all business assertions unchanged. Full uncached seed PBKDF work under parallel race suites was needlessly repeated.",
+    "pids": [
+      79083,
+      79137,
+      79556
+    ],
+    "temporaryRoot": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-r5-backend-v31wmz",
+    "temporaryRemoved": true,
+    "ownedGoBuildDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/go-build3766040769",
+    "ownedGoBuildDirectoryRemoved": true
+  },
+  "testSourceHash": "ec4fa80daf9ac69e70d991d24550b65b435e6d9fef7efb310e6511371e68935d"
+}

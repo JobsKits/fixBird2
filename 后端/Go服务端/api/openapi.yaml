@@ -1,0 +1,433 @@
+openapi: 3.1.0
+info:
+  title: Repair Marketplace API
+  version: 1.3.0
+  description: >-
+    Password accounts use independent Bearer sessions, device controls and one-time QR approval.
+    Anonymous demo, when explicitly enabled, is limited to customer-demo and worker-demo order flows;
+    anonymous demo workers cannot view or accept registered customers' orders.
+    Administrator, application, private image and ledger operations require sessions.
+    Production mode and real payments remain disabled. Amounts are integer CNY cents.
+security:
+  - BearerAuth: []
+servers:
+  - url: http://127.0.0.1:8080
+  - url: http://127.0.0.1:8081
+paths:
+  /api/v1/admin/accounts:
+    $ref: './accounts.yaml#/paths/~1api~1v1~1admin~1accounts'
+  /api/v1/admin/accounts/{username}/status:
+    $ref: './accounts.yaml#/paths/~1api~1v1~1admin~1accounts~1{username}~1status'
+  /api/v1/admin/accounts/{username}/password:
+    $ref: './accounts.yaml#/paths/~1api~1v1~1admin~1accounts~1{username}~1password'
+  /api/v1/auth/password:
+    $ref: './accounts.yaml#/paths/~1api~1v1~1auth~1password'
+  /api/v1/auth/recovery-code:
+    $ref: './accounts.yaml#/paths/~1api~1v1~1auth~1recovery-code'
+  /api/v1/auth/password-reset:
+    $ref: './accounts.yaml#/paths/~1api~1v1~1auth~1password-reset'
+  /api/v1/auth/register:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1register'
+  /api/v1/auth/login:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1login'
+  /api/v1/auth/logout:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1logout'
+  /api/v1/auth/me:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1me'
+  /api/v1/auth/devices:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1devices'
+  /api/v1/auth/devices/{id}:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1devices~1{id}'
+  /api/v1/auth/qr/challenges:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1qr~1challenges'
+  /api/v1/auth/qr/challenges/{id}/poll:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1qr~1challenges~1{id}~1poll'
+  /api/v1/auth/qr/challenges/{id}/inspect:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1qr~1challenges~1{id}~1inspect'
+  /api/v1/auth/qr/challenges/{id}/approve:
+    $ref: './identity.yaml#/paths/~1api~1v1~1auth~1qr~1challenges~1{id}~1approve'
+  /api/v1/workers/me/application:
+    $ref: './workers.yaml#/paths/~1api~1v1~1workers~1me~1application'
+  /api/v1/worker-assets:
+    $ref: './workers.yaml#/paths/~1api~1v1~1worker-assets'
+  /api/v1/worker-assets/{id}:
+    $ref: './workers.yaml#/paths/~1api~1v1~1worker-assets~1{id}'
+  /api/v1/admin/worker-applications:
+    $ref: './workers.yaml#/paths/~1api~1v1~1admin~1worker-applications'
+  /api/v1/admin/worker-applications/{id}/review:
+    $ref: './workers.yaml#/paths/~1api~1v1~1admin~1worker-applications~1{id}~1review'
+  /api/v1/ledger/journals:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1ledger~1journals'
+  /api/v1/ledger/summary:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1ledger~1summary'
+  /api/v1/me/ledger/journals:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1me~1ledger~1journals'
+  /api/v1/me/ledger/summary:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1me~1ledger~1summary'
+  /api/v1/admin/ledger/journals:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1admin~1ledger~1journals'
+  /api/v1/admin/ledger/summary:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1admin~1ledger~1summary'
+  /api/v1/admin/ledger/export.csv:
+    $ref: './ledger.yaml#/paths/~1api~1v1~1admin~1ledger~1export.csv'
+  /healthz:
+    get:
+      operationId: liveness
+      security: []
+      responses:
+        '200':
+          description: Process is alive; does not inspect the database.
+          content:
+            application/json:
+              schema: {type: object, properties: {status: {type: string, const: ok}, service: {type: string}}}
+  /readyz:
+    get:
+      operationId: readiness
+      security: []
+      responses:
+        '200':
+          description: Repository and required schema are ready; dependency budget is two seconds.
+          content:
+            application/json:
+              schema: {type: object, properties: {status: {type: string, const: ready}, service: {type: string}}}
+        '503': {$ref: '#/components/responses/Error'}
+  /api/v1/categories:
+    get:
+      operationId: listCategories
+      security: []
+      responses:
+        '200':
+          description: Supported legacy category names; stable category-code migration is deferred.
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/Category'}}
+  /api/v1/orders:
+    parameters:
+      - {$ref: '#/components/parameters/ActorRole'}
+      - {$ref: '#/components/parameters/ActorID'}
+    get:
+      operationId: listOrders
+      description: Customer sees own orders; approved worker sees pending and own orders; unapproved worker sees only own assigned orders. Admin sees all. Anonymous demo is confined to the configured fixed demo customer/worker.
+      security: [{BearerAuth: []}, {}]
+      parameters:
+        - {$ref: '#/components/parameters/Limit'}
+        - {$ref: '#/components/parameters/Cursor'}
+        - {name: status, in: query, schema: {$ref: '#/components/schemas/OrderStatus'}}
+      responses:
+        '200': {$ref: '#/components/responses/Orders'}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '504': {$ref: '#/components/responses/Error'}
+    post:
+      operationId: createOrder
+      security: [{BearerAuth: []}, {}]
+      description: >-
+        Customer only. Same actor plus same key and normalized body returns the same order ID
+        and its latest state, with 201. Same key with another body returns 409.
+        Without a key the legacy behavior remains non-idempotent. Keys are persistent in TiDB,
+        and survive only until process exit with the memory repository.
+      parameters:
+        - {name: Idempotency-Key, in: header, schema: {type: string, minLength: 1, maxLength: 128, pattern: '^[!-~]+$'}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateOrder'}
+      responses:
+        '201':
+          description: Newly created or replayed order. Retry uncertain responses with the original key.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '413': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+        '504': {$ref: '#/components/responses/Error'}
+  /api/v1/orders/{id}/{action}:
+    post:
+      operationId: transitionOrder
+      security: [{BearerAuth: []}, {}]
+      description: >-
+        accept(worker pending_worker -> accepted), arrive(assigned worker accepted -> arrived),
+        quote(assigned worker arrived -> quote_pending), confirm-quote(owner customer quote_pending -> in_service),
+        complete(assigned worker in_service -> awaiting_payment), cancel(owner customer pending_worker -> cancelled).
+        State changes use a compare-and-set condition; only one concurrent accept succeeds.
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+        - {name: id, in: path, required: true, schema: {$ref: '#/components/schemas/Identifier'}}
+        - {name: action, in: path, required: true, schema: {type: string, enum: [accept, arrive, quote, confirm-quote, complete, cancel]}}
+      requestBody:
+        description: quote requires quoteCents; all other actions accept an empty body or an empty object.
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - {type: object, additionalProperties: false, required: [quoteCents], properties: {quoteCents: {$ref: '#/components/schemas/QuoteCents'}}}
+                - {type: object, additionalProperties: false, maxProperties: 0}
+      responses:
+        '200':
+          description: Updated order.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '400': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '413': {$ref: '#/components/responses/Error'}
+  /api/v1/payment-intents:
+    post:
+      operationId: createPaymentIntent
+      security: [{BearerAuth: []}, {}]
+      description: >-
+        Customer ownership, existing awaiting_payment order and server amount are checked first.
+        All three registered channels then return 501. No credentials, callback or live channel is configured.
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [orderId, provider]
+              properties:
+                orderId: {$ref: '#/components/schemas/Identifier'}
+                provider: {type: string, enum: [wechat, alipay, aggregate]}
+      responses:
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '413': {$ref: '#/components/responses/Error'}
+        '501': {$ref: '#/components/responses/Error'}
+  /api/v1/admin/dashboard:
+    get:
+      operationId: adminDashboard
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+      responses:
+        '200':
+          description: Full-dataset aggregates from one repository query, independent of list pagination.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Dashboard'}
+        '403': {$ref: '#/components/responses/Error'}
+        '500': {$ref: '#/components/responses/Error'}
+  /api/v1/admin/orders:
+    get:
+      operationId: adminOrders
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+        - {$ref: '#/components/parameters/Limit'}
+        - {$ref: '#/components/parameters/Cursor'}
+        - {name: status, in: query, schema: {$ref: '#/components/schemas/OrderStatus'}}
+      responses:
+        '200': {$ref: '#/components/responses/Orders'}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+  /api/v1/admin/workers:
+    get:
+      operationId: adminWorkers
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+        - {$ref: '#/components/parameters/Limit'}
+        - {$ref: '#/components/parameters/Cursor'}
+      responses:
+        '200':
+          description: Worker array sorted by descending ID; does not load orders or settlements.
+          headers: {X-Next-Cursor: {$ref: '#/components/headers/NextCursor'}}
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/Worker'}}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+  /api/v1/admin/settlements:
+    get:
+      operationId: adminSettlements
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+        - {$ref: '#/components/parameters/Limit'}
+        - {$ref: '#/components/parameters/Cursor'}
+      responses:
+        '200':
+          description: Settlement array; does not load orders or workers.
+          headers: {X-Next-Cursor: {$ref: '#/components/headers/NextCursor'}}
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/Settlement'}}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+  /api/v1/admin/orders/{id}/demo-collect:
+    post:
+      operationId: demoCollect
+      description: >-
+        Admin simulation only; no money moves. awaiting_payment -> completed plus one settlement.
+        Worker share = (amountCents * 85 + 50) / 100 integer division, fee = remainder.
+        Rule version is recorded. Order, demo payment, settlement and balanced journal commit atomically in TiDB.
+        Repeated collection returns the persisted completed order with 200, without an additional settlement.
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+        - {name: id, in: path, required: true, schema: {$ref: '#/components/schemas/Identifier'}}
+      responses:
+        '200':
+          description: Demo-completed order.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+  /api/v1/admin/settlements/{id}/manual-paid:
+    post:
+      operationId: manualPaid
+      description: Session admin simulated manual payout. Status and balanced payout journal commit atomically; first and repeated calls return 204; no transfer occurs.
+      parameters:
+        - {$ref: '#/components/parameters/ActorRole'}
+        - {$ref: '#/components/parameters/ActorID'}
+        - {name: id, in: path, required: true, schema: {$ref: '#/components/schemas/Identifier'}}
+      responses:
+        '204': {description: Demo flag already or newly set.}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+components:
+  securitySchemes:
+    BearerAuth: {type: http, scheme: bearer, description: Opaque independent session token; never a user-controlled role header.}
+  parameters:
+    ActorRole:
+      name: X-Actor-Role
+      in: header
+      description: Optional anonymous demo hint; only fixed customer/worker demo actors when configured. Bearer identity overrides headers. Admin cannot be selected by a header.
+      deprecated: true
+      schema: {type: string, enum: [customer, worker], default: customer}
+    ActorID:
+      name: X-Actor-ID
+      in: header
+      description: Optional fixed customer-demo/worker-demo only. Arbitrary IDs and all anonymous admins are rejected. Bearer identity overrides headers.
+      deprecated: true
+      schema: {$ref: '#/components/schemas/Identifier'}
+    Limit:
+      name: limit
+      in: query
+      schema: {type: integer, minimum: 1, maximum: 200, default: 100}
+    Cursor:
+      name: cursor
+      in: query
+      description: Opaque X-Next-Cursor from the previous page; keep the endpoint, actor and filters unchanged.
+      schema: {type: string, maxLength: 512}
+  headers:
+    NextCursor:
+      description: Present only if another page exists; request it as cursor. Arrays remain compatible with legacy clients.
+      schema: {type: string}
+  responses:
+    Error:
+      description: >-
+        Machine-readable code plus a human message. JSON bodies are limited to 64 KiB and one object.
+        Requests have an eight-second processing budget; database operations three seconds.
+        retryable/timeout can mean an uncertain result; preserve Idempotency-Key when retrying a create.
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/Error'}
+    Orders:
+      description: Order array sorted by createdAt then ID descending; empty data returns [].
+      headers: {X-Next-Cursor: {$ref: '#/components/headers/NextCursor'}}
+      content:
+        application/json:
+          schema: {type: array, items: {$ref: '#/components/schemas/Order'}}
+  schemas:
+    Identifier: {type: string, minLength: 1, maxLength: 64, pattern: '^[A-Za-z0-9_-]+$'}
+    Category:
+      type: string
+      enum: [家电维修, 家电清洗, 家电安装, 水电维修, 管道疏通, 防水补漏, 家具门窗, 房屋修缮, 数码维修]
+    QuoteCents: {type: integer, minimum: 1, maximum: 100000000}
+    OrderStatus:
+      type: string
+      enum: [pending_worker, accepted, arrived, quote_pending, in_service, awaiting_payment, completed, cancelled]
+    CreateOrder:
+      type: object
+      additionalProperties: false
+      required: [category, equipment, issue, address]
+      properties:
+        category: {$ref: '#/components/schemas/Category'}
+        equipment: {type: string, minLength: 1, maxLength: 160}
+        issue: {type: string, minLength: 1, maxLength: 4000}
+        address: {type: string, minLength: 1, maxLength: 500}
+        scheduledAt:
+          description: Empty means time to be agreed; otherwise RFC3339 including timezone, normalized to UTC.
+          oneOf: [{type: string, const: ''}, {type: string, format: date-time}]
+    Order:
+      type: object
+      required: [id, customerId, workerId, category, equipment, issue, address, scheduledAt, status, paymentStatus, quotedAmountCents, platformFeeCents, workerShareCents, profitRuleVersion, createdAt, updatedAt]
+      properties:
+        id: {$ref: '#/components/schemas/Identifier'}
+        customerId: {$ref: '#/components/schemas/Identifier'}
+        workerId: {type: string}
+        category: {type: string}
+        equipment: {type: string}
+        issue: {type: string}
+        address: {type: string}
+        scheduledAt: {type: string}
+        status: {$ref: '#/components/schemas/OrderStatus'}
+        paymentStatus: {type: string, enum: [not_started, pending, demo_paid]}
+        quotedAmountCents: {type: integer, minimum: 0}
+        platformFeeCents: {type: integer, minimum: 0}
+        workerShareCents: {type: integer, minimum: 0}
+        profitRuleVersion: {type: string, description: Empty for legacy records; demo-worker85-half-up-v1 for current demo collections.}
+        createdAt: {type: string, format: date-time}
+        updatedAt: {type: string, format: date-time}
+    Worker:
+      type: object
+      required: [id, displayName, serviceAreas, skills, status]
+      properties:
+        id: {type: string}
+        displayName: {type: string}
+        serviceAreas: {type: array, items: {type: string}}
+        skills: {type: array, items: {type: string}}
+        status: {type: string}
+    Settlement:
+      type: object
+      required: [id, orderId, workerId, grossAmountCents, platformFeeCents, workerShareCents, profitRuleVersion, status, createdAt]
+      properties:
+        id: {type: string}
+        orderId: {type: string}
+        workerId: {type: string}
+        grossAmountCents: {type: integer, minimum: 0}
+        platformFeeCents: {type: integer, minimum: 0}
+        workerShareCents: {type: integer, minimum: 0}
+        profitRuleVersion: {type: string}
+        status: {type: string, enum: [pending_manual, manually_paid]}
+        createdAt: {type: string, format: date-time}
+    Dashboard:
+      type: object
+      required: [totalOrders, pendingOrders, activeOrders, completedOrders, pendingSettlements, grossAmountCents, platformFeeCents, workerShareCents]
+      properties:
+        totalOrders: {type: integer, minimum: 0}
+        pendingOrders: {type: integer, minimum: 0}
+        activeOrders: {type: integer, minimum: 0}
+        completedOrders: {type: integer, minimum: 0}
+        pendingSettlements: {type: integer, minimum: 0}
+        grossAmountCents: {type: integer, minimum: 0}
+        platformFeeCents: {type: integer, minimum: 0}
+        workerShareCents: {type: integer, minimum: 0}
+    Error:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+          enum: [invalid_input, unauthenticated, username_taken, rate_limited, worker_not_approved, revision_conflict, image_too_large, forbidden, not_found, invalid_state, idempotency_conflict, body_too_large, payment_not_configured, repository_not_ready, retryable, request_timeout, request_cancelled, amount_overflow, internal_error, ledger_error, ledger_not_ready, invalid_ledger_filter, ledger_not_found, ledger_state_conflict, ledger_idempotency_conflict, real_accounting_not_configured, ledger_export_too_large, ledger_outcome_uncertain, ledger_timeout, ledger_cancelled]
+        error: {type: string}
+        message: {type: string}
+        requestId: {type: string}
+        provider: {type: string}

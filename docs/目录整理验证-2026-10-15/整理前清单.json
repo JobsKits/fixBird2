@@ -1,0 +1,3223 @@
+{
+  "createdAt": "2026-10-15T15:09:42.742Z",
+  "excluded": [
+    "Tools",
+    ".runtime",
+    ".codegraph",
+    ".git",
+    "node_modules",
+    "build",
+    "DerivedData"
+  ],
+  "moves": [
+    [
+      "Server",
+      "后端/Go服务端"
+    ],
+    [
+      "WebAdmin",
+      "后端/管理后台页面"
+    ],
+    [
+      "Workspace",
+      "前端/Web网页/维修工作台"
+    ],
+    [
+      "Web",
+      "前端/Web网页/旧版用户网页"
+    ],
+    [
+      "Validation",
+      "验证/旧版基线"
+    ],
+    [
+      "Scripts/验证工作台.mjs",
+      "验证/验证工作台.mjs"
+    ],
+    [
+      "Scripts/离线预览.mjs",
+      "前端/Web网页/离线预览.mjs"
+    ],
+    [
+      "Scripts/【MacOS】启动维修工作台.command",
+      "后端/部署/macOS/deployment/【MacOS】启动维修工作台.command"
+    ]
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 114,
+      "sha256": "fd571d660bc7869894b8074749c203e85dc6358fa60055ed64e6d74f62ad4abd"
+    },
+    {
+      "path": "AGENTS.md",
+      "size": 2767,
+      "sha256": "7775803ec8d22cd5b9525c7ed787fdaa051e55f93a2b9d1244af0ebe20d2f771"
+    },
+    {
+      "path": "README.md",
+      "size": 20571,
+      "sha256": "9c622eb5973bbb85a25993ab8d8466b673de0f9ba5628da3836c8a6c29f748f1"
+    },
+    {
+      "path": "Scripts/【MacOS】启动维修工作台.command/README.md",
+      "size": 3484,
+      "sha256": "af5172d1f017400cfe314ace6bde166a065ac05ba296e261c1cd5c87500c6c94"
+    },
+    {
+      "path": "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+      "size": 7454,
+      "sha256": "5d116a9bd79d36a374ff364168d58998adf87381c0c6cf1e53b000c838ee2cfb"
+    },
+    {
+      "path": "Scripts/离线预览.mjs",
+      "size": 3304,
+      "sha256": "5eb7caffa0babb9c374564dc72aa026ffafcab9199644ae45b02e610563cfe26"
+    },
+    {
+      "path": "Scripts/验证工作台.mjs",
+      "size": 13999,
+      "sha256": "affe0a2daad737071b9fe2124869c2c6d1ccadb60a33c56e12e060a185100467"
+    },
+    {
+      "path": "Server/.env.example",
+      "size": 532,
+      "sha256": "cabffc7185f4edafabab6590fec3d3b925d60850ece51f06ee68a08ce65c22fc"
+    },
+    {
+      "path": "Server/README.md",
+      "size": 15730,
+      "sha256": "68d9f719eb012c92378ec317d259b2fded0f4b1fcdcbbf5224a9a27cceeb4728"
+    },
+    {
+      "path": "Server/api/accounts.yaml",
+      "size": 7368,
+      "sha256": "f19db26ee5176709aab275f0d157bbe0a64945e7610d7679f4a1a49a66e3f46a"
+    },
+    {
+      "path": "Server/api/identity.yaml",
+      "size": 19488,
+      "sha256": "d2f484a466a3804a5fa44b170535c67a35a61182cd9e436a0addbb4f2b61413c"
+    },
+    {
+      "path": "Server/api/ledger.yaml",
+      "size": 23517,
+      "sha256": "49b3e3c96fd99f4ccd4fbedfb011fadad4a5f92d285e77a6fac33868ab693426"
+    },
+    {
+      "path": "Server/api/openapi.yaml",
+      "size": 20698,
+      "sha256": "16cef60a4e61ff211266568ea78cc53a83218258ad84bebf1d7f335dc6654140"
+    },
+    {
+      "path": "Server/api/workers.yaml",
+      "size": 12647,
+      "sha256": "c4e25b401b77f3e34bb7f5ba5ef35ff422436c25f52065daff6fddf8873bc1cc"
+    },
+    {
+      "path": "Server/cmd/api/main.go",
+      "size": 3409,
+      "sha256": "881e4753d2af3c7f08c4f6a26bf1844d49f7bb3a11a1434c02ce0ffad2730d36"
+    },
+    {
+      "path": "Server/cmd/migrate/main.go",
+      "size": 2283,
+      "sha256": "1405d541bdda684345435828533830c9342f0e6c3f8e8304e958b6be8f30f5c7"
+    },
+    {
+      "path": "Server/cmd/workbench/main.go",
+      "size": 5220,
+      "sha256": "04c386af37200856fca4d615a7d3434e469ebd19b6329fa31b3f37579ccc83fb"
+    },
+    {
+      "path": "Server/go.mod",
+      "size": 133,
+      "sha256": "f1522c039a095e803b0035161f04433820dacc2dcc9854dd49209853a9d3ecd8"
+    },
+    {
+      "path": "Server/go.sum",
+      "size": 344,
+      "sha256": "93779260042a577fef01fdad0e20564598846e018fe3d2e035c491c5fbbc1863"
+    },
+    {
+      "path": "Server/internal/config/config.go",
+      "size": 2725,
+      "sha256": "9d364e9c5986d4a3b14e5eb49cd211ffcc1dac51348869e79da1fe0074420782"
+    },
+    {
+      "path": "Server/internal/config/config_test.go",
+      "size": 1057,
+      "sha256": "0b24623adbdcd8cbde5a163581bfb53187c2956a008fcdb40ff01b2898698ebc"
+    },
+    {
+      "path": "Server/internal/domain/audit.go",
+      "size": 347,
+      "sha256": "c25eb06d6e6bd868ab108e7f610b286f1fa7662b3c2fece3a3b606847d572c0b"
+    },
+    {
+      "path": "Server/internal/domain/models.go",
+      "size": 3407,
+      "sha256": "985af900ed37bd884e65dc4490ba93963187bd447ce0733debb781118ddb6b5f"
+    },
+    {
+      "path": "Server/internal/domain/rules.go",
+      "size": 1937,
+      "sha256": "79e8552593e43246dacd8369bb2975eb2f30fc0598571c0c4a8b6a4b2236a01b"
+    },
+    {
+      "path": "Server/internal/domain/rules_test.go",
+      "size": 907,
+      "sha256": "094c66736051184fd685e4e7b9b99e443518769abf072e8a8dfe970feac4c63e"
+    },
+    {
+      "path": "Server/internal/httpapi/account_management.go",
+      "size": 4186,
+      "sha256": "f96cbff3c06159ae5a64348613c806d6726f675f2b6bc5ee2b3b0c2f6c54e0b9"
+    },
+    {
+      "path": "Server/internal/httpapi/accounts_test.go",
+      "size": 6645,
+      "sha256": "dd9d5ee3a041d0fdd9e5faa54862d4322ecf7d28a89c06e32e3d900774a4af45"
+    },
+    {
+      "path": "Server/internal/httpapi/devices.go",
+      "size": 3221,
+      "sha256": "6d639ed783408659093a58bbf93315b3ea5d66285744677b971045daa6201aea"
+    },
+    {
+      "path": "Server/internal/httpapi/identity.go",
+      "size": 6128,
+      "sha256": "775f2571d9062d93154f3b123849730f02b82f3de28f895c2744c47da8f89bcc"
+    },
+    {
+      "path": "Server/internal/httpapi/identity_workers_test.go",
+      "size": 6961,
+      "sha256": "28f1262f0d7fe2966b91bb53b10e23278a19f310a217b1d99f085f4f448d75f5"
+    },
+    {
+      "path": "Server/internal/httpapi/ledger.go",
+      "size": 6392,
+      "sha256": "cd6b440eea69bea242b9af1ad500f7594a16952cbfe8d078256163098e80126c"
+    },
+    {
+      "path": "Server/internal/httpapi/ledger_test.go",
+      "size": 8517,
+      "sha256": "d3e099faaf86b41a429f9868980680b78b6d4f69020ebb3468fe41f668d2a786"
+    },
+    {
+      "path": "Server/internal/httpapi/pagination.go",
+      "size": 3365,
+      "sha256": "d3f6432127b9b8a959324adcc71a654a0323c7126e740025150220c9a71110b8"
+    },
+    {
+      "path": "Server/internal/httpapi/server.go",
+      "size": 13173,
+      "sha256": "432c5a0ca6d16ce9a8dfb93fcdc241b5b7f2f76a990820ee5e1aec50b8ec5fc7"
+    },
+    {
+      "path": "Server/internal/httpapi/server_test.go",
+      "size": 5020,
+      "sha256": "3140ba5cfbd36c72bdfa16558d50a88a04b1169a683dd6a8492873eed6ae1ce3"
+    },
+    {
+      "path": "Server/internal/httpapi/workers.go",
+      "size": 5097,
+      "sha256": "a8cbfcc62e598d612d1677f5b5ea685c569b0cd016d333979b3c7055297eb4f6"
+    },
+    {
+      "path": "Server/internal/identity/account_management.go",
+      "size": 4762,
+      "sha256": "6c12d63957a4edbab86291a9cb312732113191cb39199288af240776ddee10dc"
+    },
+    {
+      "path": "Server/internal/identity/account_management_memory.go",
+      "size": 2361,
+      "sha256": "9a21b6c7399a9a29085010e5cdf870813b28893f8659a07cfdb12213611aae55"
+    },
+    {
+      "path": "Server/internal/identity/account_management_tidb.go",
+      "size": 3484,
+      "sha256": "0fbcee2920360b6ee51d4ccb226771f3313dfeacb7ed18da0852a1d06d83eb84"
+    },
+    {
+      "path": "Server/internal/identity/challenges_test.go",
+      "size": 2521,
+      "sha256": "cc2344e64459dfabbbc8384b82275ab3eb52bcda4cbd4e41726991305b491b86"
+    },
+    {
+      "path": "Server/internal/identity/devices.go",
+      "size": 4472,
+      "sha256": "885ff7f2b5fa58cd9ef405fd5bb14161c1048e72e1388019ae61a62e3dc30e38"
+    },
+    {
+      "path": "Server/internal/identity/devices_memory.go",
+      "size": 3620,
+      "sha256": "9e1f8ade1448742c31a9e8a939ed52001af0db9e060825f5c198af1bb553cf3d"
+    },
+    {
+      "path": "Server/internal/identity/devices_tidb.go",
+      "size": 6239,
+      "sha256": "66b813c0d830d9c1b59a85d028b3d465db330190cd981ed6b06e25863b5905ba"
+    },
+    {
+      "path": "Server/internal/identity/models.go",
+      "size": 3062,
+      "sha256": "2cd9ebc965236dcc95ea39499e40bafb9d721e01990313b5ae0573e9dcfe542a"
+    },
+    {
+      "path": "Server/internal/identity/password.go",
+      "size": 1090,
+      "sha256": "ad182f2634dd309205d3d47ea97734ae07a893a18814f267c7b1e903d8112983"
+    },
+    {
+      "path": "Server/internal/identity/service.go",
+      "size": 6722,
+      "sha256": "8f30edccb4bb7f0b4b39b87354e985315f8a53d51cf5d5b392bce92fc264898f"
+    },
+    {
+      "path": "Server/internal/identity/service_test.go",
+      "size": 5116,
+      "sha256": "113e5a821372c5b7f6da0a2548ff8890c972c2a14d8a783ee75f0b4b432b8383"
+    },
+    {
+      "path": "Server/internal/identity/store.go",
+      "size": 3512,
+      "sha256": "49ee3972497b88580fb81a879ee28e7310d01d03a749343e7a23774d88987e16"
+    },
+    {
+      "path": "Server/internal/identity/tidb.go",
+      "size": 4544,
+      "sha256": "0df6a4214394389c46f6791621fe32135ba4989d6d28d07830dd10358a178a94"
+    },
+    {
+      "path": "Server/internal/identity/transactions.go",
+      "size": 1323,
+      "sha256": "1763662131facabdb5b6b884c8c0a4a7ee364ebacee89bd3929f166a59a629e1"
+    },
+    {
+      "path": "Server/internal/im/README.md",
+      "size": 1724,
+      "sha256": "a562295368e0dc9c81b180b89b9d55588ae9b83cd3c4191cc942636d776cf9c5"
+    },
+    {
+      "path": "Server/internal/im/contracts.go",
+      "size": 701,
+      "sha256": "2e4d9755e4d91bf4a2e14cd13691b7ded62d1897a26fadb5340bf9a7c88f8401"
+    },
+    {
+      "path": "Server/internal/ledger/README.md",
+      "size": 3278,
+      "sha256": "15d6d63b168740a7f9e9d1a5e6df84a2a83f8b399486ab6cbfc6cfb56983ed68"
+    },
+    {
+      "path": "Server/internal/ledger/backfill.go",
+      "size": 4018,
+      "sha256": "81ab77c0cdfdffcbce3e88c79caa0669be7aa90a2c395ab5d69697eda69a3de9"
+    },
+    {
+      "path": "Server/internal/ledger/ledger_test.go",
+      "size": 11252,
+      "sha256": "f35441cb481eae00aa0a70f93b9ed89f7256f3771c40e8c58e974770d0e6adfe"
+    },
+    {
+      "path": "Server/internal/ledger/memory.go",
+      "size": 5272,
+      "sha256": "4820da7243af820ed93d84170593a52aee71ee69c4bc2ec9e03335e6c2b41f0f"
+    },
+    {
+      "path": "Server/internal/ledger/model.go",
+      "size": 14287,
+      "sha256": "552450b7a84a8df8e7a2d58d4d707bca97aec17394ef0253f685e471c736b7b4"
+    },
+    {
+      "path": "Server/internal/ledger/service.go",
+      "size": 4427,
+      "sha256": "f7491697498e878f79d93394c3069f908a3fac311646c7946c03c209470a5430"
+    },
+    {
+      "path": "Server/internal/ledger/store.go",
+      "size": 3803,
+      "sha256": "c64fa0a2de868f097ecce3eaf3655b95cd105af76b02dfa8f3795e43646f0727"
+    },
+    {
+      "path": "Server/internal/ledger/tidb.go",
+      "size": 12594,
+      "sha256": "a7df2e8081dfe3f6b4d6422ddf299e157587a3db2d1cb9f1263e3fcecb27fd1b"
+    },
+    {
+      "path": "Server/internal/ledger/tidb_test.go",
+      "size": 6447,
+      "sha256": "946c18a3a4d294175d9aae3907ca526f39c02ec8db989708149f1587982ddc17"
+    },
+    {
+      "path": "Server/internal/migration/runner.go",
+      "size": 5842,
+      "sha256": "f812f29aea773e6c48d72a5ad12c0916b45535e37164e50cd167ae2a2fdb4902"
+    },
+    {
+      "path": "Server/internal/migration/sql.go",
+      "size": 2066,
+      "sha256": "1828220a6bc926be43351d547467f76b01985bb20deb7e85987b5e0eebcaf81a"
+    },
+    {
+      "path": "Server/internal/migration/sql_test.go",
+      "size": 1281,
+      "sha256": "f1deb7edd955678413c1954c8ec7ae9b58a4d21c91659928730d192752c36266"
+    },
+    {
+      "path": "Server/internal/payment/errors.go",
+      "size": 394,
+      "sha256": "30636b6d16d68c0fc82563ecf18529adde8f17d69f781cedbbd38f113073e4fa"
+    },
+    {
+      "path": "Server/internal/payment/provider.go",
+      "size": 813,
+      "sha256": "0764dbccf1e70548799e06a71efc594ade146154818c08c063a5ce47a97162e8"
+    },
+    {
+      "path": "Server/internal/repository/account_access_test.go",
+      "size": 4502,
+      "sha256": "f16a33bcf8b9cae6be77690526d5e81f3c2e403287ad0e0f9ed07b1bb1996c35"
+    },
+    {
+      "path": "Server/internal/repository/contract_test.go",
+      "size": 12396,
+      "sha256": "46f2cdfa2ca25d7a4ec8d463557caeab838ddcb4eac47e6d1f6809a91911b576"
+    },
+    {
+      "path": "Server/internal/repository/dashboard.go",
+      "size": 1468,
+      "sha256": "d6d9f35cc8a1353bd98342fa4cecd10d1d7b742ada1a3b6d4ef1eb9c46b0c9cd"
+    },
+    {
+      "path": "Server/internal/repository/identity_workers_test.go",
+      "size": 8683,
+      "sha256": "7214e11077492da1f80e43c7505180b18a56a2dde3c67a1d12d40ec6aff14558"
+    },
+    {
+      "path": "Server/internal/repository/ledger.go",
+      "size": 2583,
+      "sha256": "7050542ab32392b31caf9fb29914fe92a68119da7a6e40e22d059fb62306996d"
+    },
+    {
+      "path": "Server/internal/repository/repository.go",
+      "size": 9093,
+      "sha256": "67c8465d0e4790b672bfd6f73912c5c0441689503645c7264af67753310e6ae2"
+    },
+    {
+      "path": "Server/internal/repository/tidb.go",
+      "size": 16574,
+      "sha256": "20d909dbbc7d29199e47966d79a3b3ca01f6397e85cc1ed0d1e1c18dd08d3308"
+    },
+    {
+      "path": "Server/internal/repository/workers.go",
+      "size": 462,
+      "sha256": "0e39c379b9d77d54cdb7213a51a90c2f7d3f0a5ef9c7a325d3b483060155a469"
+    },
+    {
+      "path": "Server/internal/service/collection_outcome_test.go",
+      "size": 3339,
+      "sha256": "6dafd78b2b4ff81ea6dfad7c2b2658693319bd0e4c30241d8bd48c2214f53c37"
+    },
+    {
+      "path": "Server/internal/service/marketplace.go",
+      "size": 11941,
+      "sha256": "86f4afd39856690d3fe6d5345deb38ad5f8dd953d080ff444e4cf75b9606b124"
+    },
+    {
+      "path": "Server/internal/service/marketplace_test.go",
+      "size": 5443,
+      "sha256": "4e4f3e9908e609432a7662f58a966106f8a4af3425fec1ec6f80700a18957f22"
+    },
+    {
+      "path": "Server/internal/service/validation.go",
+      "size": 2541,
+      "sha256": "4ec937d3147a397a02cb39b264b15a8aff30822a986fcc50bd9202abe0979170"
+    },
+    {
+      "path": "Server/internal/workbench/acceptance_history_test.go",
+      "size": 10803,
+      "sha256": "936a49bd957f49a7e96cddf735d11a074667d9437f36c49f0ed86ef8791ed00b"
+    },
+    {
+      "path": "Server/internal/workbench/actions.go",
+      "size": 44962,
+      "sha256": "e2d66146832394913ab5cdf48f6ce60b742fb3f9719d466d39e7d26e1a8d3f1f"
+    },
+    {
+      "path": "Server/internal/workbench/audit.go",
+      "size": 2472,
+      "sha256": "ef09db05cfa9522a517531bb2a61831911aad2833eef0cd91e7cc6f0b5975228"
+    },
+    {
+      "path": "Server/internal/workbench/business_test.go",
+      "size": 22505,
+      "sha256": "da6117b53953348613a68522ed83afa470d3ed716a1b8998b45907fd99924a2d"
+    },
+    {
+      "path": "Server/internal/workbench/calendar.go",
+      "size": 1322,
+      "sha256": "7382ba0cf60e48e7bda8b3e689696a74d46701c2eec9fd84ec3accddc237ec22"
+    },
+    {
+      "path": "Server/internal/workbench/calendar_acceptance_regression_test.go",
+      "size": 12199,
+      "sha256": "dbb1f325e27b59531984f39896d147ede0e59dd44ed1a6a778020e4538df90a3"
+    },
+    {
+      "path": "Server/internal/workbench/http.go",
+      "size": 17768,
+      "sha256": "3a899761016317df4af5ec97148c2bdd58865f476ee9d82f7c6b2f4f47982845"
+    },
+    {
+      "path": "Server/internal/workbench/idempotency.go",
+      "size": 4723,
+      "sha256": "2a9149d43e4714de4e5f823493dca3a8a9a5b56751bf424477177f779a522d5e"
+    },
+    {
+      "path": "Server/internal/workbench/inventory.go",
+      "size": 8960,
+      "sha256": "a4550f37e46f89df4c26e4c7ac8a7ebb27a3dfa8c015de201f1e61d3e7717492"
+    },
+    {
+      "path": "Server/internal/workbench/models.go",
+      "size": 11912,
+      "sha256": "7c3268c47ee205f1cdd4aff73f85c466bad23de411e3ec3324f7480d2d64ff3e"
+    },
+    {
+      "path": "Server/internal/workbench/permissions.go",
+      "size": 5841,
+      "sha256": "0c749de43d158f493e78634f508260d798ef1791d56f2ab94f9d987a8546c6ac"
+    },
+    {
+      "path": "Server/internal/workbench/permissions_cross_test.go",
+      "size": 12253,
+      "sha256": "e99f97654bb1c6a885fbcd2adf9ccad57824f12d45f10154f7c74769bf490303"
+    },
+    {
+      "path": "Server/internal/workbench/permissions_test.go",
+      "size": 14140,
+      "sha256": "10cc48f833a9bde1d35d47ff0e7e5822435e16fab87f9ab4d18cecf73afeef0e"
+    },
+    {
+      "path": "Server/internal/workbench/permissions_write_test.go",
+      "size": 6702,
+      "sha256": "28c02851fb92c3348d689ff9a759bffd25f840d35f30cf4b208f51ab56b3a0f9"
+    },
+    {
+      "path": "Server/internal/workbench/prepayment_contract_test.go",
+      "size": 10393,
+      "sha256": "f3ad2603931f6e28b7287f45f84884a8b19b1532e7bb4697f53e99f0cc3d9bfd"
+    },
+    {
+      "path": "Server/internal/workbench/query.go",
+      "size": 5759,
+      "sha256": "482d8394974edac745735adfcce20e319ded6385ec9c210e1c74b5e55c3e6c25"
+    },
+    {
+      "path": "Server/internal/workbench/recovery_boundary_test.go",
+      "size": 8500,
+      "sha256": "732fd1e483c6c15528631814b090543142a7d1c8cd1064460fad8fe8f00a7285"
+    },
+    {
+      "path": "Server/internal/workbench/recovery_regression_test.go",
+      "size": 13086,
+      "sha256": "62f4da4ac71a1fb2d464d3f3b276bf0c52b2950edd7b798d144f360f8ecc49ca"
+    },
+    {
+      "path": "Server/internal/workbench/regression_fix_test.go",
+      "size": 9591,
+      "sha256": "7fdb11f4556bff42f706a2418f597125398dc146aaafae484bf7f156bbb75968"
+    },
+    {
+      "path": "Server/internal/workbench/retry_audit_test.go",
+      "size": 6026,
+      "sha256": "0a40fcb9de759ed68d5c89fab6790ab8006a1021860cab1164bae13975e2ee5b"
+    },
+    {
+      "path": "Server/internal/workbench/seed.go",
+      "size": 8440,
+      "sha256": "9c8e42a9800742be300afd997566b633a75dc77a43386df2d3a056e568fc72c5"
+    },
+    {
+      "path": "Server/internal/workbench/service.go",
+      "size": 19923,
+      "sha256": "9c6284544aef5deee7dd80d8be0c01f52e49cf18843821042ca4668f712c5bae"
+    },
+    {
+      "path": "Server/internal/workbench/storage.go",
+      "size": 20902,
+      "sha256": "0c664d16ae7ec1f2a90897999f12e75e66930e1f1f14d72143001fd285c6204a"
+    },
+    {
+      "path": "Server/internal/workbench/storage_audit_test.go",
+      "size": 5598,
+      "sha256": "2ae5c51681a1bbe294489a7f3ff5caf5cdcf7df3b1adf0c703e252dbcb01ceda"
+    },
+    {
+      "path": "Server/internal/workbench/storage_authorization_test.go",
+      "size": 10426,
+      "sha256": "0390271e918f48d423ee1ab1b91398be1df6dc1c8d7523dd84e5398e402d6da1"
+    },
+    {
+      "path": "Server/internal/workbench/storage_test.go",
+      "size": 5194,
+      "sha256": "280a0781effad6d3079be7cab43490701db78f4be6abe79b3853b3cc507203b2"
+    },
+    {
+      "path": "Server/internal/workbench/storage_tidb.go",
+      "size": 3987,
+      "sha256": "9d008c61b0d1f950e93ca544e4a04e580b24996805627a22e5d2ad72c346af9c"
+    },
+    {
+      "path": "Server/internal/workbench/storage_tidb_test.go",
+      "size": 2813,
+      "sha256": "cd89ce9d05e54d8ded3d24b372aef768023c8b567c4eebb1b102aad5bae6d355"
+    },
+    {
+      "path": "Server/internal/workbench/tasks.go",
+      "size": 939,
+      "sha256": "5c33cd0cb7c5e56410ceeb304a4c522bb072c07ee67d485599f029822c5638ed"
+    },
+    {
+      "path": "Server/internal/workers/models.go",
+      "size": 1807,
+      "sha256": "c40e2fbf20cdc82dcde72b4ee141cd773b0b497fce832d63f61ec8d2e91e7756"
+    },
+    {
+      "path": "Server/internal/workers/service.go",
+      "size": 8089,
+      "sha256": "4f59e667b48697ff9185946941eccbfa84c88b7350804b71d2949aae3c738ac6"
+    },
+    {
+      "path": "Server/internal/workers/store.go",
+      "size": 4942,
+      "sha256": "88efc896c5c5fb2fcd6ba9770353259e863fc9f32d67caa842b3ea0bbfe713d8"
+    },
+    {
+      "path": "Server/internal/workers/tidb.go",
+      "size": 7985,
+      "sha256": "46b59ea7aa9ab28b04cad498532e51f52dd96754b272200bb755ceda2b8b1bcc"
+    },
+    {
+      "path": "Server/migrations/001_init.sql",
+      "size": 2077,
+      "sha256": "f767c3055f73a0510d36e47561dd210c4e6103d8ae663eae43a64cec509b61e5"
+    },
+    {
+      "path": "Server/migrations/002_order_requests.sql",
+      "size": 392,
+      "sha256": "75d0f74f64e6d8f7b6d6d7bb0b31fc9c4c62ff627ebc6855e600146d7a2831dc"
+    },
+    {
+      "path": "Server/migrations/003_profit_rule.sql",
+      "size": 213,
+      "sha256": "8c19be45906b278c4e0103e41450a517bcefbb7652c641d28a712b4eb2265e70"
+    },
+    {
+      "path": "Server/migrations/004_identity_workers_assets.sql",
+      "size": 2975,
+      "sha256": "c0241af3084c9c877c7e16d6fab90b52f95306390579e540aa8712404d37e78d"
+    },
+    {
+      "path": "Server/migrations/005_ledger.sql",
+      "size": 1715,
+      "sha256": "acddee9918ea06fb46c55cb027e4c959b98f5a8239140c734c47a69d5184c934"
+    },
+    {
+      "path": "Server/migrations/006_account_access.sql",
+      "size": 236,
+      "sha256": "4f03be50b8d83972d815809ffed527e2a4e0f9b9555345db0c396e20e56ec2c8"
+    },
+    {
+      "path": "Server/migrations-workbench/001_snapshot.sql",
+      "size": 404,
+      "sha256": "61d9c63e8bbc8c435a615e64b969988c677f553105727a490afae0cff99b280d"
+    },
+    {
+      "path": "Server/seeds/demo.sql",
+      "size": 221,
+      "sha256": "3aa6d006bc46d781f7327c51a9a2718174a8b68a761556a94918ce915d2a9ced"
+    },
+    {
+      "path": "Validation/README.md",
+      "size": 4726,
+      "sha256": "bed1f8c8ca6be37096f4b8d838e8c2e43b9725f1d0f4c29715752ec4b5f20fe0"
+    },
+    {
+      "path": "Validation/parse-powershell.ps1",
+      "size": 769,
+      "sha256": "1d0ef2a1d74ac1222eb215fa7682ad6dad48a030290cb2b16602e2be7c465447"
+    },
+    {
+      "path": "Validation/smoke-api.mjs",
+      "size": 15774,
+      "sha256": "ceba11d6ce2a29538228825e61ff17928d089304e0981ab99291b11296120dba"
+    },
+    {
+      "path": "Validation/validate.mjs",
+      "size": 6269,
+      "sha256": "48031777eea5fd769948c0ac178b08d99c2ed35c9ba8353e0d20305bb5944e52"
+    },
+    {
+      "path": "Web/README.md",
+      "size": 3761,
+      "sha256": "77ea64dd918133ad05527180bc3b193e838180112602dc616089d9a6fb22aa1e"
+    },
+    {
+      "path": "Web/ThirdParty/QRCodeJS/LICENSE",
+      "size": 1098,
+      "sha256": "aaa1f349028a59432eb00222b8ddfe4d2ccebdce04cf8348dcb8d41b7068107b"
+    },
+    {
+      "path": "Web/ThirdParty/QRCodeJS/qrcode.min.js",
+      "size": 19927,
+      "sha256": "c541ef06327885a8415bca8df6071e14189b4855336def4f36db54bde8484f36"
+    },
+    {
+      "path": "Web/ThirdParty/QRCodeJS/source.json",
+      "size": 614,
+      "sha256": "aed944678ece9a4eea5d1320b3997d9343b193a8f4956d8b541ad64871511b98"
+    },
+    {
+      "path": "Web/assets/RepairLogo.png",
+      "size": 2971,
+      "sha256": "7dc79cdc00eecf7333672b62dff1c2b39f53951abc464c3681020e3f6c7271ff"
+    },
+    {
+      "path": "Web/environment.js",
+      "size": 2406,
+      "sha256": "09011f276332be312bbb5a064c03ffa3bb9a07b11586e1ecb88c0b003ce726f7"
+    },
+    {
+      "path": "Web/index.html",
+      "size": 3505,
+      "sha256": "0dce3177d789e6c7b5de0222cceb8e01aa933477ae2c11d3b0b64ca4bc399f0c"
+    },
+    {
+      "path": "Web/portal.js",
+      "size": 21265,
+      "sha256": "1bd5e83966de30890f5b128c2855e2a9be8b84d64187c5b978bcf606593b058b"
+    },
+    {
+      "path": "Web/styles.css",
+      "size": 2189,
+      "sha256": "992eab20cafe4b10f75365bcae201dda6f755f5305e41f6e88d2368ad1613d90"
+    },
+    {
+      "path": "Web/tests/portal.test.cjs",
+      "size": 8756,
+      "sha256": "1d4d4d658b2ef169763adc3afdcaabaf0dd8a386b33031e1da41fa0ac459b70e"
+    },
+    {
+      "path": "WebAdmin/README.md",
+      "size": 6473,
+      "sha256": "33b9004ddae7ca3598c9ff22fab6c5ba8f7a31e110396c91b582586d6639024b"
+    },
+    {
+      "path": "WebAdmin/admin.js",
+      "size": 20377,
+      "sha256": "17a86f2a1d08379e4c309c698a80babb5e86888adaa59d92dff74e43d5b7c17b"
+    },
+    {
+      "path": "WebAdmin/assets/RepairLogo.png",
+      "size": 2971,
+      "sha256": "7dc79cdc00eecf7333672b62dff1c2b39f53951abc464c3681020e3f6c7271ff"
+    },
+    {
+      "path": "WebAdmin/auth.css",
+      "size": 7564,
+      "sha256": "ede7edf11bad14e2df714f19603168fa2bcaa6bab5fc258b77447528313378ac"
+    },
+    {
+      "path": "WebAdmin/auth.js",
+      "size": 11637,
+      "sha256": "bc2354bdc09f328c099e8f3a3d4e94afc1d692df2e0979ee8e6225537e3a33d6"
+    },
+    {
+      "path": "WebAdmin/environment.js",
+      "size": 2380,
+      "sha256": "92739eff882af43ffb697fad9d4ca4bdf498dcf381190be5864cc93d75da3616"
+    },
+    {
+      "path": "WebAdmin/index.html",
+      "size": 15879,
+      "sha256": "08a5e0ca83a5ed1c0fe36e9fd12b0b66b812cd09936e616245dda7aa575eac70"
+    },
+    {
+      "path": "WebAdmin/marketplace-data.js",
+      "size": 3930,
+      "sha256": "f8c631025df890b92ca62bc0f21d4b9e4985de91f7b8baba4a05817ecb102fb9"
+    },
+    {
+      "path": "WebAdmin/operations-data.js",
+      "size": 2355,
+      "sha256": "1a11d01c0720002f412dd9365bd76e5d4a21b664b5b6a0b243fd11ca0087b3a6"
+    },
+    {
+      "path": "WebAdmin/operations.js",
+      "size": 19848,
+      "sha256": "b45375168bcd697725fb223d09cb8179c96fde1d0070ed572c2b6478b7a601e8"
+    },
+    {
+      "path": "WebAdmin/session.js",
+      "size": 1342,
+      "sha256": "ee034b90e29cae6583493f1478bbd264d331ecd6793025649ecdc9203822c380"
+    },
+    {
+      "path": "WebAdmin/styles.css",
+      "size": 5683,
+      "sha256": "f226f0f2ca1e8aabdec12f312187b17096d3d5452c2d7f85aa720e95a65ef50e"
+    },
+    {
+      "path": "WebAdmin/tests/admin.test.cjs",
+      "size": 10094,
+      "sha256": "106e3747e9aeb0d601daba8c9fb8283284c71d266af61c0c5c37e1f6e460ac91"
+    },
+    {
+      "path": "WebAdmin/tests/operations.test.cjs",
+      "size": 20113,
+      "sha256": "7e53e875d3324830e9e34a135e33c5cca59af131db8334e17647a907f9fa8806"
+    },
+    {
+      "path": "Workspace/app.js",
+      "size": 145336,
+      "sha256": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7"
+    },
+    {
+      "path": "Workspace/assets/RepairLogo.png",
+      "size": 2971,
+      "sha256": "7dc79cdc00eecf7333672b62dff1c2b39f53951abc464c3681020e3f6c7271ff"
+    },
+    {
+      "path": "Workspace/data.js",
+      "size": 36055,
+      "sha256": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f"
+    },
+    {
+      "path": "Workspace/index.html",
+      "size": 8910,
+      "sha256": "888fd83b79eb4e133a6d3bee070a630efecb0431903825d4cc5f0a23483f2558"
+    },
+    {
+      "path": "Workspace/styles.css",
+      "size": 31627,
+      "sha256": "28ce65cf289b4eceb3198e4e72401575fcbe2b901f3729672eafe849d8b9ad79"
+    },
+    {
+      "path": "Workspace/tests/app.test.cjs",
+      "size": 113853,
+      "sha256": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78"
+    },
+    {
+      "path": "Workspace/tests/data-boundaries.test.cjs",
+      "size": 18602,
+      "sha256": "aa3c69df1acd10b37dd6f2ee9f2a6b6f92797a8993e3666fad6df1eeb2036081"
+    },
+    {
+      "path": "Workspace/tests/data.test.cjs",
+      "size": 10165,
+      "sha256": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+    },
+    {
+      "path": "codegraph.json",
+      "size": 721,
+      "sha256": "5d267817c406159481d98af30492e35c1070b74750c33b21892e525b875a7140"
+    },
+    {
+      "path": "docs/workbench-contract.md",
+      "size": 25112,
+      "sha256": "c560d5cfceb8dc3ffa7769340a6c7f4cde0a277224bc92b191f09b314e00a15c"
+    },
+    {
+      "path": "docs/三次修复说明-2026-10-15.md",
+      "size": 8062,
+      "sha256": "aade785f3888fbb5151de1966d5a96a1f434a59958ab3763edc1a9502168d4f7"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-backend.log",
+      "size": 168,
+      "sha256": "a5d39606cda9919a9ca67ede96dad25e3892be60a7f06b47b4cf253f4d5c4c52"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-final.ax.txt",
+      "size": 5365,
+      "sha256": "e9df07a7d39d198347c5ce086f92834d78a0f97ef6bc962bed4af68550f79e26"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-final.png",
+      "size": 113720,
+      "sha256": "8809f28f33672320e6c2fa82aa515bc0d04012d750a77f5c01be517eda74a6d2"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-identity.json",
+      "size": 3484,
+      "sha256": "75ba5bdec5dd4d584ba0e4629a83a3fa6b21df1db7c523a7734ff746955819da"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-pending.ax.txt",
+      "size": 2880,
+      "sha256": "3751e5d47b7b083a744521c48c38f475deb84e97f9bea25c45065b9b13e83ed6"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-pending.png",
+      "size": 67688,
+      "sha256": "ea8baaffff66b7b5d47e499940c61c873c52eb5f3c0f7f3b77bbf5065e6302ad"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-proxy.cjs",
+      "size": 2420,
+      "sha256": "01c3663deea2c2a8984ae1bb8309f74038215a717b8dd713387121231727da76"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-runtime.json",
+      "size": 208,
+      "sha256": "e5221a3a0deebaaf305cf6669807cf84b51baac7301e1760948f830b26a7cfdb"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/browser-timing.json",
+      "size": 464,
+      "sha256": "3c3646a084433d0fd1c7053c8a6cfabde09db63d73401b697e426c45f9ba39e6"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/check-documents.cjs",
+      "size": 3412,
+      "sha256": "3bc233261ce5d890bdefec48a60ba890bc7d2a0a4504daf5e587c685cae325d1"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/cleanup.cjs",
+      "size": 1366,
+      "sha256": "a1b3198462cfb8a09b154fd66efebe878246e7f450f0cd0fec2e45177ba42d8d"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/cleanup.json",
+      "size": 713,
+      "sha256": "d1f4627df5113818a04f4fb171d3447bf527fe56806b9544690c51700b277428"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/codegraph-status.json",
+      "size": 788,
+      "sha256": "d2ad259996cc0581c3b7935f744ab1a254889bd3be2cc6bee8544ae143bd8d19"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-after.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-after.tap",
+      "size": 3003,
+      "sha256": "a32f33a550f8cab016d723715a552e4106583ff85b18b70aab13f5c6875bb43c"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-before.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-before.tap",
+      "size": 7304,
+      "sha256": "94425231c34ce9032a76d353d68c2f96ee1711a44cc4ebfb7997b33ef84addad"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-data-syntax.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-data.js",
+      "size": 32642,
+      "sha256": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-data.test.cjs",
+      "size": 10165,
+      "sha256": "7f31fa0d97066561f0a351f8788fc15d8808b7cfbb0771d1a96e6979e665be0b"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-summary.json",
+      "size": 3010,
+      "sha256": "7f13f4b88457c02d7340f858e1f8f11645487319c8b893a22e3fa9968bb6f076"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/demo-tests-syntax.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/document-check.json",
+      "size": 177,
+      "sha256": "3fd934bdb43d3d9c22f22f3443c155e8c809eb2103fbe8f4ef59c65b735cd315"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/external-frontend-tests.log",
+      "size": 2539,
+      "sha256": "d37a4558e2b656c53c5134297f2c94cf294d05d07f2b19e779fb951d2108c815"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/finalize-docs.cjs",
+      "size": 6539,
+      "sha256": "cad4bdde668ff84f61482a8c23d1952d14adb85cc6731105db699ba87775e75c"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/finalize-validation.cjs",
+      "size": 3364,
+      "sha256": "0e7ae66b5e5cb7c3bfd6e8b73020e442f4cecc870b163fe7dba345551ddc7679"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/frontend-summary.json",
+      "size": 1313,
+      "sha256": "1b0315f16b3f950dd22187c1b32933a0defadae60edfe4599a501738a41ac557"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/frontend-syntax.log",
+      "size": 91,
+      "sha256": "948e706b59fac610bf76043fff1869f36d76c11c833d09e06831e9d63167d716"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/frontend-workspace-tests.log",
+      "size": 7347,
+      "sha256": "9cd7f039b8b296230b42ff6207ec06d5fb6a03a998d470857365c84605c4a6de"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/memory-check.json",
+      "size": 324,
+      "sha256": "c512e8eef5e7983d707d2d461c6a7c2e55d493d0a2c04a53fecaf2d2aa9d75c3"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/report-preview.json",
+      "size": 216,
+      "sha256": "3dda42daabc28bb00b79a7dd44c213c60f753b0dc58ac82e38b77392054f5b1b"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/report-preview.mjs",
+      "size": 1961,
+      "sha256": "4db6f8da5a5ff410efe30c2139ea73cbfd0e74cd24da95024170ca2187ba0024"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/report-preview.png",
+      "size": 109640,
+      "sha256": "a4309b2f8cd8c59ec09b3ffc702381ebc1b33bc467a15f8464835e5e8a4c62aa"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/review.json",
+      "size": 15985,
+      "sha256": "a302a1b83230ddd12f4485915f0f7b11a2b8d10ad41a1a31da287948f84ac0e0"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/source-before.json",
+      "size": 16734,
+      "sha256": "68e8db34245af2e04b9536eaf6d0d3a52e4cb836ba2b2561fdb26b4186cc1ed2"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/source-verification.json",
+      "size": 36036,
+      "sha256": "392f446b3fe3a92919d916ec7b3c09a6a2a6b3de9d57c327197fc712384e299a"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/test-summary.json",
+      "size": 1447,
+      "sha256": "c8daaffe8675b995cc7942677dfcc7903c2c1bfb8c3f96a356de4a226560e890"
+    },
+    {
+      "path": "docs/三次修复验证-2026-10-15/web-tests.log",
+      "size": 9913,
+      "sha256": "05d7a9f0c86b97022ae3f0a539e3f70d4d7c5ed3982289ba08989ffe53b3b0a4"
+    },
+    {
+      "path": "docs/三次回归报告-2026-10-15.md",
+      "size": 14273,
+      "sha256": "d2acc7610f1ea3907f8cc816446282da458be4e1375d069bda3039b56d863409"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-cleanup.json",
+      "size": 382,
+      "sha256": "990f4325a196ee8d6928830c0476464f97768ec7e098652fd03cac5930c9d768"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-source-comparison.json",
+      "size": 153,
+      "sha256": "f5cccfba76d39b1fb083ca71ce7abdc10c0233786902b6347ef3263562518bc5"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-summary.json",
+      "size": 3358,
+      "sha256": "c3cc359a4a8c94df893d5578d012ef2c0e443e9b6ad5da257ff09bd6114f0df3"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-temp.json",
+      "size": 224,
+      "sha256": "877a13de3ab7be2792d542ead73f68dc02607387ca0e7c94bd73519c1d748a5a"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-tests.jsonl",
+      "size": 25563,
+      "sha256": "5a8cd55e64188f40426c6b445bc21c026fba199330eecc0668ee1f9be5286a86"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/backend-deep-third_test.go",
+      "size": 12673,
+      "sha256": "6850186277708744484e98c530b64bc07f04a60e7c9bd498f5d91c13836edb35"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-backend.log",
+      "size": 168,
+      "sha256": "8b2c9a0dd84bec2524630aa729e93ec71e111c1ad173fab55ae3ba4dd4624650"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-cleanup.json",
+      "size": 186,
+      "sha256": "53c3f5006681c3cd2b0986258a8bbb0b64db7de0fa47d6f45cf7992f73afc0ce"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-customer-api-expected.json",
+      "size": 281,
+      "sha256": "3e74a5e9735c646ec152f50c3f2d2a9a7662d02e7477f917dd8d07d0c87159ff"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-identity-leak.ax.txt",
+      "size": 199,
+      "sha256": "9bdce41758f2fbace5df0ec435eb19d60576213ad2bb87e3a0fdc3dfb62ba0d7"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-identity-leak.png",
+      "size": 67038,
+      "sha256": "18eabce0e86009a2ebb1818fa631a8ffcfab67ef123f42919b1d10913f7f37ac"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-identity-proxy.cjs",
+      "size": 2420,
+      "sha256": "f9c1f81ee7b4533826b992c75c58e37effca31086719af72ddbc8e811ad045a1"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-identity-results.json",
+      "size": 1792,
+      "sha256": "887d55740d8c8ceb43e5eab5efba2e6306a45e00ade3e3298c6b01116c06cec9"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-identity-stale-metrics.png",
+      "size": 66528,
+      "sha256": "143b70d07c54bba2a9d0ad61b39e1f6344c73f32c37eb75871d45784cd32327d"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-identity-timing.json",
+      "size": 620,
+      "sha256": "cee558f3163f3abc9a263e22f9296d82dfebd3724800783bca0b29f1b010e5ce"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-mobile-detail.png",
+      "size": 5344,
+      "sha256": "9a8c9784c48bb0ea58d08191c7395aab628337ee1caa7200268f1a89e075b202"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-mobile-empty.ax.txt",
+      "size": 240,
+      "sha256": "85f7afca560f0b9b06d161cd600b59e326d65ad6ea607d3c56d2591b7e8c10ae"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-mobile-empty.png",
+      "size": 24429,
+      "sha256": "f5e3cd9884ad4a9184ba3629db0c59acc5b3b1932c62e5a93b5adcadb1a4295e"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-navigation-refresh.png",
+      "size": 56796,
+      "sha256": "a889190630cd41a51be730fe388b1466ce35cce82ef644cdf787d298b7649933"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-qc-remark.png",
+      "size": 31933,
+      "sha256": "17a2d6e649dd6e402b36c715ee4cb9cdefbffd3447db15a3cb1f13a475264648"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-results.json",
+      "size": 1055,
+      "sha256": "06efcf4306070b5a9e15b2b0a54e228eb9222c4691c627c1ecf54762f8ef4db6"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-runtime.json",
+      "size": 214,
+      "sha256": "18de4fb8101211c4538427b93724081040be7dcd96492ce71a91de5ac3040d9f"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-timing-proxy.cjs",
+      "size": 2462,
+      "sha256": "b1c90fdb99dd044d204125f3c498e28cea37b5ee53ca81cffb5f4e954ebe72e7"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/browser-timing.json",
+      "size": 291,
+      "sha256": "a6166e2e4b43b69af599b498d30ecec497eaa0090cc3b0b3e17b606e34bb2938"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/check-documents.cjs",
+      "size": 3074,
+      "sha256": "8b26d40ea43b9ff7e2c934912c2727cf6d8268abca992539e5bef4d035b39530"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/cleanup.json",
+      "size": 635,
+      "sha256": "78d104b1a0c88154f02352aaf435abce376aed331ccbe27cdca0b8f4100e9502"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/codegraph-status.json",
+      "size": 788,
+      "sha256": "e8785939346ef04db63c51eb2e66d614a87b7b2e7886d75aad742ee286954d47"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/contention-repeat.jsonl",
+      "size": 15901,
+      "sha256": "21e1b6b3b49d9966df8779a6dfe9bb9b2c928db511c3df8893210dca00827103"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/contention-repeat.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/deployment-audit.json",
+      "size": 17065,
+      "sha256": "2559f0dde7a95fe1d6b1df7125aca88882bdcaf9fb914f0158c66c69d6cb408d"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/document-check.json",
+      "size": 381,
+      "sha256": "240106d1536c7aad5e26a3b92d0543e353df801cc138ba57f7cc624fc8c412aa"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/frontend-deep-tests.cjs",
+      "size": 18789,
+      "sha256": "15857b6f52f30e6ea754f0f1b56b4f81e6e9927a3550da6ffeaac7e96aff1036"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/frontend-deep-tests.log",
+      "size": 4203,
+      "sha256": "bdf43605903093e6391be4de080bc656fdfce562a34ef60d750deea5fac5d8d9"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/frontend-findings.json",
+      "size": 9755,
+      "sha256": "0d2f20535e2e9391f8c1e99dd8625aebb3b63f6e04cdde627160508f6c7a2e62"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/frontend-r3-f01-repeat-1.log",
+      "size": 2121,
+      "sha256": "1a42c9ae444c9569ce18335ca9af5c5b2dbd77b595d7a582af8ae7b9a1a61868"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/frontend-r3-f01-repeat-2.log",
+      "size": 2125,
+      "sha256": "322821d315f38f2a9e88d5214e0659d4d8753686e46d6c859b5bbb461878fe6f"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/go-tests.jsonl",
+      "size": 241621,
+      "sha256": "3d52bc13822207a70940a27fcca2e75ddd8a9690c02aae9147545df9bf31f122"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/go-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/go-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/identity-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/identity-cleanup.json",
+      "size": 152,
+      "sha256": "42563144fb71619a996507507918a811bc381a1f11798e39b8921321d208e92d"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/identity-runtime.json",
+      "size": 209,
+      "sha256": "4c5b7934d4c05f6e8e31677cb3a3d2f2f45d901d2ee16dfb0afa2eb5680dc9ef"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/report-preview.mjs",
+      "size": 1967,
+      "sha256": "02f4cd7da0a597f518549d0fc126bdea5e03a4ef53920e965cd363b5d8cf49ec"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/report-preview.png",
+      "size": 111052,
+      "sha256": "c62d660f6c8ecc835d18fc11165fa4cdd7dc2a8a4036ea2fcef086cf70304478"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/source-before.json",
+      "size": 16734,
+      "sha256": "68e8db34245af2e04b9536eaf6d0d3a52e4cb836ba2b2561fdb26b4186cc1ed2"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/source-verification.json",
+      "size": 17810,
+      "sha256": "4fb3b6ca161ade499f6830b48edd5cbd774202d7cae7d6d5d7a6e73dcbe558b6"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/test-summary.json",
+      "size": 1059,
+      "sha256": "691f1dba12c2ad135b85bf641d714952ea9557cf574b67dd07c814f80402f5ff"
+    },
+    {
+      "path": "docs/三次回归证据-2026-10-14/web-tests.log",
+      "size": 6814,
+      "sha256": "181ee616acd808c9a1665ffc7fb3bb7802a06abde00574013d178a9343ff673a"
+    },
+    {
+      "path": "docs/二次修复说明-2026-10-14.md",
+      "size": 10658,
+      "sha256": "240d807f23b5f83c17f150a25cc1f718be501619a0bff29fb43c1d42b8b69f6d"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/backend-source-sha256.txt",
+      "size": 516,
+      "sha256": "b78275a7bc1c67b481ee149c50561eefa8453f9d023cc46bc6a3e7264350fa74"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/backend-targeted-race.log",
+      "size": 49,
+      "sha256": "ca43f04263538537ab8031bd28e937a9fc60cc729325750c285fe310e3616086"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/backend-workbench-race.log",
+      "size": 49,
+      "sha256": "c87687b069a48cafa7c8a7b4121ca0da0d37c3cf7d822d96d3dd7273dd7cc97c"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/browser-backend.log",
+      "size": 84,
+      "sha256": "40c1a6c64c42abbc4eaadc0a669f196755237a5ef75c939eb11bb7133b90d9b6"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/browser-late-detail-result.json",
+      "size": 75,
+      "sha256": "d942267fffb2f8f1fa5748e57f2a29ad69ede9cae63cf8f5ceda7af39b2cdb43"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/browser-late-detail.ax.txt",
+      "size": 199,
+      "sha256": "3348e691a409713fd3d0ff409a3d9123b9364aef552f857671a532be83820aee"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/browser-late-detail.png",
+      "size": 67131,
+      "sha256": "f273fcb95c006920a8594aad3a9e404c092cab58564fed872c9fd2f97bb58be3"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/browser-runtime.json",
+      "size": 215,
+      "sha256": "a63019c83a1cfcd3beea6a57daa0d3ab1faa4d1d1c5d74da236bfc54dbdbc5b8"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/browser-timing.json",
+      "size": 220,
+      "sha256": "a3897783c429c2abb5a6d7dba18eee26f1320cb1a51e8077074338eccc81d4f2"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/check-documents.cjs",
+      "size": 2741,
+      "sha256": "0a0edbe1418afdbe9a937ae287ffc5eb63be38d52eeabf38af470ce6f9e41126"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/cleanup.json",
+      "size": 551,
+      "sha256": "5010213cad4f2515d4db292209eea0df17d1ddbcdc3a6fb667f58540336c6f21"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/codegraph-status.json",
+      "size": 788,
+      "sha256": "e8785939346ef04db63c51eb2e66d614a87b7b2e7886d75aad742ee286954d47"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/codegraph-sync.log",
+      "size": 88,
+      "sha256": "f6acc1917f9229b1a23cd5ee1fa3938ad70f24eb477db5dfa895e9c8e90664fc"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/document-check.json",
+      "size": 388,
+      "sha256": "a6374552cd93ba8242f3bb263f275912ace10fc760bdc29532a253d959d2f458"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/finalize-docs.cjs",
+      "size": 11116,
+      "sha256": "be9d754d4b05674024bf4123a1e6da45d4e6ca05037e436fb046348443a21eeb"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-codegraph-status.json",
+      "size": 788,
+      "sha256": "81fcbd9ed23b0c396175c3d4c40b2f19119cbdeb01dc0b529c9585380f64f086"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-codegraph-sync.log",
+      "size": 88,
+      "sha256": "f6acc1917f9229b1a23cd5ee1fa3938ad70f24eb477db5dfa895e9c8e90664fc"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-final-tests.log",
+      "size": 4162,
+      "sha256": "b0e68e0a7a56474873aa27ba60b9e78536413c32a81576bf0b602376bcbba0a1"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-initial-tests.log",
+      "size": 2337,
+      "sha256": "356393cd699d6d9e4dd5c78f46453829039c7bc789c240060dcf5980d2537387"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-migrated-tests.log",
+      "size": 3441,
+      "sha256": "b4fbec4d56e3ae8bd834224e0825dfd16949f14a8a0596622eca47970d7f51df"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-summary.json",
+      "size": 591,
+      "sha256": "739d070c3bbbf27af3a0a7f77367f6a8c85e8764ea4fa1c9e98bcaaaf55ff723"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/frontend-symbols.log",
+      "size": 15159,
+      "sha256": "2a6381f59be932a0da7e46a0302c228b3033de4a38aa6b1f355d47ba240ba54b"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/full-go.jsonl",
+      "size": 241671,
+      "sha256": "9191053fa3396593322053d58bff2430b4e78f7f4db2cb082d9823b71075c35f"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/full-go.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/full-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/full-web-before-navigation-fix.log",
+      "size": 6585,
+      "sha256": "5377431ea126fb2e33a74182719163134b5fa3ec15e3f39d512108578efad7c6"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/full-web.log",
+      "size": 6818,
+      "sha256": "fb591b67a816a1d1898a3978b88d8e392da2e6fdf591cdfeea9e786d23e8e82d"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/legacy-contention-stress-initial.jsonl",
+      "size": 20333,
+      "sha256": "46740bf4eee0b1a11e238710c2119b1a2aa2bb73732a0afd665c440dd494c75d"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/legacy-contention-stress.jsonl",
+      "size": 15911,
+      "sha256": "3d629327d3a0b6ea98218d87a48cb714aba7fbf9bdc735e65b9e07f4aaeb0399"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/legacy-contention-stress.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/legacy-service-tests.log",
+      "size": 45,
+      "sha256": "fc58e2e210554a0c959db9929a5489a77bfc48b4922a9fc214b116cff20a4888"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-cleanup.json",
+      "size": 116,
+      "sha256": "c3e6f55e25f3944c11b8ab1205b1627b11b97444829827f3686d964f8aad5523"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-cross_test.go",
+      "size": 12253,
+      "sha256": "e99f97654bb1c6a885fbcd2adf9ccad57824f12d45f10154f7c74769bf490303"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-summary.json",
+      "size": 480,
+      "sha256": "0e1aaff126a7fcd937c358569a3a170306fc05fd4b0abc2ae990bd20379c4cd4"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-tests.jsonl",
+      "size": 49198,
+      "sha256": "c122722d3f4863f7538838c272a5f41e1688bcfa65f1ef98611f3b73f0bf7d99"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/permissions-write_test.go",
+      "size": 6702,
+      "sha256": "28c02851fb92c3348d689ff9a759bffd25f840d35f30cf4b208f51ab56b3a0f9"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/report-preview.mjs",
+      "size": 1958,
+      "sha256": "2315c61242ff9bd4b8acffa766f9ad3c54a32a11f8d7e734fad4f650d94b1678"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/report-preview.png",
+      "size": 93713,
+      "sha256": "9e804ee0ec67ecbbabc3e10a041dc25b233181bd3ff1743b6f1d0db088eef215"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/source-before.json",
+      "size": 15949,
+      "sha256": "1cfa67c30811fb3589d88fa14a575e33ac11887a5cacf9dfdf2b55743443d9e9"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/source-verification.json",
+      "size": 18468,
+      "sha256": "2dbbed4a36dcb3819c6b9ab8818e777da42af8daa2bb67b6e80bf652de69a4d4"
+    },
+    {
+      "path": "docs/二次修复验证-2026-10-14/test-summary.json",
+      "size": 881,
+      "sha256": "a36a4bc364ec480c2b142ecfcda66e09b08b27b0a4bcacdf3661ce4aee73560a"
+    },
+    {
+      "path": "docs/二次回归报告-2026-10-14.md",
+      "size": 16229,
+      "sha256": "35b61e4a66e4878ac70256a9782b8bd94c6e9dccfbb7829f9caf8d9d47b4ea0c"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/browser-backend.log",
+      "size": 84,
+      "sha256": "adee7da3bf83a66542d09dda7e2ac79470f63c4cec7bbca91fe1dded572fbdaf"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/browser-late-detail.ax.txt",
+      "size": 858,
+      "sha256": "e011068d5dfdd360d12d52ba1d410c82306dd7d35232ebc61a86d89cb4c05cfc"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/browser-late-detail.png",
+      "size": 34800,
+      "sha256": "51a4ff5544736d1d1c71eef8f2ea9272c4f178567fd3e287d816f0cff5cfa4d0"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/browser-runtime.json",
+      "size": 237,
+      "sha256": "c8d62b9f40f5c7ff91ff4a80b06479dd8acdce5dd1d5269c37351410ea81c737"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/browser-timing-proxy.cjs",
+      "size": 2310,
+      "sha256": "76b39b02d029793ebab8df55c5c5ef4d917f39e6c866b00df36c32f92cc05613"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/browser-timing.json",
+      "size": 338,
+      "sha256": "cd97ed9030c25e423de38437b7d078f603c66df1f66e1c6f161bd1ee0579d98b"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/cleanup.json",
+      "size": 965,
+      "sha256": "1a209a9e012a35a2fe5699ebe5fffc48f52fb7f6f4133177383395e9c4e3f3d0"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/document-check.json",
+      "size": 311,
+      "sha256": "2a0dff732ea1980de54160e12bea5a8a4eb16ab44ed32e67e7ce5324a7cef61b"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/frontend-codegraph-explore.log",
+      "size": 13983,
+      "sha256": "4b43ba0aa029a0bf6d27d489332a0be478f28f2a8a57cd1f40cb1f8318a95e67"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/frontend-deep-tests.cjs",
+      "size": 14212,
+      "sha256": "c8c0ac357b34c11ad548445d44a69ddd57869f6792aa3b4ce2f38c860a0d4f3e"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/frontend-deep-tests.log",
+      "size": 3487,
+      "sha256": "6551674213fda42ed0c18682af3a5775f54cfcd33fa9b6a37e440b9791ac17a3"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/frontend-existing-tests.log",
+      "size": 4956,
+      "sha256": "6b449d86ef92d2e449d94b791ce16fbe4664466224da7224fadfdcd19b6fbdee"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/frontend-fix-codegraph.log",
+      "size": 15700,
+      "sha256": "edbd66f159299146db3a788b27cb42c9b07ca1e3e1923609db7fd88c1ed0b638"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/go-tests.jsonl",
+      "size": 149449,
+      "sha256": "cd43bc041b4ff6b92cf6a25b27e32e93fd30dc3d1143734cbbf6acfab40a2764"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/go-tests.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/go-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/permissions-cross.jsonl",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/permissions-cross.stderr.log",
+      "size": 123,
+      "sha256": "9d7e8af63c326e3847773a1c8975427eadf5c9e4208de49a212e60de1554d685"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/permissions-cross_test.go",
+      "size": 12272,
+      "sha256": "7223b4070c2812bede4e95e8e7996e581dc85845711e6aa4a8f768dbcabd109e"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/permissions-temp.json",
+      "size": 229,
+      "sha256": "024e2e721c35f0435e41d9fa467f6fe95e365d7efefc43e7ac5a90993eca3331"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/replay-read-audit.jsonl",
+      "size": 2234,
+      "sha256": "4c060d15315e1c9d4e18d7579ec8d6175093195b043b9377da3c461f8b521ddd"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/report-preview.png",
+      "size": 111643,
+      "sha256": "e5cbfe93b9d4fa5b191bc469f9eba61905f7e276c8ed7b9d826f7e192e99494e"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/restore-cross-scenario_test.go",
+      "size": 13092,
+      "sha256": "d29f84f732bcfacea93cf1d42e6619b851cd8f1d80e8c86c77eae0d5177c84e8"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/restore-source-sha256.txt",
+      "size": 414,
+      "sha256": "02fc15f4e00ae4f560d6c9b0e372d6b81d81bd2015a43224ee367467536ee8f9"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/restore-tests-initial-build.jsonl",
+      "size": 1058,
+      "sha256": "74e091f8102161f90e4ccd87a5bebc22ad0050cffd7e12d4a994de39736cd29e"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/restore-tests.jsonl",
+      "size": 1058,
+      "sha256": "74e091f8102161f90e4ccd87a5bebc22ad0050cffd7e12d4a994de39736cd29e"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/source-before.json",
+      "size": 15949,
+      "sha256": "1cfa67c30811fb3589d88fa14a575e33ac11887a5cacf9dfdf2b55743443d9e9"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/source-verification.json",
+      "size": 82,
+      "sha256": "250c25aa366ea925c44e3eeeeb0af943806481cfeacfe96fe0dd3dc989d88fe7"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/supplemental-go-first.jsonl",
+      "size": 41625,
+      "sha256": "64cee6beeb4f6c45977472c03907c9a596294642d89b5d6b0850e65c1003fccd"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/supplemental-go.jsonl",
+      "size": 41622,
+      "sha256": "752966afb7694fc07d80414cce67ba4520c46a1afa1eb27f0b6947d9ba3e1168"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/supplemental-go.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/supplemental-runtime.json",
+      "size": 300,
+      "sha256": "834c36905051b3c5b83d77c3f6913fc0be1a672c21507262c4cf9acfa9fa4058"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/test-summary.json",
+      "size": 3668,
+      "sha256": "b43cd6dda180c8d48d0ec59a01f8c049758bca0017ab4694ec87392521a20c7e"
+    },
+    {
+      "path": "docs/二次回归证据-2026-10-14/tidb-contention-repeat.jsonl",
+      "size": 5160,
+      "sha256": "c4876f0c30aa7543de6fe4788bf0d9d7da3a5d9735a8a0c385f8100a7fc4f1ea"
+    },
+    {
+      "path": "docs/五次回归报告-2026-10-15.md",
+      "size": 18707,
+      "sha256": "6826bd9c5676322fbece4249fe2c281f6eb01905114f250ef8abeb2ddedb5c17"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/audit-findings.json",
+      "size": 4976,
+      "sha256": "218c97fa6b1aebf44af0ce2cc568b919713d54754d13bfe39ce74ec10a691a00"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-all.jsonl",
+      "size": 38612,
+      "sha256": "953c57005ace88bb60d29cf399fb5b64afc076910a1b702bfa3bd54e99e4e37c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-all.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-boundaries_test.go",
+      "size": 11909,
+      "sha256": "ec4fa80daf9ac69e70d991d24550b65b435e6d9fef7efb310e6511371e68935d"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-cross-review.json",
+      "size": 10408,
+      "sha256": "085e6d3198af475d8fc50e6b06c7cae9780ef77dc733ac71b326033aa30a8e6a"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-failures-repeat.jsonl",
+      "size": 33935,
+      "sha256": "acf3e38d949c997741f132df0ed675d7e1a464250077c12dc219014203b31ccc"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-failures-repeat.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-findings.json",
+      "size": 11312,
+      "sha256": "d4338092f8b5910012925646d6d540ef77b1ba0067d0c3f80c94f9f9029aaf5d"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-initial-interrupted.json",
+      "size": 526,
+      "sha256": "bdc013a80f24baa506c4f062aa346dffd7db725a4405b6ddb876c2efa4e141f6"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-initial-unoptimized-interrupted.jsonl",
+      "size": 13276,
+      "sha256": "7a45905a234f13156d856987189c0f8fb07c0821b3690406c67d068dc58654a3"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-initial-unoptimized-interrupted.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-run-summary.json",
+      "size": 25051,
+      "sha256": "8c95791b619db831ac90685936363e243ec49a2105d44a6807da72fb281ce1aa"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/backend-run.cjs",
+      "size": 3835,
+      "sha256": "daea909a79fabf934ef70f8ca5ca9455f33049d6a3143d09f9d81e8882edfe6c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-backend.log",
+      "size": 84,
+      "sha256": "fb170fc1a602374d1f35d18883a6bee9ec928381fa1b5f8de85230d90bf0c676"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-free-rework.json",
+      "size": 1980,
+      "sha256": "5429a2871f7808cab30d428f78b3bfc0f99aedc38d0336320f37a5ac68c308df"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-free-rework.png",
+      "size": 48733,
+      "sha256": "9050a506317c982cf27c22758270e78f7bc739042876a2a33104f3a9f18bbb1f"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-network-progress.json",
+      "size": 2507,
+      "sha256": "bacf06bdcd0d5569c761a045973f4dc34df922b6128805a48fd71db914ad6eda"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-network.json",
+      "size": 3829,
+      "sha256": "ab12f84b512fbe4a9b81146fe361cea795f5474e0fd789150ab45ea2b1432515"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-runtime.json",
+      "size": 208,
+      "sha256": "ddddd6ab6d34215d62f7f5f584214c7bd07a2c6268850fbb11456f25de122540"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-server.cjs",
+      "size": 3282,
+      "sha256": "003c53999af023c4e6b16958cb7578e431fdfbfccbf44061e70c81d500d3e87a"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/browser-summary.json",
+      "size": 1016,
+      "sha256": "70e96c970949933b3e612768b2bd42743593a1433472e2db4d887dc1038f23ac"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/check-documents.cjs",
+      "size": 4494,
+      "sha256": "81101e574405240ac4b4c97f04037b523dc4b4f7dc002867d8559ac01836953f"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/cleanup.json",
+      "size": 1376,
+      "sha256": "0d4afda1c2f95c04313820f735d7acfa1967ba15e17e8a753a57a7cf6e2677f6"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/codegraph-status.json",
+      "size": 788,
+      "sha256": "f57aa018125b4ee715f762f36ca7de5a13d486064a0d89ee0f24f0a89123156f"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/contention-repeat.log",
+      "size": 15908,
+      "sha256": "2a9c31954146608de03010a231b8b0a8ae8fabf5e6fff988adeae54a7def8e03"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/contention-repeat.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-finalize.cjs",
+      "size": 14000,
+      "sha256": "fa4cc9421e4ac8074c2e7833057348fad9e0f246d67be7db583dff4fe73aa24c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-findings.json",
+      "size": 22950,
+      "sha256": "bafbe9104327a489a4b586aa5332e189388fd68ef29d4a489933ed23ff1bc237"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-invoice-isolation-repeat.json",
+      "size": 109205,
+      "sha256": "0f09efef69eeeb02818f8de3ee98031df65e6f5c536003caf08fdb4adc01cdaf"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-invoice-isolation-repeat.log",
+      "size": 435,
+      "sha256": "1fab9aa5afea998a4a71abb5fc4ddf411bafc98b11d53556aff063c0d793db0f"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-invoice-isolation.cjs",
+      "size": 7529,
+      "sha256": "e01dbe458d472ce61514c2a987b80f7e8bdc92f0b1d07712d9c82a51c54fd83e"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-invoice-isolation.json",
+      "size": 109205,
+      "sha256": "87a7f508e77cb82c322f23be4e26ca1ad877be1890f3e4899ac883c63f94b31a"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-invoice-isolation.log",
+      "size": 435,
+      "sha256": "1fab9aa5afea998a4a71abb5fc4ddf411bafc98b11d53556aff063c0d793db0f"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-results-repeat.json",
+      "size": 1123613,
+      "sha256": "6d04abc5809a049c5ef402e0ad279cc0e18f703485eede66a0a6491bad702b12"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-results-valid.json",
+      "size": 1123613,
+      "sha256": "5bf9f31b536b9c65756de358840f86b1c959c0d7338d64c22986c852a3ae4222"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-results.json",
+      "size": 704694,
+      "sha256": "eba416a9d55108fd0a69079e74c3406abf39623304b9e00c081a5b1763959302"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-sequences-repeat.log",
+      "size": 3201,
+      "sha256": "73628f24ffa5af46eed06492b2f6f1f398931e03ff5114825961c9c5220757da"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-sequences-valid.log",
+      "size": 3201,
+      "sha256": "73628f24ffa5af46eed06492b2f6f1f398931e03ff5114825961c9c5220757da"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-sequences.cjs",
+      "size": 21807,
+      "sha256": "ccafc9b8030cf8747ac819db9077df5dfea3c268e3eb849ef9aadd56e59633ef"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/demo-sequences.log",
+      "size": 2753,
+      "sha256": "671ce6d97bcc522f6ed5909d233f3ea9b6cab18916187612809262522c17d27a"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/document-check.json",
+      "size": 267,
+      "sha256": "685a7db9e45169aa3c9153aabe505cbbf6c7a1152b8cf9ef351ae6f0fa8e7cea"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/final-cleanup.cjs",
+      "size": 3560,
+      "sha256": "7b6d2d88fd6dae006c6897f8a362d2302c63f8a1f5466f65143d31baf8fe784e"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/final-summary.json",
+      "size": 3447,
+      "sha256": "13130f94c071bc0d45d5ffbe2bf012d377cd3f98cb85ae51bb65e966bce70aca"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/finalize-unfinished.cjs",
+      "size": 3199,
+      "sha256": "2cae8efb6999d36f0d56f0abd47788b510b32447b64cdc158a48ceb1771f2ae8"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-final-first.log",
+      "size": 11156,
+      "sha256": "7513fd197d68e4e90a9345c2aa786bb1eb4c8cf76ee66d584cefb5ad21eb2420"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-final-repeat.log",
+      "size": 11179,
+      "sha256": "ce1e1daa865c3731c112c490e7fdc03f458b87e4f01c5b68781a24978c453120"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-first.log",
+      "size": 10868,
+      "sha256": "253833a8208ef5a856616b2d69ef38c0febe34f9d34dc1f2c60c3ea02f7c47f4"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-observations-final-first.json",
+      "size": 19850,
+      "sha256": "4f0f63a03f3be3dc9ad1818004b94ec9a9f9a4b621c0f9c358682be71d9daf2e"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-observations-final-repeat.json",
+      "size": 19850,
+      "sha256": "4f0f63a03f3be3dc9ad1818004b94ec9a9f9a4b621c0f9c358682be71d9daf2e"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-observations-first.json",
+      "size": 19796,
+      "sha256": "a90b13ee60aad4a3cc2a41f9a217251ee41ce6f447c5b7407cfe27e9510f13ef"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-observations-repeat.json",
+      "size": 19796,
+      "sha256": "a90b13ee60aad4a3cc2a41f9a217251ee41ce6f447c5b7407cfe27e9510f13ef"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-regression-initial22.cjs",
+      "size": 19978,
+      "sha256": "8e70ee4b2e4937ab8cb22079d3e3c50cbfa06955e93401f7e74b8e1709f4771c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-regression.cjs",
+      "size": 22297,
+      "sha256": "508c00b1caba7fb851b1aad0a58d15cb8e7d8fbdab5313012f38dbfa1078853d"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-repeat.log",
+      "size": 10836,
+      "sha256": "bbd851b1c301a620b0428908ca4d481a2323eb9c74910ef60e6aefe58554b8e6"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/frontend-summary.json",
+      "size": 11044,
+      "sha256": "0f1a284c72df4ae98c395d04cd06e86ed76980ccbd5b19b194748629453722e5"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-tests.log",
+      "size": 219001,
+      "sha256": "75a172406b0245d283c4bfdbe1db3c4df5660bb0996fc997ce0c25c3b7e1148a"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-unfinished.log",
+      "size": 115129,
+      "sha256": "9670e29972671a4410a528565a70ea148c5ea234209b5df8465cb10a7cd0d068"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-unfinished.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-version.log",
+      "size": 33,
+      "sha256": "94e911f9fbf3c118f6a0573ab3a13fa546ad13e89ba40cf53df77e468509c92d"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-version.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/go-vet.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/http-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/memory-check.json",
+      "size": 206,
+      "sha256": "074890c11d7f5a6526d33920cce3f04f720adda50bd40df322643a0ae4a4f90c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/report-preview.json",
+      "size": 360,
+      "sha256": "01fca233cf64e21cb58d1ea147f19c0e71a2f20fa1c580db30ab75a99b308419"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/report-preview.mjs",
+      "size": 1967,
+      "sha256": "f85ad024dbb7aedc1d9d691c20ec080c7f982b116a7e9a03e73ad7679b3679fb"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/report-preview.png",
+      "size": 127651,
+      "sha256": "ac469ba58accd88a57db03fd2198bf46dfaafa6cad6f260e6d31f242d34b76fd"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/report-review.json",
+      "size": 4185,
+      "sha256": "9612e90a4f493fdf8798e2d2557d1a2747deb410533bc870d7d6549fb1e10699"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/review-findings.json",
+      "size": 12100,
+      "sha256": "9e4e58bb8a1049611c00cf4c1aef5757cbab54c1126dc030912f070464d7bfb3"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/run-baseline.cjs",
+      "size": 4476,
+      "sha256": "ebc3928a28a03310cd36b20730e109001a3f9e84c49a9e55a79c93302135b1a4"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/run-unfinished.cjs",
+      "size": 4544,
+      "sha256": "f52607a43d8254588fad79d1a44f2c9a81bad4e7639a71121275fdb6f6ce355c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/source-before-tests.json",
+      "size": 17510,
+      "sha256": "4446be2294ccd3d78a6e81e9ff036da8c75cae851f2d97a8b6061a0940cf7d99"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/source-before.json",
+      "size": 17510,
+      "sha256": "4446be2294ccd3d78a6e81e9ff036da8c75cae851f2d97a8b6061a0940cf7d99"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/source-precheck.json",
+      "size": 63,
+      "sha256": "4bcf2418db368c432c30a9349da94f3c0c43d7d6c1a287b88730921d42198a50"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/source-verification.json",
+      "size": 37143,
+      "sha256": "d6908e235e98bc93b6243769b2ec62912b5ee4e6a2629e7bb052abefa10477f0"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-app.js.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-app.js.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-app.test.cjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-app.test.cjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-data-boundaries.test.cjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-data-boundaries.test.cjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-data.js.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-data.js.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-data.test.cjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-data.test.cjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-验证工作台.mjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/syntax-验证工作台.mjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/test-database-start.log",
+      "size": 65,
+      "sha256": "3378a081128271752a6f2bae0ff35fd805fcb6e09b9e285aae4fbef02dfa13bf"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/test-database-start.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/test-database-stop.log",
+      "size": 33,
+      "sha256": "a7fb267609497d23687aea580e3a8b8094232bc94ac980a56abf438698273f6c"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/test-database-stop.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/test-recheck-database-stop.log",
+      "size": 32,
+      "sha256": "c9d54b47ad92647225c59203381788870f9d91e945892fb0a5e361668d49a7e4"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/unfinished-summary.json",
+      "size": 5649,
+      "sha256": "f6575714fe572023222d86a7d4ff385be062f688ac8901117d2c450c95c9bdf7"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/validation-run-summary.json",
+      "size": 4132,
+      "sha256": "95084c2cd476588991c8bb009d5a5d2a6bc2723c2a9210fdb4a151aef0c5e25e"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/web-tests.log",
+      "size": 17406,
+      "sha256": "15d563999ea49fb6b3ee8308e4838fb1885d60586e9591b7833fe8aa53379c66"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/web-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/五次回归证据-2026-10-15/workbench-test-list.log",
+      "size": 3712,
+      "sha256": "cc4d9e227fdcf372bed83468ee08b50dd6eae75d2a183ff9ce5834e3a6082f60"
+    },
+    {
+      "path": "docs/修复说明-2026-10-14.md",
+      "size": 12500,
+      "sha256": "1e6bd26673f92a59662c3e7deeb30236d6eaeb7df91520bc96891c175acdef53"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-accounts.png",
+      "size": 51230,
+      "sha256": "6e391dddf6cf070e65798dda854bc8561591fda4c8a7b7719c8d7664611258b0"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-audit.ax.txt",
+      "size": 8365,
+      "sha256": "9da0be2f7de539786fc973ad1f69fc51fc9dc9853df07d1112bd65a5a2918cbf"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-cross-origin-rejected.ax.txt",
+      "size": 648,
+      "sha256": "8604cbc1a36474e766901b7e4dab93e584ab19308dba02326f11c83d4d7912b8"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-detail.ax.txt",
+      "size": 3411,
+      "sha256": "f7e500acfafc54f2ed0c41f3a49a94ff5f8660e7eeeefc8293e4affa266d3db7"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-fixture.json",
+      "size": 234,
+      "sha256": "72de5ca3ae416e01bbc5a4a50233d477495880210da6c5666f87bb63d0538fd1"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-mobile.ax.txt",
+      "size": 4868,
+      "sha256": "6d3a08f26b84d7a6e4d4863ace67174b6320e0dd56dd4effcd7619546ab88971"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-mobile.png",
+      "size": 31400,
+      "sha256": "248b9c2e6e0878fb9a03f147a05f7f0a6c720af1ddd8af12d341294afa6372c2"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-page1.ax.txt",
+      "size": 27740,
+      "sha256": "162c321f88ee66ae7fc1be7cc3759d98623b5d5e74d3764bcac7a646e40af46f"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-page2.ax.txt",
+      "size": 19694,
+      "sha256": "10b633a49779ae7d9021dfe47af68f7ef0eda91bc5dd48be2219242669fe59f5"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-pagination.png",
+      "size": 61909,
+      "sha256": "d84bb1de330a7845dd67a39d1c8106ce4714988c5a703e7026a9d3d40315bf0d"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/browser-runtime.json",
+      "size": 126,
+      "sha256": "e5a07e8dad4bd4ba52f6a8ff6a117e0a345b59f36e834b617bde907da85d74ea"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/cleanup.json",
+      "size": 371,
+      "sha256": "ada4997be1e1b843544a4bcbb3d234ae7563766f6c90d9f816be147e0c1c758e"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/code-map-preview.png",
+      "size": 114659,
+      "sha256": "9141f8ec76fcf11ec17f2719bff8ad70dfa44c5af4b887cbbfd503c7bfc99122"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/codegraph-check.json",
+      "size": 1306,
+      "sha256": "f448c0c7f3346680e53cbaf3621654000d39a77d525951fffc4708ce1929c842"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/cross-builds.json",
+      "size": 405,
+      "sha256": "a68e06dc21b5e453a888b42f784b6e0eebe71a0a13b74fae60eb08fa81953b86"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/document-check.json",
+      "size": 1832,
+      "sha256": "1b4c513a6fd5ebc9da02454c09953992e2dbc6c21c707be0d8f78ed29bef377f"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/go-parallel-first.jsonl",
+      "size": 151448,
+      "sha256": "7bbd02eff6920a3f729f57224c2cd962e4a083bcdb199c780eb72dc2fc1f4e46"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/go-tests.jsonl",
+      "size": 142710,
+      "sha256": "11d18d0c9b8576459794e88344412adc032023c7279b2a1e4c5ece794f7cdd79"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/go-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/native-build.log",
+      "size": 8,
+      "sha256": "3c696c094e2a1323fa00cf0974a861af0cd6824b1672248c1d12791a70a61e4e"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/repair-record-preview.png",
+      "size": 122048,
+      "sha256": "cc826831f8be3bb9486accc4d622e5003701b1e314b077c882f752b8119bc77a"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/source-scope.json",
+      "size": 495,
+      "sha256": "7777e5a1d91204f4b78e1f57356e76110f4bfc8a16ab4c89618d973640749636"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/test-summary.json",
+      "size": 295,
+      "sha256": "4ff57a7c229285037d75b42342cc436cde2eba4b4e1d3979bc39df35987f799f"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/tidb-contract-retry.jsonl",
+      "size": 3684,
+      "sha256": "ea7949cf05908fa5e464e5c284ddfb9409c0a99f5a8d2244a87ee9e943b1ded0"
+    },
+    {
+      "path": "docs/修复验证-2026-10-14/web-tests.log",
+      "size": 4948,
+      "sha256": "db99acdc04dd3ed1ba0c5aa260b59ee68b0cefccf9cf4f2bb3456bdca1109a38"
+    },
+    {
+      "path": "docs/四次修复说明-2026-10-15.md",
+      "size": 12325,
+      "sha256": "bb66f419b46ef0f9db66855327527665bc132c382577580251af5b22e4ed25c2"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/backend-acceptance-target.log",
+      "size": 52652,
+      "sha256": "6fb06adf6087e503217b14a19d50097dbefddf8ec8a375ca9abe82ed9c5a7040"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/backend-bounds-confirm.log",
+      "size": 11288,
+      "sha256": "a4279658a6eb42c887285cf65a31680f336b467c292c81eeb33eb73afd662f3a"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/backend-demo-review.json",
+      "size": 5762,
+      "sha256": "ee16d95cc8dffe5832b69dca497a23183f6699a06018a3bfeec1117c77b2e3e1"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/backend-migrated-initial.log",
+      "size": 30273,
+      "sha256": "63d6681bcee1a72750c1d0d168b1e9fcce577b20163a92638af274a73a267007"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/backend-summary.json",
+      "size": 3643,
+      "sha256": "a6388638e2a8db49015d0eb07baadd2c4e86424a7d77618c3cb1686b1229e1fe"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/backend-target.log",
+      "size": 86979,
+      "sha256": "6b1eba8956fff48ef9a9e30d3e636523cb1c1581f2d751bd9e784073ebcf15df"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-backend.log",
+      "size": 168,
+      "sha256": "b84f364589d76bf06e5fb4fbb399ffd4a9b3e38e5fba687fad3cb99ef88ec097"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-before-revocation-session2.ax.txt",
+      "size": 11063,
+      "sha256": "cdec3623036e4912f66dea5142e4aaeafba18d1c6f4b74bafdd0d33c670ac090"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-before-revocation.ax.txt",
+      "size": 11740,
+      "sha256": "12ea812ebaf289222e797888192701505c8d281b7c743b269bf77d8804792915"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-bootstrap-fallback.json",
+      "size": 578,
+      "sha256": "6e9035fcec4795842853777137ee8b4c215f2ccbb3ae0007766e2bda3041d2af"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-bootstrap-fallback.png",
+      "size": 105581,
+      "sha256": "68de29519725a2f238979702a9d57d6ba22d2919983a28eda41f6cedf10b6cd6"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-create-unquoted.ax.txt",
+      "size": 3492,
+      "sha256": "d092f5b9e0d0d46dd6e48ad5977ed277153cb318a23ea0683b0cbc3c3d54f0b7"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-create-unquoted.json",
+      "size": 1762,
+      "sha256": "0bf564e3fbb55bbca387c35faef0c4b37ccd5879fa92388a26679d58cfbf5132"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-create-unquoted.png",
+      "size": 112647,
+      "sha256": "876f56b4f27afe3d3c0e37d381dd7c6411b4105e7a71b1c59b08ebe4d5e487c6"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-network.json",
+      "size": 4830,
+      "sha256": "ea645cac656458279fa14919de53983b7a25b32b7f895d735d4ab383b172ec65"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-prepayment-terms.ax.txt",
+      "size": 2074,
+      "sha256": "3164986b0122505d336356c39f73f5bdbaeb0f7a38479e969cb6257b05035f08"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-prepayment-terms.json",
+      "size": 1036,
+      "sha256": "86c35e1ab68eb7bd2fc1b494fc2afff7f6d2aa85ec716159ba25da3e5873e76d"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-prepayment-terms.png",
+      "size": 93743,
+      "sha256": "1bd0a81c9e4e52edc4c6f21f67cd7b5741dfbe6325033f053cc7b3cad10f3e82"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-reactivate-api.json",
+      "size": 147,
+      "sha256": "ef59bb108433b197889a4d7d76fa64a450a3748fb3e25c32b8cc18cc0ff123b3"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-recovered.json",
+      "size": 533,
+      "sha256": "c352a9f52c098425f847ad983d8e91007c4f8a8ee07d792523bb79abb3acc191"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-recovered.png",
+      "size": 113738,
+      "sha256": "9a013446323aadb8ab762d19ab809d474a9ac529bf1002dc2c4ef685c047745c"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-revocation-api.json",
+      "size": 149,
+      "sha256": "d5c33e142253a039150af28f87aecf41f51bc16bf585beb0954890edbd16db50"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-revocation.json",
+      "size": 4693,
+      "sha256": "1c4c5f7bb3cee6513e0f31352ba5b8b1e3328ca856e3d0cf1b697858bf9adede"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-revocation.png",
+      "size": 150504,
+      "sha256": "9c7e10058f81c3dc301dd3391a478663832eab6c3ac3eca290e10f7beff06351"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-runtime.json",
+      "size": 208,
+      "sha256": "437d2a5ffa52eba10e695bcf93699204619739426bc4de18f42eaa2d7f71a556"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-server.cjs",
+      "size": 3282,
+      "sha256": "90dbce0df32cd20bbacd92b88a8d078302e40bfdcb7bdecad5896188b2e7e9e9"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/browser-summary.json",
+      "size": 787,
+      "sha256": "ca244d6d78ccb4cfc1e3a8de421b13f7b0a23211052b63a71b5180918d2311ec"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/check-documents.cjs",
+      "size": 4137,
+      "sha256": "d41715a9e8d84e5f53e86ae8e3c5b22507480d45e7141dba033fba765a242e45"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/cleanup.json",
+      "size": 1183,
+      "sha256": "ad4631304b00d92d5b19fbd6fd7843062a19f187d6c57128ab8ee73f4e98cad1"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/contention-repeat.log",
+      "size": 15906,
+      "sha256": "bdc6e9ad1aa2f14e3d00c9ec36aae47f9e159461200f0ff868d44df8b7bab4f6"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/contention-repeat.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-after-initial.log",
+      "size": 3899,
+      "sha256": "9963436a7a2350e6f5435c4ab9e8f51923b0eb4b8ab138ead5e2ee46a3786273"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-after.log",
+      "size": 4248,
+      "sha256": "2834204e77616af903cf8790b69c5006324bf19e2ca72502d5507128810b405c"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-before-runner.cjs",
+      "size": 685,
+      "sha256": "0f27e7a9f910feaae4cfe589a8b471956f756bf6bbb97601c4147e7313a9d887"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-before.log",
+      "size": 19306,
+      "sha256": "486df2cc1d7c9607dcb5d5834b4fe4bdebb33aa743a0ce1c83532efdd9005e13"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-comparable-before.log",
+      "size": 24178,
+      "sha256": "16ce483171bf3785c5ced090f5437de481647a4647ef4164580fc8401ce52cef"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-data-after.js",
+      "size": 36055,
+      "sha256": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-data-before-sale-gate.js",
+      "size": 36038,
+      "sha256": "ba3f79d940d3c35c940d7c362c2c4fd0c7ff14c9e286f26769aa6334865ddf42"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-data-before.js",
+      "size": 32642,
+      "sha256": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-data-boundaries-initial.test.cjs",
+      "size": 15878,
+      "sha256": "b1b1c6526dc29c3bb335dfa8c2f3b6f2bb3b0a77d37044311968e83fcee64c26"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-data-boundaries.test.cjs",
+      "size": 18602,
+      "sha256": "aa3c69df1acd10b37dd6f2ee9f2a6b6f92797a8993e3666fad6df1eeb2036081"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-sale-gate-before.log",
+      "size": 6256,
+      "sha256": "c9971858b8cff62830d76ce0ee55ed59390669331a0d872b3c4e134c778dbd2c"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-summary-initial.json",
+      "size": 3037,
+      "sha256": "aac70ee71bb382b999c9701d15e314243895c126ea4f9a9bb85e652a027b73af"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/demo-summary.json",
+      "size": 4440,
+      "sha256": "b6152e8b83b133dd927e9719f071d40395235074f3a420848f7fe2058844990e"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/document-check.json",
+      "size": 238,
+      "sha256": "c60571588d24dbc76d75d216905b0660bdb452eda6cd5d95bd8009000d911391"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/final-audit.json",
+      "size": 12099,
+      "sha256": "ec5024ea444fc450866c896b609f6f99c03031f008a8279098e12a0697cbeda3"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-adversarial-after.cjs",
+      "size": 16705,
+      "sha256": "3f619b4ee1f5b6b3c1eef600fe3404b6415d091237d6969175749e4482f99282"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-after-initial.log",
+      "size": 8169,
+      "sha256": "3524689e3c6fd2cfdee2e0abcc935907ed687dda9bb80ed133bbc6446ee5dd34"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-after.log",
+      "size": 10409,
+      "sha256": "c31f5053079bbdc79d5c20f99e36d4df1a2052299802f9e06bd7ae6ccd31bf69"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-expanded.log",
+      "size": 9992,
+      "sha256": "bf0a4fc5d04616f78ad53e8880130c13654a4e20b54ce4ea616489cf8c26fc4e"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-external-after.log",
+      "size": 8689,
+      "sha256": "8f81e804a04955986a686aeb64a8f19455d6af0bd37b775b94e51d5932aaa085"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-initial.log",
+      "size": 6782,
+      "sha256": "f2ce89ef8a9ad573cdff092e0be6defdbc43687343412d21bfc221fc530c2a53"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-results-after.json",
+      "size": 13361,
+      "sha256": "c8fa9cc55c3f778f8552863ba223342174bfdce51c64b19b0cbbdc5ca7d5d99b"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-summary.json",
+      "size": 2252,
+      "sha256": "d1fa256fac35dc643f9118f54398c1be7743f8da954e51cc6edb56f38397c452"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/frontend-ui-initial.log",
+      "size": 10565,
+      "sha256": "45b23c6d4d77da3cf650dfe1dc14a73b17413762060c38ffb0f3ac1d96d47a84"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/go-tests.log",
+      "size": 326818,
+      "sha256": "f6d07e26a9983a830ca72dd4861820712956e5b1746a6ceb99476057025c7629"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/go-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/go-version.log",
+      "size": 33,
+      "sha256": "94e911f9fbf3c118f6a0573ab3a13fa546ad13e89ba40cf53df77e468509c92d"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/go-version.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/go-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/go-vet.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/http-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/memory-check.json",
+      "size": 336,
+      "sha256": "06cf3f31865b080778635ec15ec62366567b1d2028b39ed2b6b5aef0db4b0f1d"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/report-preview.json",
+      "size": 372,
+      "sha256": "fed42b0082d200af729e276fa14aa17e2dd5c797d330e474f1d69c278390f759"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/report-preview.mjs",
+      "size": 1967,
+      "sha256": "5962aa5095f5dc9f71f593dd4be35aabd7c54b9c23a8ac8924005acfd439f5b1"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/report-preview.png",
+      "size": 112054,
+      "sha256": "216976fa623abedcb3b87d136f2c1e3dada1599575b6cd1239eae90948243181"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/review.json",
+      "size": 10124,
+      "sha256": "71fa4986ff714be6e5e53eadc3a1327ace6447dbded74f40a8bca2cac78dfcb0"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/revoke-synthetic-customer.cjs",
+      "size": 1468,
+      "sha256": "a22ccb7abc4dc8218d0800e20952eaefaad326c1cff79b47e79daa24a7d1ac59"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/run-validation.cjs",
+      "size": 4404,
+      "sha256": "a06e27b8a89509565b4acbf70afb1cdc09759ea9add11f00cb11f2602979e3e0"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/source-before-tests.json",
+      "size": 16734,
+      "sha256": "ef2c0a78bca42b3477c7a14955a1b54b386aff5d084e02bd3023887d0230b8ba"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/source-before.json",
+      "size": 16734,
+      "sha256": "779d7634700180f44ae2f41e5dfe22b29f15853bf5b485f70e55ab4282b40bc5"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/source-final.json",
+      "size": 17511,
+      "sha256": "263b7b7f5a75dd72779fdd94d7862fced0b27572fce85093c4d94c1ce811e453"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/syntax-summary.json",
+      "size": 2267,
+      "sha256": "0175faf54d7d42858e9a4bffaa77e3846a90d19a8fb520364e2d741a1b60115d"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/test-database-start.log",
+      "size": 65,
+      "sha256": "719a4d404c3df948a6aa457766b1b4d70502ccb98f38bc1c40a7901664642a66"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/test-database-start.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/test-database-stop.log",
+      "size": 33,
+      "sha256": "d500db7f5c5bc7fc9d8efd57f40b1c893cafb07a1e4f85842d3be9159b13f733"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/test-database-stop.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/validation-run-summary.json",
+      "size": 2796,
+      "sha256": "30ec3bdb1a53faaea78a5e8f5c9c28ccde122050db6469cd33e7b8eef6cbd0fa"
+    },
+    {
+      "path": "docs/四次修复验证-2026-10-15/web-tests.log",
+      "size": 17166,
+      "sha256": "b94e580c5600c81f40923cdca5e9ab115edca20823a9289a1b4fa744c447b93d"
+    },
+    {
+      "path": "docs/四次回归报告-2026-10-15.md",
+      "size": 19339,
+      "sha256": "ed235504678a5eaa57534cecfb576c7f932d37489e145f4b153ae37da91d40e9"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/audit-findings.json",
+      "size": 13008,
+      "sha256": "65a61269d84cdc794b4fad63d4dcc2dadfd34ce2551b6a94528d7db5e3204c45"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-deep-fourth_test.go",
+      "size": 11424,
+      "sha256": "0f351eb50699aea95de9f392ea9db7700eff5f0ffa66f4d8e38764877daa7ba7"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-deep.log",
+      "size": 32540,
+      "sha256": "9d8e14a2e0d4522311af67e836ba39b9c363270a51fb2bffa9f44c59f70efbcb"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-finalize.cjs",
+      "size": 6306,
+      "sha256": "4fa5550874fcf58a6d0a07884e0990d5e75c07fc33ad7def0974af994b5b0175"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-findings.json",
+      "size": 8239,
+      "sha256": "0b6f225264d2523e8b6b5e8d49c6d57158617f79072b35f37aea0d2d53d3f733"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-prepare.cjs",
+      "size": 1493,
+      "sha256": "2894fbcdd1ee5d7087970c4db2f4bc543f06a8e8bae5a9f9d4e714bd05d93f32"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-reproduction-repeat.log",
+      "size": 17965,
+      "sha256": "1f21b50ad09edf6adeb103fdb1cea60c417f4609bfd22fd6f6c5670dc9b195d3"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/backend-runtime.json",
+      "size": 13364,
+      "sha256": "48aea3f24c10b63782d63f13db2dd7236e3ac8101489f28a24fa989ae8c8fd67"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/baseline-summary.json",
+      "size": 3766,
+      "sha256": "bc0583f7b1995c2d1a13937410bdc191699036dc77222f0dcc6532acd609e530"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-backend.log",
+      "size": 84,
+      "sha256": "580a0ba86fe5ff6f6caae5210c0fcb3546720755b5c4f2ae19acb28fe10f4351"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-network.json",
+      "size": 4915,
+      "sha256": "f6a48db48b5237a3478e9c1c26cd9dfcc4a5d679788ed1fb2ae29cc22ed3571d"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-partial-bootstrap.ax.txt",
+      "size": 199,
+      "sha256": "48388a932a29dff6aea905ab8b4cb03a8e5339bb0e63119b8706cd93036457f3"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-partial-bootstrap.json",
+      "size": 4626,
+      "sha256": "7908ca505dc5b5bcbb9d87ec81d93704fe51087d462863355bee06cca7d49ed3"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-partial-bootstrap.png",
+      "size": 112400,
+      "sha256": "6bc1dd82bd0dc4732acde7c2d25e82e2c7f9cae40489d35faf4116e10cd5931a"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-peer-control.ax.txt",
+      "size": 199,
+      "sha256": "48388a932a29dff6aea905ab8b4cb03a8e5339bb0e63119b8706cd93036457f3"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-peer-control.json",
+      "size": 2047,
+      "sha256": "0220853a452ed93dc18e7db9b70cdedc536093b577c00fbb3a80247d4eff7173"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-peer-control.png",
+      "size": 67770,
+      "sha256": "a7724cafcaa76b3551c335c0c909481d064e220a8e78a212ea88abc093e62bbd"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-reactivate-api.json",
+      "size": 147,
+      "sha256": "ef59bb108433b197889a4d7d76fa64a450a3748fb3e25c32b8cc18cc0ff123b3"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-revocation-api.json",
+      "size": 149,
+      "sha256": "d5c33e142253a039150af28f87aecf41f51bc16bf585beb0954890edbd16db50"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-revocation-network.json",
+      "size": 1233,
+      "sha256": "b4cc2a85fa7d40eaf2b7b500b39117b02d82337b38f95e1aac0ec107377b2b1a"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-revocation.ax.txt",
+      "size": 494,
+      "sha256": "87c98253c72b901661cb0078bf7d862bd6c93d66ad835973691c105ff48dd951"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-revocation.json",
+      "size": 6184,
+      "sha256": "45eaca149057c03eebdc7c18921bb8a36b4609b8630ce856d25e8cfbcc6fc653"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-revocation.png",
+      "size": 57092,
+      "sha256": "38c57d7b983506243c8524f9b537036de3e4968ccadbb4bfb74cbc1d9d52cab1"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-runtime.json",
+      "size": 206,
+      "sha256": "f5099b7e974060ca2463a1af74b0bfc1eaaedf446d670ee956ef0a4767cb7609"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/browser-server.cjs",
+      "size": 3280,
+      "sha256": "9cab132146bf2a0c5310d5e485694d1a1f10bea0167d15f6065b38eb410dc95b"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/check-documents.cjs",
+      "size": 3774,
+      "sha256": "97628012f9b8d8a064a153e5957685a328dfd58fc578dcaea8c72bebbdab50da"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/cleanup.json",
+      "size": 726,
+      "sha256": "d77d49e0208aae3d7544c9880e8674a76049c1ce5a85e73eb4a1b2730db399f0"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/codegraph-status.json",
+      "size": 788,
+      "sha256": "d2ad259996cc0581c3b7935f744ab1a254889bd3be2cc6bee8544ae143bd8d19"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/contention-repeat.log",
+      "size": 15903,
+      "sha256": "afd7e42c19c40a850793741819d9709069ced5444849d6a733c792b1f00a7005"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/contention-repeat.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/demo-contract-tests.cjs",
+      "size": 20904,
+      "sha256": "ad88c6323cba0254c1bdbceb9d6f2f46d7984089a44435cc5de1257e2964abc9"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/demo-contract-tests.log",
+      "size": 2721,
+      "sha256": "7a1f849a63994785532810e90eebbad3b7322fe1be71bef5b566d6efaefd9323"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/demo-findings.json",
+      "size": 15048,
+      "sha256": "f5db1c084433ddcbf3dd3dd680adff0b932c2d4449d6f0a3b47aa003814d983b"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/demo-repeat.log",
+      "size": 2721,
+      "sha256": "7a1f849a63994785532810e90eebbad3b7322fe1be71bef5b566d6efaefd9323"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/demo-results.json",
+      "size": 15762,
+      "sha256": "c240343df0d10d339184b55a113c70abcf378b7ec2e5d5c2416f572b891b86a5"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/document-check.json",
+      "size": 206,
+      "sha256": "af51759c8689389a9ae5c9d4ebc0526e5a282b1ce4d036e3a6ae671817ffccb1"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/finalize.cjs",
+      "size": 6172,
+      "sha256": "e8527e3fd0873821f7006e8fd42c8d88353b3b95b0cb0397989bec98dddbf300"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-adversarial.cjs",
+      "size": 16705,
+      "sha256": "3f619b4ee1f5b6b3c1eef600fe3404b6415d091237d6969175749e4482f99282"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-adversarial.log",
+      "size": 21799,
+      "sha256": "3eb90aacab544bd33931af0207b877d98cf0b1e678bacf29c31b385fa2499a9c"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-findings.json",
+      "size": 20048,
+      "sha256": "64614c41021ecc95f072fccf75877ff34256b92b41723e0798787259f65e7ed0"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-repeat.json",
+      "size": 27240,
+      "sha256": "8faecfe0068be033f46de37803f549ed4db5ed33eb61ea7ac7198e233d40b108"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-repeat.log",
+      "size": 21799,
+      "sha256": "d125e2da83521502931e44e2257c5621d964c33b960498e44cc0643644b32258"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-results.json",
+      "size": 27240,
+      "sha256": "fd356ce92bb9ae90a74c1385936d87e24536ad9695c01d404ba941e2a2caa92e"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-summarize.cjs",
+      "size": 9626,
+      "sha256": "82fc029ebda05f3a5e45728dd39d8cb2493e84012acc083b2950b368f7f99930"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/frontend-summary.log",
+      "size": 92,
+      "sha256": "d8d31ec9ac4445aadfc27e4427ddba5e77ee59d4f305b336a195bdf9f743286f"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/go-tests.log",
+      "size": 241606,
+      "sha256": "a87ea3a63e8437353dff1760e25a9db5cb397e76647990538fb2f88c9d680f68"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/go-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/go-version.log",
+      "size": 33,
+      "sha256": "94e911f9fbf3c118f6a0573ab3a13fa546ad13e89ba40cf53df77e468509c92d"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/go-version.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/go-vet.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/go-vet.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/http-smoke.log",
+      "size": 500,
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/http-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/memory-check.json",
+      "size": 324,
+      "sha256": "e2515f5dacde95201d19384babca6668ccce0dd9dd3019513453a65147bfb458"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/native-build.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/report-preview.json",
+      "size": 228,
+      "sha256": "a5306cc95581449ca84236333f569a7adeb8c30eb487b4cb66b4eb7f3ed2582a"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/report-preview.mjs",
+      "size": 1967,
+      "sha256": "55d003b1b4d224631f617a8fd084a02e28511bc60d5e9d8dcba1cef7336f2a6a"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/report-preview.png",
+      "size": 138575,
+      "sha256": "b28ccdf705bede9d7a069b30f3ed417c215ea7e6f1c78f1df65795c82625b3e9"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/revoke-synthetic-customer.cjs",
+      "size": 1466,
+      "sha256": "65b8b59105d28f16b589b1140355a28d32b2e5b33584ef2e8129c83952e302ad"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/run-baseline.cjs",
+      "size": 4284,
+      "sha256": "5985220da3ab9e57e249dc8bb97c45f43d0b6cdb4e50630bff2059dcf077bd55"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/source-before.json",
+      "size": 16734,
+      "sha256": "779d7634700180f44ae2f41e5dfe22b29f15853bf5b485f70e55ab4282b40bc5"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/source-verification.json",
+      "size": 35460,
+      "sha256": "0e39335d0e67e4fada4d7deac630eabe06fcc3975311e5d4305e92fe2618fb2d"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-app.js.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-app.js.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-app.test.cjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-app.test.cjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-data.js.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-data.js.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-data.test.cjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-data.test.cjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-验证工作台.mjs.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/syntax-验证工作台.mjs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/test-database-start.log",
+      "size": 65,
+      "sha256": "0322cc5fc0cf1200dc320577225a8d45db29d42296d2fc802425a3f3fa2f3b8d"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/test-database-start.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/test-database-stop.log",
+      "size": 31,
+      "sha256": "ae9aec15368c2b82b32eda07c57a201d13e5efdcf6a546c392be21f01d30041a"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/test-database-stop.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/test-summary.json",
+      "size": 2709,
+      "sha256": "e9267a055fa0334d1c2d27c5b26b6127edf3512b1fd566486c7760f20f48757e"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/web-tests.log",
+      "size": 9906,
+      "sha256": "aa3f9a966a8de43c5649f4c53965a324df2bd534da5c0ecff554cd9c923e9da2"
+    },
+    {
+      "path": "docs/四次回归证据-2026-10-15/web-tests.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/实现范围.md",
+      "size": 19056,
+      "sha256": "e67134f25077ff0522ef9864c0e4ebd105cb1988044bf45e4ad8cff52ef68230"
+    },
+    {
+      "path": "docs/封板说明-2026-10-05.md",
+      "size": 26693,
+      "sha256": "8c90bc01351e10fd8935ed29109a71e6e940797b38af0c4631509f5b9c84062d"
+    },
+    {
+      "path": "docs/心愿单.md",
+      "size": 3801,
+      "sha256": "a2697ac8309fcc48e0a41b8a28d37f42a8058111f94101ebb4cced4328773c1a"
+    },
+    {
+      "path": "代码地图.md",
+      "size": 24011,
+      "sha256": "9ddab9403d7613fc863f0a6f6560cd5f9ca59ef01e921c5b9ce351bb50db4664"
+    },
+    {
+      "path": "部署文档.md",
+      "size": 38466,
+      "sha256": "6319ab7969ba6f52184da1387810749dcdcb9bafce29b4764601354271529cd9"
+    },
+    {
+      "path": "需求/IM各端数据库选型专项方案.md",
+      "size": 44520,
+      "sha256": "9fc3a42a0a5f6268b30deb374f25ce76114bc1dedb415655c59038d52ca14b06"
+    },
+    {
+      "path": "需求/物业设备维修服务平台 PRD V3.4.md",
+      "size": 56204,
+      "sha256": "24e4e7fde93e494997c56311083f553f64713277a0ab0061c31afd0efa1981c8"
+    },
+    {
+      "path": "需求/物业设备维修服务平台 PRD V3.4（Jobs规范版）.md",
+      "size": 85687,
+      "sha256": "ccc2b6eece9816b01776a7d68f7647df1191df5fb5c593447b4bdcc392caca97"
+    },
+    {
+      "path": "需求/物业设备维修服务平台 PRD V3.5（Jobs规范版）.md",
+      "size": 134215,
+      "sha256": "dd88b01a11e8df5354c190d29e568e830538d60926f2f542bd1f5f139a041d38"
+    },
+    {
+      "path": "需求/物业设备维修服务平台 PRD V3.6（Jobs规范版）.md",
+      "size": 165059,
+      "sha256": "a2da6f1b55fa84204980cf7a3d769827a83e4d39a7a92ba9bb942bcca6af9183"
+    },
+    {
+      "path": "需求/物业设备维修服务平台 PRD V3.7（Jobs规范版）.md",
+      "size": 186592,
+      "sha256": "a164b1e50e2a3dd626d54c0740b8de9161da79927db5437f047d643823a16362"
+    },
+    {
+      "path": "需求/物业设备维修服务平台 PRD V3.8（Jobs规范版）.md",
+      "size": 234069,
+      "sha256": "7daf4bc385b9709f0b948e0bd73b05847934e10bf3a73d7b0e4cf71604053775"
+    }
+  ]
+}

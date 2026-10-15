@@ -1,0 +1,94 @@
+Browser tab: 10, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18071/".
+0 AXWebArea 啄木鸟 · 维修协同工作台, URL: 127.0.0.1:18071/
+	1 container detailDialog
+		2 container detailContent
+			3 container
+				4 text ZM20261015-1EEE8B · VERSION 1
+				5 heading 第四轮修复合成客户 · 合成控制器, Value: 2
+					6 text 第四轮修复合成客户 · 合成控制器
+				7 text 待受理 · 履约进行中 · 服务端授权数据
+				8 button 关闭详情
+			9 container 工单详情
+				10 button 工单总览
+				11 button 报价与确认
+				12 button 全链路证据
+				13 button 资料 · 票据 · 现金
+				14 button 协商与上门
+				15 button 外包 · 成本 · 提成
+				16 button 借还余项
+				17 button 操作时间轴
+			18 text 待受理 待安排 检测 / 报价中 待客户确认 待执行 维修中 待质检 待交付 待验收 结算中 待完结确认 已完结
+			19 container
+				20 heading 工单信息, Value: 3
+					21 text 工单信息
+				22 definition list
+					23 container 客户 / 企业
+						24 text 客户 / 企业
+					25 text 第四轮修复合成客户
+					26 container 设备 / 配件
+						27 text 设备 / 配件
+					28 text 合成控制器
+					29 container 项目 / 类型
+						30 text 项目 / 类型
+					31 text 隔离回归 · 寄修
+					32 container 故障 / 需求
+						33 text 故障 / 需求
+					34 text 验证未报价工单可新建、刷新并读取详情。
+					35 container 负责人
+						36 text 负责人
+					37 text 待安排 / 执行 待安排
+					38 container 客户说明
+						39 text 客户说明
+					40 text 暂无已发布说明
+					41 container 内部备注
+						42 text 内部备注
+					43 text 可选预付款约定：not_applicable
+					44 container 质保
+						45 text 质保
+					46 text 未起保
+			47 container
+				48 heading 当前可办理动作, Value: 3
+					49 text 当前可办理动作
+				50 text 客服确认受理
+				51 text 提交本次真实事实一次，服务端同步摘要和主阶段。报价与最终验收必须由客户分别签署。
+				52 button 确认受理
+				53 button 交接客户经办人
+				54 button 确认资料与开票约定
+				55 button 制作 / 发送付款资料
+				56 button 登记现金收款 / 退款
+				57 button 登记真实发票
+				58 button 编辑工单备注
+				59 button 归档证据
+				60 button 登记异议 / 协商
+				61 button 批准停止履约
+				62 button 新增内部余项
+				63 button 登记外包 / 后续流向
+				64 button 登记内部成本
+				65 button 登记提成
+			66 container
+				67 heading 整单完结核对, Value: 3
+					68 text 整单完结核对
+				69 text 仍有 3 项需要办理
+				70 content list
+					71 container
+						72 text ○ 有效履约结果
+					73 container
+						74 text ○ 付款资料齐备且已发送 / 确认无需
+					75 container
+						76 text ○ 有效票据金额及附件齐备 / 确认无需
+					77 container
+						78 text ○ 核实净收款满足应收，超收与待核实均处理
+				79 heading 当前缺项, Value: 3
+					80 text 当前缺项
+				81 content list
+					82 container
+						83 text ○ 付款资料需求待确认
+					84 container
+						85 text ○ 开票需求待确认
+					86 container
+						87 text ○ 履约结果尚未明确
+			88 container
+				89 text 工单事实提交一次 · 主阶段由服务端统一判定
+				90 button 刷新当前数据 ↻
+
+The focused UI element is 1 container detailDialog

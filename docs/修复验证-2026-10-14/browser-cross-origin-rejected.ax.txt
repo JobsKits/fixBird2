@@ -1,0 +1,5 @@
+Browser tab: 6, Title: "啄木鸟 · 维修协同工作台", URL: "http://127.0.0.1:18040/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~						83 text field (settable) 服务地址 留空或填写当前页面同源地址。离线文件仅供演示，切换服务请打开目标服务页面。, Value: http://127.0.0.1:18041
++	194 text API 地址必须与当前页面同源，且不含路径、账号、查询或片段。请打开目标服务页面后登录。
+The focused UI element is 88 button 保存地址并重载

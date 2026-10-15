@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-10-15T17:11:46.531Z",
+  "project": "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/前端/iOS",
+  "appSwift": 44,
+  "testSwift": 5,
+  "localJobsPods": 20,
+  "directDependencies": 21,
+  "resolvedPods": 38,
+  "debug": "TEST BUILD SUCCEEDED",
+  "debugLog": "build-delivery-final.log",
+  "release": "BUILD SUCCEEDED",
+  "releaseLog": "build-release-frozen.log",
+  "xctest": {
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "total": 22,
+    "log": "xctest-frozen.log",
+    "result": "源码冻结测试.xcresult"
+  },
+  "staticThemePairs": 31,
+  "minContrast": 5.4164,
+  "nativeUIVerified": [
+    "隔离API登录与首页",
+    "新建测试单详情重读展示",
+    "设置页点击黑夜、白天、跟随系统"
+  ],
+  "notVerified": [
+    "物理iPhone签名与分发",
+    "iPad布局",
+    "签名完整触摸手势/提交全链",
+    "Files各类型供应商选择与原件上传",
+    "Xcode内Podfile.deps红钻视觉状态"
+  ],
+  "podReference": {
+    "projectRoot": "PBXProject",
+    "fileCount": 1,
+    "explicitFileType": "text.script.ruby",
+    "inBuildPhases": 0
+  },
+  "codegraph": {
+    "files": 554,
+    "nodes": 11400,
+    "edges": 22959,
+    "pendingChanges": {
+      "added": 0,
+      "modified": 0,
+      "removed": 0
+    }
+  },
+  "sourceFrozen": true,
+  "cleanup": {
+    "completedAt": "2026-10-15T17:10:32.997Z",
+    "parentPid": 62210,
+    "childStopped": true,
+    "temporaryRootRemoved": true,
+    "portClosed": true
+  },
+  "scope": "仅新增桌面V3.8 iOS客户端；旧17组P2未修复，原脚手架未修改；未提交推送"
+}

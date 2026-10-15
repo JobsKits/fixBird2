@@ -1,0 +1,270 @@
+{
+  "reviewedAt": "2026-10-15T17:07:26.085Z",
+  "scope": "App 44个Swift文件；逐项读取工具候选所在源码。测试文件另经root授权完成3处规范收口，不计入这两份App工具结果。",
+  "rawTools": [
+    {
+      "path": "docs/iOS实现验证-2026-10-15/系统构造最终审计.log",
+      "exitCode": 2,
+      "candidateCount": 6,
+      "sha256": "592a17aa18ebd147ca81f6acb3b9fda2398bd57b2ac91b9335d63fefef15a42d"
+    },
+    {
+      "path": "docs/iOS实现验证-2026-10-15/链式语法最终审计.log",
+      "exitCode": 2,
+      "candidateCount": 20,
+      "sha256": "9da6a1f880c111847ff1d765efe79c62f54ad477d92e7143e552b0b79b6efdf9"
+    },
+    {
+      "path": "docs/iOS实现验证-2026-10-15/链式语法收口审计.log",
+      "exitCode": null,
+      "exitCodeNote": "该轮退出码未另行提供；只读取日志，不宣称0。原两份最终工具日志退出2由执行者确认。",
+      "candidateCount": 19,
+      "sha256": "e7d28d9b12e4cc242bc4b267f4ea67a4f65c9a4a86e149fe97389844df01b7b1"
+    }
+  ],
+  "interpretation": "原始构造6项/链式20组两份工具均退出2，完整保留；人工解释19组，修正1组上层连续UI配置。收口日志仍有19组候选（12业务状态+4自有init+2互斥分支+1工厂格式），不能描述成工具0告警。",
+  "categoryCounts": {
+    "business-state": 12,
+    "own-initializer": 4,
+    "continuous-ui-chain": 1,
+    "exclusive-result-branches": 2,
+    "factory-format": 1
+  },
+  "constructionCandidates": [
+    {
+      "kind": "zero-argument",
+      "path": "前端/iOS/App/Data/WBFoundation/WBFoundation.swift",
+      "line": 21,
+      "type": "JSONDecoder",
+      "expression": "JSONDecoder()",
+      "disposition": "explicit-boundary",
+      "reason": "仅在!canImport编译分支中提供同类型测试工厂底层；生产调用使用Jobs工厂，不替代业务/网络。"
+    },
+    {
+      "kind": "zero-argument",
+      "path": "前端/iOS/App/Data/WBFoundation/WBFoundation.swift",
+      "line": 31,
+      "type": "ISO8601DateFormatter",
+      "expression": "ISO8601DateFormatter()",
+      "disposition": "explicit-boundary",
+      "reason": "仅在!canImport编译分支中提供同类型测试工厂底层；生产调用使用Jobs工厂，不替代业务/网络。"
+    },
+    {
+      "kind": "zero-argument",
+      "path": "前端/iOS/App/Data/WBFoundation/WBFoundation.swift",
+      "line": 39,
+      "type": "NSNull",
+      "expression": "NSNull()",
+      "disposition": "explicit-boundary",
+      "reason": "仅在!canImport编译分支中提供同类型测试工厂底层；生产调用使用Jobs工厂，不替代业务/网络。"
+    },
+    {
+      "kind": "parameterized",
+      "path": "前端/iOS/App/Platform/UIDocumentPickerViewController/UIDocumentPickerViewController+Workbench.swift",
+      "line": 16,
+      "type": "UIDocumentPickerViewController",
+      "expression": "UIDocumentPickerViewController(forOpeningContentTypes: [.png, .jpeg, .pdf, .mpeg4Movie, .mp3, .wav], asCopy: false)",
+      "disposition": "explicit-boundary",
+      "reason": "真实系统类型make的带参初始化底层；业务调用方仅调用该工厂。"
+    },
+    {
+      "kind": "parameterized",
+      "path": "前端/iOS/App/Platform/UIGraphicsImageRenderer/UIGraphicsImageRenderer+Workbench.swift",
+      "line": 16,
+      "type": "UIGraphicsImageRenderer",
+      "expression": "UIGraphicsImageRenderer(size: size, format: format)",
+      "disposition": "explicit-boundary",
+      "reason": "真实系统类型make的带参初始化底层；业务调用方仅调用该工厂。"
+    },
+    {
+      "kind": "parameterized",
+      "path": "前端/iOS/App/UI/WBUI/WBUI.swift",
+      "line": 16,
+      "type": "UIColor",
+      "expression": "UIColor(r: 15, g: 81, b: 68, a: 1)",
+      "disposition": "explicit-boundary",
+      "reason": "UIColor(r:g:b:a:)为jobs-swift明确指定的RGB入口，不是禁用的red:green:blue:alpha:。"
+    }
+  ],
+  "chainCandidates": [
+    {
+      "path": "前端/iOS/App/Data/WBDemoState/WBDemoState.swift",
+      "line": 291,
+      "raw": "receiver result restarts at lines 291,292,293 (result)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBDemoState/WBDemoState.swift",
+      "line": 303,
+      "raw": "receiver order restarts at lines 303,304,305,316 (order.summary | order)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 161,
+      "raw": "receiver self restarts at lines 161,162,163 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 168,
+      "raw": "receiver self restarts at lines 168,169,170 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 205,
+      "raw": "receiver self restarts at lines 205,206,207 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 340,
+      "raw": "receiver self restarts at lines 340,343,344,345,346 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 561,
+      "raw": "receiver self restarts at lines 561,562,564 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 559,
+      "raw": "receiver self restarts at lines 559,567,575,576,578 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 628,
+      "raw": "receiver self restarts at lines 628,629,630,631,632,633 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 636,
+      "raw": "receiver self restarts at lines 636,637 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "line": 764,
+      "raw": "receiver self restarts at lines 764,765,766,768 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Features/Signature/WBSignatureVC/WBSignatureVC.swift",
+      "line": 44,
+      "raw": "receiver self restarts at lines 44,45 (self)",
+      "category": "own-initializer",
+      "disposition": "explained",
+      "reason": "自有类型初始化存储属性，随后调用super.init；不是Apple对象配置接收者。"
+    },
+    {
+      "path": "前端/iOS/App/Features/Signature/WBSignatureVC/WBSignatureVC.swift",
+      "line": 59,
+      "raw": "receiver page restarts at lines 59,60 (page)",
+      "category": "continuous-ui-chain",
+      "disposition": "fixed-after-audit",
+      "reason": "原审计后的唯一上层连续UI配置：已由root将byDelaysContentTouches与mount收为同一条表达式。"
+    },
+    {
+      "path": "前端/iOS/App/Features/WBActionFormVC/WBActionFormVC.swift",
+      "line": 33,
+      "raw": "receiver self restarts at lines 33,34,35 (self)",
+      "category": "own-initializer",
+      "disposition": "explained",
+      "reason": "自有类型初始化存储属性，随后调用super.init；不是Apple对象配置接收者。"
+    },
+    {
+      "path": "前端/iOS/App/Features/WBActionFormVC/WBActionFormVC.swift",
+      "line": 332,
+      "raw": "receiver submitButton restarts at lines 332,336 (self.submitButton)",
+      "category": "exclusive-result-branches",
+      "disposition": "explained",
+      "reason": "success与failure互斥分支分别更新按钮，不是同一路径上重启配置。"
+    },
+    {
+      "path": "前端/iOS/App/Features/WBInventoryFormVC/WBInventoryFormVC.swift",
+      "line": 31,
+      "raw": "receiver self restarts at lines 31,32,33 (self)",
+      "category": "own-initializer",
+      "disposition": "explained",
+      "reason": "自有类型初始化存储属性，随后调用super.init；不是Apple对象配置接收者。"
+    },
+    {
+      "path": "前端/iOS/App/Features/WBInventoryFormVC/WBInventoryFormVC.swift",
+      "line": 112,
+      "raw": "receiver submitButton restarts at lines 112,116 (self.submitButton)",
+      "category": "exclusive-result-branches",
+      "disposition": "explained",
+      "reason": "success与failure互斥分支分别更新按钮，不是同一路径上重启配置。"
+    },
+    {
+      "path": "前端/iOS/App/Features/WBOrderDetailVC/WBOrderDetailVC.swift",
+      "line": 58,
+      "raw": "receiver self restarts at lines 58,59,60 (self)",
+      "category": "business-state",
+      "disposition": "explained",
+      "reason": "自有值类型/Store状态更新、验证、发布、刷新或缓存提交，保留可读顺序，不强造UI链。"
+    },
+    {
+      "path": "前端/iOS/App/Platform/UIGraphicsImageRenderer/UIGraphicsImageRenderer+Workbench.swift",
+      "line": 14,
+      "raw": "receiver format restarts at lines 14,15 (format)",
+      "category": "factory-format",
+      "disposition": "explained",
+      "reason": "同类型创建工厂底层固定scale=1、opaque=true，保证输出像素合同，业务调用方无散落配置。"
+    },
+    {
+      "path": "前端/iOS/App/UI/WBFormField/WBFormField.swift",
+      "line": 54,
+      "raw": "receiver self restarts at lines 54,55,56,57 (self)",
+      "category": "own-initializer",
+      "disposition": "explained",
+      "reason": "自有类型初始化存储属性，随后调用super.init；不是Apple对象配置接收者。"
+    }
+  ],
+  "sourceAfterFix": {
+    "path": "前端/iOS/App/Features/Signature/WBSignatureVC/WBSignatureVC.swift",
+    "sha256": "57f8f8d288ab50327b1c430ef2d2c31dcd21256ab21a2e5f53f21a5c36bccf66"
+  },
+  "testOnlyAdjustment": {
+    "path": "前端/iOS/Tests/Data/WBDataTests/WBDataTests.swift",
+    "sha256": "b91654e58198bc709ceb1277301d4dc2cdbfb6d38fbf9ab6554d24249613a305",
+    "changes": "JobsCor.white/black和显式导入；UIImage.make(data:)不存在，PNG通过ImageIO回读，保持全部原640×240断言。末轮构建由root执行。"
+  },
+  "followup": {
+    "path": "docs/iOS实现验证-2026-10-15/链式语法收口审计.log",
+    "repeatGroups": 19,
+    "manualCategoryCounts": {
+      "businessState": 12,
+      "ownInitializer": 4,
+      "exclusiveBranches": 2,
+      "factoryFormat": 1
+    }
+  }
+}

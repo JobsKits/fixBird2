@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "steps": [
+    {
+      "name": "go-version",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "version"
+      ]
+    },
+    {
+      "name": "test-database-start",
+      "exitCode": 0,
+      "command": [
+        "docker",
+        "run",
+        "--detach",
+        "--rm",
+        "--name",
+        "jobs-v38-reg5-tidb-1792072560129",
+        "--publish",
+        "127.0.0.1:14058:4000",
+        "--publish",
+        "127.0.0.1:18098:10080",
+        "pingcap/tidb:v8.5.8",
+        "--store=unistore",
+        "--path=/tmp/tidb-reg5",
+        "--host=0.0.0.0",
+        "--status-host=0.0.0.0"
+      ]
+    },
+    {
+      "name": "http-smoke",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "Scripts/验证工作台.mjs"
+      ]
+    },
+    {
+      "name": "web-tests",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--test",
+        "Web/tests/portal.test.cjs",
+        "WebAdmin/tests/admin.test.cjs",
+        "WebAdmin/tests/operations.test.cjs",
+        "Workspace/tests/app.test.cjs",
+        "Workspace/tests/data-boundaries.test.cjs",
+        "Workspace/tests/data.test.cjs"
+      ]
+    },
+    {
+      "name": "go-tests",
+      "exitCode": 1,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "-C",
+        "Server",
+        "test",
+        "-race",
+        "-p",
+        "1",
+        "-json",
+        "./...",
+        "-count=1"
+      ]
+    },
+    {
+      "name": "go-vet",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "-C",
+        "Server",
+        "vet",
+        "-p",
+        "1",
+        "./..."
+      ]
+    },
+    {
+      "name": "contention-repeat",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "-C",
+        "Server",
+        "test",
+        "-race",
+        "-json",
+        "./internal/repository",
+        "-run",
+        "^TestRepositoryContract$/^tidb-optimistic$",
+        "-count=10"
+      ]
+    },
+    {
+      "name": "syntax-app.js",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--check",
+        "Workspace/app.js"
+      ]
+    },
+    {
+      "name": "syntax-data.js",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--check",
+        "Workspace/data.js"
+      ]
+    },
+    {
+      "name": "syntax-app.test.cjs",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--check",
+        "Workspace/tests/app.test.cjs"
+      ]
+    },
+    {
+      "name": "syntax-data.test.cjs",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--check",
+        "Workspace/tests/data.test.cjs"
+      ]
+    },
+    {
+      "name": "syntax-data-boundaries.test.cjs",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--check",
+        "Workspace/tests/data-boundaries.test.cjs"
+      ]
+    },
+    {
+      "name": "syntax-验证工作台.mjs",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+        "--check",
+        "Scripts/验证工作台.mjs"
+      ]
+    },
+    {
+      "name": "test-database-stop",
+      "exitCode": 0,
+      "command": [
+        "docker",
+        "rm",
+        "--force",
+        "jobs-v38-reg5-tidb-1792072560129"
+      ]
+    }
+  ],
+  "backendOnly": false,
+  "matchesPreviousFix": true,
+  "changedFromPreviousFix": [],
+  "database": {
+    "container": "jobs-v38-reg5-tidb-1792072560129",
+    "sqlPort": 14058,
+    "statusPort": 18098,
+    "syntheticOnly": true,
+    "ready": true,
+    "removed": true
+  },
+  "go": {
+    "rootsPassed": 75,
+    "passResults": 204,
+    "failResults": 1,
+    "skipResults": 0,
+    "packagesWithoutTests": 6
+  }
+}

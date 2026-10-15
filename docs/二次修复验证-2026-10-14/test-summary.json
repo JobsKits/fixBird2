@@ -1,0 +1,46 @@
+{
+  "go": {
+    "exitCode": 0,
+    "passRoots": 95,
+    "passResults": 234,
+    "failResults": 0,
+    "skippedTests": 0,
+    "workbenchRoots": 58,
+    "packageFailures": [],
+    "failures": []
+  },
+  "web": {
+    "tests": 66,
+    "pass": 66,
+    "fail": 0,
+    "skipped": 0
+  },
+  "http": {
+    "groups": 6,
+    "exitCode": 0
+  },
+  "vet": {
+    "exitCode": 0
+  },
+  "syntax": {
+    "exitCode": 0,
+    "checks": [
+      "Workspace/app.js",
+      "Workspace/tests/app.test.cjs",
+      "Workspace/data.js",
+      "Scripts/验证工作台.mjs",
+      "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command"
+    ]
+  },
+  "nativeBuild": {
+    "exitCode": 0,
+    "platform": "darwin-arm64"
+  },
+  "contention": {
+    "pass": 10,
+    "fail": 0
+  },
+  "sourceFreeze": {
+    "app": "e0e56d4d38c8456b119f740633d612534312e9822566eba18826b9d6ee4cc077"
+  }
+}

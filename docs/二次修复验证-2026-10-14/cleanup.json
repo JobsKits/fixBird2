@@ -1,0 +1,22 @@
+{
+  "ownedListeningPorts": {
+    "backend18046": false,
+    "proxy18047": false,
+    "testTiDB14041": false
+  },
+  "ownedBrowserTemporaryDirectoryExists": false,
+  "nativeBinaryRemoved": true,
+  "ownedDatabaseContainerRemoved": true,
+  "originalServicesUntouched": [
+    "repair-marketplace-api-1",
+    "repair-marketplace-tidb-1"
+  ],
+  "businessRuntimeReadOrChanged": false,
+  "browserTabClosed": true,
+  "defaultTimeoutRestored": 2500,
+  "httpScriptCleanup": true,
+  "documentPreview": {
+    "port18048Listening": false,
+    "tabClosed": true
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-10-15T17:07:26.100Z",
+  "scope": "WBOrderInput链式增量与22项XCTest新增后，审阅者只读采集；末轮运行与整体冻结由root负责。",
+  "count": 25,
+  "files": [
+    {
+      "path": "前端/iOS/App/Data/WBActor/WBActor.swift",
+      "sha256": "43797dc298dfe274595a191dbfb14621c51238e79da3e9e7725a0534e1919ae7"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBContract/WBContract.swift",
+      "sha256": "060ba6922ec03269e52623e280c1389ef8132dcaca241e029c00c1b4239eeb08"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBDemoState/WBDemoState.swift",
+      "sha256": "c05a83d7458bb8d6d15536c5007e1a5c472a9f947910ffa739ced2d7d65a2ed4"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBEnvironment/WBEnvironment.swift",
+      "sha256": "ed65446a23110e659a7ca574ada9a7bed36995f1c932cfbcb69b9c5d79c31443"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBError/WBError.swift",
+      "sha256": "8084e24f455f865190a1621190f420eed25ebf24d33b41668a25e81d471e5d29"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBFoundation/WBFoundation.swift",
+      "sha256": "250e50aa388032d49852d612cd2a6e8ef8782867bbe63c7f2dc61d205216fd73"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBJSON/WBJSON.swift",
+      "sha256": "8c4e7e950968c3839e0811fe175c93648dc718d4cf9c9ebcc226d487be210437"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBJobsTransport/WBJobsTransport.swift",
+      "sha256": "c097c0a64a8b2aac587301c20f336c7b5ce1cbe7e4652b9c6b6a3f748d58bd01"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBLoan/WBLoan.swift",
+      "sha256": "8e00bd0370621802fb0e9dd21ac59a072c925550556e4129c19a7e6496404189"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBMetrics/WBMetrics.swift",
+      "sha256": "f31677ad4c78a9e7a40bc3be8562967a9407d806acc75005800bcc2c66bb1659"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBOrder/WBOrder.swift",
+      "sha256": "4240eddf0b3de0c345866b37ede849a05765ee9ba40fe43c6272e58892ce1866"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBOrderInput/WBOrderInput.swift",
+      "sha256": "be05f1124e3b421fc8469c9a704e0c812e3c3df51e01070e67c78c8587d3fd8e"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBPart/WBPart.swift",
+      "sha256": "0f37e961b5227e3ff9fa3f8afeb16f9731f66edf14d4e107a9d27fe13f5bcf8f"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBQuote/WBQuote.swift",
+      "sha256": "2bb4220b0c0b4d2cf46eb1fbf610a068528ef16159e5f24ccbfbb9bbcc635077"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBRecord/WBRecord.swift",
+      "sha256": "bfd6684177fec14ee4a66ee06f3ca4aaa2b0c0cdb44d5767957bf55addf5af3d"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBRequest/WBRequest.swift",
+      "sha256": "5c4587998fae39c85807cf43bf0cee492e91e92fb95ccb15a27f716348f27eba"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBSettings/WBSettings.swift",
+      "sha256": "bac4ac0d26d78bace747582f2e56d15163eb91de1ee350de743260124637d0ca"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBStore/WBStore.swift",
+      "sha256": "fc41f40d904ed95dc1f442903c8814c25adbd045e5b3b2a5c80453315509ed6d"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBSummary/WBSummary.swift",
+      "sha256": "e35364bed5d6b9692f8795b1963a56a66d269c0078f21bd9b3baed44836cfa61"
+    },
+    {
+      "path": "前端/iOS/App/Data/WBTransport/WBTransport.swift",
+      "sha256": "3b286a3b05cacd3b42109dc9ebc4b48a37465f63d50d94f91a96f64080ccdecd"
+    },
+    {
+      "path": "前端/iOS/Tests/Data/WBDataScenarios/WBDataScenarios.swift",
+      "sha256": "306a5bbfb72dcff6d371d0e8f01d25e94a9e9e4c81ec87da6dc1af968d1b786c"
+    },
+    {
+      "path": "前端/iOS/Tests/Data/WBDataTests/WBDataTests.swift",
+      "sha256": "b91654e58198bc709ceb1277301d4dc2cdbfb6d38fbf9ab6554d24249613a305"
+    },
+    {
+      "path": "前端/iOS/Tests/Data/WBFixture/WBFixture.swift",
+      "sha256": "d59b00f51d984cafe14482f8cb9b1d8f25da5ce1e478a488263cfd98ae36d238"
+    },
+    {
+      "path": "前端/iOS/Tests/Data/WBStubTransport/WBStubTransport.swift",
+      "sha256": "53c4eaf8edde8f0ce319229df0bf9457db552436a09ad65b19e0a243cfdbe7bb"
+    },
+    {
+      "path": "前端/iOS/Tests/Standalone/WBDataRunner/WBDataRunner.swift",
+      "sha256": "cc7d25bffa45d63d7ce9091616fcc13836e0375ec9024ef9b40080f47a5b9934"
+    }
+  ]
+}

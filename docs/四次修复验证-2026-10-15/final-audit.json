@@ -1,0 +1,332 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "passed": true,
+  "scope": "Read-only final source/hash and existing validation-evidence audit; only source-final.json, syntax-summary.json and final-audit.json written. No full tests, services, container operations, runtime-data access, product edits or index sync.",
+  "sources": {
+    "baselineFiles": 119,
+    "changedFiles": 9,
+    "unchangedFiles": 110,
+    "addedFiles": 5,
+    "finalFiles": 124,
+    "changed": [
+      {
+        "path": "Server/internal/workbench/actions.go",
+        "before": "52b3ac9b37c64117bf9e223869df2be57d6c62f57bc75f5e8d35af9a816e2b9d",
+        "after": "e2d66146832394913ab5cdf48f6ce60b742fb3f9719d466d39e7d26e1a8d3f1f"
+      },
+      {
+        "path": "Server/internal/workbench/inventory.go",
+        "before": "e1c6d0604454954979f2df8527247697375ca3d47a22fae584b58d0dd86ca7fe",
+        "after": "a4550f37e46f89df4c26e4c7ac8a7ebb27a3dfa8c015de201f1e61d3e7717492"
+      },
+      {
+        "path": "Server/internal/workbench/models.go",
+        "before": "cbb0fb96538e97bb910821da6b4018c647fff08b18147f0d3a86a7cb1e4526da",
+        "after": "7c3268c47ee205f1cdd4aff73f85c466bad23de411e3ec3324f7480d2d64ff3e"
+      },
+      {
+        "path": "Server/internal/workbench/permissions.go",
+        "before": "0d71a47eac4951bc584cfe05bc01790750d62e0a39968485afd49f33aeb90ba3",
+        "after": "0c749de43d158f493e78634f508260d798ef1791d56f2ab94f9d987a8546c6ac"
+      },
+      {
+        "path": "Server/internal/workbench/query.go",
+        "before": "317924c40f8395616d679bfd0317008664277f0d5b1e795fce4147d15430a920",
+        "after": "482d8394974edac745735adfcce20e319ded6385ec9c210e1c74b5e55c3e6c25"
+      },
+      {
+        "path": "Server/internal/workbench/service.go",
+        "before": "cd121bdcf6a49e13cb34b000b39f78f1817d060760be83318ddf55e4f90dfa1e",
+        "after": "9c6284544aef5deee7dd80d8be0c01f52e49cf18843821042ca4668f712c5bae"
+      },
+      {
+        "path": "Workspace/app.js",
+        "before": "4806a5f360763fa0005f3ddff2565f24d736fbe91dd54ef560e67f9065937247",
+        "after": "de91a0c3ff89a9a360e358d6c489754b7ce7693255a5e21ca9475d58d18bafe7"
+      },
+      {
+        "path": "Workspace/data.js",
+        "before": "8d0939f529ac91cadec9e7b3dc3c43e6fa4c1a919ef993516aa8df111ccf2222",
+        "after": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f"
+      },
+      {
+        "path": "Workspace/tests/app.test.cjs",
+        "before": "f6900d11da292ac9717d35fcf835fb7a726d8f44f7db401d1c71b8c11367202c",
+        "after": "d7c4c6cf4124127265e52d942977e23fb1979590e81b4c723f6abbf3abe94b78"
+      }
+    ],
+    "added": [
+      {
+        "path": "Server/internal/workbench/calendar.go",
+        "sha256": "7382ba0cf60e48e7bda8b3e689696a74d46701c2eec9fd84ec3accddc237ec22"
+      },
+      {
+        "path": "Server/internal/workbench/calendar_acceptance_regression_test.go",
+        "sha256": "dbb1f325e27b59531984f39896d147ede0e59dd44ed1a6a778020e4538df90a3"
+      },
+      {
+        "path": "Server/internal/workbench/acceptance_history_test.go",
+        "sha256": "936a49bd957f49a7e96cddf735d11a074667d9437f36c49f0ed86ef8791ed00b"
+      },
+      {
+        "path": "Server/internal/workbench/prepayment_contract_test.go",
+        "sha256": "f3ad2603931f6e28b7287f45f84884a8b19b1532e7bb4697f53e99f0cc3d9bfd"
+      },
+      {
+        "path": "Workspace/tests/data-boundaries.test.cjs",
+        "sha256": "aa3c69df1acd10b37dd6f2ee9f2a6b6f92797a8993e3666fad6df1eeb2036081"
+      }
+    ],
+    "unchangedPaths": [
+      "Scripts/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command",
+      "Scripts/离线预览.mjs",
+      "Scripts/验证工作台.mjs",
+      "Server/api/accounts.yaml",
+      "Server/api/identity.yaml",
+      "Server/api/ledger.yaml",
+      "Server/api/openapi.yaml",
+      "Server/api/workers.yaml",
+      "Server/cmd/api/main.go",
+      "Server/cmd/migrate/main.go",
+      "Server/cmd/workbench/main.go",
+      "Server/go.mod",
+      "Server/go.sum",
+      "Server/internal/config/config.go",
+      "Server/internal/config/config_test.go",
+      "Server/internal/domain/audit.go",
+      "Server/internal/domain/models.go",
+      "Server/internal/domain/rules.go",
+      "Server/internal/domain/rules_test.go",
+      "Server/internal/httpapi/account_management.go",
+      "Server/internal/httpapi/accounts_test.go",
+      "Server/internal/httpapi/devices.go",
+      "Server/internal/httpapi/identity.go",
+      "Server/internal/httpapi/identity_workers_test.go",
+      "Server/internal/httpapi/ledger.go",
+      "Server/internal/httpapi/ledger_test.go",
+      "Server/internal/httpapi/pagination.go",
+      "Server/internal/httpapi/server.go",
+      "Server/internal/httpapi/server_test.go",
+      "Server/internal/httpapi/workers.go",
+      "Server/internal/identity/account_management.go",
+      "Server/internal/identity/account_management_memory.go",
+      "Server/internal/identity/account_management_tidb.go",
+      "Server/internal/identity/challenges_test.go",
+      "Server/internal/identity/devices.go",
+      "Server/internal/identity/devices_memory.go",
+      "Server/internal/identity/devices_tidb.go",
+      "Server/internal/identity/models.go",
+      "Server/internal/identity/password.go",
+      "Server/internal/identity/service.go",
+      "Server/internal/identity/service_test.go",
+      "Server/internal/identity/store.go",
+      "Server/internal/identity/tidb.go",
+      "Server/internal/identity/transactions.go",
+      "Server/internal/im/contracts.go",
+      "Server/internal/ledger/backfill.go",
+      "Server/internal/ledger/ledger_test.go",
+      "Server/internal/ledger/memory.go",
+      "Server/internal/ledger/model.go",
+      "Server/internal/ledger/service.go",
+      "Server/internal/ledger/store.go",
+      "Server/internal/ledger/tidb.go",
+      "Server/internal/ledger/tidb_test.go",
+      "Server/internal/migration/runner.go",
+      "Server/internal/migration/sql.go",
+      "Server/internal/migration/sql_test.go",
+      "Server/internal/payment/errors.go",
+      "Server/internal/payment/provider.go",
+      "Server/internal/repository/account_access_test.go",
+      "Server/internal/repository/contract_test.go",
+      "Server/internal/repository/dashboard.go",
+      "Server/internal/repository/identity_workers_test.go",
+      "Server/internal/repository/ledger.go",
+      "Server/internal/repository/repository.go",
+      "Server/internal/repository/tidb.go",
+      "Server/internal/repository/workers.go",
+      "Server/internal/service/marketplace.go",
+      "Server/internal/service/marketplace_test.go",
+      "Server/internal/service/validation.go",
+      "Server/internal/workbench/audit.go",
+      "Server/internal/workbench/business_test.go",
+      "Server/internal/workbench/http.go",
+      "Server/internal/workbench/idempotency.go",
+      "Server/internal/workbench/permissions_test.go",
+      "Server/internal/workbench/regression_fix_test.go",
+      "Server/internal/workbench/retry_audit_test.go",
+      "Server/internal/workbench/seed.go",
+      "Server/internal/workbench/storage.go",
+      "Server/internal/workbench/storage_audit_test.go",
+      "Server/internal/workbench/storage_authorization_test.go",
+      "Server/internal/workbench/storage_test.go",
+      "Server/internal/workbench/storage_tidb.go",
+      "Server/internal/workbench/storage_tidb_test.go",
+      "Server/internal/workbench/tasks.go",
+      "Server/internal/workers/models.go",
+      "Server/internal/workers/service.go",
+      "Server/internal/workers/store.go",
+      "Server/internal/workers/tidb.go",
+      "Validation/smoke-api.mjs",
+      "Validation/validate.mjs",
+      "Web/environment.js",
+      "Web/portal.js",
+      "Web/tests/portal.test.cjs",
+      "WebAdmin/admin.js",
+      "WebAdmin/auth.js",
+      "WebAdmin/environment.js",
+      "WebAdmin/marketplace-data.js",
+      "WebAdmin/operations-data.js",
+      "WebAdmin/operations.js",
+      "WebAdmin/session.js",
+      "WebAdmin/tests/admin.test.cjs",
+      "WebAdmin/tests/operations.test.cjs",
+      "Workspace/index.html",
+      "Workspace/styles.css",
+      "Workspace/tests/data.test.cjs",
+      "Server/internal/service/collection_outcome_test.go",
+      "Server/internal/workbench/permissions_cross_test.go",
+      "Server/internal/workbench/permissions_write_test.go",
+      "Server/internal/workbench/recovery_regression_test.go",
+      "Server/internal/workbench/recovery_boundary_test.go"
+    ],
+    "hashChecks": [
+      {
+        "file": "backend-summary.json",
+        "paths": 10,
+        "mismatches": []
+      },
+      {
+        "file": "frontend-summary.json",
+        "paths": 2,
+        "mismatches": []
+      },
+      {
+        "file": "demo-summary.json",
+        "paths": 3,
+        "mismatches": []
+      },
+      {
+        "file": "review.json",
+        "paths": 15,
+        "mismatches": []
+      }
+    ]
+  },
+  "tests": {
+    "go": {
+      "rootsPassed": 109,
+      "passResults": 315,
+      "failResults": 0,
+      "skipResults": 0
+    },
+    "backendTargetInFullGoRun": {
+      "rootsPassed": 14,
+      "passResults": 81,
+      "failResults": 0,
+      "skipResults": 0
+    },
+    "web": {
+      "log": "web-tests.log",
+      "tests": 166,
+      "pass": 166,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "frontendFormal": {
+      "log": "frontend-after.log",
+      "tests": 96,
+      "pass": 96,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "frontendExternal": {
+      "log": "frontend-external-after.log",
+      "tests": 22,
+      "pass": 22,
+      "fail": 0
+    },
+    "demoFormal": {
+      "log": "demo-after.log",
+      "tests": 44,
+      "pass": 44,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "http": {
+      "groupsPassed": 6,
+      "completed": true
+    },
+    "contention": {
+      "passes": 10,
+      "failResults": 0,
+      "skipResults": 0
+    },
+    "goVetExitCode": 0,
+    "syntaxFiles": 6,
+    "syntaxPassed": true,
+    "backendOnlyRunner": true,
+    "webVerification": "Verified separately from backend-only runner using web-tests.log; no claim backend runner itself executed web suite."
+  },
+  "review": {
+    "completed": true,
+    "openFindings": 0
+  },
+  "checks": {
+    "baselineCounts": true,
+    "addedPaths": true,
+    "sourceHashes": true,
+    "syntax": true,
+    "goCounts": true,
+    "goRace": true,
+    "allBackendRunnerSteps": true,
+    "webCounts": true,
+    "frontendFormal": true,
+    "frontendExternal": true,
+    "demoFormal": true,
+    "backendFormalTarget": true,
+    "http": true,
+    "contention": true,
+    "review": true
+  },
+  "evidence": [
+    {
+      "file": "go-tests.log",
+      "sha256": "f6d07e26a9983a830ca72dd4861820712956e5b1746a6ceb99476057025c7629",
+      "bytes": 326818
+    },
+    {
+      "file": "go-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "web-tests.log",
+      "sha256": "b94e580c5600c81f40923cdca5e9ab115edca20823a9289a1b4fa744c447b93d",
+      "bytes": 17166
+    },
+    {
+      "file": "http-smoke.log",
+      "sha256": "4215e5929d7f0de055ddd871ca800092beed454e3f192d7101d465944f30e702",
+      "bytes": 500
+    },
+    {
+      "file": "contention-repeat.log",
+      "sha256": "bdc6e9ad1aa2f14e3d00c9ec36aae47f9e159461200f0ff868d44df8b7bab4f6",
+      "bytes": 15906
+    },
+    {
+      "file": "go-vet.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "notes": [
+    "Historical diagnostic/demo failure logs remain unchanged. User-confirmed X01 supersedes cash-only repair expectations; formal current-contract tests are authoritative.",
+    "The initial comparable demo baseline is 41 tests with 20 pass/21 fail; the later sale-gate correction separately has 44 tests with 42 pass/2 fail before and 44 pass/0 fail after.",
+    "source-before-tests.json captures 119 baseline paths before backend execution; source-final.json adds the five current owned files and verifies final agent/reviewer hashes."
+  ]
+}

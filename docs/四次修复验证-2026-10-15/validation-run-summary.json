@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "steps": [
+    {
+      "name": "go-version",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "version"
+      ]
+    },
+    {
+      "name": "test-database-start",
+      "exitCode": 0,
+      "command": [
+        "docker",
+        "run",
+        "--detach",
+        "--rm",
+        "--name",
+        "jobs-v38-fix4-tidb-1792068955072",
+        "--publish",
+        "127.0.0.1:14048:4000",
+        "--publish",
+        "127.0.0.1:18088:10080",
+        "pingcap/tidb:v8.5.8",
+        "--store=unistore",
+        "--path=/tmp/tidb-fix4",
+        "--host=0.0.0.0",
+        "--status-host=0.0.0.0"
+      ]
+    },
+    {
+      "name": "http-smoke",
+      "exitCode": 0,
+      "command": [
+        "/opt/homebrew/Cellar/node/26.11.1/bin/node",
+        "Scripts/验证工作台.mjs"
+      ]
+    },
+    {
+      "name": "go-tests",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "-C",
+        "Server",
+        "test",
+        "-race",
+        "-p",
+        "1",
+        "-json",
+        "./...",
+        "-count=1"
+      ]
+    },
+    {
+      "name": "go-vet",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "-C",
+        "Server",
+        "vet",
+        "-p",
+        "1",
+        "./..."
+      ]
+    },
+    {
+      "name": "contention-repeat",
+      "exitCode": 0,
+      "command": [
+        "/Users/jobs/Desktop/啄木鸟维修平台-V3.8/Tools/go/bin/go",
+        "-C",
+        "Server",
+        "test",
+        "-race",
+        "-json",
+        "./internal/repository",
+        "-run",
+        "^TestRepositoryContract$/^tidb-optimistic$",
+        "-count=10"
+      ]
+    },
+    {
+      "name": "test-database-stop",
+      "exitCode": 0,
+      "command": [
+        "docker",
+        "rm",
+        "--force",
+        "jobs-v38-fix4-tidb-1792068955072"
+      ]
+    }
+  ],
+  "backendOnly": true,
+  "matchesPreviousFix": false,
+  "changedFromRegression": [
+    "Server/internal/workbench/actions.go",
+    "Server/internal/workbench/inventory.go",
+    "Server/internal/workbench/models.go",
+    "Server/internal/workbench/permissions.go",
+    "Server/internal/workbench/query.go",
+    "Server/internal/workbench/service.go",
+    "Workspace/app.js",
+    "Workspace/data.js",
+    "Workspace/tests/app.test.cjs"
+  ],
+  "database": {
+    "container": "jobs-v38-fix4-tidb-1792068955072",
+    "sqlPort": 14048,
+    "statusPort": 18088,
+    "syntheticOnly": true,
+    "ready": true,
+    "removed": true
+  },
+  "go": {
+    "rootsPassed": 109,
+    "passResults": 315,
+    "failResults": 0,
+    "skipResults": 0,
+    "packagesWithoutTests": 6
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "pendingDelay": 0,
+  "held": false,
+  "released": 1,
+  "events": [
+    {
+      "type": "detail_requested",
+      "at": 1791974890670
+    },
+    {
+      "type": "detail_released",
+      "at": 1791974891881
+    }
+  ],
+  "verifiedPage": "现金与票据",
+  "lateForm": "编辑工单备注",
+  "apiTimeoutMs": 15000,
+  "delayMs": 1200
+}

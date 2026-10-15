@@ -1,0 +1,16 @@
+{
+  "changedBaselineFiles": [
+    "Server/cmd/workbench/main.go",
+    "Server/internal/workbench/http.go",
+    "Server/internal/workbench/models.go",
+    "Server/internal/workbench/seed.go",
+    "Server/internal/workbench/service.go",
+    "Server/internal/workbench/storage.go",
+    "Server/internal/workbench/storage_test.go",
+    "Workspace/app.js",
+    "Workspace/index.html",
+    "Workspace/styles.css"
+  ],
+  "unexpectedChanges": [],
+  "comparison": "prior regression source-sha256.json"
+}

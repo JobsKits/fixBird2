@@ -1,0 +1,60 @@
+{
+  "startedClientDate": "2026-10-14",
+  "reportClientDate": "2026-10-15",
+  "go": {
+    "exitCode": 0,
+    "rootsPassed": 95,
+    "passResults": 234,
+    "failResults": 0,
+    "skippedTests": 0
+  },
+  "web": {
+    "tests": 66,
+    "pass": 66,
+    "fail": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "http": {
+    "groups": 6,
+    "exitCode": 0
+  },
+  "legacyContention": {
+    "iterations": 10,
+    "pass": 10,
+    "fail": 0,
+    "exitCode": 0
+  },
+  "vet": {
+    "exitCode": 0
+  },
+  "syntax": {
+    "exitCode": 0
+  },
+  "nativeBuild": {
+    "exitCode": 0,
+    "platform": "darwin-arm64"
+  },
+  "frontendExtra": {
+    "addedScenarios": 10,
+    "passed": 8,
+    "failedProtectionExpectations": 2,
+    "expectedRejectionsPassed": 4,
+    "directedR3F01Executions": 2,
+    "directedR3F01Reproduced": 2
+  },
+  "backendExtra": {
+    "completed": true,
+    "roots": 6,
+    "children": 18,
+    "passResults": 24,
+    "failResults": 0,
+    "skipResults": 0,
+    "exitCode": 0
+  },
+  "overallPassed": false,
+  "confirmedFindings": [
+    "R3-F01",
+    "R3-F02"
+  ]
+}

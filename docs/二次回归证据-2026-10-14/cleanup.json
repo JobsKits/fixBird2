@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-14",
+  "ownedBrowserBackendAndProxyStopped": true,
+  "ownedBrowserTabClosed": true,
+  "browserTimeoutRestored": 2500,
+  "ownedDatabaseRemoved": true,
+  "originalContainersPreserved": [
+    "repair-marketplace-api-1",
+    "repair-marketplace-tidb-1"
+  ],
+  "temporaryDirectories": [
+    {
+      "path": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-regression2-browser-YuxG7k",
+      "removed": true
+    },
+    {
+      "path": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-regression2-supplemental-ZRybOa",
+      "removed": true
+    },
+    {
+      "path": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/v38-permissions-second-h3GSK3",
+      "removed": true
+    },
+    {
+      "path": "/private/tmp/v38-second-restore.r7x6Zh",
+      "removed": true
+    }
+  ],
+  "runtimeRead": false,
+  "runtimeModified": false,
+  "productSourceModified": false,
+  "documentPreviewStopped": true,
+  "documentPreviewTabClosed": true
+}

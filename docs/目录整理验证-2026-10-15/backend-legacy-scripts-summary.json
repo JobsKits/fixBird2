@@ -1,0 +1,9 @@
+{
+  "status": 0,
+  "signal": null,
+  "cwd": "/tmp",
+  "script": "验证/旧版基线/validate.mjs --scripts-only",
+  "output": "[验证] 1 个 PowerShell 入口的 UTF-8 BOM\n[跳过] 本机没有 PowerShell；未执行 Windows 实际解析，不计为通过\n[验证] 1 个 Shell 文件语法\n\n验证结束：0 项失败，1 项跳过，0 项原生能力未提供。没有运行部署、迁移、卸载或 App 打包。\n",
+  "stderr": "",
+  "scope": "Syntax/parser only, never executes deployment scripts or old API smoke."
+}

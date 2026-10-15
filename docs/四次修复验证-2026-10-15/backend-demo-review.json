@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-15",
+  "completed": true,
+  "mode": "read_only_cross_review",
+  "reviewer": "r4_fix_backend",
+  "scope": [
+    "D01 unresolved-issue gates",
+    "D02 quote acceptance deadlines and previously signed execution",
+    "D03 unsettled commissions",
+    "D04 reopening review obligation",
+    "D05 fresh rework child",
+    "B02 inclusive Chinese cutoff date",
+    "X01 explicit repair prepayment agreement and unchanged sales gates",
+    "shared loanBlockingQuantity/refreshOrder"
+  ],
+  "sources": [
+    {
+      "path": "Workspace/data.js",
+      "sha256": "f0b47600f010e73e474b3d1a7d92ec7c6eaabdfb69db30776a2b14f30095f46f",
+      "matchesFrozen": true
+    },
+    {
+      "path": "Workspace/tests/data-boundaries.test.cjs",
+      "sha256": "aa3c69df1acd10b37dd6f2ee9f2a6b6f92797a8993e3666fad6df1eeb2036081",
+      "matchesFrozen": true
+    }
+  ],
+  "backendFrozenUnchanged": true,
+  "evidenceSnapshots": {
+    "dataMatchesAfterEvidence": true,
+    "testMatchesAfterEvidence": true
+  },
+  "checks": [
+    {
+      "id": "D01",
+      "result": "pass",
+      "basis": "apply start/stock_ready/deliver/accept call noIssues before transition/inventory mutation; formal guards assert original input and ledger unchanged, resolved-positive controls pass."
+    },
+    {
+      "id": "D02",
+      "result": "pass",
+      "basis": "approve_quote/sign_quote enforce quoteDeadline, including date-only legacy Chinese final-day handling; start/stock_ready preserve previously accepted terms after deadline, matching backend contract."
+    },
+    {
+      "id": "D03",
+      "result": "pass",
+      "basis": "derive includes each unsettled commission regardless of unsupported transferred marker; settling remains blocked until actual settle_commission and manual complete."
+    },
+    {
+      "id": "D04",
+      "result": "pass",
+      "basis": "reopen appends a responsible review obligation and preserves original history/outcome/warranty; refreshOrder cannot return pending_completion before resolution."
+    },
+    {
+      "id": "D05",
+      "result": "pass",
+      "basis": "rework uses fresh createOrder with stable customer/device/type links, resets quote/receivable/cash/invoices/evidence/outsource/costs/commissions/issues/obligations/warranty/summary and does not mutate parent."
+    },
+    {
+      "id": "B02",
+      "result": "pass",
+      "basis": "derive compares China calendar dates; both endsAt/endAt compatibility retain coverage through cutoff day and expire at next-day midnight. Backend warrantyActive uses equivalent Chinese date boundary without rewriting historical dates."
+    },
+    {
+      "id": "X01",
+      "result": "pass_after_correction",
+      "basis": "repair requires verified net prepay only for strict true agreement; missing/false does not imply a gate from cash terms or legacy positive prepay. Sales retain prepay gate; cash-sale total gate now uses quote.amountCents, matching backend executionReady and independent of receivable adjustment."
+    },
+    {
+      "id": "shared-loan-refresh",
+      "result": "pass",
+      "basis": "loanBlockingQuantity subtracts tracked unresolved transfer quantity, prefers transfers[] with legacy transfer/boolean compatibility; derive and summary use shared count. refreshOrder recomputes settling/pending_completion after clearing loans while preserving completed phase and event/version history."
+    }
+  ],
+  "resolvedFinding": {
+    "id": "X01-sale-adjusted-receivable",
+    "initialSourceSHA256": "ba3f79d940d3c35c940d7c362c2c4fd0c7ff14c9e286f26769aa6334865ddf42",
+    "reproduction": {
+      "quoteAmount": 10000,
+      "adjustedReceivable": 5000,
+      "verifiedNetReceipts": 5000,
+      "initialDemoResult": "stock_ready allowed pending_delivery",
+      "expectedBackendResult": "prepayment_required"
+    },
+    "resolution": "Demo owner replaced adjustable remainingCents==0 with verified collectedCents>=quote.amountCents, retained prepay gate, and added down/up-adjustment plus refund/top-up controls.",
+    "evidence": {
+      "reportedBy": "r4_fix_backend cross-review",
+      "authorizedBy": "root authorized temporary unfreeze of only data.js and data-boundaries.test.cjs",
+      "before": {
+        "tests": 44,
+        "pass": 42,
+        "fail": 2,
+        "skip": 0,
+        "log": "demo-sale-gate-before.log",
+        "source": "demo-data-before-sale-gate.js",
+        "sha256": "ba3f79d940d3c35c940d7c362c2c4fd0c7ff14c9e286f26769aa6334865ddf42"
+      },
+      "after": {
+        "tests": 44,
+        "pass": 44,
+        "fail": 0,
+        "skip": 0,
+        "log": "demo-after.log"
+      },
+      "guards": [
+        "cash-sale quote total remains frozen payment threshold even when receivable is reduced or increased",
+        "cash-sale verified receipt/refund net amount below quote blocks, top-up restores permission",
+        "credit-sale existing prepay threshold remains unaffected by receivable adjustment and refunds"
+      ],
+      "reason": "stock_ready previously used adjustable receivable remaining==0; now uses verified net collected >= quote.amountCents while retaining independent prepay gate"
+    }
+  },
+  "unresolvedBlockers": [],
+  "formalEvidence": {
+    "command": "node --test Workspace/tests/data.test.cjs Workspace/tests/data-boundaries.test.cjs",
+    "tests": 44,
+    "pass": 44,
+    "fail": 0,
+    "skip": 0,
+    "original": 14,
+    "added": 30
+  },
+  "limits": [
+    "This is a targeted semantic/source review and evidence/hash check, not a second full test run. Root runs the final frozen full regression.",
+    "D06/D07 actual global form and interface timing behavior remain in root/frontend browser verification scope.",
+    "No services, containers, runtime data, business/test sources or index were changed by this review."
+  ]
+}

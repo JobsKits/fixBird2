@@ -1,0 +1,5 @@
+{
+  "temporaryDirectory": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/jobs-v38-regression2-supplemental-ZRybOa",
+  "scope": "read-only product copy + external diagnostics",
+  "initialDiagnosticCompileRepair": "removed unused net/http import from restore diagnostic; no product source change"
+}
