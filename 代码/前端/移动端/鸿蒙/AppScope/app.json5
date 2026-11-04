@@ -1,0 +1,10 @@
+{
+  "app": {
+    "bundleName": "com.jobs.repairworkbench",
+    "vendor": "Jobs",
+    "versionCode": 3800001,
+    "versionName": "3.8.1",
+    "icon": "$media:repair_logo",
+    "label": "$string:app_name"
+  }
+}

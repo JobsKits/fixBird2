@@ -1,0 +1,1623 @@
+{
+  "schema": 1,
+  "brand": "啄木鸟维修平台",
+  "adminTitle": "管理工作台",
+  "clientTitle": "维修服务",
+  "layout": {
+    "breakpoint": 900,
+    "sidebar": 224,
+    "padding": 24,
+    "mobilePadding": 16,
+    "radius": 16,
+    "detailWidth": 760
+  },
+  "colors": {
+    "primary": "#0F766E",
+    "background": "#F4F7F8",
+    "surface": "#FFFFFF",
+    "text": "#172B35",
+    "secondary": "#52636B",
+    "border": "#DBE4E7",
+    "darkBackground": "#121B20",
+    "darkSurface": "#1C2930",
+    "darkText": "#F3F6F7",
+    "darkSecondary": "#B4C3CC"
+  },
+  "navigation": [
+    {
+      "id": "overview",
+      "label": "概览"
+    },
+    {
+      "id": "orders",
+      "label": "工单"
+    },
+    {
+      "id": "inventory",
+      "label": "库存借还"
+    },
+    {
+      "id": "purchases",
+      "label": "采购"
+    },
+    {
+      "id": "settings",
+      "label": "设置"
+    }
+  ],
+  "metrics": [
+    {
+      "key": "openCount",
+      "label": "进行中"
+    },
+    {
+      "key": "settlingCount",
+      "label": "结算中"
+    },
+    {
+      "key": "remainingCents",
+      "label": "待收金额",
+      "money": true
+    },
+    {
+      "key": "readyCount",
+      "label": "待完结"
+    },
+    {
+      "key": "tasksCount",
+      "label": "待办事项"
+    },
+    {
+      "key": "blockedCount",
+      "label": "受阻工单"
+    }
+  ],
+  "roles": [
+    {
+      "id": "admin",
+      "label": "公司负责人"
+    },
+    {
+      "id": "dispatcher",
+      "label": "客服调度"
+    },
+    {
+      "id": "engineer",
+      "label": "自有工程师"
+    },
+    {
+      "id": "warehouse",
+      "label": "仓库管理员"
+    },
+    {
+      "id": "qc",
+      "label": "质检员"
+    },
+    {
+      "id": "finance",
+      "label": "财务人员"
+    },
+    {
+      "id": "customer",
+      "label": "海棠物业联系人"
+    },
+    {
+      "id": "customer-b",
+      "label": "青禾物业联系人"
+    },
+    {
+      "id": "outsource",
+      "label": "一手外包"
+    },
+    {
+      "id": "supplier",
+      "label": "配件供应商"
+    }
+  ],
+  "states": [
+    {
+      "value": "pending_intake",
+      "label": "待受理"
+    },
+    {
+      "value": "pending_arrangement",
+      "label": "待安排"
+    },
+    {
+      "value": "diagnosis_quotation",
+      "label": "检测／报价中"
+    },
+    {
+      "value": "pending_customer_confirmation",
+      "label": "待客户确认"
+    },
+    {
+      "value": "pending_execution",
+      "label": "待执行"
+    },
+    {
+      "value": "repairing",
+      "label": "维修中"
+    },
+    {
+      "value": "pending_quality_check",
+      "label": "待质检"
+    },
+    {
+      "value": "pending_delivery",
+      "label": "待交付"
+    },
+    {
+      "value": "pending_acceptance",
+      "label": "待验收"
+    },
+    {
+      "value": "settling",
+      "label": "结算中"
+    },
+    {
+      "value": "pending_completion",
+      "label": "待完结确认"
+    },
+    {
+      "value": "completed",
+      "label": "已完结"
+    }
+  ],
+  "createOrder": [
+    {
+      "key": "type",
+      "label": "服务类型",
+      "type": "select",
+      "value": "mail",
+      "required": true,
+      "options": [
+        {
+          "value": "mail",
+          "label": "寄修"
+        },
+        {
+          "value": "onsite",
+          "label": "上门"
+        },
+        {
+          "value": "sale",
+          "label": "销售"
+        }
+      ]
+    },
+    {
+      "key": "customer",
+      "label": "客户名称",
+      "type": "text",
+      "value": "海棠物业（合成）",
+      "required": true
+    },
+    {
+      "key": "customerId",
+      "label": "客户账号",
+      "type": "text",
+      "value": "customer",
+      "required": true
+    },
+    {
+      "key": "companyId",
+      "label": "客户企业编号",
+      "type": "text",
+      "value": "company-a",
+      "required": true
+    },
+    {
+      "key": "project",
+      "label": "项目位置",
+      "type": "text",
+      "value": "",
+      "required": true
+    },
+    {
+      "key": "device",
+      "label": "设备名称",
+      "type": "text",
+      "value": "",
+      "required": true
+    },
+    {
+      "key": "description",
+      "label": "故障描述",
+      "type": "textarea",
+      "value": "",
+      "required": true
+    },
+    {
+      "key": "customerNote",
+      "label": "对客说明",
+      "type": "textarea",
+      "value": "",
+      "required": false
+    }
+  ],
+  "actions": [
+    {
+      "type": "intake",
+      "label": "受理工单",
+      "fields": [
+        {
+          "key": "ownerId",
+          "label": "负责人账号",
+          "type": "text",
+          "value": "dispatcher",
+          "required": true
+        },
+        {
+          "key": "assigneeId",
+          "label": "工程师账号",
+          "type": "text",
+          "value": "engineer",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "receive",
+      "label": "确认收件",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "assign",
+      "label": "指派工程师",
+      "fields": [
+        {
+          "key": "assigneeId",
+          "label": "工程师账号",
+          "type": "text",
+          "value": "engineer",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "diagnose",
+      "label": "开始检测",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "report",
+      "label": "检测报告",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "label": "制定报价",
+      "fields": [
+        {
+          "key": "amountCents",
+          "label": "报价总额（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "description",
+          "label": "报价范围",
+          "type": "textarea",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "warrantyMonths",
+          "label": "质保月数",
+          "type": "int",
+          "value": 3,
+          "required": true
+        },
+        {
+          "key": "paymentTerms",
+          "label": "付款方式",
+          "type": "select",
+          "value": "credit",
+          "required": true,
+          "options": [
+            {
+              "value": "cash",
+              "label": "现款"
+            },
+            {
+              "value": "credit",
+              "label": "账期"
+            }
+          ]
+        },
+        {
+          "key": "prepayCents",
+          "label": "约定预付款（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "startRequiresPrepayment",
+          "label": "先款后开修",
+          "type": "bool",
+          "value": false,
+          "required": false
+        },
+        {
+          "key": "validUntil",
+          "label": "报价有效期",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "autoAccept",
+          "label": "同意到期自动验收",
+          "type": "bool",
+          "value": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "approve_quote",
+      "label": "批准报价",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "sign_quote",
+      "label": "签署报价",
+      "fields": [
+        {
+          "key": "signature",
+          "label": "请手写签名",
+          "type": "signature",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "quoteVersion",
+          "label": "当前报价版本",
+          "type": "int",
+          "value": 1,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "start",
+      "label": "开始维修",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "finish",
+      "label": "维修完成",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "qc",
+      "label": "质检",
+      "fields": [
+        {
+          "key": "passed",
+          "label": "质检通过",
+          "type": "bool",
+          "value": true,
+          "required": false
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "stock_ready",
+      "label": "销售出库",
+      "fields": [
+        {
+          "key": "partId",
+          "label": "配件编号",
+          "type": "text",
+          "value": "part-power",
+          "required": true
+        },
+        {
+          "key": "quantity",
+          "label": "出库数量",
+          "type": "int",
+          "value": 1,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "dispatch",
+      "label": "登记发货",
+      "fields": [
+        {
+          "key": "carrier",
+          "label": "承运人",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "tracking",
+          "label": "运单号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "deliver",
+      "label": "确认交付",
+      "fields": [
+        {
+          "key": "deliveredAt",
+          "label": "交付时间",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "accept",
+      "label": "客户验收",
+      "fields": [
+        {
+          "key": "signature",
+          "label": "请手写签名",
+          "type": "signature",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "passed",
+          "label": "验收通过",
+          "type": "bool",
+          "value": true,
+          "required": false
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "requirements",
+      "label": "资料与发票约定",
+      "fields": [
+        {
+          "key": "documentRequirement",
+          "label": "资料要求",
+          "type": "select",
+          "value": "unknown",
+          "required": true,
+          "options": [
+            {
+              "value": "unknown",
+              "label": "待确认"
+            },
+            {
+              "value": "required",
+              "label": "需要"
+            },
+            {
+              "value": "none",
+              "label": "不需要"
+            }
+          ]
+        },
+        {
+          "key": "documentReason",
+          "label": "资料约定原因",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "invoiceRequirement",
+          "label": "发票要求",
+          "type": "select",
+          "value": "unknown",
+          "required": true,
+          "options": [
+            {
+              "value": "unknown",
+              "label": "待确认"
+            },
+            {
+              "value": "required",
+              "label": "需要"
+            },
+            {
+              "value": "none",
+              "label": "不需要"
+            }
+          ]
+        },
+        {
+          "key": "invoiceReason",
+          "label": "发票约定原因",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "invoiceDueCents",
+          "label": "应开票金额（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "documents",
+      "label": "办理付款资料",
+      "fields": [
+        {
+          "key": "prepared",
+          "label": "资料已制作",
+          "type": "bool",
+          "value": false,
+          "required": false
+        },
+        {
+          "key": "sent",
+          "label": "资料已发送",
+          "type": "bool",
+          "value": false,
+          "required": false
+        },
+        {
+          "key": "recipient",
+          "label": "接收对象",
+          "type": "text",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "files",
+          "label": "原件编号（英文逗号分隔）",
+          "type": "list",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "cash",
+      "label": "登记收退款",
+      "fields": [
+        {
+          "key": "amountCents",
+          "label": "金额（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "kind",
+          "label": "资金方向",
+          "type": "select",
+          "value": "receipt",
+          "required": true,
+          "options": [
+            {
+              "value": "receipt",
+              "label": "收款"
+            },
+            {
+              "value": "refund",
+              "label": "退款"
+            }
+          ]
+        },
+        {
+          "key": "purpose",
+          "label": "款项用途",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "receipt",
+          "label": "收据凭证",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "occurredAt",
+          "label": "发生时间",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "verify_cash",
+      "label": "核实收退款",
+      "fields": [
+        {
+          "key": "cashId",
+          "label": "现金记录编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "handover_cash",
+      "label": "内部交接",
+      "fields": [
+        {
+          "key": "cashId",
+          "label": "现金记录编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "invoice",
+      "label": "登记发票",
+      "fields": [
+        {
+          "key": "number",
+          "label": "发票号码",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "amountCents",
+          "label": "发票金额（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "files",
+          "label": "发票原件编号（英文逗号分隔）",
+          "type": "list",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "void_invoice",
+      "label": "红冲发票",
+      "fields": [
+        {
+          "key": "invoiceId",
+          "label": "发票记录编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "红冲原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "adjust_receivable",
+      "label": "调整应收",
+      "fields": [
+        {
+          "key": "amountCents",
+          "label": "调整后应收（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "调整原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "remark",
+      "label": "更新备注",
+      "fields": [
+        {
+          "key": "remark",
+          "label": "内部备注",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "customerNote",
+          "label": "对客说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "evidence",
+      "label": "上传资料",
+      "fields": [
+        {
+          "key": "name",
+          "label": "资料名称",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "kind",
+          "label": "资料类型",
+          "type": "select",
+          "value": "text",
+          "required": true,
+          "options": [
+            {
+              "value": "text",
+              "label": "文字"
+            },
+            {
+              "value": "image",
+              "label": "图片"
+            },
+            {
+              "value": "document",
+              "label": "文档"
+            },
+            {
+              "value": "video",
+              "label": "视频"
+            },
+            {
+              "value": "audio",
+              "label": "音频"
+            }
+          ]
+        },
+        {
+          "key": "text",
+          "label": "文字内容",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "mime",
+          "label": "文件MIME类型",
+          "type": "text",
+          "value": "text/plain",
+          "required": false
+        },
+        {
+          "key": "data",
+          "label": "选择文件",
+          "type": "file",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "public",
+          "label": "对客户公开",
+          "type": "bool",
+          "value": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "delete_evidence",
+      "label": "删除资料",
+      "fields": [
+        {
+          "key": "evidenceId",
+          "label": "资料编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "删除原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "issue",
+      "label": "登记异议",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "ownerId",
+          "label": "责任人账号",
+          "type": "text",
+          "value": "dispatcher",
+          "required": true
+        },
+        {
+          "key": "dueAt",
+          "label": "办理期限",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "resolve_issue",
+      "label": "解决异议",
+      "fields": [
+        {
+          "key": "issueId",
+          "label": "异议编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "failure",
+      "label": "停止履约",
+      "fields": [
+        {
+          "key": "reason",
+          "label": "停止原因",
+          "type": "select",
+          "value": "customer_refused",
+          "required": true,
+          "options": [
+            {
+              "value": "customer_refused",
+              "label": "客户不修"
+            },
+            {
+              "value": "company_refused",
+              "label": "公司拒修"
+            },
+            {
+              "value": "unrepairable",
+              "label": "技术不能修"
+            },
+            {
+              "value": "cancelled",
+              "label": "取消"
+            },
+            {
+              "value": "negotiated",
+              "label": "协商停止"
+            }
+          ]
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "amountCents",
+          "label": "协商费用（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "returnRequired",
+          "label": "需要退件",
+          "type": "bool",
+          "value": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "obligation",
+      "label": "新增余项",
+      "fields": [
+        {
+          "key": "title",
+          "label": "余项标题",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "ownerId",
+          "label": "责任人账号",
+          "type": "text",
+          "value": "dispatcher",
+          "required": true
+        },
+        {
+          "key": "dueAt",
+          "label": "办理期限",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "resolve_obligation",
+      "label": "办理余项",
+      "fields": [
+        {
+          "key": "obligationId",
+          "label": "余项编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "visit",
+      "label": "安排上门",
+      "fields": [
+        {
+          "key": "plannedAt",
+          "label": "计划上门时间",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "feeMemo",
+          "label": "差旅费用说明",
+          "type": "text",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "reason",
+          "label": "改约原因",
+          "type": "text",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "start_visit",
+      "label": "开始上门",
+      "fields": [
+        {
+          "key": "visitId",
+          "label": "行程编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "outsource",
+      "label": "转包登记",
+      "fields": [
+        {
+          "key": "provider",
+          "label": "承接方",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "contact",
+          "label": "联系方式",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "destination",
+          "label": "维修去向",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "cost",
+      "label": "登记成本",
+      "fields": [
+        {
+          "key": "category",
+          "label": "成本类别",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "amountCents",
+          "label": "成本金额（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "approve_cost",
+      "label": "审核成本",
+      "fields": [
+        {
+          "key": "costId",
+          "label": "成本记录编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "label": "登记提成",
+      "fields": [
+        {
+          "key": "person",
+          "label": "提成人员",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "amountCents",
+          "label": "提成金额（元）",
+          "type": "money",
+          "value": 0,
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "settle_commission",
+      "label": "结清提成",
+      "fields": [
+        {
+          "key": "commissionId",
+          "label": "提成记录编号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "complete",
+      "label": "整单完结",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "reopen",
+      "label": "重开工单",
+      "fields": [
+        {
+          "key": "reason",
+          "label": "重开原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "rework",
+      "label": "创建返修",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        },
+        {
+          "key": "free",
+          "label": "有效质保内免费",
+          "type": "bool",
+          "value": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "review_acceptance",
+      "label": "核实恢复验收",
+      "fields": [
+        {
+          "key": "note",
+          "label": "办理说明",
+          "type": "textarea",
+          "value": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "type": "handover_contact",
+      "label": "交接客户经办人",
+      "fields": [
+        {
+          "key": "customerId",
+          "label": "接替客户账号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "交接原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "loan": [
+    {
+      "key": "orderId",
+      "label": "关联工单编号",
+      "type": "text",
+      "value": "",
+      "required": false
+    },
+    {
+      "key": "partId",
+      "label": "配件编号",
+      "type": "text",
+      "value": "part-board",
+      "required": true
+    },
+    {
+      "key": "quantity",
+      "label": "借用数量",
+      "type": "int",
+      "value": 1,
+      "required": true
+    },
+    {
+      "key": "borrowerId",
+      "label": "工程师账号",
+      "type": "text",
+      "value": "engineer",
+      "required": true
+    },
+    {
+      "key": "dueAt",
+      "label": "预计归还时间",
+      "type": "datetime",
+      "value": "",
+      "required": true
+    },
+    {
+      "key": "note",
+      "label": "办理说明",
+      "type": "textarea",
+      "value": "",
+      "required": false
+    }
+  ],
+  "loanActions": [
+    {
+      "type": "return",
+      "label": "归还配件",
+      "fields": [
+        {
+          "key": "quantity",
+          "label": "归还数量",
+          "type": "int",
+          "value": 1,
+          "required": true
+        },
+        {
+          "key": "condition",
+          "label": "归还状态",
+          "type": "select",
+          "value": "good",
+          "required": true,
+          "options": [
+            {
+              "value": "good",
+              "label": "完好"
+            },
+            {
+              "value": "quarantine",
+              "label": "待检"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "consume",
+      "label": "转维修耗用",
+      "fields": [
+        {
+          "key": "quantity",
+          "label": "耗用数量",
+          "type": "int",
+          "value": 1,
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "批准原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "dispose",
+      "label": "批准处置",
+      "fields": [
+        {
+          "key": "quantity",
+          "label": "处置数量",
+          "type": "int",
+          "value": 1,
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "批准原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "label": "转独立跟踪",
+      "fields": [
+        {
+          "key": "quantity",
+          "label": "转出数量",
+          "type": "int",
+          "value": 1,
+          "required": true
+        },
+        {
+          "key": "ownerId",
+          "label": "责任人账号",
+          "type": "text",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "dueAt",
+          "label": "跟踪期限",
+          "type": "datetime",
+          "value": "",
+          "required": true
+        },
+        {
+          "key": "reason",
+          "label": "批准原因",
+          "type": "text",
+          "value": "",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "purchase": [
+    {
+      "key": "supplier",
+      "label": "供应商账号",
+      "type": "text",
+      "value": "supplier",
+      "required": true
+    },
+    {
+      "key": "partId",
+      "label": "配件编号",
+      "type": "text",
+      "value": "part-board",
+      "required": true
+    },
+    {
+      "key": "quantity",
+      "label": "采购数量",
+      "type": "int",
+      "value": 1,
+      "required": true
+    },
+    {
+      "key": "unitCents",
+      "label": "采购单价（元）",
+      "type": "money",
+      "value": 0,
+      "required": true
+    },
+    {
+      "key": "note",
+      "label": "办理说明",
+      "type": "textarea",
+      "value": "",
+      "required": false
+    }
+  ],
+  "receivePurchase": [
+    {
+      "key": "quantity",
+      "label": "本次收货数量",
+      "type": "int",
+      "value": 1,
+      "required": true
+    },
+    {
+      "key": "note",
+      "label": "办理说明",
+      "type": "textarea",
+      "value": "",
+      "required": false
+    }
+  ],
+  "labels": {
+    "reload": "重新加载",
+    "create": "新建工单",
+    "logout": "退出",
+    "emptyTitle": "暂时没有记录",
+    "emptyBody": "可以调整筛选条件，或重新加载。",
+    "submit": "确认提交",
+    "cancel": "取消",
+    "search": "搜索工单号、客户、设备",
+    "sourceOnline": "服务端数据",
+    "sourceDemo": "独立合成演示"
+  },
+  "seed": {
+    "parts": [
+      {
+        "id": "part-board",
+        "name": "工业控制主板",
+        "sku": "PCB-38",
+        "available": 28,
+        "quarantine": 1
+      },
+      {
+        "id": "part-sensor",
+        "name": "温度传感器",
+        "sku": "SNS-24",
+        "available": 64,
+        "quarantine": 0
+      },
+      {
+        "id": "part-power",
+        "name": "24V 电源模块",
+        "sku": "PWR-24",
+        "available": 16,
+        "quarantine": 0
+      }
+    ],
+    "orders": [
+      {
+        "id": "demo-intake",
+        "number": "DEMO-0001",
+        "type": "onsite",
+        "customer": "海棠物业（合成）",
+        "customerId": "customer",
+        "companyId": "company-a",
+        "project": "松风花园 · 机房",
+        "device": "变频水泵控制柜",
+        "description": "频繁跳闸，预约现场检测",
+        "status": "pending_intake",
+        "version": 1
+      },
+      {
+        "id": "demo-quote",
+        "number": "DEMO-0002",
+        "type": "mail",
+        "customer": "海棠物业（合成）",
+        "customerId": "customer",
+        "companyId": "company-a",
+        "project": "海棠中心 · 中控",
+        "device": "工业控制主板",
+        "description": "上电无响应，需要检测与维修报价",
+        "status": "pending_customer_confirmation",
+        "version": 1,
+        "quote": {
+          "version": 1,
+          "amountCents": 128000,
+          "description": "板级维修与老化测试",
+          "warrantyMonths": 3,
+          "paymentTerms": "credit",
+          "prepayCents": 0,
+          "startRequiresPrepayment": false,
+          "approved": true,
+          "signed": false
+        }
+      },
+      {
+        "id": "demo-repair",
+        "number": "DEMO-0003",
+        "type": "onsite",
+        "customer": "海棠物业（合成）",
+        "customerId": "customer",
+        "companyId": "company-a",
+        "project": "松风花园 · 地库",
+        "device": "排污泵控制系统",
+        "description": "现场更换故障传感器",
+        "status": "repairing",
+        "version": 1,
+        "quote": {
+          "version": 1,
+          "amountCents": 68000,
+          "signed": true,
+          "approved": true
+        }
+      }
+    ],
+    "loans": [],
+    "purchases": [
+      {
+        "id": "demo-purchase",
+        "version": 1,
+        "supplier": "supplier",
+        "partId": "part-board",
+        "quantity": 10,
+        "received": 4,
+        "unitCents": 32000,
+        "note": "合成采购，支持分批收货"
+      }
+    ]
+  }
+}

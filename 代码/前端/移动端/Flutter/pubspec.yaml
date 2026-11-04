@@ -1,0 +1,17 @@
+name: repair_client
+description: 啄木鸟维修平台 Flutter 客户与工程师端。
+publish_to: none
+version: 1.0.0+1
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  repair_shared:
+    path: ../../共享组件/Flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: 6.0.0
+flutter:
+  uses-material-design: true

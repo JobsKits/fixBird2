@@ -1,8 +1,0 @@
-{
-  "syntheticOnly": true,
-  "accountId": "customer",
-  "status": "disabled",
-  "authVersion": 2,
-  "revokeStatus": 200,
-  "adminLogoutStatus": 200
-}

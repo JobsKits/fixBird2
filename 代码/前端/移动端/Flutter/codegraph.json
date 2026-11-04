@@ -1,0 +1,31 @@
+{
+  "exclude": [
+    "**/node_modules/**",
+    "**/vendor/**",
+    "**/Pods/**",
+    "**/JobsByPods/**",
+    "**/ManualBy*Pods@Pods/**",
+    "**/PodsManual/**",
+    "**/DerivedData/**",
+    "**/Dist/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.build/**",
+    "**/.dart_tool/**",
+    "**/.gradle/**",
+    "**/oh_modules/**",
+    "**/.hvigor/**",
+    "**/.runtime/**",
+    "**/.cache/**",
+    "**/代码地图/**",
+    "**/工程说明/**",
+    "**/私库说明/**",
+    "**/*阅读版.html",
+    "**/*.md",
+    "**/*.min.js",
+    "**/*.g.dart",
+    "**/*.freezed.dart",
+    "**/GeneratedPluginRegistrant.*",
+    "**/*.log"
+  ]
+}
