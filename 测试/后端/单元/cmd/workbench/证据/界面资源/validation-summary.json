@@ -1,0 +1,113 @@
+{
+  "source": "代码/后端/后端代码/cmd/workbench/web.go",
+  "externalTest": "测试/后端/单元/cmd/workbench/web_test.go",
+  "goVersion": "go1.27.3 darwin/arm64 (existing private SDK; read only)",
+  "isolation": "stdlib-only temporary module; Go overlay maps current web.go and external web_test.go without copying tests into business source",
+  "targetedTests": "PASS: 3 top-level tests; 4 public resources and 6 rejected private/directory/traversal paths; current files verified over real TCP HTTP",
+  "fullCmdPackage": "PASS: current full cmd/workbench package via canonical overlay; clear_storage_test.go and web_test.go discovered; 3 top-level tests and 19 subtests passed",
+  "cacheScope": "chat work/li-ui/go-cache, go-modcache, go-path, go-tmp only",
+  "sourceSHA256": "975cbce4175e1d2d4b781e61068744a9232e74c3d9c38e5611dc02e1d09a6c40",
+  "testSHA256": "714410f175b603242ee7c22438b2f2b22ce096c6419e42a0aa700f42397fc875",
+  "routeActivation": "new binary built for review only; formal service was not restarted; switch to the new binary is required for compiled routes to activate",
+  "testSourceSnapshot": "chat work/li-ui/source-before/cmd/workbench/web_test.go",
+  "moduleVerification": "PASS: go mod verify; complete locked cache copied read-only from existing user cache into chat-only GOMODCACHE",
+  "moduleProxyAttempt": "official proxy timed out over IPv6 and IPv4; complete existing locked cache resolved this without network or version changes",
+  "overlayPathNote": "existing runner used Github path while Go canonicalized package directory to GitHub; this run used Go list Dir to generate temporary overlay keys; project runner itself was not modified",
+  "binaryBuild": {
+    "binary": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-build/repair-workbench-resource-check",
+    "bytes": 11101410,
+    "sha256": "c58c46b108a26853b02beb41488e84ee3f2580c5033f64d03313eec2e84c60c7",
+    "goVersion": "go1.27.3 darwin/arm64",
+    "lockedFilesUnchanged": {
+      "go.mod": "f1522c039a095e803b0035161f04433820dacc2dcc9854dd49209853a9d3ecd8",
+      "go.sum": "93779260042a577fef01fdad0e20564598846e018fe3d2e035c491c5fbbc1863"
+    },
+    "formalServiceRestarted": false
+  },
+  "httpResources": [
+    {
+      "bytes": 17772300,
+      "matchesBundledFile": true,
+      "mime": "font/ttf",
+      "name": "NotoSansSC.ttf",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "status": 200
+    },
+    {
+      "bytes": 16437364,
+      "matchesBundledFile": true,
+      "mime": "font/otf",
+      "name": "NotoSansCJKsc-Regular.otf",
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+      "status": 200
+    },
+    {
+      "bytes": 2063504,
+      "matchesBundledFile": true,
+      "mime": "font/ttf",
+      "name": "NotoSerifTibetan.ttf",
+      "sha256": "060ec022b04c306de3f58d051fb0e1cf81a5b610c5910fbfc43bba154c057cda",
+      "status": 200
+    },
+    {
+      "bytes": 1581153,
+      "matchesBundledFile": true,
+      "mime": "application/json; charset=utf-8",
+      "name": "ui-l10n.json",
+      "sha256": "d6e0d20257bd8878745c91200f95da2832243d683241e3333d806ffcae76f819",
+      "status": 200
+    }
+  ],
+  "previewPorts": {
+    "18731": "not listening; originally served actual Chen Dist; not restarted",
+    "18732": "not listening; originally served chat work-copy builds; not restarted"
+  },
+  "catalog": {
+    "languages": 10,
+    "translatedLanguages": {
+      "zh-Hant": 2069,
+      "bo": 2069,
+      "en": 2069,
+      "ja": 2069,
+      "fr": 2069,
+      "es": 2069,
+      "de": 2069,
+      "ru": 2069,
+      "ko": 2069
+    },
+    "sha256": "d6e0d20257bd8878745c91200f95da2832243d683241e3333d806ffcae76f819"
+  },
+  "fullCmdTestInvocation": {
+    "command": [
+      "/Users/jobs/Documents/Github/学术服务平台/代码/后端/后端代码/.tools/go1.27.3/bin/go",
+      "-C",
+      "/Users/jobs/Documents/Github/啄木鸟维修平台-V3.8/代码/后端/后端代码",
+      "test",
+      "-overlay",
+      "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-full-overlay.json",
+      "-mod=readonly",
+      "-count=1",
+      "-timeout=10m",
+      "-v",
+      "./cmd/workbench"
+    ],
+    "environment": {
+      "GOCACHE": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-cache",
+      "GOMODCACHE": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-modcache",
+      "GOPATH": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-path",
+      "GOTMPDIR": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-tmp"
+    },
+    "network": {
+      "GOPROXY": "off",
+      "GOSUMDB": "off",
+      "GOTOOLCHAIN": "local",
+      "GOTELEMETRY": "off"
+    },
+    "testGoFiles": [
+      "clear_storage_test.go",
+      "web_test.go"
+    ],
+    "regularRunnerResult": "not counted as passing tests: it reported [no test files]; project runner was not modified",
+    "canonicalOverlayFile": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-full-overlay.json"
+  }
+}

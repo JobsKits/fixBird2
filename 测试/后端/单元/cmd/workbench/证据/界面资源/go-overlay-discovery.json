@@ -1,0 +1,11 @@
+{
+  "Dir": "/Users/jobs/Documents/GitHub/啄木鸟维修平台-V3.8/代码/后端/后端代码/cmd/workbench",
+  "GoFiles": [
+    "main.go",
+    "web.go"
+  ],
+  "TestGoFiles": [
+    "clear_storage_test.go",
+    "web_test.go"
+  ]
+}

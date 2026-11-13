@@ -15,6 +15,7 @@
           "'": "&#39;",
         })[c],
     );
+  const business = (value) => '<span data-no-translate>' + safe(value) + '</span>';
   const money = (value) =>
     new Intl.NumberFormat("zh-CN", {
       style: "currency",
@@ -997,9 +998,9 @@
           '<tr><td><span class="order-number">' +
           safe(o.number) +
           '</span><div class="order-title">' +
-          safe(o.customer) +
+          business(o.customer) +
           '</div><span class="order-equipment">' +
-          safe(o.device) +
+          business(o.device) +
           '<span class="type-chip">' +
           safe(typeNames[o.type] || o.type) +
           "</span></span></td><td>" +
@@ -1092,7 +1093,7 @@
               "</strong><small>" +
               safe(o.number) +
               " · " +
-              safe(o.customer) +
+              business(o.customer) +
               "</small></div><span>查看 →</span></div>",
           )
           .join("")
@@ -1194,7 +1195,7 @@
                 "<tr><td>" +
                 safe(o.number) +
                 '<span class="cell-sub">' +
-                safe(o.customer) +
+                business(o.customer) +
                 "</span></td><td>" +
                 safe(c.purpose) +
                 '<span class="cell-sub">' +
@@ -1236,8 +1237,8 @@
                 '<article class="list-card"><div><h3>' +
                 safe(o.number) +
                 " · " +
-                safe(o.customer) +
-                "</h3><p>资料：" +
+                business(o.customer) +
+                "</h3><p data-ui-l10n>资料：" +
                 safe(displayDocument(o)) +
                 " · 票据：" +
                 safe(displayInvoice(o)) +
@@ -1283,7 +1284,7 @@
                 '<article class="inventory-stat"><strong>' +
                 p.available +
                 "</strong><span>" +
-                safe(p.name) +
+                business(p.name) +
                 "</span><span>" +
                 safe(p.sku) +
                 " · 隔离 " +
@@ -1363,7 +1364,7 @@
             .map(
               (p) =>
                 '<article class="list-card"><div><h3>' +
-                safe(p.supplier) +
+                business(p.supplier) +
                 " · " +
                 safe(parts.find((i) => i.id === p.partId)?.name || p.partId) +
                 "</h3><p>已收 " +
@@ -1373,7 +1374,7 @@
                 " · 单价 " +
                 money(p.unitCents) +
                 " · " +
-                safe(p.note) +
+                business(p.note) +
                 "</p></div>" +
                 (canWarehouse && p.received < p.quantity
                   ? '<button class="button" data-purchase="' +
@@ -1508,7 +1509,7 @@
             .map(
               (a) =>
                 '<article class="list-card"><div><h3>' +
-                safe(a.name) +
+                business(a.name) +
                 " · " +
                 safe(D.roles[a.role] || a.role) +
                 "</h3><p>" +
@@ -2017,24 +2018,24 @@
           )
           .join("") +
         '</div><div class="detail-grid"><div><section class="detail-section"><h3>工单信息</h3><dl class="description-list"><dt>客户 / 企业</dt><dd>' +
-        safe(order.customer) +
+        business(order.customer) +
         "</dd><dt>设备 / 配件</dt><dd>" +
-        safe(order.device) +
+        business(order.device) +
         "</dd><dt>项目 / 类型</dt><dd>" +
-        safe(order.project || "未填写") +
+        business(order.project || "未填写") +
         " · " +
         safe(typeNames[order.type]) +
         "</dd><dt>故障 / 需求</dt><dd>" +
-        safe(order.description) +
+        business(order.description) +
         "</dd><dt>负责人</dt><dd>" +
         safe(order.ownerId || "待安排") +
         " / 执行 " +
         safe(order.assigneeId || "待安排") +
         "</dd><dt>客户说明</dt><dd>" +
-        safe(order.customerNote || "暂无已发布说明") +
+        business(order.customerNote || "暂无已发布说明") +
         "</dd>" +
         (internal()
-          ? "<dt>内部备注</dt><dd>" + safe(order.remark || "暂无备注") + "</dd>"
+          ? "<dt>内部备注</dt><dd>" + business(order.remark || "暂无备注") + "</dd>"
           : "") +
         "<dt>质保</dt><dd>" +
         safe(s.warrantyLabel) +
@@ -2396,7 +2397,7 @@
               .map(
                 (l) =>
                   '<div class="file-card"><div>' +
-                  safe(l.partName) +
+                  business(l.partName) +
                   " · 借出 " +
                   l.quantity +
                   " 件<p>尚欠 " +
@@ -2450,15 +2451,15 @@
         '<section class="detail-section"><h3>授权工单信息</h3><dl class="description-list"><dt>工单</dt><dd>' +
         safe(order.number) +
         "</dd><dt>设备 / 型号</dt><dd>" +
-        safe(order.device) +
+        business(order.device) +
         "</dd><dt>维修 / 销售需求</dt><dd>" +
-        safe(order.description) +
+        business(order.description) +
         "</dd><dt>当前进度</dt><dd>" +
         safe(D.states[order.status]) +
         " · " +
         safe(outcomes[order.outcome] || "处理中") +
         "</dd><dt>客户说明</dt><dd>" +
-        safe(order.customerNote || "暂无已发布说明") +
+        business(order.customerNote || "暂无已发布说明") +
         "</dd><dt>质保</dt><dd>" +
         safe(s.warrantyLabel) +
         '</dd></dl><div class="inline-note" style="margin-top:20px">' +
@@ -2503,9 +2504,9 @@
       " · VERSION " +
       order.version +
       "</div><h2>" +
-      safe(order.customer) +
+      business(order.customer) +
       " · " +
-      safe(order.device) +
+      business(order.device) +
       "</h2><p>" +
       safe(D.states[order.status]) +
       " · " +
@@ -3305,9 +3306,9 @@
       "</h3><p>工单：" +
       safe(o.number) +
       " · 客户：" +
-      safe(o.customer) +
+      business(o.customer) +
       "</p><p>设备 / 型号：" +
-      safe(o.device) +
+      business(o.device) +
       "</p><p>" +
       safe(q.description || o.description) +
       "</p><p>含税价：" +
@@ -3633,7 +3634,7 @@
       path = "/loans/" + encodeURIComponent(id) + "/actions";
       body =
         '<div class="inline-note">' +
-        safe(l.partName) +
+        business(l.partName) +
         " · 当前尚欠 " +
         loanRemaining(l) +
         " 件。不可超归还，不用取消清零尚欠。</div>" +

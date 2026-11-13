@@ -1,26 +1,50 @@
+@font-face {font-family:NotoSerifTibetan;src:url(/admin-font/NotoSerifTibetan.ttf) format("truetype");font-weight:100 900;font-display:swap}
+@font-face {font-family:NotoSansCJK;src:url(/admin-font/NotoSansCJKsc-Regular.otf) format("opentype");font-weight:400;font-display:swap}
 :root {
-  --bg: #f4f6f9;
-  --surface: #fff;
-  --ink: #172333;
-  --muted: #718096;
-  --line: #e8edf2;
-  --brand: #256d56;
-  --brand-dark: #19533f;
-  --brand-soft: #e8f4ed;
-  --amber: #ae750e;
-  --amber-soft: #fff4dd;
-  --red: #bf554e;
-  --red-soft: #fff0ed;
-  --blue: #3578c4;
-  --blue-soft: #eef4fc;
-  --shadow: 0 5px 24px #25394b08;
-  --radius: 14px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei",
-    sans-serif;
+  --bg: #F3F6F4;
+  --surface: #FFFFFF;
+  --surface-alt: #EDF3EF;
+  --ink: #152820;
+  --muted: #53675D;
+  --line: #D8E3DC;
+  --brand: #0F5144;
+  --brand-dark: #0A3E33;
+  --brand-soft: #E9F2ED;
+  --on-brand: #FFFFFF;
+  --amber: #805810;
+  --amber-soft: #FFF1D4;
+  --red: #AD3834;
+  --red-soft: #FFEDEA;
+  --blue: #285F9A;
+  --blue-soft: #E9F0FA;
+  --shadow: none;
+  --radius: 16px;
+  color-scheme: light;
+  font-family: NotoSansCJK, NotoSerifTibetan, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 15px;
 }
+:root[data-theme="dark"] {
+  --bg: #101C18;
+  --surface: #192A22;
+  --surface-alt: #21372B;
+  --ink: #EFF6F1;
+  --muted: #B5C7BB;
+  --line: #3B5345;
+  --brand: #8CCBA8;
+  --brand-dark: #A3D8BB;
+  --brand-soft: #233E2F;
+  --on-brand: #10251A;
+  --amber: #F2CB7F;
+  --amber-soft: #46371C;
+  --red: #FFB9B0;
+  --red-soft: #482B29;
+  --blue: #ABCBFA;
+  --blue-soft: #263B54;
+  color-scheme: dark;
+}
+::selection { background: var(--brand); color: var(--on-brand); }
+input, textarea { caret-color: var(--brand); }
 * {
   box-sizing: border-box;
 }
@@ -57,7 +81,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid #256d5655;
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 [hidden] {
@@ -74,7 +98,7 @@ textarea:focus-visible {
   position: fixed;
   inset: 0 auto 0 0;
   width: 236px;
-  background: #fff;
+  background: var(--surface);
   border-right: 1px solid var(--line);
   padding: 32px 20px;
   display: flex;
@@ -100,7 +124,7 @@ textarea:focus-visible {
 }
 .brand strong {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 2px;
   font-weight: 500;
   color: var(--muted);
@@ -108,17 +132,17 @@ textarea:focus-visible {
 }
 .workspace-caption {
   margin: 36px 12px 18px;
-  font-size: 11px;
-  color: #8692a3;
+  font-size: 12px;
+  color: var(--muted);
   letter-spacing: 1px;
   display: flex;
   justify-content: space-between;
 }
 .workspace-caption > span {
-  background: #f0f3f6;
+  background: var(--surface-alt);
   border-radius: 4px;
   padding: 2px 5px;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0;
 }
 .sidebar nav {
@@ -132,14 +156,14 @@ textarea:focus-visible {
   align-items: center;
   text-align: left;
   gap: 12px;
-  color: #66758a;
+  color: var(--muted);
   padding: 13px 14px;
   border-radius: 8px;
   font-weight: 550;
   min-height: 47px;
 }
 .nav-item:hover {
-  background: #f6f8fa;
+  background: var(--surface-alt);
 }
 .nav-item.active {
   background: var(--brand-soft);
@@ -153,8 +177,8 @@ textarea:focus-visible {
 }
 .nav-count {
   margin-left: auto;
-  font-size: 11px;
-  background: #dcece2;
+  font-size: 12px;
+  background: var(--brand-soft);
   border-radius: 5px;
   padding: 2px 6px;
 }
@@ -163,13 +187,13 @@ textarea:focus-visible {
   padding: 18px 12px 0;
   border-top: 1px solid var(--line);
   font-size: 12px;
-  color: #607185;
+  color: var(--muted);
 }
 .sidebar-bottom small {
   display: block;
   margin: 7px 0 0 13px;
-  color: #99a3af;
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .live-dot {
   display: inline-block;
@@ -186,21 +210,21 @@ textarea:focus-visible {
   height: 75px;
   border-bottom: 1px solid var(--line);
   padding: 0 36px;
-  background: #ffffffcc;
+  background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .breadcrumbs {
   font-size: 12px;
-  color: #8592a0;
+  color: var(--muted);
 }
 .breadcrumbs span {
   margin: 0 12px;
-  color: #bec7d2;
+  color: var(--muted);
 }
 .breadcrumbs strong {
-  color: #4b5c70;
+  color: var(--muted);
   font-weight: 550;
 }
 .topbar-actions {
@@ -209,7 +233,7 @@ textarea:focus-visible {
   gap: 17px;
 }
 .source-badge {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--amber);
   background: var(--amber-soft);
   border-radius: 20px;
@@ -222,11 +246,11 @@ textarea:focus-visible {
 }
 .icon-button {
   border: 1px solid var(--line);
-  background: white;
+  background: var(--surface);
   border-radius: 8px;
   width: 33px;
   height: 33px;
-  color: #718095;
+  color: var(--muted);
   font-size: 19px;
 }
 .account-button {
@@ -236,12 +260,12 @@ textarea:focus-visible {
   align-items: center;
   gap: 9px;
   font-size: 12px;
-  color: #536175;
+  color: var(--muted);
 }
 .avatar {
   width: 32px;
   height: 32px;
-  background: #e3ebe8;
+  background: var(--brand-soft);
   color: var(--brand);
   display: inline-flex;
   align-items: center;
@@ -251,7 +275,7 @@ textarea:focus-visible {
 }
 .account-button > span:last-child {
   font-size: 15px;
-  color: #9ca7b4;
+  color: var(--muted);
 }
 main {
   padding: 32px 36px 20px;
@@ -268,12 +292,12 @@ main {
 .eyebrow {
   color: var(--brand);
   letter-spacing: 2px;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 750;
   margin-bottom: 10px;
 }
 h1 {
-  font-size: 27px;
+  font-size: 28px;
   letter-spacing: -0.7px;
   font-weight: 720;
   margin: 0 0 8px;
@@ -288,52 +312,52 @@ p {
 }
 .button {
   border: 1px solid var(--line);
-  background: #fff;
-  color: #526176;
+  background: var(--surface);
+  color: var(--muted);
   border-radius: 7px;
   padding: 9px 14px;
   font-size: 12px;
   white-space: nowrap;
   font-weight: 550;
-  min-height: 36px;
+  min-height: 44px;
 }
 .button:hover {
-  background: #f7f9fb;
+  background: var(--surface-alt);
 }
 .button.primary {
   background: var(--brand);
   border-color: var(--brand);
-  color: white;
-  box-shadow: 0 3px 8px #256d5615;
+  color: var(--on-brand);
+  box-shadow: none;
 }
 .button.primary:hover {
   background: var(--brand-dark);
 }
 .button.quiet {
-  background: #fff;
+  background: var(--surface);
 }
 .button.danger {
   color: var(--red);
   background: var(--red-soft);
-  border-color: #f5d9d4;
+  border-color: var(--line);
 }
 .text-button {
   border: 0;
   background: transparent;
   color: var(--brand);
-  font-size: 11px;
+  font-size: 12px;
   padding: 6px;
 }
 .connection-note {
-  font-size: 11px;
-  color: #8e7960;
+  font-size: 12px;
+  color: var(--amber);
   margin-bottom: 18px;
   padding-left: 12px;
-  border-left: 2px solid #e8c88a;
+  border-left: 2px solid var(--line);
   line-height: 1.6;
 }
 .connection-note.online {
-  color: #5b826e;
+  color: var(--brand);
   border-left-color: #98c7a9;
 }
 .metrics {
@@ -355,13 +379,13 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #748194;
-  font-size: 11px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .metric-icon {
   font-size: 19px;
-  color: #a7bcb2;
-  background: #f2f7f4;
+  color: var(--muted);
+  background: var(--brand-soft);
   border-radius: 8px;
   line-height: 30px;
   width: 30px;
@@ -377,8 +401,8 @@ p {
   font-size: 25px;
 }
 .metric small {
-  font-size: 10px;
-  color: #98a2af;
+  font-size: 12px;
+  color: var(--muted);
 }
 .metric small b {
   font-weight: 500;
@@ -386,7 +410,7 @@ p {
   margin-right: 6px;
 }
 .panel {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -408,14 +432,14 @@ p {
   margin: 0;
 }
 .panel-heading p {
-  font-size: 10px;
-  color: #98a2af;
+  font-size: 12px;
+  color: var(--muted);
   margin: 7px 0 0;
 }
 .count-badge {
-  font-size: 10px;
-  background: #f1f4f7;
-  color: #7d8a9b;
+  font-size: 12px;
+  background: var(--surface-alt);
+  color: var(--muted);
   padding: 3px 7px;
   border-radius: 5px;
   font-weight: 500;
@@ -432,8 +456,8 @@ p {
   border-bottom: 2px solid transparent;
   padding: 14px 0;
   background: none;
-  color: #7b8798;
-  font-size: 11px;
+  color: var(--muted);
+  font-size: 12px;
   white-space: nowrap;
 }
 .segment.active {
@@ -442,12 +466,12 @@ p {
   font-weight: 650;
 }
 .segment span {
-  background: #f5ece0;
-  color: #a37c37;
+  background: var(--amber-soft);
+  color: var(--amber);
   border-radius: 4px;
   padding: 1px 5px;
   margin-left: 3px;
-  font-size: 9px;
+  font-size: 12px;
 }
 .filters {
   padding: 18px 24px;
@@ -459,10 +483,10 @@ p {
 .filters input,
 .filters select {
   border: 1px solid var(--line);
-  background: white;
+  background: var(--surface);
   border-radius: 6px;
-  color: #6c7a8d;
-  font-size: 11px;
+  color: var(--muted);
+  font-size: 12px;
   height: 35px;
   padding: 0 11px;
 }
@@ -477,7 +501,7 @@ p {
   display: flex;
   align-items: center;
   gap: 9px;
-  background: #f9fafc;
+  background: var(--surface-alt);
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 0 11px;
@@ -486,12 +510,12 @@ p {
 }
 .search-field > span {
   font-size: 18px;
-  color: #9fa8b7;
+  color: var(--muted);
 }
 .filters .button {
   height: 35px;
   min-height: 35px;
-  font-size: 10px;
+  font-size: 12px;
 }
 .table-container {
   overflow: auto;
@@ -500,17 +524,17 @@ p {
   border-collapse: collapse;
   width: 100%;
   min-width: 1050px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .orders-table th {
-  background: #f8fafc;
+  background: var(--surface-alt);
   font-weight: 550;
   text-align: left;
   padding: 13px 16px;
-  color: #8793a3;
+  color: var(--muted);
   border-block: 1px solid var(--line);
   white-space: nowrap;
-  font-size: 10px;
+  font-size: 12px;
 }
 .orders-table th:first-child,
 .orders-table td:first-child {
@@ -518,7 +542,7 @@ p {
 }
 .orders-table td {
   padding: 20px 16px;
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: 1px solid var(--line);
   vertical-align: top;
   line-height: 1.5;
 }
@@ -526,30 +550,30 @@ p {
   border-bottom: 0;
 }
 .orders-table tbody tr:hover {
-  background: #fcfdfd;
+  background: var(--surface-alt);
 }
 .order-title {
   font-weight: 640;
   font-size: 12px;
-  color: #283d4c;
+  color: var(--ink);
   margin-bottom: 5px;
 }
 .order-number {
-  font-size: 10px;
-  color: #9aa5b2;
+  font-size: 12px;
+  color: var(--muted);
   display: block;
   margin-bottom: 5px;
   font-family: ui-monospace, SFMono-Regular, monospace;
 }
 .order-equipment {
-  color: #8995a5;
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .type-chip {
   display: inline-block;
-  font-size: 9px;
-  color: #8895a4;
-  background: #f3f5f8;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--surface-alt);
   padding: 1px 5px;
   margin-left: 5px;
   border-radius: 3px;
@@ -559,10 +583,10 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: #f0f3f7;
-  color: #6b7b8f;
+  background: var(--surface-alt);
+  color: var(--muted);
   border-radius: 5px;
-  font-size: 10px;
+  font-size: 12px;
   padding: 4px 7px;
   white-space: nowrap;
 }
@@ -590,13 +614,13 @@ p {
   background: var(--red-soft);
 }
 .cell-sub {
-  font-size: 9px;
-  color: #9ca5b3;
+  font-size: 12px;
+  color: var(--muted);
   display: block;
   margin-top: 6px;
 }
 .cell-sub.warning {
-  color: #b88942;
+  color: var(--amber);
 }
 .cell-action {
   display: block;
@@ -613,23 +637,23 @@ p {
 }
 .amount {
   font-weight: 640;
-  color: #334659;
+  color: var(--ink);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 .amount.remaining {
-  color: #c48726;
+  color: var(--amber);
 }
 .amount.zero {
-  color: #82948a;
+  color: var(--muted);
 }
 .amount small {
   font-weight: 400;
-  color: #a0a9b6;
+  color: var(--muted);
 }
 .money-progress {
   height: 3px;
-  background: #edf1f4;
+  background: var(--surface-alt);
   margin-top: 8px;
   border-radius: 3px;
   max-width: 105px;
@@ -637,19 +661,19 @@ p {
 }
 .money-progress span {
   height: 100%;
-  background: #72ad90;
+  background: var(--brand);
   display: block;
 }
 .next-task {
-  font-size: 10px;
-  color: #627084;
+  font-size: 12px;
+  color: var(--muted);
   max-width: 185px;
 }
 .row-open {
   border: 0;
-  background: #f4f8f6;
+  background: var(--brand-soft);
   color: var(--brand);
-  font-size: 10px;
+  font-size: 12px;
   padding: 6px 9px;
   border-radius: 5px;
   white-space: nowrap;
@@ -660,8 +684,8 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 10px;
-  color: #9da7b5;
+  font-size: 12px;
+  color: var(--muted);
   gap: 10px;
 }
 .muted {
@@ -687,7 +711,7 @@ p {
   gap: 12px;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid #f0f3f6;
+  border-bottom: 1px solid var(--line);
   cursor: pointer;
 }
 .attention-item:last-child {
@@ -706,28 +730,28 @@ p {
 }
 .attention-item strong {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 550;
-  color: #586c7e;
+  color: var(--muted);
 }
 .attention-item small {
   display: block;
-  font-size: 9px;
-  color: #9ba5b3;
+  font-size: 12px;
+  color: var(--muted);
   margin-top: 5px;
 }
 .attention-item > span:last-child {
   margin-left: auto;
-  font-size: 9px;
-  color: #9ba5b3;
+  font-size: 12px;
+  color: var(--muted);
 }
 .flow-panel {
   padding: 24px 25px;
-  background: linear-gradient(125deg, #fff 35%, #f3f8f5);
+  background: var(--surface);
   position: relative;
 }
 .flow-panel .eyebrow {
-  font-size: 8px;
+  font-size: 12px;
 }
 .flow-panel h2 {
   font-size: 15px;
@@ -735,8 +759,8 @@ p {
   margin: 14px 0;
 }
 .flow-panel p {
-  font-size: 11px;
-  color: #7f8c9c;
+  font-size: 12px;
+  color: var(--muted);
   max-width: 470px;
 }
 .mini-flow {
@@ -744,19 +768,19 @@ p {
   align-items: center;
   gap: 8px;
   margin: 22px 0 15px;
-  font-size: 9px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .mini-flow span {
-  border: 1px solid #e5ebe7;
-  background: #fff;
-  color: #7a8d81;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
   padding: 6px 8px;
   border-radius: 5px;
 }
 .mini-flow b {
   font-weight: 400;
-  color: #b1bcb6;
+  color: var(--muted);
 }
 .mini-flow .last {
   background: var(--brand);
@@ -764,8 +788,8 @@ p {
   border-color: var(--brand);
 }
 .flow-panel small {
-  font-size: 9px;
-  color: #a2aca4;
+  font-size: 12px;
+  color: var(--muted);
 }
 .page-footer {
   display: flex;
@@ -773,20 +797,20 @@ p {
   max-width: 1920px;
   margin: auto;
   padding: 17px 36px 24px;
-  font-size: 9px;
-  color: #a4afbd;
+  font-size: 12px;
+  color: var(--muted);
 }
 .empty-state {
   text-align: center;
   padding: 48px 24px;
-  color: #8a97a6;
+  color: var(--muted);
 }
 .empty-state .empty-icon {
   width: 52px;
   height: 52px;
-  border: 1px dashed #cfd9d3;
-  background: #f7faf8;
-  color: #b3c4ba;
+  border: 1px dashed var(--line);
+  background: var(--surface-alt);
+  color: var(--muted);
   margin: 0 auto 16px;
   border-radius: 14px;
   display: grid;
@@ -795,11 +819,11 @@ p {
 }
 .empty-state h3 {
   font-size: 14px;
-  color: #596c7b;
+  color: var(--muted);
   margin: 0 0 8px;
 }
 .empty-state p {
-  font-size: 11px;
+  font-size: 12px;
   margin: 0 0 16px;
 }
 .toast {
@@ -807,8 +831,8 @@ p {
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  background: #20342e;
-  color: #fff;
+  background: var(--ink);
+  color: var(--surface);
   border-radius: 9px;
   padding: 14px 20px;
   box-shadow: 0 8px 35px #172b2933;
@@ -821,12 +845,12 @@ dialog {
   border: 0;
   padding: 0;
   color: var(--ink);
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 14px 60px #122a3833;
   max-height: 94vh;
 }
 dialog::backdrop {
-  background: #13283355;
+  background: var(--surface-alt);
   backdrop-filter: blur(3px);
 }
 .detail-dialog {
@@ -836,7 +860,7 @@ dialog::backdrop {
 .detail-header {
   position: sticky;
   top: 0;
-  background: #fff;
+  background: var(--surface);
   z-index: 3;
   border-bottom: 1px solid var(--line);
   padding: 24px 28px;
@@ -850,19 +874,19 @@ dialog::backdrop {
   margin: 5px 0 8px;
 }
 .detail-header .eyebrow {
-  font-size: 9px;
+  font-size: 12px;
   margin: 0;
 }
 .detail-header p {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin: 0;
 }
 .close-button {
   font-size: 25px;
   border: 0;
-  color: #8595a6;
-  background: #f5f7f9;
+  color: var(--muted);
+  background: var(--surface-alt);
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -875,17 +899,17 @@ dialog::backdrop {
   border-bottom: 1px solid var(--line);
   position: sticky;
   top: 114px;
-  background: #fff;
+  background: var(--surface);
   z-index: 2;
   overflow: auto;
 }
 .detail-tab {
   border: 0;
   border-bottom: 2px solid transparent;
-  color: #8b98a8;
+  color: var(--muted);
   background: none;
   padding: 15px 0;
-  font-size: 11px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .detail-tab.active {
@@ -916,16 +940,16 @@ dialog::backdrop {
   display: grid;
   grid-template-columns: 85px 1fr;
   gap: 12px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.8;
   margin: 0;
 }
 .description-list dt {
-  color: #93a0af;
+  color: var(--muted);
 }
 .description-list dd {
   margin: 0;
-  color: #536579;
+  color: var(--muted);
 }
 .action-list {
   display: flex;
@@ -933,20 +957,20 @@ dialog::backdrop {
   gap: 9px;
 }
 .action-list .button {
-  font-size: 11px;
+  font-size: 12px;
 }
 .inline-note {
   padding: 12px 14px;
-  background: #f6f9f7;
+  background: var(--surface-alt);
   border-radius: 7px;
-  color: #739180;
-  font-size: 11px;
+  color: var(--muted);
+  font-size: 12px;
   line-height: 1.8;
   margin-bottom: 16px;
 }
 .inline-note.warning {
-  background: #fff8ec;
-  color: #a9884b;
+  background: var(--amber-soft);
+  color: var(--amber);
 }
 .checklist {
   list-style: none;
@@ -957,8 +981,8 @@ dialog::backdrop {
   display: flex;
   gap: 10px;
   margin: 12px 0;
-  font-size: 11px;
-  color: #68788c;
+  font-size: 12px;
+  color: var(--muted);
   line-height: 1.7;
 }
 .check-icon {
@@ -975,9 +999,9 @@ dialog::backdrop {
 .timeline li {
   position: relative;
   padding: 0 0 24px 22px;
-  border-left: 1px solid #e0e8e3;
+  border-left: 1px solid var(--line);
   margin-left: 4px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .timeline li:last-child {
   border-left-color: transparent;
@@ -988,37 +1012,37 @@ dialog::backdrop {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #91b6a1;
+  background: var(--surface-alt);
   position: absolute;
   left: -4px;
   top: 3px;
-  border: 2px solid #fff;
+  border: 2px solid var(--line);
 }
 .timeline time {
-  font-size: 9px;
-  color: #9ba5b3;
+  font-size: 12px;
+  color: var(--muted);
   display: block;
   margin-top: 6px;
 }
 .timeline strong {
   font-weight: 550;
-  color: #567262;
+  color: var(--brand);
 }
 .timeline p {
   margin: 6px 0 0;
-  color: #93a0af;
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .detail-footer {
   padding: 14px 28px;
   border-top: 1px solid var(--line);
-  background: #fafcfb;
+  background: var(--surface-alt);
   display: flex;
   justify-content: space-between;
   gap: 12px;
   align-items: center;
-  font-size: 10px;
-  color: #9aa7a0;
+  font-size: 12px;
+  color: var(--muted);
 }
 .form-dialog {
   width: min(660px, 94vw);
@@ -1047,8 +1071,8 @@ dialog::backdrop {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 11px;
-  color: #6b7b8d;
+  font-size: 12px;
+  color: var(--muted);
 }
 .form-field.full {
   grid-column: 1/-1;
@@ -1058,11 +1082,11 @@ dialog::backdrop {
 .form-field textarea {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #dfe6ed;
+  border: 1px solid var(--line);
   border-radius: 6px;
   min-height: 39px;
-  background: #fff;
-  color: #455a6d;
+  background: var(--surface);
+  color: var(--ink);
   font-size: 12px;
 }
 .form-field textarea {
@@ -1070,8 +1094,8 @@ dialog::backdrop {
   min-height: 85px;
 }
 .form-field small {
-  color: #95a2b1;
-  font-size: 10px;
+  color: var(--muted);
+  font-size: 12px;
   line-height: 1.7;
 }
 .form-footer {
@@ -1080,22 +1104,22 @@ dialog::backdrop {
   gap: 10px;
   padding: 18px 26px;
   border-top: 1px solid var(--line);
-  background: #fafbfc;
+  background: var(--surface-alt);
 }
 .form-error {
   padding: 10px 12px;
   border-radius: 6px;
   background: var(--red-soft);
   color: var(--red);
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 15px;
   line-height: 1.7;
 }
 .signature-pad {
   width: 100%;
   height: 150px;
-  background: #fafcfb;
-  border: 1px dashed #c4d5ca;
+  background: var(--surface-alt);
+  border: 1px dashed var(--line);
   border-radius: 7px;
   touch-action: none;
   display: block;
@@ -1105,32 +1129,32 @@ dialog::backdrop {
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-  font-size: 10px;
-  color: #99a6ad;
+  font-size: 12px;
+  color: var(--muted);
 }
 .document-preview {
-  background: #f8faf9;
-  border: 1px solid #e4ebe7;
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
   border-radius: 8px;
   padding: 22px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.9;
-  color: #6c7f73;
+  color: var(--muted);
   max-height: 230px;
   overflow: auto;
 }
 .document-preview h3 {
   font-size: 15px;
   margin-top: 0;
-  color: #3d604a;
+  color: var(--brand);
 }
 .checkbox-field {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.8;
-  color: #677b6f;
+  color: var(--muted);
   margin: 18px 0;
 }
 .checkbox-field input {
@@ -1143,7 +1167,7 @@ dialog::backdrop {
   gap: 14px;
   padding: 18px 22px;
   border-bottom: 1px solid var(--line);
-  font-size: 11px;
+  font-size: 12px;
 }
 .list-card:last-child {
   border-bottom: 0;
@@ -1153,8 +1177,8 @@ dialog::backdrop {
   margin: 0 0 6px;
 }
 .list-card p {
-  font-size: 10px;
-  color: #9aa5b3;
+  font-size: 12px;
+  color: var(--muted);
   margin: 0;
 }
 .list-card .card-actions {
@@ -1171,21 +1195,21 @@ dialog::backdrop {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11px;
+  font-size: 12px;
   min-width: 600px;
 }
 .data-table th {
   text-align: left;
-  background: #f8fafc;
+  background: var(--surface-alt);
   padding: 13px 17px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
-  color: #91a0af;
+  color: var(--muted);
 }
 .data-table td {
   padding: 15px 17px;
   border-top: 1px solid var(--line);
-  color: #61778a;
+  color: var(--muted);
 }
 .setting-layout {
   display: grid;
@@ -1203,8 +1227,8 @@ dialog::backdrop {
   margin-bottom: 15px;
 }
 .setting-panel p {
-  font-size: 11px;
-  color: #8e9bab;
+  font-size: 12px;
+  color: var(--muted);
 }
 .role-grid {
   display: grid;
@@ -1214,15 +1238,15 @@ dialog::backdrop {
 }
 .role-button {
   padding: 11px 7px;
-  background: #f8fafc;
+  background: var(--surface-alt);
   border: 1px solid var(--line);
   border-radius: 7px;
-  color: #738295;
-  font-size: 11px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .role-button.active {
   background: var(--brand-soft);
-  border-color: #b8d7c3;
+  border-color: var(--line);
   color: var(--brand);
 }
 .file-card {
@@ -1234,17 +1258,17 @@ dialog::backdrop {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .file-card p {
-  font-size: 10px;
-  color: #98a4b2;
+  font-size: 12px;
+  color: var(--muted);
   margin: 5px 0 0;
 }
 .file-card.deleted {
   border-style: dashed;
-  background: #fafbfc;
-  color: #97a0ad;
+  background: var(--surface-alt);
+  color: var(--muted);
 }
 .file-preview {
   width: 100%;
@@ -1255,7 +1279,7 @@ dialog::backdrop {
 }
 .attachment-link {
   color: var(--brand);
-  font-size: 10px;
+  font-size: 12px;
 }
 .flow-steps {
   display: flex;
@@ -1266,15 +1290,15 @@ dialog::backdrop {
 .flow-step {
   flex: 1;
   min-width: 58px;
-  border-top: 3px solid #e8eeeb;
+  border-top: 3px solid var(--line);
   padding-top: 8px;
-  font-size: 8px;
+  font-size: 12px;
   text-align: center;
-  color: #9faaa4;
+  color: var(--muted);
 }
 .flow-step.done {
-  border-color: #8dbca2;
-  color: #759785;
+  border-color: var(--line);
+  color: var(--muted);
 }
 .flow-step.current {
   border-color: var(--brand);
@@ -1291,7 +1315,7 @@ dialog::backdrop {
   padding: 24px;
 }
 .inventory-stat {
-  background: #f8faf9;
+  background: var(--surface-alt);
   border-radius: 8px;
   padding: 16px;
 }
@@ -1299,11 +1323,11 @@ dialog::backdrop {
   display: block;
   font-size: 23px;
   font-weight: 600;
-  color: #547364;
+  color: var(--brand);
 }
 .inventory-stat span {
-  font-size: 10px;
-  color: #93a29a;
+  font-size: 12px;
+  color: var(--muted);
   display: block;
   margin-top: 7px;
 }
@@ -1352,7 +1376,7 @@ dialog::backdrop {
   }
   .mini-flow {
     gap: 5px;
-    font-size: 8px;
+    font-size: 12px;
   }
   .mini-flow span {
     padding: 5px;
@@ -1396,7 +1420,7 @@ dialog::backdrop {
   }
   .nav-count {
     position: absolute;
-    font-size: 8px;
+    font-size: 12px;
     padding: 1px 4px;
     right: 2px;
     top: 3px;
@@ -1455,7 +1479,7 @@ dialog::backdrop {
   }
   .nav-item {
     flex: 1;
-    font-size: 8px;
+    font-size: 12px;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -1478,7 +1502,7 @@ dialog::backdrop {
     padding: 0 16px;
   }
   .breadcrumbs {
-    font-size: 10px;
+    font-size: 12px;
   }
   .breadcrumbs span {
     margin: 0 5px;
@@ -1487,7 +1511,7 @@ dialog::backdrop {
     gap: 9px;
   }
   .source-badge {
-    font-size: 8px;
+    font-size: 12px;
     padding: 4px 7px;
   }
   .account-button {
@@ -1524,23 +1548,23 @@ dialog::backdrop {
     max-width: 250px;
   }
   .page-heading p {
-    font-size: 10px;
+    font-size: 12px;
     max-width: 250px;
     line-height: 1.7;
   }
   .page-heading > .button {
-    font-size: 10px;
+    font-size: 12px;
     padding: 8px 9px;
     min-height: 32px;
     margin-top: 18px;
   }
   .eyebrow {
-    font-size: 8px;
+    font-size: 12px;
     letter-spacing: 1.4px;
     margin-bottom: 8px;
   }
   .connection-note {
-    font-size: 9px;
+    font-size: 12px;
     margin-bottom: 14px;
   }
   .metrics {
@@ -1552,7 +1576,7 @@ dialog::backdrop {
     border-radius: 10px;
   }
   .metric-label {
-    font-size: 9px;
+    font-size: 12px;
   }
   .metric-icon {
     font-size: 15px;
@@ -1568,7 +1592,7 @@ dialog::backdrop {
     font-size: 22px;
   }
   .metric small {
-    font-size: 8px;
+    font-size: 12px;
   }
   .metric small b {
     margin-right: 3px;
@@ -1583,11 +1607,11 @@ dialog::backdrop {
     font-size: 14px;
   }
   .panel-heading p {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 1.6;
   }
   .panel-heading .button {
-    font-size: 9px;
+    font-size: 12px;
     padding: 6px 9px;
     min-height: 30px;
   }
@@ -1596,7 +1620,7 @@ dialog::backdrop {
     gap: 22px;
   }
   .segment {
-    font-size: 10px;
+    font-size: 12px;
     padding: 12px 0;
   }
   .filters {
@@ -1608,12 +1632,12 @@ dialog::backdrop {
     min-width: 0;
   }
   .filters select {
-    font-size: 9px;
+    font-size: 12px;
     padding-inline: 7px;
     max-width: 112px;
   }
   .filters .button {
-    font-size: 9px;
+    font-size: 12px;
     padding: 6px 8px;
   }
   .orders-table {
@@ -1644,14 +1668,14 @@ dialog::backdrop {
   }
   .orders-table td:nth-child(3),
   .orders-table td:nth-child(4) {
-    background: #f9fafb;
+    background: var(--surface-alt);
     padding: 10px !important;
     border-radius: 6px;
   }
   .mobile-label {
     display: block;
-    font-size: 8px;
-    color: #a0aab7;
+    font-size: 12px;
+    color: var(--muted);
     margin-bottom: 5px;
   }
   .orders-table td:nth-child(6) {
@@ -1669,13 +1693,13 @@ dialog::backdrop {
     font-size: 12px;
   }
   .order-number {
-    font-size: 9px;
+    font-size: 12px;
   }
   .badge {
-    font-size: 9px;
+    font-size: 12px;
   }
   .cell-sub {
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 4px;
   }
   .money-progress {
@@ -1683,7 +1707,7 @@ dialog::backdrop {
   }
   .table-footer {
     padding: 13px 16px;
-    font-size: 8px;
+    font-size: 12px;
   }
   .table-footer > .muted {
     display: none;
@@ -1699,18 +1723,18 @@ dialog::backdrop {
     font-size: 14px;
   }
   .flow-panel p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .mini-flow {
-    font-size: 8px;
+    font-size: 12px;
     gap: 6px;
   }
   .flow-panel small {
-    font-size: 8px;
+    font-size: 12px;
   }
   .page-footer {
     padding: 12px 17px 20px;
-    font-size: 8px;
+    font-size: 12px;
     gap: 10px;
   }
   .detail-dialog {
@@ -1728,7 +1752,7 @@ dialog::backdrop {
     font-size: 18px;
   }
   .detail-header p {
-    font-size: 9px;
+    font-size: 12px;
   }
   .detail-tabs {
     padding-inline: 18px;
@@ -1736,7 +1760,7 @@ dialog::backdrop {
     top: 105px;
   }
   .detail-tab {
-    font-size: 10px;
+    font-size: 12px;
     padding-block: 14px;
   }
   .detail-body {
@@ -1750,7 +1774,7 @@ dialog::backdrop {
   }
   .detail-footer {
     padding: 14px 16px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .form-dialog {
     width: calc(100vw - 24px);
@@ -1785,7 +1809,7 @@ dialog::backdrop {
     justify-content: flex-end;
   }
   .list-card h3 {
-    font-size: 11px;
+    font-size: 12px;
   }
   .inventory-stats {
     padding: 16px;
@@ -1804,18 +1828,18 @@ dialog::backdrop {
     grid-template-columns: repeat(3, 1fr);
   }
   .role-button {
-    font-size: 9px;
+    font-size: 12px;
   }
   .toast {
     bottom: 82px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .detail-dialog .flow-steps {
     padding-block: 5px;
   }
   .description-list {
     grid-template-columns: 73px 1fr;
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1857,6 +1881,50 @@ dialog::backdrop {
 }
 .capacity-note {
   margin-top: 16px;
-  background: #fff3d5;
-  color: #875914;
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+/* 数据与状态优先：保持操作密度，同时让辅助文字在两种主题下可读。 */
+.orders-table { font-size: 13px; }
+.orders-table th, .order-number, .order-equipment, .cell-sub, .next-task, .badge,
+.orders-table td .amount small, .type-chip, .table-footer, .panel-heading p { font-size: 12px; }
+.order-title { font-size: 14px; }
+.button, .row-open, .text-button { min-height: 44px; font-size: 13px; }
+.row-open { padding-inline: 12px; }
+.filters input, .filters select, .filters .button { min-height: 44px; height: 44px; font-size: 13px; }
+.search-field { min-height: 44px; }
+.icon-button { width: 44px; height: 44px; }
+.theme-picker { display: grid; gap: 4px; color: var(--muted); font-size: 12px; }
+.theme-picker select { min-height: 44px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+.connection-note { border-left-width: 1px; }
+.mini-flow { white-space: normal; flex-wrap: wrap; }
+.flow-panel .eyebrow, .page-heading .eyebrow { display: none; }
+@media(max-width:620px) {
+  .topbar { height: auto; min-height: 70px; padding-block: 10px; }
+  .topbar-actions { gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .theme-picker { max-width: 104px; }
+  .metrics { gap: 12px; }
+  .metric { padding: 16px; }
+  .orders-table tr { padding-block: 20px; }
+  .orders-table .order-title { font-size: 15px; }
+  .orders-table .cell-sub, .orders-table .mobile-label { font-size: 12px; }
+  .orders-table .badge { white-space: normal; }
+  .filters input, .filters select, .filters .button { min-height: 44px; height: 44px; }
+}
+
+.skip-link { position:fixed;left:16px;top:12px;transform:translateY(-150%);padding:12px 18px;background:var(--surface);color:var(--text,var(--ink));border:2px solid var(--primary,var(--brand));border-radius:8px;z-index:100; }
+.skip-link:focus { transform:translateY(0); }
+button, a { touch-action:manipulation; }
+dialog { overscroll-behavior:contain; }
+h1, h2 { text-wrap:balance; }
+.brand, .brand > div, .toolbar > div { min-width:0; }
+dialog::backdrop { background:#07150EB3; }
+
+@media(max-width:620px) {
+  .sidebar nav .nav-item { min-width:0; overflow-wrap:anywhere; line-height:1.35; }
+  .theme-picker { width:104px; min-width:0; overflow-wrap:anywhere; }
+  .theme-picker select { width:100%; min-width:0; }
+  .topbar { gap:10px; }
+  .topbar-actions { min-width:0; }
 }

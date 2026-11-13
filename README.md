@@ -33,7 +33,7 @@
 
 2、浏览器打开 [Web 管理后台](http://127.0.0.1:8098/admin/)；[维修协同工作台](http://127.0.0.1:8098/) 继续可用。
 
-3、选“公司负责人”，密码 `Demo-Repair-2026!`，从“新建工单”开始。用不同角色重新登录可检查职责差异。
+3、Demo 后台自动以 `admin / 1234` 进入，从“新建工单”开始；其它合成角色仍使用 `Demo-Repair-2026!`。正式或无法识别的环境须先登录，不能因服务失联免登录。
 
 4、停止时回到终端按 `Ctrl+C`。演示数据和密钥默认留在机器专属 `WB_RUNTIME_DIR`（MacOS 为 `$HOME/Library/Application Support/JobsSoftwareProjects/RepairWorkbench/Runtime`），不要在不备份密钥的情况下只迁移数据文件。
 
@@ -84,7 +84,7 @@ node './代码/前端/PC端/Web/离线预览.mjs'
 
 ## 三、<span id="demo-accounts">演示角色与功能</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-所有合成账号密码均为 `Demo-Repair-2026!`，仅作演示。
+Demo 后台管理员为 `admin / 1234`，页面识别到服务端明确的 Demo 标识后自动进入；`1234` 仅在 Demo 状态且管理员有效时生效。其它合成账号密码为 `Demo-Repair-2026!`，仅作演示。
 
 | 账号 | 职责 |
 | --- | --- |

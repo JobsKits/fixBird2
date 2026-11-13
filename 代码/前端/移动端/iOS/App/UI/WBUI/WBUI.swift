@@ -16,10 +16,11 @@ enum WBUI {
         return UIColor(r: 15, g: 81, b: 68, a: 1)
     }
 
-    static func label(_ text: String, size: CGFloat = 15, secondary: Bool = false) -> UILabel {
+    static func label(_ text: String, size: CGFloat = 16, secondary: Bool = false) -> UILabel {
         return UILabel.jobsMake { label in
-            label.byText(text)
-                .byFont(JobsFont.systemFont(ofSize: size, weight: size >= 20 ? .semibold : .regular))
+            label.byText(WBL10n.text(text))
+                .byFont(JobsFont.preferredFont(forTextStyle: size >= 25 ? .title1 : size >= 20 ? .title3 : size <= 13 ? .footnote : .body))
+                .byAdjustsFontForContentSizeCategory(true)
                 .byTextColor(secondary ? JobsCor.secondaryLabel : JobsCor.label)
                 .byNumberOfLines(0)
         }
@@ -34,12 +35,13 @@ enum WBUI {
                     .byBackground(
                         UIBackgroundConfiguration.clear()
                             .byBackgroundColor(primary ? brand : JobsCor.secondarySystemGroupedBackground)
-                            .byCornerRadius(12)
+                            .byCornerRadius(10)
                     )
-                    .byContentInsets(NSDirectionalEdgeInsets(top: 13, leading: 14, bottom: 13, trailing: 14))
+                    .byContentInsets(NSDirectionalEdgeInsets(top: 15, leading: 16, bottom: 15, trailing: 16))
             )
-            .byTitle(title)
-            .byTitleFont(JobsFont.systemFont(ofSize: 15, weight: .semibold))
+            .byTitle(WBL10n.text(title))
+            .byTitleFont(JobsFont.preferredFont(forTextStyle: .headline))
+            .byContentHorizontalAlignment(.leading)
             .byNumberOfLines(0)
             .byLineBreakMode(.byWordWrapping)
             .onTap { _ in
@@ -57,12 +59,12 @@ enum WBUI {
                 .byBaseForegroundColor(foreground)
                 .byBackground(configuration.background
                     .byBackgroundColor(background)
-                    .byCornerRadius(12)))
+                    .byCornerRadius(10)))
         }
         return button.byTitleColor(primary ? JobsCor.white : JobsCor.label)
     }
 
-    static func stack(_ rows: [UIView] = [], spacing: CGFloat = 12) -> UIStackView {
+    static func stack(_ rows: [UIView] = [], spacing: CGFloat = 16) -> UIStackView {
         return UIStackView.jobsMake { stack in
             stack.byAxis(.vertical)
                 .bySpacing(spacing)
@@ -71,7 +73,7 @@ enum WBUI {
     }
 
     static func card(_ rows: [UIView]) -> UIStackView {
-        return stack(rows, spacing: 10)
+        return stack(rows, spacing: 12)
             .byLayoutMargins(UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16), relative: true)
             .byBackgroundColor(JobsCor.secondarySystemGroupedBackground)
             .byCornerRadius(16)
@@ -79,15 +81,20 @@ enum WBUI {
 
     static func field(_ placeholder: String, value: String = "", secure: Bool = false) -> UITextField {
         let field = UITextField.jobsMake { field in
-            field.byPlaceholder(placeholder)
+            field.byPlaceholder(WBL10n.text(placeholder))
                 .byText(value)
-                .byFont(JobsFont.systemFont(ofSize: 16))
+                .byFont(JobsFont.preferredFont(forTextStyle: .body))
+                .byAdjustsFontForContentSizeCategory(true)
                 .byTextColor(JobsCor.label)
+                .byBackgroundColor(JobsCor.tertiarySystemGroupedBackground)
                 .byBorderStyle(.roundedRect)
                 .byAutocapitalizationType(.none)
                 .byAutocorrectionType(.no)
                 .bySecureTextEntry(secure)
-                .byHeight(46)
+                .byHeight(52)
+        }
+        field.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(52)
         }
         if !placeholder.isEmpty {
             JobsThemeCenter.shared.bind(field, slot: "WBUI.field.placeholder") { object, _ in
@@ -119,12 +126,82 @@ enum WBUI {
 
     static func empty(_ title: String, message: String, reload: @escaping () -> Void) -> UIButton {
         return JobsEmptyAuto.Config.defaultProvider()
-            .byTitle(title)
-            .bySubTitle(message + " · 点击重新加载")
+            .byTitle(WBL10n.text(title))
+            .bySubTitle(WBL10n.text(message) + " · " + WBL10n.text("重新加载"))
             .byImage(UIImage.make(named: "RepairLogo"))
             .byHeight(160)
             .onTap { _ in
                 reload()
             }
+    }
+}
+
+enum WBL10n {
+    static let languages: [(String, String)] = [
+        ("zh-Hans", "简体中文"), ("zh-Hant", "繁體中文"), ("bo", "བོད་ཡིག"),
+        ("en", "English"), ("ja", "日本語"), ("fr", "Français"),
+        ("es", "Español"), ("de", "Deutsch"), ("ru", "Русский"), ("ko", "한국어")
+    ]
+    static var didChange: (() -> Void)?
+    static var language: String {
+        get {
+            return UserDefaults.standard.string(forKey: "WBUI.language") ?? "zh-Hans"
+        }
+        set {
+            guard languages.contains(where: { $0.0 == newValue }) else {
+                return
+            }
+            UserDefaults.standard.set(newValue, forKey: "WBUI.language")
+            didChange?()
+        }
+    }
+    private static let messages: [String: [String: String]] = {
+        guard let url = Bundle.main.url(forResource: "ui-l10n", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let catalog = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            return [:]
+        }
+        return catalog["messages"] as? [String: [String: String]] ?? [:]
+    }()
+
+    private static func literal(_ value: String) -> String {
+        let direct = text(value)
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        if direct != value, trimmed != value, let range = value.range(of: trimmed) {
+            return String(value[..<range.lowerBound]) + direct.trimmingCharacters(in: .whitespacesAndNewlines) + String(value[range.upperBound...])
+        }
+        guard direct == value, !trimmed.isEmpty,
+              let pair = messages[language]?.first(where: { $0.key.trimmingCharacters(in: .whitespacesAndNewlines) == trimmed }),
+              let range = value.range(of: trimmed) else {
+            return direct
+        }
+        return String(value[..<range.lowerBound]) + pair.value.trimmingCharacters(in: .whitespacesAndNewlines) + String(value[range.upperBound...])
+    }
+
+    // Called only for source literals, before business values are appended.
+    static func staticText(_ value: String) -> String {
+        let direct = literal(value)
+        guard direct == value else {
+            return direct
+        }
+        var result = ""
+        var word = ""
+        for character in value {
+            let separator = character.unicodeScalars.allSatisfy { scalar in
+                CharacterSet.whitespacesAndNewlines.contains(scalar) || CharacterSet.punctuationCharacters.contains(scalar)
+            }
+            if separator {
+                result += literal(word)
+                word = ""
+                result.append(character)
+            } else {
+                word.append(character)
+            }
+        }
+        return result + literal(word)
+    }
+
+    static func text(_ value: String) -> String {
+        return messages[language]?[value] ?? value
     }
 }

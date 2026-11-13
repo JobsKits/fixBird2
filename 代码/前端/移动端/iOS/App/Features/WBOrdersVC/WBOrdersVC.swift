@@ -18,26 +18,29 @@ final class WBOrdersVC: BaseVC {
     private lazy var status = WBFormField("status", "工单状态", kind: .choice(
         [("", "全部状态")] + WBOrder.statusLabels.keys.sorted().map { ($0, WBOrder.statusLabels[$0] ?? $0) }
     ))
-    private lazy var searchButton = WBUI.button("搜索", primary: true) { [weak self] in
+    private lazy var searchButton = WBUI.button(WBL10n.staticText("搜索"), primary: true) { [weak self] in
         guard let self else {
             return
         }
         self.store.setQuery(self.search.text ?? "", status: self.status.string)
     }
-    private lazy var createButton = WBUI.button("新建工单") { [weak self] in
+    private lazy var createButton = WBUI.button(WBL10n.staticText("新建工单")) { [weak self] in
         self?.navigationController?.pushViewControllerByAnimated(WBOrderFormVC())
     }
-    private lazy var refreshButton = WBUI.button("重新加载") { [weak self] in
+    private lazy var refreshButton = WBUI.button(WBL10n.staticText("重新加载")) { [weak self] in
         self?.store.refresh()
     }
-    private lazy var moreButton = WBUI.button("加载更多") { [weak self] in
+    private lazy var moreButton = WBUI.button(WBL10n.staticText("加载更多")) { [weak self] in
         self?.store.loadMore()
     }
     private var observer: UUID?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        jobsSetupGKNav(title: "工单")
+        jobsSetupGKNav(title: WBL10n.text("工单"))
+        if navigationController?.viewControllers.first === self {
+            gk_navLeftBarButtonItem?.byHidden(true)
+        }
         page.mount(in: self)
         observer = store.observe { [weak self] in
             self?.render()
@@ -57,14 +60,14 @@ final class WBOrdersVC: BaseVC {
         if ["admin", "dispatcher", "customer"].contains(store.actor?.role ?? "") {
             rows.append(createButton)
         }
-        rows.append(WBUI.label(store.sourceLabel + " · \(store.orders.count) 单\n" + store.lastMessage, size: 13, secondary: true))
+        rows.append(WBUI.label(WBL10n.text(store.sourceLabel) + (" · " + String(describing: store.orders.count) + WBL10n.staticText(" 单\n")) + WBL10n.text(store.lastMessage), size: 13, secondary: true))
         if store.orders.isEmpty {
-            rows.append(WBUI.empty("没有匹配的工单", message: "调整搜索条件或重新加载") { [weak self] in
+            rows.append(WBUI.empty(WBL10n.staticText("没有匹配的工单"), message: WBL10n.staticText("调整搜索条件或重新加载")) { [weak self] in
                 self?.store.refresh()
             })
         }
         for order in store.orders {
-            rows.append(WBUI.button(order.number + " · " + order.typeLabel + "\n" + order.customer + " · " + order.device + "\n" + order.statusLabel + " · " + order.summary.nextTask + "\n待收 " + WBUI.money(order.summary.remainingCents)) { [weak self] in
+            rows.append(WBUI.button(order.number + " · " + WBL10n.text(order.typeLabel) + "\n" + order.customer + " · " + order.device + "\n" + WBL10n.text(order.statusLabel) + " · " + order.summary.nextTask + WBL10n.staticText("\n待收 ") + WBUI.money(order.summary.remainingCents)) { [weak self] in
                 self?.navigationController?.pushViewControllerByAnimated(WBOrderDetailVC(order: order))
             })
         }

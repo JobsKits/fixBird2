@@ -81,6 +81,8 @@ Linux通过已有 `xdg-open` 调用默认浏览器，需要有效桌面会话；
 
 首次部署在 Runtime 的 `deploy-state/` 保存原程序及项目专属环境原件、指纹与进程身份；重复部署不覆盖首轮原点。已有健康共享工具继续复用，缺失工具、下载与Go缓存写入机器环境 `Projects/RepairWorkbench/<项目标识>/` 下的 `Tools/`、`Downloads/`、`GoCache/`，以便按归属完整撤回。配套[反部署入口](../../Undeployment/README.md)恢复原件并处理数据；未记录原点的旧部署不会推测删除共享SDK。
 
+**终端配色保护：** 独立运行时，在支持完整保存与恢复配色的交互终端中临时使用黑底白字及统一强调色；正常结束、失败或可捕获中断后恢复进入前的配色，不修改终端全局偏好或 Shell 启动配置。不支持完整保护、无交互终端、`NO_COLOR`、既有纯文本模式和 Sourcetree 场景不切换配色，并沿用纯文本输出约定。强制终止（如 `kill -9`）无法由脚本自身保证恢复，请使用运行时显示的独立恢复入口。
+
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 
 当前公共工具与运行资料寻址见 [环境说明](../../../README.md#machine-environment)；入口与生命周期见 [本系统代码地图](../../代码地图/README.md)。

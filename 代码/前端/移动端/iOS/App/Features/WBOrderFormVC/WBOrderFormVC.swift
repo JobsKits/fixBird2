@@ -23,17 +23,17 @@ final class WBOrderFormVC: BaseVC {
     private lazy var descriptionField = WBFormField("description", "故障现象 / 完整需求", kind: .multiline)
     private lazy var remark = WBFormField("remark", "内部备注", kind: .multiline)
     private lazy var customerNote = WBFormField("customerNote", "发布给客户的说明", kind: .multiline)
-    private lazy var submitButton = WBUI.button("创建工单", primary: true) { [weak self] in
+    private lazy var submitButton = WBUI.button(WBL10n.staticText("创建工单"), primary: true) { [weak self] in
         self?.submit()
     }
     private var submitting = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        jobsSetupGKNav(title: "新建工单")
+        jobsSetupGKNav(title: WBL10n.text("新建工单"))
         page.mount(in: self)
         var rows: [UIView] = [
-            WBUI.label(store.sourceLabel, size: 13, secondary: true),
+            WBUI.label(WBL10n.text(store.sourceLabel), size: 13, secondary: true),
             typeField, customer, customerId, companyId, project, device, descriptionField
         ]
         if store.actor?.isInternal == true {
@@ -49,7 +49,7 @@ final class WBOrderFormVC: BaseVC {
         }
         guard !customer.string.isEmpty, !customerId.string.isEmpty, !companyId.string.isEmpty,
               !device.string.isEmpty, !descriptionField.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            page.status("请填写客户名称、授权账号、企业、设备和需求。")
+            page.status(WBL10n.staticText("请填写客户名称、授权账号、企业、设备和需求。"))
             return
         }
         let input = WBOrderInput()
@@ -64,7 +64,7 @@ final class WBOrderFormVC: BaseVC {
             .byCustomerNote(customerNote.string)
         submitting = true
         submitButton.byUserInteractionEnabled(false)
-        page.status("正在提交…")
+        page.status(WBL10n.staticText("正在提交…"))
         store.createOrder(input: input) { [weak self] result in
             guard let self else {
                 return
@@ -74,11 +74,11 @@ final class WBOrderFormVC: BaseVC {
             switch result {
             /// 展示确认后的完整工单，保留来源提示。
             case .success(let order):
-                self.page.status(self.store.lastMessage)
+                self.page.status(WBL10n.text(self.store.lastMessage))
                 self.navigationController?.pushViewControllerByAnimated(WBOrderDetailVC(order: order))
             /// 未知结果不自动重复提交。
             case .failure(let error):
-                self.page.status(error.localizedDescription + "\n请先查看工单列表确认结果，再决定是否重试。")
+                self.page.status(error.localizedDescription + WBL10n.staticText("\n请先查看工单列表确认结果，再决定是否重试。"))
             }
         }
     }

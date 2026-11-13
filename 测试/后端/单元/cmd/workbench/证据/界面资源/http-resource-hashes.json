@@ -1,0 +1,38 @@
+{
+  "resources": [
+    {
+      "bytes": 17772300,
+      "matchesBundledFile": true,
+      "mime": "font/ttf",
+      "name": "NotoSansSC.ttf",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "status": 200
+    },
+    {
+      "bytes": 16437364,
+      "matchesBundledFile": true,
+      "mime": "font/otf",
+      "name": "NotoSansCJKsc-Regular.otf",
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+      "status": 200
+    },
+    {
+      "bytes": 2063504,
+      "matchesBundledFile": true,
+      "mime": "font/ttf",
+      "name": "NotoSerifTibetan.ttf",
+      "sha256": "060ec022b04c306de3f58d051fb0e1cf81a5b610c5910fbfc43bba154c057cda",
+      "status": 200
+    },
+    {
+      "bytes": 1581153,
+      "matchesBundledFile": true,
+      "mime": "application/json; charset=utf-8",
+      "name": "ui-l10n.json",
+      "sha256": "d6e0d20257bd8878745c91200f95da2832243d683241e3333d806ffcae76f819",
+      "status": 200
+    }
+  ],
+  "source": "current cmd/workbench/web.go via overlay",
+  "transport": "isolated real TCP HTTP via httptest.NewServer"
+}

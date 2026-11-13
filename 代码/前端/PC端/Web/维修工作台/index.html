@@ -7,13 +7,15 @@
     <title>啄木鸟 · 维修协同工作台</title>
     <link rel="icon" href="./assets/RepairLogo.png" />
     <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./appearance.js"></script>
     <script defer src="./data.js"></script>
     <script defer src="./app.js"></script>
-  </head>
+  <script defer src="./localization.js"></script></head>
   <body>
+    <a class="skip-link" href="#mainContent">跳到主要内容</a>
     <aside class="sidebar">
       <a class="brand" href="./"
-        ><img src="./assets/RepairLogo.png" alt="啄木鸟维修平台" /><span
+        ><img width="44" height="44" src="./assets/RepairLogo.png" alt="啄木鸟维修平台" /><span
           >啄木鸟<strong>维修协同平台</strong></span
         ></a
       >
@@ -55,6 +57,7 @@
           工作空间 <span>/</span> <strong id="breadcrumb">工单工作台</strong>
         </div>
         <div class="topbar-actions">
+          <label class="theme-picker"><span>显示主题</span><select id="appearanceTheme" aria-label="显示主题"><option value="system">跟随系统</option><option value="light">白天</option><option value="dark">黑夜</option></select></label>
           <span id="sourceBadge" class="source-badge">本地演示</span
           ><button
             class="icon-button"
@@ -69,10 +72,9 @@
           </button>
         </div>
       </header>
-      <main id="mainContent">
+      <main id="mainContent" tabindex="-1">
         <section class="page-heading">
           <div>
-            <div class="eyebrow">OPERATIONS WORKSPACE</div>
             <h1 id="pageTitle">每一张工单，都有下一步。</h1>
             <p id="pageSubtitle">
               从受理到整单完结，业务进度、资料票款与责任人一目了然。
@@ -116,6 +118,7 @@
                 ><span>⌕</span
                 ><input
                   id="search"
+                  aria-label="搜索工单"
                   placeholder="搜索工单号、企业、设备或负责人"
                   autocomplete="off" /></label
               ><label
@@ -180,7 +183,6 @@
               <div id="attentionList" class="attention-list"></div>
             </section>
             <section class="panel flow-panel">
-              <div class="eyebrow">ONE ORDER · ONE JOURNEY</div>
               <h2>验收之后，继续跟到整单完结。</h2>
               <p>
                 所需资料发出、真实票据齐备、现金核实及内部余项办妥，再由负责人一次确认。
@@ -204,10 +206,10 @@
         啄木鸟维修协同平台<span>第一阶段 · 现金登记与人工确认</span>
       </footer>
     </div>
-    <dialog id="detailDialog" class="detail-dialog">
+    <dialog aria-label="工单详情" id="detailDialog" class="detail-dialog">
       <div id="detailContent"></div>
     </dialog>
-    <dialog id="formDialog" class="form-dialog">
+    <dialog aria-label="业务办理" id="formDialog" class="form-dialog">
       <div id="formContent"></div>
     </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

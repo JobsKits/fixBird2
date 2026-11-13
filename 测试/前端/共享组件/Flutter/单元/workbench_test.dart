@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -37,6 +38,53 @@ void main() {
     endpoint: 'http://127.0.0.1:1',
     client: MockClient((_) async => throw const SocketException('offline')),
   );
+  test('Demo后台自动使用admin/1234，正式与未知服务保留门禁', () async {
+    for (final mode in ['synthetic_demo', 'production', 'unknown']) {
+      final logins = <Json>[];
+      final s = WorkbenchStore(
+        contract,
+        endpoint: 'http://example.test',
+        adminAuthentication: true,
+        client: MockClient((request) async {
+          if (request.url.path.endsWith('/healthz'))
+            return json({'mode': mode});
+          if (request.url.path.endsWith('/login'))
+            logins.add(object(jsonDecode(request.body)));
+          return json({'message': 'offline'}, 503);
+        }),
+      );
+      await s.openAdmin();
+      if (mode == 'synthetic_demo') {
+        expect(s.actor?['id'], 'admin');
+        expect(s.synthetic, true);
+        expect(logins.single, {'username': 'admin', 'password': '1234'});
+      } else {
+        expect(s.actor, isNull);
+        expect(logins, isEmpty);
+        await expectLater(s.login('admin', '1234'), throwsA(isA<ApiFailure>()));
+        expect(s.actor, isNull);
+      }
+      s.dispose();
+    }
+  });
+  Future<void> saveScreenshot(String name, List<int> bytes) async {
+    var project = Directory.current.absolute;
+    while (!File.fromUri(project.uri.resolve('代码/前端/共享组件/Flutter/pubspec.yaml'))
+            .existsSync() ||
+        !File.fromUri(project.uri.resolve('测试/README.md')).existsSync()) {
+      final parent = project.parent;
+      if (parent.path == project.path) {
+        throw StateError('请从项目内的共享包工程运行测试，未写入验证截图。');
+      }
+      project = parent;
+    }
+    final output = File.fromUri(
+      project.uri.resolve('测试/前端/共享组件/Flutter/证据/$name'),
+    );
+    await output.parent.create(recursive: true);
+    await output.writeAsBytes(bytes);
+  }
+
   test('管理Web和Flutter共享契约字节一致', () {
     expect(
       File('assets/admin-ui.json').readAsBytesSync(),
@@ -405,9 +453,8 @@ void main() {
     s.dispose();
   });
   test('现金缺金额时拒绝采纳为真账', () {
-    final row = DemoLedger(
-      contract,
-    ).snapshot(DemoLedger(contract).identity('admin'));
+    final row = DemoLedger(contract)
+        .snapshot(DemoLedger(contract).identity('admin'));
     final order = records(row['orders']).first;
     order['cash'] = [
       {'id': 'cash', 'kind': 'receipt'},
@@ -579,9 +626,10 @@ void main() {
                   as RenderRepaintBoundary;
           final image = await boundary.toImage();
           final pixels = await image.toByteData(format: ui.ImageByteFormat.png);
-          await File(
-            '验证/admin-flutter-${width.toInt()}.png',
-          ).writeAsBytes(pixels!.buffer.asUint8List());
+          await saveScreenshot(
+            'admin-flutter-${width.toInt()}.png',
+            pixels!.buffer.asUint8List(),
+          );
           image.dispose();
         });
         await s.logout();
@@ -594,9 +642,10 @@ void main() {
                   as RenderRepaintBoundary;
           final image = await boundary.toImage();
           final pixels = await image.toByteData(format: ui.ImageByteFormat.png);
-          await File(
-            '验证/admin-flutter-login-${width.toInt()}.png',
-          ).writeAsBytes(pixels!.buffer.asUint8List());
+          await saveScreenshot(
+            'admin-flutter-login-${width.toInt()}.png',
+            pixels!.buffer.asUint8List(),
+          );
           image.dispose();
         });
         await tester.pumpWidget(const SizedBox());
@@ -622,11 +671,8 @@ void main() {
     final text = tester.widget<Text>(value);
     expect(text.maxLines, 1);
     expect(text.softWrap, false);
-    final moneyCard = find.ancestor(of: value, matching: find.byType(Card));
-    final neighbour = find.ancestor(
-      of: find.text('待完结'),
-      matching: find.byType(Card),
-    );
+    final moneyCard = find.byKey(const ValueKey('metric-remainingCents'));
+    final neighbour = find.byKey(const ValueKey('metric-readyCount'));
     expect(tester.getSize(moneyCard).height, tester.getSize(neighbour).height);
     final paragraph = tester.renderObject<RenderBox>(value),
         cardRect = tester.getRect(moneyCard);
@@ -640,4 +686,37 @@ void main() {
     await tester.pumpWidget(const SizedBox());
     s.dispose();
   }, variant: TargetPlatformVariant({TargetPlatform.macOS}));
+  testWidgets('数字日期选择器切换月份后钳制有效日且取消不提交', (tester) async {
+    DateTime? selected;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => TextButton(
+            onPressed: () async {
+              selected = await showWorkbenchDateTimePicker(
+                context,
+                DateTime(2025, 1, 31, 14, 35),
+              );
+            },
+            child: const Text('选择时间'),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('选择时间'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('date-月-1')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('2').last);
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('date-日-28')), findsOneWidget);
+    await tester.tap(find.text('确认提交'));
+    await tester.pumpAndSettle();
+    expect(selected, DateTime(2025, 2, 28, 14, 35));
+    await tester.tap(find.text('选择时间'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('取消'));
+    await tester.pumpAndSettle();
+    expect(selected, isNull);
+  });
 }

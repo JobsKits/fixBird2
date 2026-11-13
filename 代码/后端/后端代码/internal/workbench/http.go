@@ -57,7 +57,14 @@ func bearer(r *http.Request) string {
 func (s *Service) Handler(webDir string) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/v38/healthz", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, 200, map[string]any{"status": "ok", "version": "3.8", "mode": "synthetic_demo"})
+		s.mu.Lock()
+		demo := s.state.Settings.Demo
+		s.mu.Unlock()
+		mode := "production"
+		if demo {
+			mode = "synthetic_demo"
+		}
+		writeJSON(w, 200, map[string]any{"status": "ok", "version": "3.8", "mode": mode})
 	})
 	mux.HandleFunc("POST /api/v38/login", func(w http.ResponseWriter, r *http.Request) {
 		raw, err := readBody(w, r)

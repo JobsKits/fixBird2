@@ -22,22 +22,22 @@ final class WBFileEvidenceVC: BaseVC, UIDocumentPickerDelegate {
     private var submitting = false
     private var importer: UIDocumentPickerViewController?
     private lazy var page = WBPageView()
-    private lazy var source = WBUI.label(WBStore.shared.sourceLabel, size: 13, secondary: true)
+    private lazy var source = WBUI.label(WBL10n.text(WBStore.shared.sourceLabel), size: 13, secondary: true)
     private lazy var titleField = WBFormField("name", "资料名称")
     private lazy var descriptionField = WBFormField("text", "事实说明（文字资料必填）", kind: .multiline)
-    private lazy var fileInformation = WBUI.label("尚未选择文件；仅填写事实说明可归档为文字资料。", size: 13, secondary: true)
+    private lazy var fileInformation = WBUI.label(WBL10n.staticText("尚未选择文件；仅填写事实说明可归档为文字资料。"), size: 13, secondary: true)
     private lazy var visibility = WBFormField("public", "资料可见范围", kind: .choice([
         ("false", "仅按内部业务授权查看"),
         ("true", "允许当前工单客户查看")
     ]), value: "false")
-    private lazy var customerNotice = WBUI.label("客户上传的资料按当前工单授权共享。", size: 13, secondary: true)
-    private lazy var chooseButton = WBUI.button("选择本地原件（PDF、图片、音视频）") { [weak self] in
+    private lazy var customerNotice = WBUI.label(WBL10n.staticText("客户上传的资料按当前工单授权共享。"), size: 13, secondary: true)
+    private lazy var chooseButton = WBUI.button(WBL10n.staticText("选择本地原件（PDF、图片、音视频）")) { [weak self] in
         self?.chooseFile()
     }
-    private lazy var discardButton = WBUI.button("取消文件选择，改为文字资料") { [weak self] in
+    private lazy var discardButton = WBUI.button(WBL10n.staticText("取消文件选择，改为文字资料")) { [weak self] in
         self?.discardFile()
     }
-    private lazy var submitButton = WBUI.button("提交并归档资料", primary: true) { [weak self] in
+    private lazy var submitButton = WBUI.button(WBL10n.staticText("提交并归档资料"), primary: true) { [weak self] in
         self?.submit()
     }
 
@@ -55,7 +55,7 @@ final class WBFileEvidenceVC: BaseVC, UIDocumentPickerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        jobsSetupGKNav(title: "归档业务资料")
+        jobsSetupGKNav(title: WBL10n.text("归档业务资料"))
         page.mount(in: self)
         page.replace([source, titleField, descriptionField, chooseButton, fileInformation, discardButton,
                       openingActor == nil || WBStore.shared.actor?.role == "customer" ? customerNotice : visibility,
@@ -71,7 +71,7 @@ final class WBFileEvidenceVC: BaseVC, UIDocumentPickerDelegate {
 
     private func chooseFile() {
         guard sameContext, !submitting else {
-            page.status("身份或数据来源已改变，请返回详情重新加载。")
+            page.status(WBL10n.staticText("身份或数据来源已改变，请返回详情重新加载。"))
             return
         }
         importer = UIDocumentPickerViewController.make(delegate: self)
@@ -85,7 +85,7 @@ final class WBFileEvidenceVC: BaseVC, UIDocumentPickerDelegate {
             importer = nil
         }
         guard sameContext, let url = urls.first, url.isFileURL else {
-            page.status("当前资料来源已变化，请重新打开办理页面。")
+            page.status(WBL10n.staticText("当前资料来源已变化，请重新打开办理页面。"))
             return
         }
         let scope = url.startAccessingSecurityScopedResource()
@@ -131,16 +131,16 @@ final class WBFileEvidenceVC: BaseVC, UIDocumentPickerDelegate {
 
     private func submit() {
         guard !submitting, sameContext, order.can("evidence"), !order.isSummary else {
-            page.status("当前工单或身份不可办理，请返回详情重新加载。")
+            page.status(WBL10n.staticText("当前工单或身份不可办理，请返回详情重新加载。"))
             return
         }
         let name = titleField.string.isEmpty ? fileName : titleField.string
         guard !name.isEmpty, name.count <= 200 else {
-            page.status("请填写不超过 200 字的资料名称。")
+            page.status(WBL10n.staticText("请填写不超过 200 字的资料名称。"))
             return
         }
         guard bytes != nil || !descriptionField.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            page.status("请填写事实说明或选择文件原件。")
+            page.status(WBL10n.staticText("请填写事实说明或选择文件原件。"))
             return
         }
         let kind = bytes == nil ? "text" : mime.hasPrefix("image/") ? "image" : mime.hasPrefix("audio/") ? "audio" : mime.hasPrefix("video/") ? "video" : "document"
@@ -149,7 +149,7 @@ final class WBFileEvidenceVC: BaseVC, UIDocumentPickerDelegate {
                                       "data": bytes?.base64EncodedString() ?? "",
                                       "public": WBStore.shared.actor?.role == "customer" || visibility.string == "true"]
         submitting = true
-        page.status("正在提交，请等待归档结果。")
+        page.status(WBL10n.staticText("正在提交，请等待归档结果。"))
         WBStore.shared.perform(order: order, action: "evidence", payload: payload) { [weak self] result in
             guard let self else {
                 return

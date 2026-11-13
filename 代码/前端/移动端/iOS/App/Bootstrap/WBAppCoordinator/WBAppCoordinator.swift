@@ -29,6 +29,9 @@ final class WBAppCoordinator {
         observer = WBStore.shared.observe { [weak self] in
             self?.synchronizeIdentity()
         }
+        WBL10n.didChange = { [weak self] in
+            self?.synchronizeIdentity()
+        }
     }
 
     deinit {
@@ -39,10 +42,10 @@ final class WBAppCoordinator {
 
     private func currentIdentity() -> String? {
         guard let actor = WBStore.shared.actor else {
-            return nil
+            return "guest|" + WBL10n.language
         }
         return [actor.id, actor.role, actor.companyId, String(actor.authVersion),
-                WBStore.shared.endpoint, WBStore.shared.isDemo ? "demo" : "server"].joined(separator: "|")
+                WBStore.shared.endpoint, WBStore.shared.isDemo ? "demo" : "server", WBL10n.language].joined(separator: "|")
     }
 
     private func synchronizeIdentity() {
@@ -85,7 +88,7 @@ final class WBAppCoordinator {
     private func makeNavigation(_ controller: UIViewController, title: String) -> UINavigationController {
         return UINavigationController.jobsMake { navigation in
             navigation.byViewControllers([controller])
-                .byTitle(title)
+                .byTitle(WBL10n.text(title))
         }
     }
 }

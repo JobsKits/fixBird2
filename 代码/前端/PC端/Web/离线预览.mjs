@@ -23,6 +23,7 @@ const mimeTypes = {
   '.ico': 'image/x-icon',
   '.wasm': 'application/wasm',
   '.ttf': 'font/ttf',
+  '.otf': 'font/otf',
   '.woff2': 'font/woff2'
 };
 
@@ -32,6 +33,11 @@ async function serve(request, response) {
   response.setHeader('X-Content-Type-Options', 'nosniff');
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
+    if (request.method === 'GET' && pathname === '/api/v38/healthz') {
+      response.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      response.end(JSON.stringify({ status: 'ok', mode: 'synthetic_demo', offline: true }));
+      return;
+    }
     if (pathname === '/api' || pathname.startsWith('/api/')) {
       response.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
       response.end(JSON.stringify({ error: 'offline_preview', message: '独立离线预览服务，未连接业务后台' }));

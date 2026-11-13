@@ -6,8 +6,8 @@ const object = value => value && typeof value === 'object' && !Array.isArray(val
 const strings = value => Array.isArray(value) && value.every(v => typeof v === 'string');
 const integer = value => Number.isSafeInteger(value);
 class ApiError extends Error {
-  constructor(message, status = 0, uncertain = false) {
-    super(message); this.status = status; this.uncertain = uncertain;
+  constructor(message, status = 0, uncertain = false, uiParts) {
+    super(message); this.status = status; this.uncertain = uncertain; this.uiParts = uiParts || [message];
   }
 }
 function validateActor(actor) {
@@ -47,7 +47,11 @@ class Store {
     this.timeout = Math.max(500, Math.min(10000, Number(config.timeout) || 2200));
     this.epoch = 0; this.readSequence = 0; this.detailSequence = 0; this.intents = new Map();
     this.token = ''; this.actor = null; this.demoActor = null; this.snapshot = null; this.detail = null;
-    this.pendingWrite = null; this.source = 'demo'; this.message = '请登录；服务器不可用时可使用合成示例账号演示。';
+    this.pendingWrite = null; this.source = 'demo'; this.notice('请登录；服务器不可用时可使用合成示例账号演示。');
+  }
+  notice(...parts) {
+    this.messageParts = parts;
+    this.message = parts.join('');
   }
   clear() {
     this.epoch++; this.readSequence++; this.detailSequence++; this.token = ''; this.actor = null; this.demoActor = null;
@@ -64,10 +68,10 @@ class Store {
     try {
       response = await this.transport({url:this.base + '/api/v38' + route, method, data, timeout:this.timeout,
         header:Object.assign({'Content-Type':'application/json'}, this.token ? {Authorization:'Bearer '+this.token} : {}, key ? {'Idempotency-Key':key} : {})});
-    } catch (error) { throw new ApiError(error.message || '网络请求失败。'); }
+    } catch (error) { throw new ApiError(error.message || '网络请求失败。', 0, false, error.uiParts); }
     if (epoch !== this.epoch) throw new ApiError('身份已切换，旧请求已忽略。', 409);
     if (response.statusCode === 401 && this.token) {
-      this.clear(); this.source = 'demo'; this.message = '会话已失效，请重新登录。';
+      this.clear(); this.source = 'demo'; this.notice('会话已失效，请重新登录。');
       throw new ApiError(this.message, 401);
     }
     let result = response.data;
@@ -101,7 +105,7 @@ class Store {
     } catch (error) {
       if (epoch !== this.epoch || error.status) throw error;
       if (password !== 'Demo-Repair-2026!') throw error;
-      this.openDemo(username); this.message = '独立合成演示 · 所有修改不进入真实台账。';
+      this.openDemo(username); this.notice('独立合成演示 · 所有修改不进入真实台账。');
       await this.refresh();
     }
   }
@@ -128,7 +132,7 @@ class Store {
         throw new ApiError('服务端快照或分页响应不完整。',200);
       page.items.forEach(o=>validateOrder(o));
       snapshot.orders = page.items; snapshot.orderPage = page;
-      this.snapshot = snapshot; this.source = 'server'; this.message = '服务端数据 · 当前账号授权范围';
+      this.snapshot = snapshot; this.source = 'server'; this.notice('服务端数据 · 当前账号授权范围');
     } catch (error) {
       if (epoch !== this.epoch || sequence !== this.readSequence) return;
       if (error.status === 401 && !this.demoActor) throw error;
@@ -136,7 +140,7 @@ class Store {
       const items = this.snapshot.orders.filter(o=>(!query.status || o.status===query.status) && (!query.q || [o.number,o.customer,o.device,o.project].some(v=>String(v).includes(query.q))));
       const page = Math.max(1,Number(query.page)||1);
       this.snapshot.orders = items.slice((page-1)*30,page*30); this.snapshot.orderPage = {page,pageSize:30,total:items.length,totalPages:Math.ceil(items.length/30)};
-      this.message = error.message + (this.token ? ' 已清除服务端资料；重新加载成功后自动恢复，办理前请恢复服务或切换独立演示。' : ' 独立合成演示；后续刷新继续尝试服务。');
+      this.notice(...(error.uiParts || [error.message]), this.token ? ' 已清除服务端资料；重新加载成功后自动恢复，办理前请恢复服务或切换独立演示。' : ' 独立合成演示；后续刷新继续尝试服务。');
     }
   }
   async readDetail(id) {
@@ -176,7 +180,7 @@ class Store {
       if (this.token || !this.demoActor || error.status && error.status !== 401) {
         if (!error.status || error.status === 200 || error.status >= 500) {
           this.pendingWrite={route,body:clone(body),expectedId,identity};
-          throw new ApiError('提交结果暂不确定，请按原内容重试或核对服务端结果。'+error.message,error.status,true);
+          throw new ApiError('提交结果暂不确定，请按原内容重试或核对服务端结果。'+error.message,error.status,true,['提交结果暂不确定，请按原内容重试或核对服务端结果。',...(error.uiParts || [error.message])]);
         }
         throw error;
       }
@@ -193,7 +197,7 @@ class Store {
   }
   async logout() {
     const pending = this.request('/logout','POST',{});
-    this.clear(); this.message='已退出，私有资料已清除。';
+    this.clear(); this.notice('已退出，私有资料已清除。');
     try {await pending;} catch (_) {}
   }
 }

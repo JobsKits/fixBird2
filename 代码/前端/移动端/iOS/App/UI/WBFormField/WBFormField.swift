@@ -44,7 +44,7 @@ final class WBFormField: UIStackView {
         }
         picker.byDatePickerMode(mode)
             .byPreferredDatePickerStyle(.compact)
-            .byLocale(Locale(identifier: "zh_CN"))
+            .byLocale(Locale(identifier: WBL10n.language))
             .byCalendar(businessCalendar)
             .byTimeZone(businessCalendar.timeZone)
             .byDate(parsed)
@@ -52,7 +52,7 @@ final class WBFormField: UIStackView {
 
     init(_ key: String, _ caption: String, kind: WBFieldKind = .text, value: String = "") {
         self.key = key
-        self.caption = caption
+        self.caption = WBL10n.staticText(caption)
         self.kind = kind
         self.selected = value
         super.init(frame: .zero)
@@ -118,7 +118,7 @@ final class WBFormField: UIStackView {
         /// 数量与月数必须为整数。
         case .integer:
             guard let value = Int(string), value >= 0 else {
-                throw WBUIError(caption + "须为非负整数。")
+                throw WBUIError(caption + ": " + WBL10n.text("须为非负整数。"))
             }
             return value
         /// 多选使用真实引用ID。
@@ -158,6 +158,6 @@ final class WBFormField: UIStackView {
 
     private func display(_ option: (String, String), multiple: Bool) -> String {
         let active = multiple ? selectedMany.contains(option.0) : selected == option.0
-        return (active ? "已选 · " : "") + option.1
+        return (active ? WBL10n.text("已选 · ") : "") + (multiple ? option.1 : WBL10n.text(option.1))
     }
 }

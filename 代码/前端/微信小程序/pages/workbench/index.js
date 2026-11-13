@@ -2,33 +2,37 @@
 const {Store,wxTransport}=require('../../utils/store');
 const F=require('../../utils/form');
 const C=require('../../assets/contract.json');
+const UI=require('../../utils/locale');
 const money=value=>(Number(value||0)/100).toFixed(2);
 const text=value=>value === undefined || value === null || value === '' ? '—' : String(value);
 const store=new Store(wxTransport(wx),wx.getStorageSync('repair-config')||{});
 Page({
   data:{screen:'login',previous:'orders',username:'customer',password:'',busy:false,message:store.message,source:'demo',roles:C.roles,
     states:[{value:'',label:'全部阶段'},...C.states],stateIndex:0,q:'',page:1,orders:[],parts:[],loans:[],purchases:[],fields:[],base:store.base,timeout:store.timeout},
-  onLoad(){this.showState();},
+  onLoad(){this.setData(UI.state());this.showState();this.applyAppearance();this.themeChanged=()=>this.applyAppearance();if(wx.onThemeChange)wx.onThemeChange(this.themeChanged);},
   onShow(){if(store.actor||store.demoActor)this.reload();},
   onPullDownRefresh(){this.reload().finally(()=>wx.stopPullDownRefresh());},
   onHide(){this.invalidateForm();},
-  onUnload(){this.invalidateForm();},
+  onUnload(){this.invalidateForm();if(wx.offThemeChange&&this.themeChanged)wx.offThemeChange(this.themeChanged);},
   invalidateForm(){this.formSerial=(this.formSerial||0)+1;this.fileData=null;},
   async run(job){
     if(this.data.busy)return;
     this.setData({busy:true});
-    try {await job();} catch(error){wx.showToast({title:error.message||'操作未完成',icon:'none',duration:4000});this.setData({error:error.message});}
+    try {await job();} catch(error){wx.showToast({title:UI.errorText(error),icon:'none',duration:4000});this.setData({error:UI.errorText(error)});}
     finally {this.showState();this.setData({busy:false});}
   },
   showState(){
     const snapshot=store.snapshot;
-    const update={pending:!!store.pendingWrite,message:store.message,source:store.source,loggedIn:!!(store.actor||store.demoActor),writable:store.writable,actor:store.actor||store.demoActor};
+    const update={pending:!!store.pendingWrite,message:UI.notice(store),source:store.source,loggedIn:!!(store.actor||store.demoActor),writable:store.writable,actor:store.actor||store.demoActor};
     if(!update.loggedIn){this.order=null;this.detailId=null;this.formRecord=null;}
     if(!update.loggedIn)Object.assign(update,{screen:'login',orders:[],detail:null,sections:[],fields:[],actions:[],evidence:[],parts:[],loans:[],purchases:[]});
-    if(snapshot)Object.assign(update,{orders:(snapshot.orders||[]).map(o=>Object.assign({},o,{stateLabel:(C.states.find(s=>s.value===o.status)||{}).label||o.status,remaining:money(o.summary.remainingCents)})),
+    if(snapshot)Object.assign(update,{orders:(snapshot.orders||[]).map(o=>Object.assign({},o,{stateLabel:UI.tr((C.states.find(s=>s.value===o.status)||{}).label||o.status),remaining:money(o.summary.remainingCents)})),
       parts:snapshot.parts||[],loans:snapshot.loans||[],purchases:snapshot.purchases||[],openCount:snapshot.metrics.openCount,remaining:money(snapshot.metrics.remainingCents),pagination:snapshot.orderPage});
-    this.setData(update);
+    update.roles=C.roles.map(x=>Object.assign({},x,{label:UI.tr(x.label)}));update.states=[{value:'',label:UI.tr('全部阶段')},...C.states.map(x=>Object.assign({},x,{label:UI.tr(x.label)}))];this.setData(update);
   },
+  languageChange(event){const code=UI.languages[Number(event.detail.value)].code;wx.setStorageSync('repair-language',code);this.setData(UI.state());this.showState();this.applyAppearance();},
+  appearanceChange(event){const mode=['system','light','dark'][Number(event.detail.value)];wx.setStorageSync('repair-appearance',mode);this.setData({appearance:mode});this.applyAppearance();},
+  applyAppearance(){const system=wx.getSystemInfoSync?wx.getSystemInfoSync().theme:'light';const dark=this.data.appearance==='dark'||(this.data.appearance==='system'&&system==='dark');if(wx.setNavigationBarColor)wx.setNavigationBarColor({frontColor:dark?'#ffffff':'#000000',backgroundColor:dark?'#192A22':'#FFFFFF'});if(wx.setNavigationBarTitle)wx.setNavigationBarTitle({title:UI.tr('啄木鸟维修')});},
   input(event){this.setData({[event.currentTarget.dataset.key]:event.detail.value});},
   role(event){this.setData({username:C.roles[Number(event.detail.value)].id,password:'',screen:'login'});},
   login(){return this.run(async()=>{
@@ -54,12 +58,12 @@ Page({
     this.invalidateForm();const serial=this.formSerial;this.detailId=id;this.setData({screen:'detail',detail:null,sections:[],error:''});
     const order=await store.readDetail(id);if(!order||serial!==this.formSerial||this.data.screen!=='detail')return;
     const sections=[['工单资料',[['工单号',order.number],['客户',order.customer],['位置',order.project],['设备',order.device],['描述',order.description],['当前待办',order.summary.nextTask],['待收（元）',money(order.summary.remainingCents)],['未办事项',order.summary.missing.join('；')]]],
-      ['当前报价',[['总额（元）',money(order.quote.amountCents)],['范围',order.quote.description],['预付（元）',money(order.quote.prepayCents)],['先款开修',order.quote.startRequiresPrepayment?'是':'否'],['有效期',order.quote.validUntil],['报价版本',order.quote.version]]]];
+      ['当前报价',[['总额（元）',money(order.quote.amountCents)],['范围',order.quote.description],['预付（元）',money(order.quote.prepayCents)],['先款开修',UI.tr(order.quote.startRequiresPrepayment?'是':'否')],['有效期',order.quote.validUntil],['报价版本',order.quote.version]]]];
     const definitions=[['cash','收退款',['id','amountCents','kind','purpose','verified']],['invoices','发票',['id','number','amountCents']],['issues','异议',['id','note','resolved']],['obligations','余项',['id','title','ownerId','done']],['events','办理记录',['type','note','actorId','createdAt']],['acceptanceRecords','验收历史',['passed','signerName','signedAt','note']]];
     for(const [key,label,keys]of definitions)sections.push([label,(order[key]||[]).map(v=>[text(v.id||v.type||v.signedAt),keys.map(k=>text(v[k])).join(' · ')])]);
     const actions=(order.allowedActions||[]).map(t=>F.action(t)).filter(Boolean);
     this.order=order;
-    this.setData({detail:{id:order.id,number:order.number,version:order.version},sections:sections.map(([title,rows])=>({title,rows:rows.map(([label,value],index)=>({key:index,label,value:text(value)}))})),actions,evidence:order.evidence||[],screen:'detail',error:''});
+    this.setData({detail:{id:order.id,number:order.number,version:order.version},sections:sections.map(([title,rows])=>({title:UI.tr(title),emptyTitle:UI.tr("暂无{title}").replace("{title}",UI.tr(title)),rows:rows.map(([label,value],index)=>({key:index,label:UI.tr(label),value:text(value)}))})),actions:actions.map(x=>Object.assign({},x,{label:UI.tr(x.label)})),evidence:order.evidence||[],screen:'detail',error:''});
   },
   retryDetail(){if(this.detailId)return this.run(()=>this.loadDetail(this.detailId));return this.reload();},
   create(){this.openForm('create','新建工单',C.createOrder,null);},
@@ -73,10 +77,10 @@ Page({
     const def=C.loanActions.find(v=>v.type===kind);if(def)this.openForm('loan:'+kind,def.label,def.fields,record);
   },
   openForm(type,title,definitions,record){
-    if(!store.writable)return wx.showToast({title:'请先恢复连接或切换独立演示。',icon:'none'});
+    if(!store.writable)return wx.showToast({title:UI.tr('请先恢复连接或切换独立演示。'),icon:'none'});
     this.invalidateForm();this.formEpoch=store.epoch;this.formRecord=record?JSON.parse(JSON.stringify(record)):null;
     this.returnScreen=this.data.screen;this.signatureDirty=false;this.setData({fileLabel:''});
-    this.setData({screen:'form',formType:type,formTitle:title,fields:F.fields(definitions,record,store.actor||store.demoActor),error:''});
+    this.setData({screen:'form',formType:type,formTitle:UI.tr(title),fields:F.fields(definitions,record,store.actor||store.demoActor).map(x=>Object.assign({},x,{label:UI.tr(x.label),options:x.options?x.options.map(o=>Object.assign({},o,{label:UI.tr(o.label)})):x.options})),error:''});
     if(definitions.some(f=>f.type==='signature'))wx.nextTick(()=>this.clearSignature());
   },
   field(event){
@@ -96,13 +100,13 @@ Page({
   chooseFile(){
     const serial=this.formSerial,epoch=store.epoch;
     wx.chooseMessageFile({count:1,type:'all',success:result=>{
-      const file=result.tempFiles[0];if(file.size>6*1024*1024)return wx.showToast({title:'文件不能超过 6MB。',icon:'none'});
+      const file=result.tempFiles[0];if(file.size>6*1024*1024)return wx.showToast({title:UI.tr('文件不能超过 6MB。'),icon:'none'});
       wx.getFileSystemManager().readFile({filePath:file.path,encoding:'base64',success:read=>{
         if(serial!==this.formSerial||epoch!==store.epoch||this.data.screen!=='form')return;
         const ext=file.name.split('.').pop().toLowerCase();const mime={png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',pdf:'application/pdf',txt:'text/plain',mp4:'video/mp4',mp3:'audio/mpeg'}[ext]||'application/octet-stream';
         this.fileData=read.data;
         this.setData({fields:this.data.fields.map(f=>Object.assign({},f,{value:f.type==='file'?'':f.key==='name'?file.name:f.key==='mime'?mime:f.key==='kind'?mime.startsWith('image')?'image':mime.startsWith('video')?'video':mime.startsWith('audio')?'audio':'document':f.value})),fileLabel:file.name});
-      },fail:()=>wx.showToast({title:'文件读取失败。',icon:'none'})});
+      },fail:()=>wx.showToast({title:UI.tr('文件读取失败。'),icon:'none'})});
     }});
   },
   submit(){return this.run(async()=>{
@@ -121,7 +125,7 @@ Page({
     if(serial!==this.formSerial||epoch!==store.epoch)return;
     this.invalidateForm();this.setData({fields:[],error:'',screen:route.startsWith('/orders')?'orders':'inventory'});
     await store.refresh();if(route.startsWith('/orders'))await this.loadDetail(value.id);
-    wx.showToast({title:store.source==='server'?'服务端已保存':'仅合成演示已保存',icon:'none'});
+    wx.showToast({title:UI.tr(store.source==='server'?'服务端已保存':'仅合成演示已保存'),icon:'none'});
   });},
   cancelForm(){this.invalidateForm();this.setData({screen:this.returnScreen||'orders',fields:[],error:''});},
   download(event){return this.run(async()=>{
@@ -133,8 +137,8 @@ Page({
     if(result.statusCode!==200)throw Error('无权读取或原件不可用。');
     wx.openDocument({filePath:result.tempFilePath,showMenu:true,fail:()=>wx.previewImage({urls:[result.tempFilePath]})});
   });},
-  retryPending(){return this.run(async()=>{const pending=store.pendingWrite;if(!pending)return;const value=await store.write(pending.route,pending.body,pending.expectedId);this.invalidateForm();this.setData({screen:'orders',fields:[],error:''});await store.refresh();if(pending.route.startsWith('/orders'))await this.loadDetail(value.id);wx.showToast({title:'服务端已确认原提交',icon:'none'});});},
-  acknowledgePending(){wx.showModal({title:'确认已核对服务端',content:'请先在工单和业务记录核对原提交是否保存。结束重试后，新的提交会使用新的请求键。',confirmText:'已核对',success:result=>{if(!result.confirm||!store.pendingWrite)return;store.intents.delete(store.pendingWrite.identity);store.pendingWrite=null;this.showState();}});},
+  retryPending(){return this.run(async()=>{const pending=store.pendingWrite;if(!pending)return;const value=await store.write(pending.route,pending.body,pending.expectedId);this.invalidateForm();this.setData({screen:'orders',fields:[],error:''});await store.refresh();if(pending.route.startsWith('/orders'))await this.loadDetail(value.id);wx.showToast({title:UI.tr('服务端已确认原提交'),icon:'none'});});},
+  acknowledgePending(){wx.showModal({title:UI.tr('确认已核对服务端'),content:UI.tr('请先在工单和业务记录核对原提交是否保存。结束重试后，新的提交会使用新的请求键。'),confirmText:UI.tr('已核对'),success:result=>{if(!result.confirm||!store.pendingWrite)return;store.intents.delete(store.pendingWrite.identity);store.pendingWrite=null;this.showState();}});},
   saveConfig(){return this.run(async()=>{this.invalidateForm();store.configure(this.data.base,this.data.timeout);wx.setStorageSync('repair-config',{base:store.base,timeout:store.timeout});this.setData({screen:'login',fields:[],password:''});});},
   logout(){return this.run(async()=>{this.invalidateForm();await store.logout();this.setData({password:'',screen:'login',fields:[],detail:null,sections:[]});});}
 });

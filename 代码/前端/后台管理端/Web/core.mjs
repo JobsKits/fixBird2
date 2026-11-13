@@ -41,7 +41,22 @@ export class AdminStore {
   constructor(spec, fetcher = globalThis.fetch.bind(globalThis)) {
     this.spec = spec; this.fetcher = fetcher; this.base = ''; this.token = ''; this.actor = null;
     this.demo = true; this.epoch = 0; this.readRevision = 0; this.timeout = 2500; this.pending = new Map();
+    this.demoAllowed = false; this.environmentChecked = false; this.environmentBase = '';
     this.resetDemo();
+  }
+  async checkEnvironment() {
+    const epoch = this.epoch, base = this.base;
+    this.demoAllowed = false;
+    this.environmentChecked = true;
+    this.environmentBase = base;
+    try {
+      const health = await this.request('/healthz');
+      if (epoch === this.epoch && base === this.base) this.demoAllowed = health.mode === 'synthetic_demo';
+    } catch { /* 未明确声明 Demo 的环境始终保留登录门禁。 */ }
+    return this.demoAllowed;
+  }
+  async openAdmin() {
+    if (await this.checkEnvironment()) await this.login('admin', '1234');
   }
   resetDemo() {
     this.local = clone(this.spec.seed);
@@ -67,10 +82,10 @@ export class AdminStore {
       let data;
       try { data = await response.json(); }
       catch {
-        if (response.status === 401 && path !== '/login') revokeCurrent();
+        if (response.status === 401 && !['/login','/healthz'].includes(path)) revokeCurrent();
         throw new ApiError(response.ok ? '服务响应无法解析' : `请求被拒绝（${response.status}）`, response.ok ? 502 : response.status);
       }
-      if (response.status === 401 && path !== '/login') revokeCurrent();
+      if (response.status === 401 && !['/login','/healthz'].includes(path)) revokeCurrent();
       if (!response.ok) throw new ApiError(data.message || '请求被拒绝', response.status);
       return data;
     } catch (e) {
@@ -81,6 +96,8 @@ export class AdminStore {
   logout() { this.epoch++; this.readRevision++; this.actor = null; this.token = ''; this.pending.clear(); this.resetDemo(); }
   async login(username, password) {
     this.logout(); const epoch = this.epoch;
+    if (!this.environmentChecked || this.environmentBase !== this.base) await this.checkEnvironment();
+    if (epoch !== this.epoch) return;
     try {
       const result = await this.request('/login', { username, password });
       if (epoch !== this.epoch) return;
@@ -88,7 +105,7 @@ export class AdminStore {
       this.actor = result.actor; this.token = result.token; this.demo = false;
     } catch (e) {
       if (epoch !== this.epoch) return;
-      if ((e.status && e.status < 500) || !this.spec.roles.some(r => r.id === username) || password !== 'Demo-Repair-2026!') throw e;
+      if (!this.demoAllowed || (e.status && e.status < 500) || !this.spec.roles.some(r => r.id === username) || !(username === 'admin' && password === '1234' || password === 'Demo-Repair-2026!')) throw e;
       this.actor = { id: username, role: username === 'customer-b' ? 'customer' : username, companyId: username === 'customer-b' ? 'company-b' : 'company-a', authVersion: 1, status: 'active', name: this.spec.roles.find(r => r.id === username).label };
       this.demo = true;
     }
@@ -139,6 +156,7 @@ export class AdminStore {
     } catch (e) {
       if (epoch !== this.epoch || revision !== this.readRevision) return;
       if (e.status === 401 || e.status === 403) { this.logout(); throw e; }
+      if (!this.demoAllowed) throw e;
       this.demo = true; this.snapshot = this.localSnapshot();
     }
   }

@@ -21,18 +21,41 @@ class WorkbenchStore extends ChangeNotifier {
     http.Client? client,
     String? endpoint,
     this.timeout = const Duration(milliseconds: 2500),
+    this.adminAuthentication = false,
   }) : client = client ?? http.Client(),
        endpoint = endpoint ?? const String.fromEnvironment('API_URL'),
        demo = DemoLedger(contract);
   final WorkbenchContract contract;
   final http.Client client;
   final DemoLedger demo;
+  final bool adminAuthentication;
+  bool demoAllowed = false;
+  bool _environmentChecked = false;
   String endpoint;
   Duration timeout;
   String environmentMode = 'test';
   String themeName = 'system';
   String testEndpoint = '';
   String productionEndpoint = '';
+  Future<void> checkEnvironment() async {
+    final captured = _generation;
+    demoAllowed = false;
+    _environmentChecked = true;
+    try {
+      final health = object(await request('/healthz'));
+      if (captured == _generation) {
+        demoAllowed = health['mode'] == 'synthetic_demo';
+      }
+    } catch (_) {
+      // 未明确声明 Demo 的服务保留登录门禁。
+    }
+  }
+
+  Future<void> openAdmin() async {
+    await checkEnvironment();
+    if (demoAllowed) await login('admin', '1234');
+  }
+
   Future<void> loadEnvironment() async {
     final prefs = await SharedPreferences.getInstance();
     testEndpoint = prefs.getString('repair.testEndpoint') ?? endpoint;
@@ -135,6 +158,8 @@ class WorkbenchStore extends ChangeNotifier {
       throw const FormatException('超时范围为0.5～30秒');
     }
     _clear();
+    demoAllowed = false;
+    _environmentChecked = false;
     username = '';
     password = '';
     endpoint = raw.replaceAll(RegExp(r'/$'), '');
@@ -172,7 +197,7 @@ class WorkbenchStore extends ChangeNotifier {
       if (response.statusCode >= 200 && response.statusCode < 300)
         throw const FormatException('服务器返回内容无法解析');
     }
-    if (response.statusCode == 401) {
+    if (response.statusCode == 401 && path != '/login' && path != '/healthz') {
       _clear();
       username = '';
       password = '';
@@ -213,6 +238,8 @@ class WorkbenchStore extends ChangeNotifier {
     username = name.trim();
     password = secret;
     final captured = _generation;
+    if (adminAuthentication && !_environmentChecked) await checkEnvironment();
+    if (captured != _generation) return;
     busy = true;
     notifyListeners();
     try {
@@ -226,7 +253,12 @@ class WorkbenchStore extends ChangeNotifier {
         rethrow;
       }
       final roles = contract.list('roles').map((e) => e['id']);
-      if (!roles.contains(username) || password.isEmpty) {
+      if ((adminAuthentication && !demoAllowed) ||
+          !roles.contains(username) ||
+          password.isEmpty ||
+          (adminAuthentication &&
+              !(username == 'admin' && password == '1234' ||
+                  password == 'Demo-Repair-2026!'))) {
         actor = null;
         message = '服务不可用。请选择合成账号体验。';
         rethrow;
@@ -361,6 +393,10 @@ class WorkbenchStore extends ChangeNotifier {
       if (error is ApiFailure && error.status < 500) {
         message = '$error';
       } else {
+        if (adminAuthentication && !demoAllowed) {
+          message = '服务不可用，保留已登录资料，请稍后重试。';
+          return;
+        }
         token = '';
         _useDemo();
         message = '服务不可用，当前为独立合成演示：$error';

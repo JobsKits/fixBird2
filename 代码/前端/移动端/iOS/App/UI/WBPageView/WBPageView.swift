@@ -22,8 +22,11 @@ final class WBPageView: UIScrollView {
             .byKeyboardDismissMode(.onDrag)
             .byShowsVerticalScrollIndicator(false)
         content.byAddTo(self) { [unowned self] make in
-            make.edges.equalTo(self.contentLayoutGuide).inset(16)
-            make.width.equalTo(self.frameLayoutGuide).offset(-32)
+            make.top.bottom.equalTo(self.contentLayoutGuide).inset(24)
+            make.centerX.equalTo(self.frameLayoutGuide)
+            make.width.equalTo(self.frameLayoutGuide).offset(-40).priority(750)
+            make.width.lessThanOrEqualTo(760)
+            make.leading.trailing.equalTo(self.contentLayoutGuide).inset(20)
         }
     }
 
@@ -52,7 +55,7 @@ final class WBPageView: UIScrollView {
     }
 
     func status(_ text: String) {
-        message.byText(text)
+        message.byText(WBL10n.text(text))
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

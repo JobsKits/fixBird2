@@ -1,0 +1,11 @@
+{
+  "binary": "/Users/jobs/Documents/Codex/2026-11-12/xian-za/work/li-ui/go-build/repair-workbench-resource-check",
+  "bytes": 11101410,
+  "sha256": "c58c46b108a26853b02beb41488e84ee3f2580c5033f64d03313eec2e84c60c7",
+  "goVersion": "go1.27.3 darwin/arm64",
+  "lockedFilesUnchanged": {
+    "go.mod": "f1522c039a095e803b0035161f04433820dacc2dcc9854dd49209853a9d3ecd8",
+    "go.sum": "93779260042a577fef01fdad0e20564598846e018fe3d2e035c491c5fbbc1863"
+  },
+  "formalServiceRestarted": false
+}

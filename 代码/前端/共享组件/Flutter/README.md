@@ -24,8 +24,11 @@
 - `lib/src/store.dart`：真实 API、会话／读取顺序／请求键、服务恢复、环境双地址、账号与审计。
 - `lib/src/demo.dart`：独立合成台账与演示守卫，不复制真实业务数据。
 - `lib/src/app.dart`：响应式页面、完整详情、角色可用操作、主题与导出。
-- `lib/src/form.dart`：原生表单、手写 PNG 签名、本地文件选择与上传。
-- `assets/`：本地 Logo、中文字体、许可及共享契约副本。来源见 [素材来源](./assets/README.md)。
+- `lib/src/localization.dart`：十语界面展示与持久化语言选择；表单值和业务原文保持独立。
+- `lib/src/form.dart`：原生表单、十语数字日期／时间选择、手写 PNG 签名、本地文件选择与上传。
+- `assets/`：本地 Logo、中日韩／藏文字体、许可、语言包及共享契约副本。来源见 [素材来源](./assets/README.md)。
+
+界面沿用深绿品牌与成对明暗语义色，指标聚合为一组、待办以连续清单呈现，减少嵌套卡片。支持白天／黑夜／跟随系统，以及简中、繁中、藏文、英文、日文、法文、西文、德文、俄文、韩文切换；语言资源维护源为 `../Resources/ui-l10n.json`，打包副本放在 `assets/ui-l10n.json`，不在业务层维护第二套译文。
 
 ## 二、<span id="section-2">验证命令</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 

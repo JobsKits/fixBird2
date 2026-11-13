@@ -62,6 +62,8 @@ Base `/api/v38`，JSON；钱用整数分，版本用正整数。入口为 `代�
 
 登录 `POST /login {username,password}` => `{token,actor}`；Bearer token；GET `/session` => actor；POST `/logout`。合成账号见 [演示账号](../../README.md#demo-accounts)。`customer-b` 检查跨公司隔离，`customer-peer` 检查同企业当前经办人交接。token 仅保存在服务内存；账号 `authVersion` 变化撤销旧会话，启用账号也不会复活停用前会话。
 
+`GET /healthz` 的 `mode` 取自当前持久状态：`settings.demo=true` 为 `synthetic_demo`，否则为 `production`。两套后台仅在明确的 Demo 标识下自动使用 `admin / 1234` 建立会话；该密码仅对 Demo 中有效的管理员生效，不启用停用账号、不开放匿名业务 API。正式与未知环境均要求人工登录，失联不能降级为免登录。
+
 网页以成功登录返回的身份为当前会话基准。后续快照的 `actor` 必须为 `active`，且 `id/role/companyId/authVersion` 与该基准一致，才可采用其资料；不会用快照中的另一个身份替换当前会话。切换账号期间的展示与恢复行为见 [网页与离线](#client-contract)。
 
 账号状态只接受 `active/disabled`，只有明确 `active` 的有效账号可登录、鉴权、读取及写入；空状态、未知状态和待定状态都不取得授权。启动要求完整账号身份与凭据元数据：稳定 ID、登录名、姓名、企业、合法角色与状态、正整数 `authVersion`、盐及有效摘要。账号清单为空、必要字段缺失、ID／登录名重复或授权结构非法时拒绝启动，不默认激活或替换既有凭据。隔离恢复还须满足 [最新授权约束](#persistence-contract)。

@@ -38,6 +38,8 @@
 | --- | --- | --- |
 | [index.html](../维修工作台/index.html) | 导航、工单筛选、全范围指标、弹窗与脚本加载顺序 | `ordersView`、`filterForm`、`metrics`、`detailDialog`、`formDialog` |
 | [styles.css](../维修工作台/styles.css) | 桌面／移动布局、表格、弹窗、空态与分页 | `.orders-table`、`.detail-dialog`、`.empty-state`、`.list-pagination` |
+| [appearance.js](../维修工作台/appearance.js) | 白天／黑夜／跟随系统入口、有效主题与本地偏好 | `apply`、`appearanceTheme` |
+| [localization.js](../维修工作台/localization.js) | 十语展示切换、动态页面及表单提示翻译，不改业务值 | `translate`、`ensurePicker`、`apply`；维护源为 `共享组件/Resources/web-l10n.js` |
 | [app.js](../维修工作台/app.js) | IIFE 内集中管理身份、真实／合成数据与事件绑定 | `render`、`showView`、`login`、`openDemo`、`refresh`、`applySnapshotMetadata` |
 | `app.js` 请求与写入 | 同源地址、超时、嵌套校验、请求键与成功确认 | `normalizeBase`、`request`、`validateResponse`、`validSummary`、`validPart`、`validLoan`、`validPurchase`、`validOrderRecords`、`formKey`、`releaseFormKey` |
 | `app.js` 身份与快照 | 任一当前 401 撤销旧资料，以登录会话校验完整及迟到元数据，待加载配置禁止保存 | `revokeSession`、`enterFallback`、`clearSessionViews`、`emptyServerSnapshot`、`sameSessionActor`、`sessionActor`、`snapshotReady` |

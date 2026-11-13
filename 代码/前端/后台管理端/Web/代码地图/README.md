@@ -20,7 +20,7 @@
 本图只定位Web 后台管理端的工程、稳定符号与外置测试。日常操作见 [本端说明](../README.md)；业务接口见 [工作台接口约定](../../../../后端/README.md#api-contract)。
 
 
-本目录维护Web 后台管理端自己的源码定位图，记录实际入口、模块职责、稳定符号及外置测试。
+本目录维护Web 后台管理端自己的源码定位图，记录实际入口、模块职责、稳定符号及外置测试。`AdminStore.checkEnvironment/openAdmin` 根据服务端明确的 Demo 标识自动使用演示管理员；正式与未知环境保留登录门禁。
 
 ## 一、<span id="map-navigation">阅读入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -38,6 +38,7 @@
 | [core.mjs](../core.mjs) | AdminStore：API请求、身份锚点、epoch、同键重试和独立合成演示；fieldValue、sameActor、validOrder 为字段与响应入口。 |
 | [app.mjs](../app.mjs) | 原生 DOM、表单、Canvas签署、文件选择、响应式卡片、主题与双环境。 |
 | [styles.css](../styles.css) | 管理端布局、明暗色与响应式样式。 |
+| [localization.js](../localization.js) | 共享十语界面展示层的部署副本；维护源为 `共享组件/Resources/web-l10n.js`，翻译资源通过同源 `/admin-font/ui-l10n.json` 加载，不改业务标识或表单值。 |
 | [admin-ui.json](../../共享契约/admin-ui.json) | 两管理实现共用导航、布局值、字段、43动作与合成种子；协议数据不在本端另建维护源。 |
 
 ## 三、<span id="admin-tests">外置测试与静态托管</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>

@@ -22,10 +22,10 @@ final class WBActionFormVC: BaseVC {
     private var submitting = false
     private var saved = false
     private lazy var page = WBPageView()
-    private lazy var submitButton = WBUI.button("确认提交", primary: true) { [weak self] in
+    private lazy var submitButton = WBUI.button(WBL10n.staticText("确认提交"), primary: true) { [weak self] in
         self?.submit()
     }
-    private lazy var reloadButton = WBUI.button("返回工单核对结果") { [weak self] in
+    private lazy var reloadButton = WBUI.button(WBL10n.staticText("返回工单核对结果")) { [weak self] in
         self?.navigationController?.popViewControllerByAnimated()
     }
 
@@ -46,13 +46,13 @@ final class WBActionFormVC: BaseVC {
         page.mount(in: self)
         buildFields()
         var rows: [UIView] = [WBUI.card([
-            WBUI.label(order.number + " · " + order.statusLabel, size: 20),
-            WBUI.label(store.sourceLabel, size: 13, secondary: true),
-            WBUI.label("仅按已经发生、已经核实的事实填写。办理权限和当前业务条件以服务端确认为准。", size: 13, secondary: true)
+            WBUI.label(order.number + " · " + WBL10n.text(order.statusLabel), size: 20),
+            WBUI.label(WBL10n.text(store.sourceLabel), size: 13, secondary: true),
+            WBUI.label(WBL10n.staticText("仅按已经发生、已经核实的事实填写。办理权限和当前业务条件以服务端确认为准。"), size: 13, secondary: true)
         ])]
         rows.append(contentsOf: fields)
         if unsupported {
-            rows.append(WBUI.label("此事项请在网页工作台完成。原生客户端暂不提交该类记录。", secondary: true))
+            rows.append(WBUI.label(WBL10n.staticText("此事项请在网页工作台完成。原生客户端暂不提交该类记录。"), secondary: true))
         } else {
             rows.append(submitButton)
         }
@@ -276,7 +276,7 @@ final class WBActionFormVC: BaseVC {
         }
         guard order.can(action), !order.isSummary, let actor = store.actor, let openingActor,
               actor.matches(openingActor) else {
-            page.status("身份或单据已变化，请返回并重新打开工单。")
+            page.status(WBL10n.staticText("身份或单据已变化，请返回并重新打开工单。"))
             return
         }
         do {
@@ -319,7 +319,7 @@ final class WBActionFormVC: BaseVC {
             }
             submitting = true
             submitButton.byUserInteractionEnabled(false)
-            page.status("正在提交…")
+            page.status(WBL10n.staticText("正在提交…"))
             store.perform(order: order, action: action, payload: payload) { [weak self] result in
                 guard let self else {
                     return
@@ -330,7 +330,7 @@ final class WBActionFormVC: BaseVC {
                 case .success:
                     self.saved = true
                     self.submitButton.byTitle("已提交，请返回工单核对")
-                    self.page.status(self.store.sourceLabel + "\n" + self.store.lastMessage)
+                    self.page.status(WBL10n.text(self.store.sourceLabel) + "\n" + WBL10n.text(self.store.lastMessage))
                 /// 数据层保留同一请求意图，页面不自动重发。
                 case .failure(let error):
                     self.submitButton.byUserInteractionEnabled(true)

@@ -36,6 +36,7 @@
 		6998ABC7AAD64200AEA3B892 /* WBActionCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCA7C36C49EE8A8442D3364 /* WBActionCatalog.swift */; };
 		7006E982FBE812C5E85864D3 /* WBJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39AC9F2E6EAF25F80D5894 /* WBJSON.swift */; };
 		753CF5721CC341A0A1A39811 /* WBStubTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18699827937CFB9C95FEE4E3 /* WBStubTransport.swift */; };
+		75E2E026B00AEA2A5A0BB147 /* ui-l10n.json in Resources */ = {isa = PBXBuildFile; fileRef = 350B2256A8DEE35D2292392E /* ui-l10n.json */; };
 		77BE7DD2DD1D561641BEA5D4 /* WBAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBFB2DA6678DF7A3DB3042A /* WBAppDelegate.swift */; };
 		8158B9ABFFF4C94151FA14E7 /* WBSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFA45DAA1ABCB3AE1F34CF /* WBSettingsVC.swift */; };
 		97834E494EE2539600937045 /* WBUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C401D3D1C582F292D17EC8B3 /* WBUI.swift */; };
@@ -88,6 +89,7 @@
 		240384F1506A7C8136B2BB2B /* Info.Release.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.Release.plist; sourceTree = "<group>"; };
 		2823B19179F47424EB5194E9 /* WBDataScenarios.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBDataScenarios.swift; sourceTree = "<group>"; };
 		30003123E3F0A48963527AAE /* Podfile.deps */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = Podfile.deps; sourceTree = "<group>"; };
+		350B2256A8DEE35D2292392E /* ui-l10n.json */ = {isa = PBXFileReference; includeInIndex = 1; path = "ui-l10n.json"; sourceTree = "<group>"; };
 		370CEA4D38327D282EFF996A /* WBFormField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBFormField.swift; sourceTree = "<group>"; };
 		37CBF03DD717A1A926E0CDCB /* WBSignatureCanvas.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBSignatureCanvas.swift; sourceTree = "<group>"; };
 		3A740CB85B16C6734D8E4906 /* RepairWorkbenchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepairWorkbenchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -757,6 +759,7 @@
 				0F1CD8F530AC43521C482F52 /* PrivacyInfo.xcprivacy */,
 				4A78351E379C3A9FCDC4F12F /* Info.Debug.plist */,
 				240384F1506A7C8136B2BB2B /* Info.Release.plist */,
+				350B2256A8DEE35D2292392E /* ui-l10n.json */,
 			);
 			name = Resource;
 			path = Resource;
@@ -870,6 +873,7 @@
 				034BA5DDF40908C92AE2993B /* Assets.xcassets in Resources */,
 				33EB2EC3EFBB50F5C3EA5C6A /* JobsThemeResources.json in Resources */,
 				01677DEA709D1CCCC393C39E /* PrivacyInfo.xcprivacy in Resources */,
+				75E2E026B00AEA2A5A0BB147 /* ui-l10n.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

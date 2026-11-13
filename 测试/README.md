@@ -34,6 +34,8 @@ node 测试/后端/接口/验证工作台.mjs
 
 后端原单测由[外置 Go 测试入口](./后端/运行测试.py/README.md)通过临时 overlay 运行；测试体保留在外层测试目录，代码目录不生成副本。
 
+Flutter 共享包的[单元与 Widget 用例](./前端/共享组件/Flutter/单元/workbench_test.dart)从共享包工程运行，命令见[共享包说明](../代码/前端/共享组件/Flutter/README.md#section-2)。390／1200 宽度的管理页及登录页截图写入 `测试/前端/共享组件/Flutter/证据/`；用例从运行目录向上查找共享包配置与测试入口标记，定位项目根后自动创建证据目录，每次覆盖同名当前截图，不向代码目录或日期化目录写入证据。
+
 ## <span id="jobs-toc-heading-3" data-jobs-toc="v2">三、部署入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [访问二维码隔离验证](./部署/二维码/验证访问二维码.mjs/README.md)在临时目录调用真实二维码工具及各平台部署函数，检查各端地址、离线页面、窄终端回退、二维码失败保留服务、URL变化后旧页失效与反部署会话归属；不连接日常服务或真实隧道。

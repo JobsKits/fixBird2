@@ -11,9 +11,18 @@ import (
 func clientHandler(business http.Handler, adminDir, flutterDir, clientDir, contractDir string) http.Handler {
 	mux := http.NewServeMux()
 	mux.Handle("/", business)
-	mux.HandleFunc("GET /admin-font/NotoSansSC.ttf", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, filepath.Join(adminDir, "../../共享组件/Flutter/assets/NotoSansSC.ttf"))
-	})
+	// Only these bundled public resources are exposed; never serve the shared source tree.
+	for name, contentType := range map[string]string{
+		"NotoSansSC.ttf":            "font/ttf",
+		"NotoSansCJKsc-Regular.otf": "font/otf",
+		"NotoSerifTibetan.ttf":      "font/ttf",
+		"ui-l10n.json":              "application/json; charset=utf-8",
+	} {
+		mux.HandleFunc("GET /admin-font/"+name, func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", contentType)
+			http.ServeFile(w, r, filepath.Join(adminDir, "../../共享组件/Flutter/assets", name))
+		})
+	}
 	for route, dir := range map[string]string{
 		"/admin/":          adminDir,
 		"/admin-flutter/":  flutterDir,

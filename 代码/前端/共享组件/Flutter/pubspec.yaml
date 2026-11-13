@@ -19,9 +19,18 @@ flutter:
   uses-material-design: true
   assets:
     - assets/admin-ui.json
+    - assets/ui-l10n.json
     - assets/RepairLogo.png
     - assets/NotoSansSC-OFL.txt
+    - assets/NotoSerifTibetan-OFL.txt
+    - assets/NotoSansCJK-OFL.txt
   fonts:
     - family: NotoSansSC
       fonts:
         - asset: assets/NotoSansSC.ttf
+    - family: NotoSerifTibetan
+      fonts:
+        - asset: assets/NotoSerifTibetan.ttf
+    - family: NotoSansCJK
+      fonts:
+        - asset: assets/NotoSansCJKsc-Regular.otf

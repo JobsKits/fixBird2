@@ -4,10 +4,11 @@
   ],
   "window": {
     "navigationBarTitleText": "啄木鸟维修",
-    "navigationBarBackgroundColor": "#0F766E",
+    "navigationBarBackgroundColor": "#0F5144",
     "navigationBarTextStyle": "white",
     "backgroundTextStyle": "dark",
     "enablePullDownRefresh": true
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "darkmode": true
 }

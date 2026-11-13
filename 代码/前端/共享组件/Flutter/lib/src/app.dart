@@ -4,14 +4,23 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'contract.dart';
+import 'localization.dart';
 import 'form.dart';
 import 'store.dart';
 
 Future<void> launchWorkbench({required bool admin}) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await WorkbenchTranslations.instance.load();
   final contract = await WorkbenchContract.load();
-  final store = WorkbenchStore(contract);
+  final store = WorkbenchStore(contract, adminAuthentication: admin);
   await store.loadEnvironment();
+  if (admin) {
+    try {
+      await store.openAdmin();
+    } catch (error) {
+      store.message = '$error';
+    }
+  }
   runApp(WorkbenchApp(store: store, admin: admin));
 }
 
@@ -45,38 +54,63 @@ class _WorkbenchAppState extends State<WorkbenchApp> {
       surface: c(dark ? 'darkSurface' : 'surface'),
       onSurface: c(dark ? 'darkText' : 'text'),
       onSurfaceVariant: c(dark ? 'darkSecondary' : 'secondary'),
-      primary: c(dark ? 'darkSecondary' : 'primary'),
+      primary: dark ? const Color(0xFF8CCBA8) : c('primary'),
       onPrimary: dark ? c('darkBackground') : Colors.white,
+      primaryContainer: dark
+          ? const Color(0xFF233E2F)
+          : const Color(0xFFE9F2ED),
+      onPrimaryContainer: dark ? const Color(0xFF8CCBA8) : c('primary'),
+      outline: dark ? const Color(0xFF6C8777) : const Color(0xFF83998B),
+      outlineVariant: dark ? const Color(0xFF3B5345) : c('border'),
     );
     return ThemeData(
       useMaterial3: true,
       visualDensity: VisualDensity.standard,
       fontFamily: 'packages/repair_shared/NotoSansSC',
+      fontFamilyFallback: const [
+        'packages/repair_shared/NotoSansCJK',
+        'packages/repair_shared/NotoSerifTibetan',
+      ],
       colorScheme: scheme,
       textTheme: const TextTheme(
-        bodyMedium: TextStyle(fontSize: 15),
-        bodySmall: TextStyle(fontSize: 13),
-        titleMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-        labelLarge: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+        bodyLarge: TextStyle(fontSize: 16, height: 1.6),
+        bodyMedium: TextStyle(fontSize: 15, height: 1.6),
+        bodySmall: TextStyle(fontSize: 13, height: 1.5),
+        titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        labelLarge: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
       ),
       scaffoldBackgroundColor: c(dark ? 'darkBackground' : 'background'),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size(0, 44),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(0, 44),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
-        isDense: true,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: scheme.outlineVariant),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 15,
+        ),
+        labelStyle: TextStyle(color: scheme.onSurfaceVariant),
+        hintStyle: TextStyle(color: scheme.onSurfaceVariant),
       ),
       cardTheme: CardThemeData(
         elevation: 0,
@@ -96,20 +130,22 @@ class _WorkbenchAppState extends State<WorkbenchApp> {
   }
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-    title: widget.admin ? '啄木鸟管理工作台' : '啄木鸟维修服务',
-    debugShowCheckedModeBanner: false,
-    theme: theme(Brightness.light),
-    darkTheme: theme(Brightness.dark),
-    themeMode: mode,
-    home: WorkbenchHome(
-      store: widget.store,
-      admin: widget.admin,
-      mode: mode,
-      onTheme: (value) {
-        setState(() => mode = value);
-        widget.store.saveTheme(value.name);
-      },
+  Widget build(BuildContext context) => WorkbenchLocaleScope(
+    child: MaterialApp(
+      title: widget.admin ? '啄木鸟管理工作台' : '啄木鸟维修服务',
+      debugShowCheckedModeBanner: false,
+      theme: theme(Brightness.light),
+      darkTheme: theme(Brightness.dark),
+      themeMode: mode,
+      home: WorkbenchHome(
+        store: widget.store,
+        admin: widget.admin,
+        mode: mode,
+        onTheme: (value) {
+          setState(() => mode = value);
+          widget.store.saveTheme(value.name);
+        },
+      ),
     ),
   );
 }
@@ -135,12 +171,17 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
   WorkbenchContract get contract => store.contract;
   String view = 'overview';
   String selectedRole = 'admin';
+  final adminUsername = TextEditingController();
   final password = TextEditingController(text: 'Demo-Repair-2026!');
   final loginEndpoint = TextEditingController();
   final query = TextEditingController();
   @override
   void initState() {
     super.initState();
+    if (widget.admin) {
+      adminUsername.text = store.demoAllowed ? 'admin' : '';
+      password.text = store.demoAllowed ? '1234' : '';
+    }
     selectedRole = widget.admin ? 'admin' : 'customer';
     loginEndpoint.text = store.endpoint;
     store.addListener(changed);
@@ -152,6 +193,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
 
   @override
   void dispose() {
+    adminUsername.dispose();
     store.removeListener(changed);
     password.dispose();
     loginEndpoint.dispose();
@@ -163,7 +205,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
     if (mounted)
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('$error')));
+      ).showSnackBar(SnackBar(content: WorkbenchText('$error')));
   }
 
   Future<void> run(Future<void> Function() action) async {
@@ -184,7 +226,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       ),
       const SizedBox(width: 10),
       Flexible(
-        child: Text(
+        child: WorkbenchText(
           text(contract.data, 'brand'),
           style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
         ),
@@ -217,30 +259,35 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            WorkbenchText(
               contract.label('emptyTitle'),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            Text(contract.label('emptyBody')),
+            WorkbenchText(contract.label('emptyBody')),
             const SizedBox(height: 16),
             OutlinedButton(
               onPressed: store.busy ? null : () => store.reload(),
-              child: Text(contract.label('reload')),
+              child: WorkbenchText(contract.label('reload')),
             ),
           ],
         ),
       ),
     ),
   );
-  Widget panel(String title, List<Widget> children) => Card(
+  Widget panel(
+    String title,
+    List<Widget> children, {
+    bool translateTitle = true,
+  }) => Card(
     child: Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
+          WorkbenchText(
             title,
+            translate: translateTitle,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 16),
@@ -255,18 +302,20 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 440),
         child: panel(widget.admin ? '登录管理工作台' : '登录维修服务', [
-          const Text('选择账号，进入工单、维修进度及业务办理。'),
+          const WorkbenchText('选择账号，进入工单、维修进度及业务办理。'),
           const SizedBox(height: 20),
           DropdownButtonFormField<String>(
             initialValue: selectedRole,
-            decoration: const InputDecoration(labelText: '账号身份'),
+            decoration: InputDecoration(
+              labelText: workbenchText(context, '账号身份'),
+            ),
             isExpanded: true,
             items: contract
                 .list('roles')
                 .map(
                   (role) => DropdownMenuItem(
                     value: text(role, 'id'),
-                    child: Text('${role['label']} · ${role['id']}'),
+                    child: WorkbenchText('${role['label']} · ${role['id']}'),
                   ),
                 )
                 .toList(),
@@ -278,19 +327,25 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           TextFormField(
             controller: password,
             obscureText: true,
-            decoration: const InputDecoration(labelText: '密码'),
+            decoration: InputDecoration(
+              labelText: workbenchText(context, '密码'),
+            ),
             onFieldSubmitted: (_) => loginSubmit(),
           ),
           const SizedBox(height: 20),
           FilledButton(
             onPressed: store.busy ? null : loginSubmit,
-            child: Text(store.busy ? '正在连接…' : '登录并进入'),
+            child: WorkbenchText(store.busy ? '正在连接…' : '登录并进入'),
           ),
           const SizedBox(height: 12),
-          Text(store.message),
+          WorkbenchText(store.message),
           const SizedBox(height: 12),
-          TextButton(onPressed: configure, child: const Text('设置服务地址')),
-          const Text('演示账号只使用合成资料。服务未启动时会自动进入独立演示，刷新后继续尝试连接。'),
+          IconButton(
+            onPressed: configure,
+            tooltip: workbenchText(context, '设置服务地址'),
+            icon: const Icon(Icons.settings_outlined),
+          ),
+          const WorkbenchText('演示账号只使用合成资料。服务未启动时会自动进入独立演示，刷新后继续尝试连接。'),
         ]),
       ),
     ),
@@ -311,7 +366,11 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: WorkbenchLanguagePicker(),
+                ),
+                WorkbenchText(
                   text(contract.data, 'brand'),
                   style: const TextStyle(
                     fontSize: 19,
@@ -319,7 +378,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
+                WorkbenchText(
                   '管理工作台',
                   style: TextStyle(
                     fontSize: 13,
@@ -327,45 +386,37 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
+                const WorkbenchText(
                   '登录工作台',
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  '使用演示账号快速熟悉流程。',
+                WorkbenchText(
+                  store.demoAllowed ? 'Demo 管理员：admin / 1234' : '请使用已授权账号登录。',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text('服务地址'),
+                if (store.demoAllowed) ...[
+                  const WorkbenchText('服务地址'),
+                  const SizedBox(height: 7),
+                  TextField(
+                    controller: loginEndpoint,
+                    decoration: InputDecoration(
+                      hintText: workbenchText(context, '留空使用当前服务'),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                ],
+                const WorkbenchText('账号'),
                 const SizedBox(height: 7),
                 TextField(
-                  controller: loginEndpoint,
-                  decoration: const InputDecoration(hintText: '留空使用当前服务'),
+                  controller: adminUsername,
+                  autofillHints: const [AutofillHints.username],
                 ),
                 const SizedBox(height: 14),
-                const Text('账号'),
-                const SizedBox(height: 7),
-                DropdownButtonFormField<String>(
-                  initialValue: selectedRole,
-                  isExpanded: true,
-                  items: contract
-                      .list('roles')
-                      .map(
-                        (role) => DropdownMenuItem(
-                          value: text(role, 'id'),
-                          child: Text('${role['label']}（${role['id']}）'),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: store.busy
-                      ? null
-                      : (v) => setState(() => selectedRole = v!),
-                ),
-                const SizedBox(height: 14),
-                const Text('密码'),
+                const WorkbenchText('密码'),
                 const SizedBox(height: 7),
                 TextField(
                   controller: password,
@@ -375,7 +426,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                 const SizedBox(height: 20),
                 FilledButton(
                   onPressed: store.busy ? null : loginSubmit,
-                  child: Text(store.busy ? '正在连接…' : '进入工作台'),
+                  child: WorkbenchText(store.busy ? '正在连接…' : '进入工作台'),
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -384,8 +435,10 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text(
-                    '演示密码：Demo-Repair-2026!\n连接失败时仅演示账号进入独立合成副本。真实登录被拒绝时不会模拟登录成功。',
+                  child: WorkbenchText(
+                    store.demoAllowed
+                        ? 'Demo 仅使用合成资料；服务恢复后自动读取服务端。'
+                        : '后台须先登录；服务不可用时请稍后重试。',
                     style: TextStyle(fontSize: 13, height: 1.6),
                   ),
                 ),
@@ -399,7 +452,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                           : store.endpoint;
                       await launchUrl(Uri.parse('$base/'));
                     },
-                    child: const Text('进入维修协同工作台'),
+                    child: const WorkbenchText('进入维修协同工作台'),
                   ),
                 ),
               ],
@@ -410,9 +463,14 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
     ),
   );
   Future<void> loginSubmit() => run(() async {
-    if (widget.admin && loginEndpoint.text.trim() != store.endpoint)
+    if (widget.admin &&
+        store.demoAllowed &&
+        loginEndpoint.text.trim() != store.endpoint)
       store.configure(loginEndpoint.text, store.timeout.inMilliseconds / 1000);
-    await store.login(selectedRole, password.text);
+    await store.login(
+      widget.admin ? adminUsername.text : selectedRole,
+      password.text,
+    );
   });
   Future<void> configure() async {
     String mode = store.environmentMode;
@@ -424,7 +482,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       barrierDismissible: false,
       builder: (context) => StatefulBuilder(
         builder: (context, update) => AlertDialog(
-          title: const Text('切换服务地址'),
+          title: const WorkbenchText('切换服务地址'),
           content: SizedBox(
             width: 620,
             child: SingleChildScrollView(
@@ -432,16 +490,19 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text('环境'),
+                  const WorkbenchText('环境'),
                   const SizedBox(height: 7),
                   DropdownButtonFormField<String>(
                     initialValue: mode,
                     isExpanded: true,
                     items: const [
-                      DropdownMenuItem(value: 'test', child: Text('测试环境')),
+                      DropdownMenuItem(
+                        value: 'test',
+                        child: WorkbenchText('测试环境'),
+                      ),
                       DropdownMenuItem(
                         value: 'production',
-                        child: Text('线上环境'),
+                        child: WorkbenchText('线上环境'),
                       ),
                     ],
                     onChanged: saving
@@ -454,17 +515,19 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                           }),
                   ),
                   const SizedBox(height: 14),
-                  const Text('服务根地址'),
+                  const WorkbenchText('服务根地址'),
                   const SizedBox(height: 7),
                   TextField(
                     controller: address,
                     enabled: !saving,
-                    decoration: const InputDecoration(hintText: '留空使用当前服务'),
+                    decoration: InputDecoration(
+                      hintText: workbenchText(context, '留空使用当前服务'),
+                    ),
                   ),
                   if (error.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
-                      child: Text(
+                      child: WorkbenchText(
                         error,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
@@ -500,11 +563,11 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                           });
                       }
                     },
-              child: const Text('确认提交'),
+              child: const WorkbenchText('确认提交'),
             ),
             TextButton(
               onPressed: saving ? null : () => Navigator.pop(context),
-              child: const Text('取消'),
+              child: const WorkbenchText('取消'),
             ),
           ],
         ),
@@ -533,30 +596,47 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
 
   Widget metrics() => LayoutBuilder(
     builder: (context, size) {
-      final columns = size.maxWidth >= 620 ? 3 : 2;
-      final width = (size.maxWidth - (columns - 1) * 16) / columns;
-      return Wrap(
-        spacing: 16,
-        runSpacing: 16,
-        children: contract
-            .list('metrics')
-            .map(
-              (metric) => SizedBox(
-                width: width,
-                child: Card(
+      final columns = size.maxWidth >= 1100
+          ? 6
+          : (size.maxWidth >= 620 ? 3 : 2);
+      final colors = Theme.of(context).colorScheme;
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surface,
+          border: Border.all(color: colors.outlineVariant),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Wrap(
+          children: contract
+              .list('metrics')
+              .map(
+                (metric) => SizedBox(
+                  key: ValueKey('metric-${metric['key']}'),
+                  width: (size.maxWidth - 2) / columns,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(text(metric, 'label')),
+                        SizedBox(
+                          height: 46,
+                          child: WorkbenchText(
+                            text(metric, 'label'),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: colors.onSurfaceVariant,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 12),
                         SizedBox(
                           height: size.maxWidth >= 620 ? 44 : 38,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             alignment: Alignment.centerLeft,
-                            child: Text(
+                            child: WorkbenchText(
                               metric['money'] == true
                                   ? money(store.metrics[metric['key']])
                                   : '${store.metrics[metric['key']] ?? 0}',
@@ -573,9 +653,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                     ),
                   ),
                 ),
-              ),
-            )
-            .toList(),
+              )
+              .toList(),
+        ),
       );
     },
   );
@@ -585,9 +665,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       metrics(),
       const SizedBox(height: 24),
       panel('待办工单', [
-        const Text('按工单阶段查看当前可办理事项。'),
+        const WorkbenchText('按工单阶段查看当前可办理事项。'),
         const SizedBox(height: 16),
-        ...store.orders.take(5).map(orderTile),
+        ...store.orders.take(5).map((order) => orderTile(order, compact: true)),
         if (store.orders.isEmpty) empty(),
       ]),
     ],
@@ -596,72 +676,95 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     decoration: BoxDecoration(
       color: Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xFF1B4F49)
-          : const Color(0xFFE0EFEC),
-      borderRadius: BorderRadius.circular(20),
+          ? const Color(0xFF233E2F)
+          : const Color(0xFFE9F2ED),
+      borderRadius: BorderRadius.circular(6),
     ),
-    child: Text(
+    child: WorkbenchText(
       label,
       style: TextStyle(
         fontSize: 12,
         color: Theme.of(context).brightness == Brightness.dark
-            ? const Color(0xFFC6EDE7)
-            : const Color(0xFF145D56),
+            ? const Color(0xFF8CCBA8)
+            : const Color(0xFF0F5144),
       ),
     ),
   );
-  Widget orderTile(Json order) => Padding(
-    padding: const EdgeInsets.only(bottom: 16),
-    child: Card(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => openOrder(text(order, 'id')),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    text(order, 'number'),
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  badge(contract.state(text(order, 'status'))),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                text(order, 'device'),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+  Widget orderTile(Json order, {bool compact = false}) => Padding(
+    padding: EdgeInsets.only(bottom: compact ? 0 : 16),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(compact ? 0 : 16),
+        border: compact
+            ? Border(
+                top: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text('${order['customer']} · ${order['project']}'),
-              const SizedBox(height: 16),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Text(
-                      text(order, 'description'),
-                      style: const TextStyle(fontSize: 13),
+              )
+            : Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(compact ? 0 : 16),
+          onTap: () => openOrder(text(order, 'id')),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? 0 : 20,
+              vertical: 18,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    WorkbenchText(
+                      text(order, 'number'),
+                      translate: false,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
+                    badge(contract.state(text(order, 'status'))),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                WorkbenchText(
+                  text(order, 'device'),
+                  translate: false,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(width: 12),
-                  Text(
-                    money(object(order['quote'])['amountCents']),
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 10),
+                WorkbenchText(
+                  '${order['customer']} · ${order['project']}',
+                  translate: false,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: WorkbenchText(
+                        text(order, 'description'),
+                        translate: false,
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    WorkbenchText(
+                      money(object(order['quote'])['amountCents']),
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -689,10 +792,10 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       TextField(
         controller: query,
         decoration: InputDecoration(
-          labelText: contract.label('search'),
+          labelText: workbenchText(context, contract.label('search')),
           suffix: TextButton(
             onPressed: store.busy ? null : search,
-            child: const Text('搜索'),
+            child: const WorkbenchText('搜索'),
           ),
         ),
         onSubmitted: (_) => search(),
@@ -701,15 +804,15 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       DropdownButtonFormField<String>(
         initialValue: store.status,
         isExpanded: true,
-        decoration: const InputDecoration(labelText: '工单状态'),
+        decoration: InputDecoration(labelText: workbenchText(context, '工单状态')),
         items: [
-          const DropdownMenuItem(value: '', child: Text('全部状态')),
+          const DropdownMenuItem(value: '', child: WorkbenchText('全部状态')),
           ...contract
               .list('states')
               .map(
                 (s) => DropdownMenuItem(
                   value: text(s, 'value'),
-                  child: Text(text(s, 'label')),
+                  child: WorkbenchText(text(s, 'label')),
                 ),
               ),
         ],
@@ -721,8 +824,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
               },
       ),
       const SizedBox(height: 20),
-      Text(
-        '共 ${store.total} 条记录 · 第 ${store.page} / ${store.totalPages == 0 ? 1 : store.totalPages} 页',
+      WorkbenchText(
+        '${workbenchText(context, '共')} ${store.total} · ${workbenchText(context, '第')} ${store.page} / ${store.totalPages == 0 ? 1 : store.totalPages} ${workbenchText(context, '页')}',
+        translate: false,
       ),
       const SizedBox(height: 12),
       if (store.orders.isEmpty) empty() else orderGrid(),
@@ -733,14 +837,14 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
             onPressed: store.busy || store.page <= 1
                 ? null
                 : () => store.reload(targetPage: store.page - 1),
-            child: const Text('上一页'),
+            child: const WorkbenchText('上一页'),
           ),
           const SizedBox(width: 24),
           TextButton(
             onPressed: store.busy || store.page >= store.totalPages
                 ? null
                 : () => store.reload(targetPage: store.page + 1),
-            child: const Text('下一页'),
+            child: const WorkbenchText('下一页'),
           ),
         ],
       ),
@@ -782,7 +886,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
 
           final current = order;
           return AlertDialog(
-            title: Text(
+            title: WorkbenchText(
               current == null
                   ? '工单详情'
                   : '${current['number']} · ${contract.state(text(current, 'status'))}',
@@ -797,7 +901,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                     if (error.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
-                        child: Text(
+                        child: WorkbenchText(
                           error,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.error,
@@ -805,16 +909,19 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                         ),
                       ),
                     if (current != null) ...[
-                      Text(
+                      WorkbenchText(
                         '${current['customer']}\n${current['project']}\n${current['device']}\n${current['description']}',
+                        translate: false,
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        '应收 ${money(object(current['summary'])['receivableCents'])}　已收 ${money(object(current['summary'])['collectedCents'])}　待收 ${money(object(current['summary'])['remainingCents'])}',
+                      WorkbenchText(
+                        '${workbenchText(context, '应收')} ${money(object(current['summary'])['receivableCents'])}　${workbenchText(context, '已收')} ${money(object(current['summary'])['collectedCents'])}　${workbenchText(context, '待收')} ${money(object(current['summary'])['remainingCents'])}',
+                        translate: false,
                       ),
                       const SizedBox(height: 12),
-                      Text(
-                        '下一步：${text(object(current['summary']), 'nextTask')}',
+                      WorkbenchText(
+                        '${workbenchText(context, '下一步：')}${text(object(current['summary']), 'nextTask')}',
+                        translate: false,
                       ),
                       const SizedBox(height: 16),
                       if ((current['allowedActions'] as List).isNotEmpty)
@@ -866,7 +973,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                                         });
                                       }
                                     },
-                              child: Text(text(action, 'label')),
+                              child: WorkbenchText(text(action, 'label')),
                             );
                           }).toList(),
                         ),
@@ -878,10 +985,10 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
               ),
             ),
             actions: [
-              TextButton(onPressed: reload, child: const Text('重新加载')),
+              TextButton(onPressed: reload, child: const WorkbenchText('重新加载')),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('关闭'),
+                child: const WorkbenchText('关闭'),
               ),
             ],
           );
@@ -1013,7 +1120,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                 : '${entry.value}';
             return Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: SelectableText('${labels[entry.key] ?? entry.key}：$value'),
+              child: SelectableText(
+                '${workbenchText(context, labels[entry.key] ?? entry.key)}：$value',
+              ),
             );
           })
           .toList(),
@@ -1046,11 +1155,11 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           alignment: Alignment.centerLeft,
           child: FilledButton(
             onPressed: store.busy ? null : loan,
-            child: const Text('登记借用'),
+            child: const WorkbenchText('登记借用'),
           ),
         ),
       const SizedBox(height: 16),
-      Text('库存配件', style: Theme.of(context).textTheme.titleLarge),
+      WorkbenchText('库存配件', style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 12),
       if (store.parts.isEmpty)
         empty()
@@ -1059,14 +1168,15 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           (part) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: panel(text(part, 'name'), [
-              Text(
-                '${part['id']} · ${part['sku']}\n可用 ${part['available']}　待检 ${part['quarantine']}',
+              WorkbenchText(
+                '${part['id']} · ${part['sku']}\n${workbenchText(context, '可用')} ${part['available']}　${workbenchText(context, '待检')} ${part['quarantine']}',
+                translate: false,
               ),
-            ]),
+            ], translateTitle: false),
           ),
         ),
       const SizedBox(height: 20),
-      Text('借还记录', style: Theme.of(context).textTheme.titleLarge),
+      WorkbenchText('借还记录', style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 12),
       if (store.loans.isEmpty)
         empty()
@@ -1075,8 +1185,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           (row) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: panel('${row['partName']} · ${row['id']}', [
-              Text(
-                '责任人 ${row['borrowerId']} · 借用 ${row['quantity']} · 尚欠 ${row['outstanding']}\n期限 ${row['dueAt']}',
+              WorkbenchText(
+                '${workbenchText(context, '责任人')} ${row['borrowerId']} · ${workbenchText(context, '借用数量')} ${row['quantity']} · ${workbenchText(context, '尚欠')} ${row['outstanding']}\n${workbenchText(context, '期限')} ${row['dueAt']}',
+                translate: false,
               ),
               const SizedBox(height: 12),
               if (['admin', 'warehouse'].contains(store.actor?['role']))
@@ -1112,12 +1223,12 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                                   );
                                   await store.reload();
                                 },
-                          child: Text(text(action, 'label')),
+                          child: WorkbenchText(text(action, 'label')),
                         ),
                       )
                       .toList(),
                 ),
-            ]),
+            ], translateTitle: false),
           ),
         ),
     ],
@@ -1130,7 +1241,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           alignment: Alignment.centerLeft,
           child: FilledButton(
             onPressed: store.busy ? null : purchase,
-            child: const Text('登记采购'),
+            child: const WorkbenchText('登记采购'),
           ),
         ),
       const SizedBox(height: 16),
@@ -1141,8 +1252,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           (row) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: panel('${row['id']} · ${row['supplier']}', [
-              Text(
-                '配件 ${row['partId']} · 数量 ${row['quantity']} · 已收 ${row['received']}\n单价 ${money(row['unitCents'])}',
+              WorkbenchText(
+                '${workbenchText(context, '配件')} ${row['partId']} · ${workbenchText(context, '数量')} ${row['quantity']} · ${workbenchText(context, '已收')} ${row['received']}\n${workbenchText(context, ' · 单价 ').trim()} ${money(row['unitCents'])}',
+                translate: false,
               ),
               const SizedBox(height: 12),
               if (['admin', 'warehouse'].contains(store.actor?['role']))
@@ -1165,10 +1277,10 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                             );
                             await store.reload();
                           },
-                    child: const Text('分批收货'),
+                    child: const WorkbenchText('分批收货'),
                   ),
                 ),
-            ]),
+            ], translateTitle: false),
           ),
         ),
     ],
@@ -1185,9 +1297,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
         bytes: Uint8List.fromList(utf8.encode(content)),
       );
       if (mounted)
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('已打开授权数据保存，请查看下载或所选位置。')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: WorkbenchText('已打开授权数据保存，请查看下载或所选位置。')),
+        );
     } catch (e) {
       showError(e);
     }
@@ -1220,7 +1332,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           }
 
           return AlertDialog(
-            title: const Text('账号管理'),
+            title: const WorkbenchText('账号管理'),
             content: SizedBox(
               width: 680,
               child: SingleChildScrollView(
@@ -1228,12 +1340,18 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (error.isNotEmpty) Text(error),
-                    if (rows.isEmpty) const Text('暂时没有可显示账号，请连接服务端后重新加载。'),
+                    if (error.isNotEmpty) WorkbenchText(error),
+                    if (rows.isEmpty)
+                      const WorkbenchText('暂时没有可显示账号，请连接服务端后重新加载。'),
                     ...rows.map(
                       (row) => ListTile(
-                        title: Text('${row['name']} · ${row['username']}'),
-                        subtitle: Text('${row['role']} · ${row['status']}'),
+                        title: WorkbenchText(
+                          '${row['name']} · ${row['username']}',
+                          translate: false,
+                        ),
+                        subtitle: WorkbenchText(
+                          '${row['role']} · ${row['status']}',
+                        ),
                         trailing: OutlinedButton(
                           onPressed: row['id'] == store.actor?['id']
                               ? null
@@ -1261,7 +1379,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                                   );
                                   await load();
                                 },
-                          child: Text(row['status'] == 'active' ? '停用' : '启用'),
+                          child: WorkbenchText(
+                            row['status'] == 'active' ? '停用' : '启用',
+                          ),
                         ),
                       ),
                     ),
@@ -1270,10 +1390,10 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
               ),
             ),
             actions: [
-              TextButton(onPressed: load, child: const Text('重新加载')),
+              TextButton(onPressed: load, child: const WorkbenchText('重新加载')),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('关闭'),
+                child: const WorkbenchText('关闭'),
               ),
             ],
           );
@@ -1311,7 +1431,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           }
 
           return AlertDialog(
-            title: Text('审计日志 · 第$page页'),
+            title: WorkbenchText('审计日志 · 第$page页'),
             content: SizedBox(
               width: 680,
               child: SingleChildScrollView(
@@ -1319,12 +1439,12 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (error.isNotEmpty) Text(error),
+                    if (error.isNotEmpty) WorkbenchText(error),
                     if (result['items'] is List)
                       ...records(result['items']).map(recordView),
                     if (result['items'] == null ||
                         (result['items'] as List).isEmpty)
-                      const Text('暂时没有记录，请重新加载。'),
+                      const WorkbenchText('暂时没有记录，请重新加载。'),
                   ],
                 ),
               ),
@@ -1332,21 +1452,21 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
             actions: [
               TextButton(
                 onPressed: () => load(page),
-                child: const Text('重新加载'),
+                child: const WorkbenchText('重新加载'),
               ),
               TextButton(
                 onPressed: page > 1 ? () => load(page - 1) : null,
-                child: const Text('上一页'),
+                child: const WorkbenchText('上一页'),
               ),
               TextButton(
                 onPressed: integer(result, 'total') > page * 30
                     ? () => load(page + 1)
                     : null,
-                child: const Text('下一页'),
+                child: const WorkbenchText('下一页'),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('关闭'),
+                child: const WorkbenchText('关闭'),
               ),
             ],
           );
@@ -1421,7 +1541,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
       panel('服务环境', [
-        Text(
+        WorkbenchText(
           '测试地址与线上地址分别保存；切换后清除会话并重新登录。',
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -1432,12 +1552,19 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            OutlinedButton(onPressed: configure, child: const Text('切换服务地址')),
-            OutlinedButton(onPressed: themeForm, child: const Text('显示主题')),
+            IconButton(
+              onPressed: configure,
+              tooltip: workbenchText(context, '切换服务地址'),
+              icon: const Icon(Icons.settings_outlined),
+            ),
+            OutlinedButton(
+              onPressed: themeForm,
+              child: const WorkbenchText('显示主题'),
+            ),
           ],
         ),
         const SizedBox(height: 16),
-        Text('当前：${store.endpoint.isEmpty ? '当前服务' : store.endpoint}'),
+        WorkbenchText('当前：${store.endpoint.isEmpty ? '当前服务' : store.endpoint}'),
       ]),
       const SizedBox(height: 16),
       panel('公司寄送信息', [
@@ -1456,14 +1583,19 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Text(
+                  child: WorkbenchText(
                     entry.value,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ),
-                Expanded(child: Text('${store.settings[entry.key] ?? ''}')),
+                Expanded(
+                  child: WorkbenchText(
+                    '${store.settings[entry.key] ?? ''}',
+                    translate: false,
+                  ),
+                ),
               ],
             ),
           ),
@@ -1473,7 +1605,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
             alignment: Alignment.centerLeft,
             child: OutlinedButton(
               onPressed: store.busy ? null : editCompany,
-              child: const Text('修改设置'),
+              child: const WorkbenchText('修改设置'),
             ),
           ),
       ]),
@@ -1486,12 +1618,12 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
             if (store.actor?['role'] == 'admin')
               OutlinedButton(
                 onPressed: store.busy ? null : showAccounts,
-                child: const Text('账号管理'),
+                child: const WorkbenchText('账号管理'),
               ),
             if (store.actor?['role'] == 'admin')
               OutlinedButton(
                 onPressed: store.busy ? null : showAudit,
-                child: const Text('审计记录'),
+                child: const WorkbenchText('审计记录'),
               ),
             if ([
               'admin',
@@ -1501,7 +1633,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
             ].contains(store.actor?['role']))
               OutlinedButton(
                 onPressed: store.busy ? null : export,
-                child: const Text('导出授权数据'),
+                child: const WorkbenchText('导出授权数据'),
               ),
           ],
         ),
@@ -1523,28 +1655,30 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                     children: [
                       OutlinedButton(
                         onPressed: store.busy ? null : showAccounts,
-                        child: const Text('账号管理'),
+                        child: const WorkbenchText('账号管理'),
                       ),
                       OutlinedButton(
                         onPressed: store.busy ? null : showAudit,
-                        child: const Text('审计日志'),
+                        child: const WorkbenchText('审计日志'),
                       ),
                     ],
                   ),
                 ]),
               ),
             panel('服务与账号', [
-              Text(
-                '当前账号：${store.actor?['name']} (${store.actor?['role']})\n服务地址：${store.endpoint.isEmpty ? '当前网页同源' : store.endpoint}\n请求超时：${store.timeout.inMilliseconds / 1000} 秒\n当前来源：${store.synthetic ? '独立合成演示' : '服务端数据'}',
+              WorkbenchText(
+                '${workbenchText(context, '账号')}：${store.actor?['name']} (${store.actor?['role']})\n${workbenchText(context, '服务地址')}：${store.endpoint.isEmpty && Uri.base.hasAuthority ? Uri.base.origin : store.endpoint}\nAPI：${store.timeout.inMilliseconds / 1000} s\n${workbenchText(context, '来源')}：${workbenchText(context, store.synthetic ? '独立合成演示' : '服务端数据')}',
+                translate: false,
               ),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 12,
                 runSpacing: 8,
                 children: [
-                  OutlinedButton(
+                  IconButton(
                     onPressed: configure,
-                    child: const Text('设置服务地址'),
+                    tooltip: workbenchText(context, '设置服务地址'),
+                    icon: const Icon(Icons.settings_outlined),
                   ),
                   if ([
                     'admin',
@@ -1554,7 +1688,7 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                   ].contains(store.actor?['role']))
                     OutlinedButton(
                       onPressed: store.busy ? null : export,
-                      child: const Text('导出授权数据'),
+                      child: const WorkbenchText('导出授权数据'),
                     ),
                 ],
               ),
@@ -1566,23 +1700,29 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                 items: const [
                   DropdownMenuItem(
                     value: ThemeMode.system,
-                    child: Text('跟随系统'),
+                    child: WorkbenchText('跟随系统'),
                   ),
-                  DropdownMenuItem(value: ThemeMode.light, child: Text('白天')),
-                  DropdownMenuItem(value: ThemeMode.dark, child: Text('黑夜')),
+                  DropdownMenuItem(
+                    value: ThemeMode.light,
+                    child: WorkbenchText('白天'),
+                  ),
+                  DropdownMenuItem(
+                    value: ThemeMode.dark,
+                    child: WorkbenchText('黑夜'),
+                  ),
                 ],
                 onChanged: (v) => widget.onTheme(v!),
               ),
             ]),
             const SizedBox(height: 16),
             panel('寄修联系信息', [
-              Text(
+              WorkbenchText(
                 '${store.settings['companyAddress'] ?? ''}\n${store.settings['companyReceiver'] ?? ''}　${store.settings['companyPhone'] ?? ''}',
               ),
             ]),
             const SizedBox(height: 16),
             panel('使用提示', [
-              const Text(
+              const WorkbenchText(
                 '服务端返回成功后才确认真实业务保存。写入超时请保留表单并原内容重试；401请重新登录。独立演示使用另外一份合成台账，后续成功连接服务会自动替换，演示改动不会同步到真实业务。\n\n金额以元填写，最多两位小数；各类编号可从工单详情复制。签署报价和验收需要在签名框手写。实际扣款渠道未接入，收款登记只记录业务事实。',
               ),
             ]),
@@ -1620,17 +1760,26 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
                   vertical: 10,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 backgroundColor: view == item['id']
-                    ? const Color(0xFF0F766E)
+                    ? Theme.of(context).colorScheme.primaryContainer
                     : Colors.transparent,
                 foregroundColor: view == item['id']
-                    ? Colors.white
+                    ? Theme.of(context).colorScheme.onPrimaryContainer
                     : Theme.of(context).colorScheme.onSurface,
               ),
               onPressed: () => setState(() => view = text(item, 'id')),
-              child: Text(text(item, 'label')),
+              child: item['id'] == 'settings'
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.settings_outlined, size: 20),
+                        const SizedBox(width: 8),
+                        WorkbenchText(text(item, 'label')),
+                      ],
+                    )
+                  : WorkbenchText(text(item, 'label')),
             ),
           ),
         )
@@ -1651,21 +1800,22 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
       final title = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          WorkbenchText(
             navigation.firstWhere(
                   (n) => n['id'] == view,
                   orElse: () => navigation.first,
                 )['label']
                 as String,
-            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 4,
             children: [
-              Text(
+              WorkbenchText(
                 '${store.actor?['name']} ·',
+                translate: false,
                 style: TextStyle(
                   fontSize: 13,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -1680,18 +1830,19 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
         spacing: 8,
         runSpacing: 8,
         children: [
+          const WorkbenchLanguagePicker(),
           OutlinedButton(
             onPressed: store.busy ? null : () => store.reload(),
-            child: const Text('重新加载'),
+            child: const WorkbenchText('重新加载'),
           ),
           if (canCreate())
             FilledButton(
               onPressed: store.busy ? null : create,
-              child: const Text('新建工单'),
+              child: const WorkbenchText('新建工单'),
             ),
           OutlinedButton(
             onPressed: () => store.logout(),
-            child: const Text('退出'),
+            child: const WorkbenchText('退出'),
           ),
         ],
       );
@@ -1716,12 +1867,9 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              text(contract.data, 'brand'),
-              style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w700),
-            ),
+            brand(),
             const SizedBox(height: 8),
-            Text(
+            WorkbenchText(
               widget.admin ? '管理工作台' : '维修服务',
               style: TextStyle(
                 fontSize: 13,
@@ -1738,7 +1886,12 @@ class _WorkbenchHomeState extends State<WorkbenchHome> {
           appBar: AppBar(
             title: brand(),
             actions: [
-              TextButton(onPressed: configure, child: const Text('服务地址')),
+              const WorkbenchLanguagePicker(),
+              IconButton(
+                onPressed: configure,
+                tooltip: workbenchText(context, '设置服务地址'),
+                icon: const Icon(Icons.settings_outlined),
+              ),
             ],
           ),
           body: login(),

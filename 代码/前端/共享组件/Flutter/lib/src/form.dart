@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'contract.dart';
+import 'localization.dart';
 
 Future<Json?> showWorkbenchForm(
   BuildContext context,
@@ -21,6 +22,100 @@ Future<Json?> showWorkbenchForm(
     submit: submit,
   ),
 );
+
+// 数字日期选择复用十语字典，避免系统控件缺少藏文时退回英文。
+Future<DateTime?> showWorkbenchDateTimePicker(
+  BuildContext context,
+  DateTime initial,
+) {
+  var year = initial.year.clamp(2000, 2100).toInt(), month = initial.month;
+  var day = initial.day, hour = initial.hour, minute = initial.minute;
+  return showDialog<DateTime>(
+    context: context,
+    builder: (dialogContext) => StatefulBuilder(
+      builder: (context, update) {
+        void change(VoidCallback mutate) => update(() {
+          mutate();
+          final maximum = DateTime(year, month + 1, 0).day;
+          if (day > maximum) day = maximum;
+        });
+
+        Widget part(
+          String label,
+          int value,
+          int first,
+          int last,
+          ValueChanged<int> onChanged,
+        ) => DropdownButtonFormField<int>(
+          key: ValueKey('date-$label-$value'),
+          initialValue: value,
+          isExpanded: true,
+          decoration: InputDecoration(labelText: workbenchText(context, label)),
+          items: List.generate(last - first + 1, (index) {
+            final number = first + index;
+            return DropdownMenuItem(
+              value: number,
+              child: WorkbenchText('$number'),
+            );
+          }),
+          onChanged: (value) {
+            if (value != null) change(() => onChanged(value));
+          },
+        );
+
+        return AlertDialog(
+          title: const WorkbenchText('选择时间'),
+          content: SizedBox(
+            width: 460,
+            child: SingleChildScrollView(
+              child: LayoutBuilder(
+                builder: (context, constraints) => Wrap(
+                  spacing: 12,
+                  runSpacing: 18,
+                  children: [
+                    SizedBox(
+                      width: constraints.maxWidth,
+                      child: part('年', year, 2000, 2100, (v) => year = v),
+                    ),
+                    for (final field in <Widget>[
+                      part('月', month, 1, 12, (v) => month = v),
+                      part(
+                        '日',
+                        day,
+                        1,
+                        DateTime(year, month + 1, 0).day,
+                        (v) => day = v,
+                      ),
+                      part('小时', hour, 0, 23, (v) => hour = v),
+                      part('分钟', minute, 0, 59, (v) => minute = v),
+                    ])
+                      SizedBox(
+                        width: (constraints.maxWidth - 12) / 2,
+                        child: field,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const WorkbenchText('取消'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(
+                dialogContext,
+                DateTime(year, month, day, hour, minute),
+              ),
+              child: const WorkbenchText('确认提交'),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+}
 
 class WorkbenchForm extends StatefulWidget {
   const WorkbenchForm({
@@ -147,7 +242,7 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
       return CheckboxListTile(
         controlAffinity: ListTileControlAffinity.leading,
         contentPadding: EdgeInsets.zero,
-        title: Text(label),
+        title: WorkbenchText(label),
         value: values[key] == true,
         onChanged: busy ? null : (v) => setState(() => values[key] = v),
       );
@@ -156,13 +251,13 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
         padding: const EdgeInsets.only(bottom: 16),
         child: DropdownButtonFormField<String>(
           initialValue: values[key] as String?,
-          decoration: InputDecoration(labelText: label),
+          decoration: InputDecoration(labelText: workbenchText(context, label)),
           isExpanded: true,
           items: records(field['options'])
               .map(
                 (e) => DropdownMenuItem(
                   value: text(e, 'value'),
-                  child: Text(text(e, 'label')),
+                  child: WorkbenchText(text(e, 'label')),
                 ),
               )
               .toList(),
@@ -175,7 +270,7 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label),
+            WorkbenchText(label),
             const SizedBox(height: 8),
             SignaturePad(onChanged: (strokes) => values[key] = strokes),
           ],
@@ -220,7 +315,7 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
                           'application/octet-stream';
                   });
                 },
-          child: Text(
+          child: WorkbenchText(
             values[key] is Uint8List
                 ? '已选文件（${(values[key] as Uint8List).length}字节），点此替换'
                 : '选择本地文件（最多8MB）',
@@ -233,7 +328,7 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
         controller: controllers[key],
         enabled: !busy,
         decoration: InputDecoration(
-          labelText: label,
+          labelText: workbenchText(context, label),
           suffixIcon: type == 'datetime'
               ? TextButton(
                   onPressed: busy
@@ -242,31 +337,18 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
                           final initial =
                               DateTime.tryParse(controllers[key]!.text) ??
                               DateTime.now();
-                          final day = await showDatePicker(
-                            context: context,
-                            initialDate: initial,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100),
+                          final selected = await showWorkbenchDateTimePicker(
+                            context,
+                            initial,
                           );
-                          if (day == null || !mounted) return;
-                          final clock = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(initial),
-                          );
-                          if (clock == null || !mounted) return;
-                          controllers[key]!.text = DateTime(
-                            day.year,
-                            day.month,
-                            day.day,
-                            clock.hour,
-                            clock.minute,
-                          ).toIso8601String();
+                          if (selected == null || !mounted) return;
+                          controllers[key]!.text = selected.toIso8601String();
                         },
-                  child: const Text('选择时间'),
+                  child: const WorkbenchText('选择时间'),
                 )
               : null,
           helperText: type == 'datetime'
-              ? '格式：2026-10-30T15:30:00+08:00'
+              ? workbenchText(context, '格式：2026-10-30T15:30:00+08:00')
               : null,
         ),
         minLines: type == 'textarea' ? 2 : 1,
@@ -276,14 +358,19 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
             : TextInputType.text,
         validator: (value) {
           final raw = value?.trim() ?? '';
-          if (field['required'] == true && raw.isEmpty) return '请填写$label';
-          if (type == 'int' && int.tryParse(raw) == null) return '请输入整数';
+          if (field['required'] == true && raw.isEmpty)
+            return workbenchText(
+              context,
+              r'请填写$label',
+            ).replaceAll(r'$label', workbenchText(context, label));
+          if (type == 'int' && int.tryParse(raw) == null)
+            return workbenchText(context, '请输入整数');
           if (type == 'money' &&
               (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(raw) ||
                   double.tryParse(raw) == null))
-            return '请输入非负金额，最多两位小数';
+            return workbenchText(context, '请输入非负金额，最多两位小数');
           if (type == 'datetime' && DateTime.tryParse(raw) == null)
-            return '请填写有效日期时间';
+            return workbenchText(context, '请填写有效日期时间');
           return null;
         },
       ),
@@ -292,7 +379,7 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-    title: Text(widget.title),
+    title: WorkbenchText(widget.title),
     content: SizedBox(
       width: 620,
       child: Form(
@@ -305,7 +392,7 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
               if (error.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
+                  child: WorkbenchText(
                     error,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
@@ -321,11 +408,11 @@ class _WorkbenchFormState extends State<WorkbenchForm> {
     actions: [
       TextButton(
         onPressed: busy ? null : () => Navigator.pop(context),
-        child: const Text('取消'),
+        child: const WorkbenchText('取消'),
       ),
       FilledButton(
         onPressed: busy ? null : save,
-        child: Text(busy ? '正在提交…' : '确认提交'),
+        child: WorkbenchText(busy ? '正在提交…' : '确认提交'),
       ),
     ],
   );
@@ -385,7 +472,7 @@ class _SignaturePadState extends State<SignaturePad> {
           strokes = [];
           widget.onChanged(strokes);
         }),
-        child: const Text('清除签名'),
+        child: const WorkbenchText('清除签名'),
       ),
     ],
   );

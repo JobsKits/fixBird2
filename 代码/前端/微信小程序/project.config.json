@@ -18,6 +18,18 @@
       {
         "type": "file",
         "value": "README.md"
+      },
+      {
+        "type": "folder",
+        "value": ".codegraph"
+      },
+      {
+        "type": "folder",
+        "value": "代码地图"
+      },
+      {
+        "type": "file",
+        "value": "codegraph.json"
       }
     ]
   }

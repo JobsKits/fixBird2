@@ -4,16 +4,16 @@
     "light": {
       "colors": {
         "background.primary": "#FFFFFF",
-        "background.secondary": "#F2F2F7",
+        "background.secondary": "#F3F6F4",
         "background.tertiary": "#FFFFFF",
-        "background.grouped": "#F2F2F7",
+        "background.grouped": "#F3F6F4",
         "background.grouped.secondary": "#FFFFFF",
-        "background.grouped.tertiary": "#F2F2F7",
-        "text.primary": "#000000",
-        "text.secondary": "#595961",
-        "text.tertiary": "#616169",
-        "text.quaternary": "#62626A",
-        "text.placeholder": "#62626A"
+        "background.grouped.tertiary": "#E9F2ED",
+        "text.primary": "#152820",
+        "text.secondary": "#53675D",
+        "text.tertiary": "#53675D",
+        "text.quaternary": "#53675D",
+        "text.placeholder": "#53675D"
       },
       "images": {
         "theme.toggle": "sf:moon.circle.fill"
@@ -21,17 +21,17 @@
     },
     "dark": {
       "colors": {
-        "background.primary": "#000000",
-        "background.secondary": "#1C1C1E",
+        "background.primary": "#101C18",
+        "background.secondary": "#192A22",
         "background.tertiary": "#2C2C2E",
-        "background.grouped": "#000000",
-        "background.grouped.secondary": "#1C1C1E",
-        "background.grouped.tertiary": "#2C2C2E",
-        "text.primary": "#FFFFFF",
-        "text.secondary": "#C8C8D0",
-        "text.tertiary": "#BCBCC4",
-        "text.quaternary": "#B5B5BD",
-        "text.placeholder": "#B5B5BD"
+        "background.grouped": "#101C18",
+        "background.grouped.secondary": "#192A22",
+        "background.grouped.tertiary": "#233E2F",
+        "text.primary": "#EFF6F1",
+        "text.secondary": "#B5C7BB",
+        "text.tertiary": "#B5C7BB",
+        "text.quaternary": "#B5C7BB",
+        "text.placeholder": "#B5C7BB"
       },
       "images": {
         "theme.toggle": "sf:sun.max.circle.fill"

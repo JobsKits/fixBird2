@@ -3,8 +3,27 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { AdminStore, fieldValue, sameActor, validOrder } from '../../../../../代码/前端/后台管理端/Web/core.mjs';
 const spec=JSON.parse(await readFile(new URL('../../../../../代码/前端/后台管理端/共享契约/admin-ui.json',import.meta.url)));
-const offline=async()=>new Response(JSON.stringify({message:'未连接服务'}),{status:503});
+const offline=async(url)=>url.endsWith('/healthz')?new Response('{"mode":"synthetic_demo"}'):new Response(JSON.stringify({message:'未连接服务'}),{status:503});
 const login=async(fetcher=offline)=>{const s=new AdminStore(spec,fetcher);await s.login('admin','Demo-Repair-2026!');return s;};
+test('明确Demo免登录进入管理员合成工作台，使用admin/1234', async()=>{
+ const calls=[];
+ const s=new AdminStore(spec,async(url,options)=>{calls.push([url,options]);return offline(url);});
+ await s.openAdmin();
+ assert.equal(s.actor.id,'admin');assert.equal(s.demo,true);
+ assert.deepEqual(JSON.parse(calls.find(([url])=>url.endsWith('/login'))[1].body),{username:'admin',password:'1234'});
+});
+test('正式环境或无法识别环境不能自动进入，也不能失联假登录',async()=>{
+ for(const health of [new Response('{"mode":"production"}'),new Response('unavailable',{status:503})]) {
+  const s=new AdminStore(spec,async(url)=>url.endsWith('/healthz')?health:new Response('unavailable',{status:503}));
+  await s.openAdmin();assert.equal(s.actor,null);assert.equal(s.demoAllowed,false);
+  await assert.rejects(s.login('admin','1234'));assert.equal(s.actor,null);
+ }
+});
+test('切到正式服务必须重新识别环境，不继承Demo资格',async()=>{
+ const s=await login();s.base='https://production.test';
+ s.fetcher=async(url)=>url.endsWith('/healthz')?new Response('{"mode":"production"}'):new Response('offline',{status:503});
+ await assert.rejects(s.login('admin','1234'));assert.equal(s.demoAllowed,false);assert.equal(s.actor,null);
+});
 test('字段按整数分、整数、时间和列表规范化',()=>{
  assert.equal(fieldValue({type:'money',label:'金额'},'12.34'),1234);
  assert.throws(()=>fieldValue({type:'int',label:'数量'},'1.5'));

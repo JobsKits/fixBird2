@@ -20,6 +20,8 @@
 
 本目录定位所属开发单元的源码、配置与测试，跨单元通过相对链接协作。
 
+`Handler` 的健康接口从 `Settings.Demo` 返回环境标识；`login` 中的 `admin / 1234` 仅对明确 Demo 的有效管理员生效，边界回归见外置 `admin_demo_gate_test.go`。
+
 ## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、业务实现定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 文件 | 职责 | 关键符号 |

@@ -12,16 +12,16 @@
     "detailWidth": 760
   },
   "colors": {
-    "primary": "#0F766E",
-    "background": "#F4F7F8",
+    "primary": "#0F5144",
+    "background": "#F3F6F4",
     "surface": "#FFFFFF",
-    "text": "#172B35",
-    "secondary": "#52636B",
-    "border": "#DBE4E7",
-    "darkBackground": "#121B20",
-    "darkSurface": "#1C2930",
-    "darkText": "#F3F6F7",
-    "darkSecondary": "#B4C3CC"
+    "text": "#152820",
+    "secondary": "#53675D",
+    "border": "#D8E3DC",
+    "darkBackground": "#101C18",
+    "darkSurface": "#192A22",
+    "darkText": "#EFF6F1",
+    "darkSecondary": "#B5C7BB"
   },
   "navigation": [
     {

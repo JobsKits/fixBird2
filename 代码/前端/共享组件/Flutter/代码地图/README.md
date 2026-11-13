@@ -16,6 +16,8 @@
 </details>
 <!-- jobs-toc:end -->
 
+`launchWorkbench(admin: true)` 通过 `WorkbenchStore.openAdmin/checkEnvironment` 识别服务端 Demo；仅明确 Demo 自动进入管理员，正式与未知环境必须登录。移动端入口继续使用原有登录流程。
+
 ---
 
 本图只定位Flutter 共享业务包的工程、稳定符号与外置测试。日常操作见 [本端说明](../README.md)；业务接口见 [工作台接口约定](../../../../后端/README.md#api-contract)。
@@ -40,7 +42,8 @@
 | [store.dart](../lib/src/store.dart) | WorkbenchStore：真实API、会话／读取顺序、请求意图、环境双地址、账号审计、401撤销与恢复。 |
 | [demo.dart](../lib/src/demo.dart) | DemoLedger：独立合成台账、角色可见性、允许动作与本地业务守卫。 |
 | [app.dart](../lib/src/app.dart) | launchWorkbench、WorkbenchApp、WorkbenchHome；响应式页面、导航、完整详情、库存采购、账号和主题。 |
-| [form.dart](../lib/src/form.dart) | WorkbenchForm、原生字段、手写 PNG、文件选择与提交。 |
+| [localization.dart](../lib/src/localization.dart) | WorkbenchTranslations、WorkbenchLocaleScope、WorkbenchText；十语展示、语言偏好及即时切换，业务原文与请求不受影响。 |
+| [form.dart](../lib/src/form.dart) | WorkbenchForm、showWorkbenchDateTimePicker、十语字段、手写 PNG、文件选择与提交。 |
 | [assets/](../assets) | 共享本地Logo、中文字体、许可与契约副本；包内路径保持既有声明。 |
 | [pubspec.yaml](../pubspec.yaml) | 共享依赖、资源与字体声明；两个App均通过相对path复用本包。 |
 

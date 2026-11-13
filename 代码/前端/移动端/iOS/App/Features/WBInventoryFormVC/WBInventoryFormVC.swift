@@ -20,10 +20,10 @@ final class WBInventoryFormVC: BaseVC {
     private var submitting = false
     private var saved = false
     private lazy var page = WBPageView()
-    private lazy var submitButton = WBUI.button("确认实际交接", primary: true) { [weak self] in
+    private lazy var submitButton = WBUI.button(WBL10n.staticText("确认实际交接"), primary: true) { [weak self] in
         self?.submit()
     }
-    private lazy var backButton = WBUI.button("返回台账核对") { [weak self] in
+    private lazy var backButton = WBUI.button(WBL10n.staticText("返回台账核对")) { [weak self] in
         self?.navigationController?.popViewControllerByAnimated()
     }
 
@@ -40,7 +40,7 @@ final class WBInventoryFormVC: BaseVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        jobsSetupGKNav(title: ["borrow": "登记实际借出", "return": "核对实际归还", "consume": "批准转维修耗用", "dispose": "批准尚欠件处置", "transfer": "转为独立跟踪"][action] ?? "办理借还")
+        jobsSetupGKNav(title: ["borrow": WBL10n.staticText("登记实际借出"), "return": WBL10n.staticText("核对实际归还"), "consume": WBL10n.staticText("批准转维修耗用"), "dispose": WBL10n.staticText("批准尚欠件处置"), "transfer": WBL10n.staticText("转为独立跟踪")][action] ?? WBL10n.staticText("办理借还"))
         page.mount(in: self)
         if let loan {
             fields = [WBFormField("quantity", "本次实际数量（当前尚欠 \(loan.outstanding)）", kind: .integer, value: "1")]
@@ -65,7 +65,7 @@ final class WBInventoryFormVC: BaseVC {
                 WBFormField("note", "批准 / 实际交接依据", kind: .multiline)
             ]
         }
-        var rows: [UIView] = [WBUI.label(store.sourceLabel + "\n数量按实物交接登记，不使用取消操作清零尚欠。", size: 13, secondary: true)]
+        var rows: [UIView] = [WBUI.label(WBL10n.text(store.sourceLabel) + WBL10n.staticText("\n数量按实物交接登记，不使用取消操作清零尚欠。"), size: 13, secondary: true)]
         rows.append(contentsOf: fields)
         rows.append(contentsOf: [submitButton, backButton, page.message])
         page.replace(rows)
@@ -74,7 +74,7 @@ final class WBInventoryFormVC: BaseVC {
     private func submit() {
         guard !submitting, !saved, let actor = store.actor, let openingActor,
               actor.matches(openingActor), ["admin", "warehouse"].contains(actor.role) else {
-            page.status("当前身份无法办理，或正在提交。")
+            page.status(WBL10n.staticText("当前身份无法办理，或正在提交。"))
             return
         }
         do {
@@ -99,7 +99,7 @@ final class WBInventoryFormVC: BaseVC {
             }
             submitting = true
             submitButton.byUserInteractionEnabled(false)
-            page.status("正在提交…")
+            page.status(WBL10n.staticText("正在提交…"))
             let completion: (Result<Void, Error>) -> Void = { [weak self] result in
                 guard let self else {
                     return
@@ -110,7 +110,7 @@ final class WBInventoryFormVC: BaseVC {
                 case .success:
                     self.saved = true
                     self.submitButton.byTitle("已提交，请返回台账核对")
-                    self.page.status(self.store.sourceLabel + "\n" + self.store.lastMessage)
+                    self.page.status(WBL10n.text(self.store.sourceLabel) + "\n" + WBL10n.text(self.store.lastMessage))
                 /// 未知结果不自动重发。
                 case .failure(let error):
                     self.submitButton.byUserInteractionEnabled(true)
