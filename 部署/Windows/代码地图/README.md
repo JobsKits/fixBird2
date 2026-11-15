@@ -29,13 +29,17 @@
 | [【Windows】反部署.ps1](<../Undeployment/【Windows】反部署.ps1/【Windows】反部署.ps1>) | Read-UndoReceipt、Assert-UndoReceipt、Stop-RecordedProcesses、Invoke-UndoSelection、Backup-UndoData、Assert-NoActiveDataWriter、Clear-UndoData、Assert-UndoDataRetired、Get-UndoArtifactRestoreState、Restore-UndoArtifacts、Complete-UndoOperation |
 | [反部署隔离验证](../../../测试/部署/Windows/【Windows】验证反部署.ps1/README.md) | 临时工程验证备份、清零、原子隔离、产物暂存恢复故障续跑、收据与路径边界；不修改当前运行实例 |
 
+`Initialize-DependencyResolver`、`Get-OfficialDependencyAsset`、`Resolve-LatestDeploymentTool` 负责官方latest稳定版与显式／PATH／多缓存择新；`Save-VerifiedDownload` 只对网络故障退避。`New-ModuleManifestCopy`、`Get-ModuleBuildEnvironment`、`Test-BusinessModuleUpdates` 使用本轮 `module.mod/module.sum` 报告业务更新，只有查询未完成可按原锁继续，源码／路径校验失败停止。原生进程仍由本轮Job Object管理。
+
 ## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、生命周期与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-平台目录分别提供“部署”和“反部署”两种独立快捷入口，只转交 `Deployment/` 与 `Undeployment/` 中各自唯一的规范实现；反部署复用原点核验、数据备份默认／清零选择及危险确认。部署入口先展示自述并确认，再用 fzf 选择本地穿透或服务器模式；只读检查／计划不下载、不创建文件、不启动业务。工具按锁清单核对平台、版本和摘要，优先复用健康工具；公共 SDK 与 Go 缓存位于机器环境，业务运行资料位于本项目独立用户目录。
+平台目录分别提供“部署”和“反部署”两种独立快捷入口，只转交 `Deployment/` 与 `Undeployment/` 中各自唯一的规范实现；反部署复用原点核验、数据备份默认／清零选择及危险确认。部署入口先展示自述并确认，再用 fzf 选择本地穿透或服务器模式；只读检查／计划不下载、不创建文件、不启动业务。菜单／解析器可按静态锁引导；选定模式后通过官方稳定发行版元数据核对平台、版本和摘要，只有版本达标且功能健康才复用；公共 SDK 与 Go 缓存位于机器环境，业务运行资料位于本项目独立用户目录。
 
 健康检查使用后端合同 `/api/v38/healthz`。网页菜单以继承控制台的fzf子进程加入本次Job Object，显示公网／本机地址，回车调用默认浏览器并继续选择；Esc收起保留服务，回车重开。菜单等待期间继续监控后端和隧道；本次服务退出或Ctrl+C时统一回收菜单与服务，浏览器打开失败允许重选。
 
-确认、邮箱门禁、PUBLIC 明确授权、端口归属、本次子进程清理及保留数据的行为沿用现有实现。`Undeployment/` 的配对脚本读取首次原点，默认备份验证后清理源数据，再恢复旧产物并撤回新SDK／依赖。完整命令、取消、失败及验收边界以就近README为准。入口与操作见 [系统说明](../README.md)，通用路径见 [环境说明](../../README.md#machine-environment)。
+确认、邮箱门禁、PUBLIC 明确授权、端口归属、本次子进程清理及保留数据的行为沿用现有实现。`Undeployment/` 的配对脚本读取首次原点，默认备份验证后清理源数据，再恢复旧产物并撤回新SDK／依赖。完整命令、取消、失败及验收边界以就近README为准。完整版本策略见[工具更新与业务依赖检查](../../README.md#tool-updates)。
+
+入口与操作见 [系统说明](../README.md)，通用路径见 [环境说明](../../README.md#machine-environment)。
 
 
 ## 三、<span id="undo-origin">部署原点与恢复边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>

@@ -269,14 +269,15 @@ type Loan struct {
 }
 
 type Purchase struct {
-	ID        string `json:"id"`
-	Version   int    `json:"version"`
-	Supplier  string `json:"supplier"`
-	PartID    string `json:"partId"`
-	Quantity  int    `json:"quantity"`
-	Received  int    `json:"received"`
-	UnitCents int64  `json:"unitCents"`
-	Note      string `json:"note"`
+	ID        string         `json:"id"`
+	Version   int            `json:"version"`
+	Supplier  string         `json:"supplier"`
+	PartID    string         `json:"partId"`
+	Quantity  int            `json:"quantity"`
+	Received  int            `json:"received"`
+	UnitCents int64          `json:"unitCents"`
+	Note      string         `json:"note"`
+	Files     []PurchaseFile `json:"files,omitempty"`
 }
 
 type Settings struct {
@@ -306,6 +307,8 @@ type State struct {
 	Settings  Settings                 `json:"settings"`
 	Requests  map[string]CachedRequest `json:"idempotency"`
 	Audit     []AuditEvent             `json:"audit"`
+	WorkLogs  []WorkLog                `json:"workLogs,omitempty"`
+	Reminders []PersonalReminder       `json:"reminders,omitempty"`
 }
 
 type StateDefinition struct {

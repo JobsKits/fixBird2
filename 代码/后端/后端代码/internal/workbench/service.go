@@ -29,12 +29,13 @@ type session struct {
 	ExpiresAt time.Time
 }
 type Service struct {
-	mu          sync.Mutex
-	state       State
-	persistence Persistence
-	sessions    map[string]session
-	now         func() time.Time
-	attempts    map[string]loginAttempt
+	mu              sync.Mutex
+	state           State
+	persistence     Persistence
+	sessions        map[string]session
+	now             func() time.Time
+	attempts        map[string]loginAttempt
+	journalMediaMax int
 }
 type loginAttempt struct {
 	Count int
@@ -45,7 +46,11 @@ func New(p Persistence) (*Service, error) {
 	if p == nil {
 		return nil, fmt.Errorf("persistence is required")
 	}
-	s := &Service{persistence: p, sessions: map[string]session{}, now: time.Now, attempts: map[string]loginAttempt{}}
+	mediaMax, err := journalMediaConfiguredLimit()
+	if err != nil {
+		return nil, err
+	}
+	s := &Service{persistence: p, sessions: map[string]session{}, now: time.Now, attempts: map[string]loginAttempt{}, journalMediaMax: mediaMax}
 	data, err := p.Load()
 	if err != nil {
 		return nil, err
@@ -260,7 +265,12 @@ func validateState(state State) error {
 			}
 		}
 	}
-	return nil
+	for _, purchase := range state.Purchases {
+		if err := validatePurchaseFileSet(purchase.Files); err != nil {
+			return err
+		}
+	}
+	return validatePersonalState(state)
 }
 
 func activeActor(actor Actor) bool {

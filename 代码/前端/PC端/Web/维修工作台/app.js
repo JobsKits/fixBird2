@@ -99,6 +99,7 @@
     connected = false,
     view = "orders",
     quick = "all",
+    financeReceivables = false,
     selectedId = "",
     detailTab = "overview",
     epoch = 0,
@@ -109,10 +110,21 @@
     actionIntent = 0,
     formRevision = 0,
     refreshJob = null,
+    personalController = null,
     metadataRevision = 0,
     auditRevision = 0,
     auditPage = 1,
     page = 1;
+  const orderTabs = [
+    ["all", "quickCountAll"],
+    ["mine", "quickCountMine"],
+    ["settling", "quickCountSettling"],
+    ["pending_completion", "quickCountReady"],
+    ["blocked", "quickCountBlocked"],
+  ];
+  let metricsMarkup = "";
+  let tabCounts = {}, tabCountStatus = "loading", tabCountRevision = 0,
+    tabCountScope = "", tabCountJob = null;
   const pageSize = 30,
     details = new Map(),
     detailRequests = new Map();
@@ -248,6 +260,9 @@
       )
     );
   }
+  function validPurchaseFile(value) {
+    return object(value) && typeof value.id === "string" && !!value.id && typeof value.name === "string" && typeof value.mime === "string" && positiveInteger(value.size) && value.size <= 8 * 1024 * 1024 && ["image/png", "image/jpeg", "image/gif", "image/webp", "application/pdf", "text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.presentationml.presentation"].includes(value.mime) && !Object.hasOwn(value, "dataBase64") && !Object.hasOwn(value, "demoData");
+  }
   function validPurchase(value) {
     return (
       object(value) &&
@@ -256,7 +271,8 @@
       positiveInteger(value.version) &&
       positiveInteger(value.quantity) &&
       nonnegativeInteger(value.received) &&
-      nonnegativeInteger(value.unitCents)
+      nonnegativeInteger(value.unitCents) &&
+      (value.files == null || (Array.isArray(value.files) && value.files.length <= 8 && value.files.every(validPurchaseFile)))
     );
   }
   function validOrderRecords(value) {
@@ -387,8 +403,12 @@
       nonnegativeInteger(value.totalPages) &&
       value.totalPages === Math.ceil(value.total / value.pageSize) &&
       items.length <= value.pageSize &&
-      items.length <= value.total
+      items.length <= value.total &&
+      (value.counts == null || validTabCounts(value.counts))
     );
+  }
+  function validTabCounts(value) {
+    return object(value) && orderTabs.every(([key]) => nonnegativeInteger(value[key]));
   }
   function validBootstrap(value) {
     return (
@@ -419,7 +439,11 @@
   }
   function validateResponse(path, options, result) {
     let valid = false;
-    if (path === "/bootstrap") valid = validBootstrap(result);
+    if (globalThis.WorkbenchPersonal?.handles(path))
+      valid = globalThis.WorkbenchPersonal.validateResponse(path, options, result, personalContext().actor);
+    else if (path === "/bootstrap") valid = validBootstrap(result);
+    else if (/^\/parts\/[^/]+$/.test(path)) valid = object(result) && validPart(result.part) && result.part.id === decodeURIComponent(path.split("/")[2]) && Array.isArray(result.loans) && result.loans.every(item => validLoan(item) && item.partId === result.part.id && (actor.role !== "engineer" || item.borrowerId === actor.id)) && Array.isArray(result.purchases) && result.purchases.every(item => validPurchase(item) && item.partId === result.part.id);
+    else if (/^\/purchases\/[^/]+(?:\/attachments)?$/.test(path)) valid = validPurchase(result) && result.id === decodeURIComponent(path.split("/")[2]);
     else if (path === "/login")
       valid =
         object(result) &&
@@ -676,22 +700,23 @@
         : actor.displayName || actor.name || D.roles[actor.role] || actor.role;
     $("#accountLabel").textContent = label;
     $(".avatar").textContent = (D.roles[actor.role] || "人").slice(0, 1);
-    $("#sourceBadge").textContent = connected
-      ? "服务端数据"
-      : dataKind === "demo"
-        ? "合成演示"
-        : "服务端 · 待重连";
-    $("#sourceBadge").classList.toggle("online", connected);
+    const sourceBadge = $("#sourceBadge");
+    if (sourceBadge) {
+      sourceBadge.textContent = connected ? "服务端数据" : dataKind === "demo" ? "合成演示" : "服务端 · 待重连";
+      sourceBadge.classList.toggle("online", connected);
+    }
     $("#connectionNote").classList.toggle("online", connected);
-    $("#createOrder").hidden = !["admin", "dispatcher", "customer"].includes(
-      actor.role,
-    );
+    $("#createOrder").hidden = view === "worklogs" || !["admin", "dispatcher", "customer"].includes(actor.role);
+    $("#metrics").hidden = view === "worklogs";
     document
       .querySelectorAll("[data-view=inventory]")
       .forEach(
         (el) =>
           (el.hidden = actor.role === "customer" || actor.role === "outsource"),
       );
+    document.querySelectorAll(".role-button").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.role === actor.role));
+    });
   }
   function renderMetrics() {
     const pendingMetadata = dataKind === "server" && !snapshotReady;
@@ -717,12 +742,14 @@
         value: totals.openCount,
         note: "全链路跟踪至整单完结",
         icon: "▦",
+        target: "open",
       },
       {
         label: "结算待办理",
         value: totals.settlingCount,
         note: "资料 · 票据 · 现金及余项",
         icon: "☷",
+        target: "settling",
       },
       {
         label: "客户待收款",
@@ -730,26 +757,28 @@
         note: "仅计入财务核实净收款",
         icon: "¥",
         money: true,
+        target: "receivable",
       },
       {
         label: "待完结确认",
         value: totals.readyCount,
         note: "负责人一次核对确认",
         icon: "✓",
+        target: "ready",
       },
     ];
-    $("#metrics").innerHTML = entries
+    const markup = entries
       .map(
         (e) =>
-          '<article class="metric"><div class="metric-label">' +
+          '<button type="button" class="metric" data-metric="' + e.target + '"><span class="metric-label">' +
           e.label +
           '<span class="metric-icon">' +
           e.icon +
-          '</span></div><div class="metric-value ' +
+          '</span></span><span class="metric-value ' +
           (e.money ? "money" : "") +
           '">' +
           (pendingMetadata ? "待加载" : e.value) +
-          "</div><small><b>" +
+          "</span><small><b>" +
           (pendingMetadata
             ? "当前概览尚未加载"
             : dataKind === "demo"
@@ -757,9 +786,14 @@
               : "当前授权范围") +
           "</b>" +
           e.note +
-          "</small></article>",
+          "</small></button>",
       )
       .join("");
+    // 列表回包不重建数值未变的概览，保持正在点击的按钮稳定。
+    if (markup !== metricsMarkup) {
+      $("#metrics").innerHTML = markup;
+      metricsMarkup = markup;
+    }
     $("#navCount").textContent = pendingMetadata ? "…" : totals.openCount;
     $("#capacityNote").hidden = dataKind !== "server" || !data.capacity.warning;
     if (!$("#capacityNote").hidden)
@@ -770,9 +804,11 @@
         data.capacity.threshold +
         "）。请管理员安排备份并按部署说明迁移数据；不要删除台账或重置请求记录。";
   }
-  function filteredOrders() {
+  function filteredOrders(filter = quick, forTabs = false) {
     if (dataKind === "server") return currentOrders();
-    if (view !== "orders") return currentOrders();
+    if (!forTabs && view === "finance" && financeReceivables)
+      return currentOrders().filter((order) => summary(order).remainingCents > 0);
+    if (!forTabs && view !== "orders") return currentOrders();
     const q = $("#search").value.trim().toLowerCase(),
       stage = $("#statusFilter").value,
       docs = $("#documentFilter").value,
@@ -786,12 +822,12 @@
               .toLowerCase()
               .includes(q),
           )) &&
-        (!stage || o.status === stage) &&
-        (quick === "all" ||
-          (quick === "mine" &&
-            (o.ownerId === actor.id || o.assigneeId === actor.id)) ||
-          (quick === "blocked" && (o.issues || []).some((i) => !i.resolved)) ||
-          o.status === quick) &&
+        (!stage || (stage === "active" ? o.status !== "completed" : o.status === stage)) &&
+        (filter === "all" ||
+          (filter === "mine" &&
+            (o.ownerId === actor.id || o.assigneeId === actor.id || actor.role === "customer")) ||
+          (filter === "blocked" && (o.issues || []).some((i) => !i.resolved)) ||
+          o.status === filter) &&
         (!docs ||
           (docs === "sent" && ["sent", "已发送"].includes(s.documentStatus)) ||
           (docs === "not_required" &&
@@ -845,8 +881,73 @@
       status: useOrderFilters ? $("#statusFilter").value : "",
       filter: useOrderFilters ? quick : "all",
       documents: useOrderFilters ? $("#documentFilter").value : "",
-      payment: useOrderFilters ? $("#paymentFilter").value : "",
+      payment: useOrderFilters ? $("#paymentFilter").value : financeReceivables && view === "finance" ? "outstanding" : "",
     }).toString();
+  }
+  function tabCountQuery(query) {
+    const params = new URLSearchParams(query);
+    params.set("page", "1");
+    params.set("pageSize", "1");
+    params.set("filter", "all");
+    return params;
+  }
+  function prepareTabCounts(query) {
+    if (view !== "orders") return;
+    const scope = tabCountQuery(query).toString();
+    if (scope !== tabCountScope) {
+      tabCountRevision++;
+      tabCountScope = scope;
+      tabCounts = {};
+      tabCountStatus = "loading";
+      tabCountJob = null;
+      renderOrderTabs();
+    }
+  }
+  function renderOrderTabs() {
+    for (const [key, id] of orderTabs) {
+      const count = dataKind === "demo"
+        ? filteredOrders(key, true).length
+        : tabCounts[key];
+      const node = $("#" + id);
+      node.textContent = "（" + (nonnegativeInteger(count) ? count : tabCountStatus === "unavailable" ? "—" : "…") + "）";
+    }
+    document.querySelectorAll("[data-quick]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.quick === quick);
+      button.setAttribute("aria-pressed", String(button.dataset.quick === quick));
+    });
+  }
+  function adoptTabCounts(result, query) {
+    if (view !== "orders") return;
+    prepareTabCounts(query);
+    if (validTabCounts(result.counts)) {
+      tabCountRevision++;
+      tabCounts = result.counts;
+      tabCountStatus = "ready";
+      tabCountJob = null;
+      return;
+    }
+    if (tabCountJob?.scope === tabCountScope) return;
+    // 兼容旧服务：只取各筛选的total，不把当前页长度当作授权范围总量。
+    const revision = epoch, sequence = ++tabCountRevision, scope = tabCountScope;
+    const job = { scope };
+    tabCountJob = job;
+    tabCounts = {};
+    tabCountStatus = "loading";
+    Promise.allSettled(orderTabs.map(([key]) => {
+      const params = tabCountQuery(query);
+      params.set("filter", key);
+      return request("/orders?" + params.toString());
+    })).then((results) => {
+      if (revision !== epoch || sequence !== tabCountRevision || scope !== tabCountScope || view !== "orders") return;
+      tabCounts = {};
+      results.forEach((result, index) => {
+        if (result.status === "fulfilled") tabCounts[orderTabs[index][0]] = result.value.total;
+      });
+      tabCountStatus = results.every((result) => result.status === "fulfilled") ? "ready" : "unavailable";
+      renderOrderTabs();
+    }).finally(() => {
+      if (tabCountJob === job) tabCountJob = null;
+    });
   }
   function sameSessionActor(value) {
     return (
@@ -858,7 +959,26 @@
       )
     );
   }
-  function clearSessionViews() {
+  function personalContext() {
+    const authenticated = !!token && !!sessionActor;
+    return {
+      actor: { ...(authenticated ? sessionActor : actor) },
+      mode: authenticated ? "server" : "demo",
+      epoch,
+      connected,
+      view,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
+    };
+  }
+  function clearSessionViews({ preservePersonal = false } = {}) {
+    clearPurchasePreviews();
+    purchaseDetails.clear();
+    if (!preservePersonal) personalController?.reset();
+    tabCountRevision++;
+    tabCounts = {};
+    tabCountScope = "";
+    tabCountJob = null;
+    tabCountStatus = "loading";
     actionIntent++;
     formRevision++;
     detailRevision++;
@@ -912,7 +1032,7 @@
     loading = false;
     authenticating = false;
     snapshotReady = false;
-    clearSessionViews();
+    clearSessionViews({ preservePersonal: error.status !== 401 && !!token && !!sessionActor });
     connected = false;
     const role = actor.role in D.roles ? actor.role : "dispatcher";
     actor = {
@@ -946,6 +1066,7 @@
     const revision = epoch,
       sequence = ++listRevision,
       query = orderQuery();
+    prepareTabCounts(query);
     $("#tableSummary").textContent = "正在加载当前筛选结果…";
     try {
       const result = await request("/orders?" + query);
@@ -959,6 +1080,7 @@
       };
       page = result.page;
       connected = true;
+      adoptTabCounts(result, query);
     } catch (error) {
       if (revision !== epoch || sequence !== listRevision) return;
       enterFallback(error);
@@ -970,13 +1092,9 @@
   }
   function renderOrders() {
     const orders = pageOrders(),
-      info = pageInfo(),
-      all = currentOrders();
+      info = pageInfo();
     $("#orderCount").textContent = info.total;
-    $("#blockedCount").textContent =
-      dataKind === "server"
-        ? data.metrics.blockedCount
-        : all.filter((o) => (o.issues || []).some((i) => !i.resolved)).length;
+    renderOrderTabs();
     $("#ordersBody").innerHTML = orders
       .map((o) => {
         const s = summary(o),
@@ -1156,6 +1274,7 @@
     $("#taskCount").textContent =
       dataKind === "server" ? data.metrics.tasksCount : list.length;
     $("#tasksView").innerHTML =
+      '<div id="personalReminders"></div>' +
       '<section class="panel"><div class="panel-heading"><div><h2>并行待办与内部上门</h2><p>处理一个事项不会覆盖同单其他人员的待办</p></div><button class="button" data-reload>重新加载</button></div>' +
       (list.length
         ? list
@@ -1170,6 +1289,7 @@
                 " · " +
                 date(t.due) +
                 '</p></div><div class="card-actions">' +
+                '<button class="button quiet" type="button" data-reminder-title="' + safe(t.title) + '">设置提醒</button>' +
                 (t.action
                   ? recordActionButton(t.order, t.action, t.id, "办理本项")
                   : "") +
@@ -1186,6 +1306,7 @@
     const orders = pageOrders(),
       cash = orders.flatMap((o) => (o.cash || []).map((c) => ({ o, c })));
     $("#financeView").innerHTML =
+      (financeReceivables ? '<div class="inline-note"><strong>客户待收款</strong> <button class="button quiet" data-finance-all="true">重置</button></div>' : "") +
       '<section class="panel"><div class="panel-heading"><div><h2>现金登记与核实</h2><p>待核实不计实收；内部现金交接不重复计收入；退款关联原业务</p></div><button class="button" data-reload>重新加载</button></div>' +
       (cash.length
         ? '<div class="table-container"><table class="data-table"><thead><tr><th>工单 / 客户</th><th>用途</th><th>现金金额</th><th>事实状态</th><th>操作</th></tr></thead><tbody>' +
@@ -1281,7 +1402,7 @@
           parts
             .map(
               (p) =>
-                '<article class="inventory-stat"><strong>' +
+                '<button type="button" class="inventory-stat inventory-detail-trigger" data-part-detail="' + safe(p.id) + '"><strong>' +
                 p.available +
                 "</strong><span>" +
                 business(p.name) +
@@ -1289,7 +1410,7 @@
                 safe(p.sku) +
                 " · 隔离 " +
                 p.quarantine +
-                " 件</span></article>",
+                " 件</span></button>",
             )
             .join("") +
           "</div>"
@@ -1375,13 +1496,13 @@
                 money(p.unitCents) +
                 " · " +
                 business(p.note) +
-                "</p></div>" +
+                '</p></div><div class="action-list"><button type="button" class="button" data-purchase-detail="' + safe(p.id) + '">查看采购明细</button>' +
                 (canWarehouse && p.received < p.quantity
                   ? '<button class="button" data-purchase="' +
                     safe(p.id) +
                     '">登记实际收货</button>'
                   : badge("已收齐", "green")) +
-                "</article>",
+                "</div></article>",
             )
             .join("")
         : empty("暂无采购记录")) +
@@ -1401,7 +1522,7 @@
           ([id, label]) =>
             '<button class="role-button ' +
             (actor.role === id ? "active" : "") +
-            '" data-role="' +
+            '" type="button" aria-pressed="' + String(actor.role === id) + '" data-role="' +
             id +
             '">' +
             label +
@@ -1668,9 +1789,11 @@
       settingsMetadata();
     }
     if ($("#detailDialog").open && selectedId) renderDetail();
+    personalController?.sync();
   }
-  function showView(next) {
+  function showView(next, { receivables = false } = {}) {
     actionIntent++;
+    financeReceivables = next === "finance" && receivables;
     view = next;
     const names = {
       orders: "工单工作台",
@@ -1678,6 +1801,7 @@
       finance: "现金与票据",
       inventory: "库存与借还",
       settings: "账号与连接",
+      worklogs: "工作日志",
     };
     document
       .querySelectorAll(".view")
@@ -1694,6 +1818,7 @@
       finance: "每一笔现金独立登记、核实与交接，资料票据持续可查。",
       inventory: "记录实物去向与责任，数量守恒，不以状态代替事实。",
       settings: "连接本机服务，确认当前身份与公司业务配置。",
+      worklogs: "记录工作与备忘，按日期回看。",
     }[next];
     render();
     if (["orders", "tasks", "finance"].includes(next))
@@ -1751,14 +1876,16 @@
               if (applySnapshotMetadata(result)) render();
               continue;
             }
-            let query = orderQuery(),
-              orders = await request("/orders?" + query);
+            let query = orderQuery();
+            prepareTabCounts(query);
+            let orders = await request("/orders?" + query);
             while (
               revision === epoch &&
               sequence === listRevision &&
               query !== orderQuery()
             ) {
               query = orderQuery();
+              prepareTabCounts(query);
               orders = await request("/orders?" + query);
             }
             if (revision !== epoch || job.queued) continue;
@@ -1779,6 +1906,7 @@
             dataKind = "server";
             snapshotReady = true;
             connected = true;
+            adoptTabCounts(orders, query);
             $("#connectionNote").textContent =
               "服务端已连接 · 所有数据按当前账号权限返回，保存后自动刷新。";
             if ($("#detailDialog").open && selectedId)
@@ -2673,6 +2801,7 @@
       .slice(0, 16);
   }
   function modal(title, body, onSubmit, { readOnly = false } = {}) {
+    clearPurchasePreviews();
     const revision = epoch,
       instance = ++formRevision;
     actionIntent++;
@@ -2688,6 +2817,7 @@
         ? ""
         : '<button class="button primary" type="submit" id="submitAction">确认本次事实</button>') +
       "</footer></form>";
+    $("#actionForm").onpaste = null;
     $("#actionForm").onsubmit = async (event) => {
       event.preventDefault();
       if (readOnly) return;
@@ -3531,6 +3661,111 @@
       }
     });
   }
+  const purchasePreviewURLs = new Set(), purchaseDetails = new Map();
+  const purchaseMIMEs = ["image/png", "image/jpeg", "image/gif", "image/webp", "application/pdf", "text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.presentationml.presentation"];
+  function clearPurchasePreviews() {
+    for (const url of purchasePreviewURLs) URL.revokeObjectURL(url);
+    purchasePreviewURLs.clear();
+  }
+  function purchaseFileFields() {
+    return '<section class="form-field full purchase-file-picker"><label for="purchaseFile">采购附件</label><input id="purchaseFile" name="purchaseFile" type="file" accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.txt,.csv,.docx,.xlsx,.pptx"><div id="purchasePaste" tabindex="0" role="group" aria-label="选择文件或在此粘贴图片">选择文件或在此粘贴图片</div><p>支持图片、PDF、TXT/CSV及DOCX/XLSX/PPTX</p><small>单文件最多8MiB，最多8件，每单合计32MiB</small><div id="purchasePicked"></div></section>';
+  }
+  function purchaseFileMIME(file) {
+    const ext = String(file.name || "").split(".").at(-1).toLowerCase();
+    const inferred = {png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",gif:"image/gif",webp:"image/webp",pdf:"application/pdf",txt:"text/plain",csv:"text/csv",docx:purchaseMIMEs[7],xlsx:purchaseMIMEs[8],pptx:purchaseMIMEs[9]};
+    const mime = purchaseMIMEs.includes(file.type) ? file.type : inferred[ext];
+    if (!mime || !purchaseMIMEs.includes(mime)) throw new Error("不支持此文件类型。");
+    return mime;
+  }
+  function bindPurchasePicker() {
+    let picked = null;
+    const input = $("#purchaseFile"), form = $("#actionForm"), output = $("#purchasePicked");
+    const selectFile = file => {
+      picked = null;
+      clearPurchasePreviews();
+      if (!file) { output.innerHTML = ""; return; }
+      try {
+        if (!file.size || file.size > 8 * 1024 * 1024) throw new Error("文件不得超过8MiB且不能为空。");
+        const mime = purchaseFileMIME(file);
+        picked = file;
+        output.innerHTML = '<p>当前选择 · ' + business(file.name || "pasted-image.png") + ' · ' + file.size + ' B</p>';
+        if (mime.startsWith("image/")) {
+          const url = URL.createObjectURL(file); purchasePreviewURLs.add(url);
+          output.innerHTML += '<img class="purchase-file-preview" src="' + safe(url) + '" alt="图片预览">';
+        }
+        $("#formError").hidden = true;
+      } catch (error) { output.innerHTML = ""; $("#formError").textContent = error.message; $("#formError").hidden = false; }
+    };
+    input.onchange = () => selectFile(input.files?.[0]);
+    form.onpaste = event => {
+      const file = Array.from(event.clipboardData?.items || []).find(item => item.kind === "file")?.getAsFile?.();
+      if (file) { event.preventDefault(); selectFile(file); }
+    };
+    return () => picked || input.files?.[0] || null;
+  }
+  async function readPurchaseFile(file) {
+    if (!file.size || file.size > 8 * 1024 * 1024) throw new Error("文件不得超过8MiB且不能为空。");
+    return {name: file.name || "pasted-image.png", mime: purchaseFileMIME(file), dataBase64: await fileBase64(file)};
+  }
+  function demoPurchaseFile(file) {
+    return {id:D.uid("purchase_file"),name:file.name,mime:file.mime,size:atob(file.dataBase64).length,createdAt:new Date().toISOString(),uploaderId:actor.id,demoData:file.dataBase64};
+  }
+  async function purchaseFileBlob(purchase, file, revision) {
+    if (dataKind === "demo") {
+      if (!file.demoData) throw new Error("独立演示没有该文件原件。");
+      const raw = atob(file.demoData), bytes = Uint8Array.from(raw, value => value.charCodeAt(0));
+      return new Blob([bytes], {type:file.mime});
+    }
+    const response = await fetch(apiBase + "/api/v38/purchases/" + encodeURIComponent(purchase.id) + "/attachments/" + encodeURIComponent(file.id), {headers:{Authorization:"Bearer " + token},signal:AbortSignal.timeout(timeoutMs)});
+    revokeSession(revision,response.status);
+    if (revision !== epoch) return null;
+    if (!response.ok) throw new APIError("下载拒绝或原件已删除。",response.status);
+    const mime = response.headers.get("Content-Type")?.split(";")[0];
+    const blob = await response.blob();
+    if (revision !== epoch) return null;
+    if (mime !== file.mime || blob.size !== file.size || blob.size > 8 * 1024 * 1024) throw new Error("附件响应与已确认元数据不符，未生成预览或下载。");
+    return blob;
+  }
+  async function downloadPurchaseFile(purchaseID, fileID) {
+    const revision = epoch, purchase = purchaseDetails.get(purchaseID), file = purchase?.files?.find(item => item.id === fileID);
+    if (!file) return;
+    try { const blob = await purchaseFileBlob(purchase,file,revision); if (blob && revision === epoch) download(file.name,blob); }
+    catch (error) { if (revision === epoch) toast(error.message + " 未生成替代原件。"); }
+  }
+  async function openInventoryDetail(kind, id) {
+    const revision = epoch, intent = ++actionIntent, sourceView = view, sourceForm = formRevision, wasDemo = dataKind === "demo";
+    let value;
+    try { value = await request((kind === "part" ? "/parts/" : "/purchases/") + encodeURIComponent(id)); }
+    catch (error) {
+      if (revision !== epoch || intent !== actionIntent || sourceView !== view || sourceForm !== formRevision) return;
+      if (!wasDemo || !unavailable(error)) { toast(error.message + " 未显示替代明细。"); return; }
+      value = kind === "part" ? {part:demo.parts.find(item=>item.id===id),loans:demo.loans.filter(item=>item.partId===id),purchases:demo.purchases.filter(item=>item.partId===id)} : demo.purchases.find(item=>item.id===id);
+    }
+    if (revision !== epoch || intent !== actionIntent || sourceView !== view || sourceForm !== formRevision || !value) return;
+    if (kind === "part") {
+      const part=value.part;
+      if (!part) return;
+      const loans=value.loans || [], purchases=value.purchases || [];
+      const body='<section class="document-preview"><h3>' + business(part.name) + '</h3><p>SKU · ' + business(part.sku) + '</p><p>可用 ' + part.available + ' · 隔离 ' + part.quarantine + '</p><h3>关联借还</h3>' + (loans.length ? loans.map(loan=>'<p>' + business(loan.borrowerId) + ' · 借出 ' + loan.quantity + ' · 尚欠 ' + loan.outstanding + '</p>').join("") : empty("暂无关联借还")) + '<h3>关联采购</h3>' + (purchases.length ? purchases.map(item=>'<button type="button" class="button" data-purchase-detail="' + safe(item.id) + '">' + business(item.supplier) + ' · ' + item.received + ' / ' + item.quantity + '</button>').join("") : empty("暂无关联采购")) + '</section>';
+      modal("库存明细",body,null,{readOnly:true}); return;
+    }
+    purchaseDetails.set(id,value);
+    const files=value.files || [], canUpload=["admin","warehouse","dispatcher"].includes(actor.role);
+    let body='<section class="document-preview"><h3>' + business(value.supplier) + '</h3><p>' + business(data.parts.find(part=>part.id===value.partId)?.name || value.partId) + ' · 已收 ' + value.received + ' / 采购 ' + value.quantity + '</p><p>' + business(value.note) + '</p><h3>采购附件</h3>';
+    if (canUpload) body += '<button type="button" class="button" data-purchase-attach="' + safe(id) + '">添加采购附件</button>';
+    body += files.length ? '<div class="purchase-file-list">' + files.map(file=>'<article class="purchase-file-card"><p>' + business(file.name) + '</p><small>' + safe(file.mime) + ' · ' + file.size + ' B</small>' + (file.mime.startsWith("image/") ? '<div id="purchase-preview-' + safe(file.id) + '"></div>' : '') + '<button type="button" class="button" data-purchase-id="' + safe(id) + '" data-purchase-file="' + safe(file.id) + '">下载</button></article>').join("") + '</div>' : empty("暂无采购附件");
+    modal("采购明细",body + '</section>',null,{readOnly:true});
+    const instance=formRevision;
+    for (const file of files.filter(file=>file.mime.startsWith("image/"))) {
+      try {
+        const blob=await purchaseFileBlob(value,file,revision);
+        if (!blob || revision!==epoch || instance!==formRevision || !$("#formDialog").open) return;
+        const url=URL.createObjectURL(blob); purchasePreviewURLs.add(url);
+        const slot=document.getElementById?.("purchase-preview-"+file.id);
+        if(slot) slot.innerHTML='<img class="purchase-file-preview" src="' + safe(url) + '" alt="图片预览">';
+      } catch(error) {if(revision===epoch && instance===formRevision) toast(error.message);}
+    }
+  }
   function globalForm(type, id = "", loanAction = "") {
     const sourceAtOpen = dataKind;
     const parts = (data.parts || []).map((p) => [
@@ -3545,7 +3780,7 @@
       title = "",
       path = "",
       payloadReader = (fd) => Object.fromEntries(fd.entries()),
-      localApply;
+      localApply, getPurchaseFile = () => null;
     if (type === "loan") {
       title = "登记实际借出交接";
       path = "/loans";
@@ -3588,14 +3823,20 @@
         select("partId", "采购配件", parts) +
         field("quantity", "采购数量", "number", 1, 'min="1" data-integer') +
         amountField("unitCents", "含税采购单价（元）", 0, false) +
-        defaultNote();
-      localApply = (p) =>
-        demo.purchases.push({
-          ...p,
-          id: D.uid("purchase"),
-          version: 1,
-          received: 0,
-        });
+        defaultNote() + purchaseFileFields() + '<p class="inline-note">保存采购后也可在明细中添加附件。</p>';
+      localApply = (p) => {
+        const { attachments = [], ...record } = p;
+        demo.purchases.push({ ...record, id: D.uid("purchase"), version: 1, received: 0, files: attachments.map(demoPurchaseFile) });
+      };
+    }
+    if (type === "purchaseAttachment") {
+      const purchase = purchaseDetails.get(id) || data.purchases.find(item => item.id === id);
+      if (!purchase || !["admin", "warehouse", "dispatcher"].includes(actor.role)) return;
+      title = "添加采购附件";
+      path = "/purchases/" + encodeURIComponent(id) + "/attachments";
+      body = '<p class="inline-note">上传后会更新采购版本</p>' + purchaseFileFields();
+      payloadReader = () => ({ version: purchase.version });
+      localApply = p => { const item = demo.purchases.find(value => value.id === id); item.files ||= []; if (item.files.length >= 8 || item.files.reduce((sum,file) => sum + file.size,0) + atob(p.dataBase64).length > 32 * 1024 * 1024) throw new Error("每张采购单最多8个附件、合计32MiB。"); item.files.push(demoPurchaseFile(p)); item.version++; };
     }
     if (type === "purchaseReceive") {
       const p = data.purchases.find((i) => i.id === id);
@@ -3714,8 +3955,15 @@
       title,
       '<div class="form-grid">' + body + "</div>",
       async (fd, instance) => {
-        const payload = payloadReader(fd),
+        const revision = epoch, payload = payloadReader(fd),
           nested = payload.payload || payload;
+        if (type === "purchase" || type === "purchaseAttachment") {
+          delete payload.purchaseFile;
+          const file = getPurchaseFile();
+          if (type === "purchaseAttachment" && !file) throw new Error("请选择文件原件。");
+          if (file) { const attachment = await readPurchaseFile(file); if (type === "purchase") payload.attachments = [attachment]; else Object.assign(payload, attachment); }
+          if (revision !== epoch || instance !== formRevision) return;
+        }
         document
           .querySelectorAll("#actionForm [data-integer]")
           .forEach((i) => (nested[i.name] = D.integer(i.value)));
@@ -3732,8 +3980,7 @@
           nested.dueAt = new Date(
             String(nested.dueAt).slice(0, 10) + "T23:59:59+08:00",
           ).toISOString();
-        const wasDemo = sourceAtOpen === "demo",
-          revision = epoch;
+        const wasDemo = sourceAtOpen === "demo";
         try {
           await request(path, {
             method: "POST",
@@ -3756,6 +4003,7 @@
         }
       },
     );
+    if (type === "purchase" || type === "purchaseAttachment") getPurchaseFile = bindPurchasePicker();
   }
   function download(name, blob) {
     const url = URL.createObjectURL(blob),
@@ -3794,9 +4042,24 @@
       if (revision === epoch) toast(error.message + " 未生成替代原件。");
     }
   }
-  document.addEventListener("click", (event) => {
+  document.addEventListener("click", async (event) => {
     const el = event.target.closest("button,[data-open]");
     if (!el) return;
+    if (el.dataset.metric) {
+      $("#filterForm").reset();
+      quick = "all";
+      if (el.dataset.metric === "open") $("#statusFilter").value = "active";
+      else if (el.dataset.metric === "settling") quick = "settling";
+      else if (el.dataset.metric === "ready") quick = "pending_completion";
+      showView(el.dataset.metric === "receivable" ? "finance" : "orders", {
+        receivables: el.dataset.metric === "receivable",
+      });
+      return;
+    }
+    if (el.dataset.financeAll) {
+      showView("finance");
+      return;
+    }
     if (el.dataset.view) {
       if ($("#detailDialog").open) $("#detailDialog").close();
       showView(el.dataset.view);
@@ -3882,6 +4145,10 @@
       globalForm("loanAction", el.dataset.loan, el.dataset.loanAction);
       return;
     }
+    if (el.dataset.partDetail) { await openInventoryDetail("part", el.dataset.partDetail); return; }
+    if (el.dataset.purchaseDetail) { await openInventoryDetail("purchase", el.dataset.purchaseDetail); return; }
+    if (el.dataset.purchaseAttach) { globalForm("purchaseAttachment", el.dataset.purchaseAttach); return; }
+    if (el.dataset.purchaseFile) { await downloadPurchaseFile(el.dataset.purchaseId, el.dataset.purchaseFile); return; }
     if (el.dataset.purchase) {
       globalForm("purchaseReceive", el.dataset.purchase);
       return;
@@ -4010,8 +4277,7 @@
       }
     }
   });
-  $("#refresh").onclick = refresh;
-  $("#accountButton").onclick = () => showView("settings");
+  if ($("#refresh")) $("#refresh").onclick = refresh;
   $("#createOrder").onclick = createForm;
   $("#filterForm").onsubmit = (event) => event.preventDefault();
   $("#search").oninput = changeFilters;
@@ -4028,7 +4294,7 @@
   };
   $("#statusFilter").insertAdjacentHTML(
     "beforeend",
-    options(Object.entries(D.states)),
+    options([["active", "进行中工单"], ...Object.entries(D.states)]),
   );
   $("#exportOrders").onclick = async () => {
     if (dataKind === "server") {
@@ -4100,9 +4366,15 @@
     actionIntent++;
   });
   $("#formDialog").addEventListener("close", () => {
-    if (!$("#formDialog").open) formRevision++;
+    if (!$("#formDialog").open) { formRevision++; clearPurchasePreviews(); }
   });
   $("#formDialog").addEventListener("cancel", () => formRevision++);
+  if (globalThis.WorkbenchPersonal)
+    personalController = globalThis.WorkbenchPersonal.createController({
+      request,
+      getContext: personalContext,
+      navigate: showView,
+    });
   render();
   refresh();
 })();

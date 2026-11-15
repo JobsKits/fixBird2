@@ -597,7 +597,7 @@ show_script_intro_and_wait() {
   display_line '0;34' '   默认浏览器访问：打开链接→输入允许的邮箱→收取并填写验证码→进入工作台。'
   display_line '0;34' '   邮箱只用于公网入口身份验证，与维修业务无关；原生App／API联调请选择公开演示，仅用合成数据。'
   display_line '0;34' '2、服务器部署：仅构建并运行后端，不建立穿透；保留回环监听与现有数据语义。'
-  display_line '0;34' '3、缺失Go／fzf／cloudflared将从官方锁定来源校验后放入机器公共环境缓存，已有健康工具复用。'
+  display_line '0;34' '3、菜单用健康Go／fzf引导；选定模式后查询官方最新稳定工具，校验下载至本项目机器缓存。'
   display_line '0;34' '4、不安装系统服务、不改全局网络、PATH或电源；公网联调仅用合成数据。'
   jobs_prompt_output display_line '0;34' '5、回车后用fzf选择；部署前Esc／空选取消，子菜单←返回。Ctrl+C停止本次子进程，保留业务数据。'
   display_line '0;34' '6、启动后显示各端URL与离线二维码，fzf可打开公网／本机地址或扫码页面；服务保持运行。'
@@ -657,7 +657,7 @@ handle_readonly_modes() {
   [ -f "$PROJECT_DIR/部署/deploy-tools.lock.tsv" ] || { printf '%s\n' '缺少工具锁定清单。' >&2; exit 1; }
   printf '%s\n' '模式：本地部署＋内网穿透（默认浏览器访问，指定邮箱收验证码；App／API联调可选公开演示）；服务器部署（无隧道）。'
   printf '计划选择：%s\n' "${PLAN_TARGET:-由正常运行fzf选择}"
-  printf '%s\n' '正常流程：确认→准备fzf→选择模式→健康Go/必要穿透工具→构建新二进制→本机health→必要隧道→fzf选地址打开浏览器并持续监控→退出清理。'
+  printf '%s\n' '正常流程：确认→引导fzf并选择模式→引导Go编译解析器→查询官方稳定工具并择新→业务库只检查更新→readonly构建新二进制→本机health→必要隧道→fzf选地址打开浏览器并持续监控→退出清理。'
   printf '%s\n' '只读完成：没有下载、缓存/配置/日志写入、构建、业务启动或公网连接。'
   exit 0
 }
@@ -688,6 +688,7 @@ $runtime_parent"; fi
 # 仅终止本次启动并仍属于本次作业的后端与隧道进程。
 cleanup() {
   [ "${ZSH_SUBSHELL:-0}" = 0 ] && [ "${BASH_SUBSHELL:-0}" = 0 ] || return 0
+  cleanup_dependency_commands
   local child guard
   for child in "$BROWSER_MENU_PID" "$TUNNEL_PID" "$API_PID"; do
     [ -n "$child" ] || continue
@@ -713,25 +714,52 @@ hash_file() {
   elif command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk '{print $1}';
   else fail '缺少系统SHA256工具，不能跳过下载校验。'; fi
 }
-# 只从锁定HTTPS来源下载到本次缓存，失败不执行不完整文件。
+# 官方归档逐次有界获取；网络故障持续重试，摘要/权限/来源错误直接停止。
 download_verified() {
-  local source_url="$1" target_file="$2" expected="$3" actual
-  case "$source_url" in https://*) ;; *) fail '锁定来源必须为HTTPS。';; esac
+  local source_url="$1" target_file="$2" expected="$3" actual code http_code delay=1 transfer_log="$2.transfer.log"
+  case "$source_url" in https://*) ;; *) fail '官方来源必须为HTTPS。';; esac
   log_message '0;34' "来源｜$source_url"
   log_message '0;34' "目标｜$target_file"
-  if command -v curl >/dev/null 2>&1; then
-    curl --fail --location --show-error --connect-timeout 10 --max-time 240 --retry 2 --output "$target_file.part" "$source_url" >> "$LOG_FILE" 2>&1 || fail "下载失败：$source_url；检查本机网络或日志。"
-  elif command -v wget >/dev/null 2>&1; then
-    wget --timeout=30 --tries=2 -O "$target_file.part" "$source_url" >> "$LOG_FILE" 2>&1 || fail "下载失败：$source_url。"
-  else fail '系统缺少curl/wget；请按本系统文档准备基础下载命令，不能绕过校验。'; fi
-  actual="$(hash_file "$target_file.part")"
-  [ "$actual" = "$expected" ] || fail "SHA256不匹配，停止使用下载文件：$target_file.part"
-  mv "$target_file.part" "$target_file" || fail '无法落盘已校验归档。'
+  while :; do
+    if [ -f "$target_file.part" ] && [ "$(hash_file "$target_file.part")" = "$expected" ]; then mv "$target_file.part" "$target_file" || fail '无法保存校验后的归档。'; return 0; fi
+    code=0; http_code=''
+    if command -v curl >/dev/null 2>&1; then
+      run_dependency_command "$target_file.http" curl --fail --location --show-error --connect-timeout 10 --max-time 240 --continue-at - --write-out '%{http_code}' --output "$target_file.part" "$source_url" || code=$?
+      http_code="$(cat "$target_file.http" 2>/dev/null)"
+      [ "$code" -lt 128 ] || exit "$code"
+      if [ "$code" != 0 ]; then
+        case "$code:$http_code" in
+          33:*|*:416) : > "$target_file.part";;
+          6:*|7:*|18:*|28:*|35:*|52:*|55:*|56:*|*:408|*:429|*:5[0-9][0-9]) ;;
+          *) fail "下载被拒绝或本机条件不满足（curl=$code，HTTP=$http_code）；不使用部分文件。";;
+        esac
+      fi
+    elif command -v wget >/dev/null 2>&1; then
+      run_dependency_command "$transfer_log" wget --server-response --continue --timeout=30 --tries=1 -O "$target_file.part" "$source_url" || code=$?
+      [ "$code" -lt 128 ] || exit "$code"
+      cat "$transfer_log" >> "$LOG_FILE"
+      http_code="$(awk '/HTTP\/[0-9.]+ [0-9][0-9][0-9]/{value=$2} END{print value}' "$transfer_log")"
+      if [ "$code" != 0 ]; then
+        case "$code:$http_code" in
+          4:*|*:408|*:429|*:5[0-9][0-9]) ;;
+          *) fail "下载被拒绝或本机条件不满足（wget=$code，HTTP=$http_code）；不使用部分文件。";;
+        esac
+      fi
+    else fail '系统缺少curl/wget；请按本系统文档准备基础下载命令。'; fi
+    if [ "$code" = 0 ]; then
+      actual="$(hash_file "$target_file.part")"
+      [ "$actual" = "$expected" ] || fail "SHA256不匹配，停止使用下载文件：$target_file.part"
+      mv "$target_file.part" "$target_file" || fail '无法保存已校验归档。'
+      return 0
+    fi
+    dependency_retry_wait "$delay" "官方归档暂未获取完成"
+    [ "$delay" -ge 15 ] || delay=$((delay * 2)); [ "$delay" -le 15 ] || delay=15
+  done
 }
 # 只为缺失工具读取本仓锁定清单并安装到机器环境缓存。
 install_cached_tool() {
-  local tool="$1" row version filename expected source_url kind cache archive staging candidate tool_directory version_directory download_directory
-  row="$(awk -F '\t' -v t="$tool" -v o="$PLATFORM_OS" -v a="$PLATFORM_ARCH" '$1==t&&$2==o&&$3==a{print;exit}' "$PROJECT_DIR/部署/deploy-tools.lock.tsv")"
+  local tool="$1" row="${2:-}" version filename expected source_url kind cache archive staging candidate tool_directory version_directory download_directory
+  [ -n "$row" ] || row="$(awk -F '\t' -v t="$tool" -v o="$PLATFORM_OS" -v a="$PLATFORM_ARCH" '$1==t&&$2==o&&$3==a{print;exit}' "$PROJECT_DIR/部署/deploy-tools.lock.tsv")"
   [ -n "$row" ] || fail "缺少${tool}的$PLATFORM_OS/${PLATFORM_ARCH}官方锁定包。"
   version="$(printf '%s\n' "$row" | cut -f4)"; filename="$(printf '%s\n' "$row" | cut -f5)"
   expected="$(printf '%s\n' "$row" | cut -f6)"; source_url="$(printf '%s\n' "$row" | cut -f7)"; kind="$(printf '%s\n' "$row" | cut -f8)"
@@ -740,7 +768,9 @@ install_cached_tool() {
   [ ! -L "$ENV_ROOT" ] && [ ! -L "$PROJECT_ENV_DIR/Tools/$tool_directory" ] && [ ! -L "$PROJECT_ENV_DIR/Tools/$tool_directory/$version_directory" ] && [ ! -L "$cache" ] || fail '工具缓存目录是软链接，拒绝跟随到项目外。'
   [ ! -L "$cache/go" ] && [ ! -L "$cache/go/bin" ] && [ ! -L "$cache/$tool" ] || fail '工具缓存内部存在软链接，需先人工核对。'
   if [ "$tool" = go ]; then candidate="$cache/go/bin/go"; else candidate="$cache/$tool"; fi
-  if tool_healthy "$tool" "$candidate"; then TOOL_RESULT="$candidate"; return 0; fi
+  if tool_healthy "$tool" "$candidate"; then
+    if [ -z "${DEPENDENCY_RESOLVER:-}" ] || tool_meets_version "$tool" "$candidate" "$version"; then TOOL_RESULT="$candidate"; return 0; fi
+  fi
   mkdir -p "$(dirname "$cache")" || fail '工具缓存目录不可写。'
   [ ! -L "$PROJECT_ENV_DIR/Downloads" ] || fail '下载缓存目录是软链接，拒绝跟随。'
   mkdir -p "$PROJECT_ENV_DIR/Downloads" || fail '无法创建机器下载缓存。'
@@ -757,22 +787,246 @@ install_cached_tool() {
   [ -f "$candidate" ] && [ ! -L "$candidate" ] || fail '归档缺少预期普通可执行文件。'
   chmod u+x "$candidate" || fail '无法赋予本次工具执行位。'
   tool_healthy "$tool" "$candidate" || fail "安装后${tool}健康复检失败。"
+  if [ -n "${DEPENDENCY_RESOLVER:-}" ]; then tool_meets_version "$tool" "$candidate" "$version" || fail "安装后${tool}版本不达标。"; fi
+  printf '%s\n' "$expected" > "$staging/artifact.sha256"
+  hash_file "$candidate" > "$staging/executable.sha256"
   if [ -e "$cache" ]; then mv "$cache" "$RUN_DIR/tool-before-$tool" || fail '无法保留原损坏工具缓存。'; fi
   mv "$staging" "$cache" || fail '工具缓存安装失败。'
   if [ "$tool" = go ]; then TOOL_RESULT="$cache/go/bin/go"; else TOOL_RESULT="$cache/$tool"; fi
   log_message '0;34' "已准备｜$tool $version｜来源 $source_url"
 }
+# 仅按本轮PID、启动时间与命令快照回收下载/检查子树。
+stop_dependency_tree() {
+  local pid="$1" identity="$2" child child_identity
+  [ "$pid" != "$$" ] || return 0
+  [ -n "$identity" ] && [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ] || return 0
+  for child in $(LC_ALL=C ps -axo pid=,ppid= | awk -v parent="$pid" '$2==parent{print $1}'); do
+    [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ] || return 0
+    [ "$(LC_ALL=C ps -p "$child" -o ppid= 2>/dev/null | tr -d ' ')" = "$pid" ] || continue
+    child_identity="$(LC_ALL=C ps -p "$child" -o lstart= -o command= 2>/dev/null)"
+    stop_dependency_tree "$child" "$child_identity"
+  done
+  [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ] || return 0
+  kill -TERM "$pid" 2>/dev/null || true
+  sleep .1
+  if [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ]; then kill -KILL "$pid" 2>/dev/null || true; fi
+}
+# 工作进程先登记再启动命令，父入口异常退出时独立收回本轮子树。
+dependency_command_worker() {
+  local owner="$1" owner_identity="$2" output="$3" worker child='' child_started='' result=0
+  shift 3
+  if [ -n "${ZSH_VERSION:-}" ]; then zmodload zsh/system || return 1; worker="${sysparams[pid]}";
+  elif [ -n "${BASHPID:-}" ]; then worker="$BASHPID";
+  else worker="$(exec /bin/sh -c 'printf "%s" "$PPID"')"; fi
+  [ -n "$worker" ] && [ "$worker" != "$owner" ] || return 2
+  [ ! -L "$RUN_DIR/dependency-workers.tsv" ] || return 1
+  printf '%s\t%s\n' "$worker" "$(LC_ALL=C ps -p "$worker" -o lstart= -o command= 2>/dev/null)" >> "$RUN_DIR/dependency-workers.tsv" || return 1
+  DEPENDENCY_WORKER_PID="$worker"; DEPENDENCY_WORKER_CHILD=''; DEPENDENCY_WORKER_STARTED=''
+  dependency_worker_finish() {
+    trap - EXIT
+    trap '' HUP INT TERM
+    local identity
+    local owned="${DEPENDENCY_WORKER_CHILD:-}"
+    if [ -n "$owned" ] && [ "$(LC_ALL=C ps -p "$owned" -o ppid= 2>/dev/null | tr -d ' ')" = "$DEPENDENCY_WORKER_PID" ] && [ "$(LC_ALL=C ps -p "$owned" -o lstart= 2>/dev/null)" = "$DEPENDENCY_WORKER_STARTED" ]; then
+      identity="$(LC_ALL=C ps -p "$owned" -o lstart= -o command= 2>/dev/null)"
+      stop_dependency_tree "$owned" "$identity"
+    fi
+    [ -z "$owned" ] || wait "$owned" 2>/dev/null || true
+  }
+  trap 'dependency_worker_finish' EXIT
+  trap 'exit 129' HUP
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  "$@" > "$output" 2>> "$LOG_FILE" &
+  child=$!
+  child_started="$(LC_ALL=C ps -p "$child" -o lstart= 2>/dev/null)"
+  DEPENDENCY_WORKER_CHILD="$child"; DEPENDENCY_WORKER_STARTED="$child_started"
+  while kill -0 "$child" 2>/dev/null; do
+    [ "$(LC_ALL=C ps -p "$owner" -o lstart= -o command= 2>/dev/null)" = "$owner_identity" ] || return 129
+    sleep .2
+  done
+  if wait "$child"; then result=0; else result=$?; fi
+  child=''; DEPENDENCY_WORKER_CHILD=''
+  return "$result"
+}
+# 前台仅等待本轮监督子进程，退出清理可即时中断其实际命令。
+run_dependency_command() {
+  local output="$1" owner_identity worker result
+  shift
+  owner_identity="$(LC_ALL=C ps -p "$$" -o lstart= -o command= 2>/dev/null)"
+  dependency_command_worker "$$" "$owner_identity" "$output" "$@" &
+  worker=$!
+  if wait "$worker"; then return 0; else result=$?; return "$result"; fi
+}
+# 下载/查询产物封存前，先停止本轮仍存活的短作业。
+cleanup_dependency_commands() {
+  local pid identity
+  [ -n "${RUN_DIR:-}" ] && [ -f "$RUN_DIR/dependency-workers.tsv" ] && [ ! -L "$RUN_DIR/dependency-workers.tsv" ] || return 0
+  while IFS=$'\t' read -r pid identity; do
+    case "$pid" in ''|*[!0-9]*) continue;; esac
+    stop_dependency_tree "$pid" "$identity"
+  done < "$RUN_DIR/dependency-workers.tsv"
+}
+# 只给可重试的网络获取等待退避，校验与参数错误直接停止。
+dependency_retry_wait() {
+  local seconds="$1" reason="$2"
+  log_message '1;33' "$reason；${seconds}秒后继续获取，Ctrl+C可取消。"
+  run_dependency_command "$RUN_DIR/dependency-wait.out" sleep "$seconds" || exit "$?"
+}
+# 用本轮私有副本查询和构建，源工程的模块锁始终不写入。
+prepare_module_copy() {
+  local source="$1" name="$2" directory="$RUN_DIR/module-manifests/$2"
+  [ -f "$source/go.mod" ] || fail "缺少模块清单：$source/go.mod"
+  mkdir -p "$directory" || fail '无法创建本轮模块清单目录。'
+  cp "$source/go.mod" "$directory/module.mod" || fail '无法复制模块清单。'
+  if [ -f "$source/go.sum" ]; then cp "$source/go.sum" "$directory/module.sum" || fail '无法复制模块校验锁。'; fi
+  MODULE_MODFILE="$directory/module.mod"
+}
+# 解析器只依赖标准库，由菜单引导阶段已准备的健康Go构建。
+prepare_dependency_resolver() {
+  local source="$PROJECT_DIR/部署/公共组件/依赖版本"
+  prepare_module_copy "$source" resolver
+  DEPENDENCY_RESOLVER="$RUN_DIR/dependency-versions"
+  log_message '0;34' '依赖检查｜准备本轮官方稳定版本解析器；不会修改源码或全局工具。'
+  (cd "$source" && GOROOT= GOWORK=off GOTOOLCHAIN=local GOTELEMETRY=off run_dependency_command "$RUN_DIR/dependency-build.out" "$GO_EXECUTABLE" build -mod=readonly -modfile="$MODULE_MODFILE" -o "$DEPENDENCY_RESOLVER" .) >> "$LOG_FILE" 2>&1 || fail '版本解析器构建失败，停止部署。'
+}
+# 读取实际稳定版号，拒绝把开发版或预发布输出当作稳定工具。
+tool_version() {
+  local tool="$1" candidate="$2" info
+  case "$tool" in
+    go) info="$(GOROOT= GOTOOLCHAIN=local "$candidate" version 2>/dev/null)" || return 1; printf '%s\n' "$info" | sed -nE 's/^go version go([0-9]+\.[0-9]+(\.[0-9]+)?)([[:space:]].*)?$/\1/p';;
+    fzf) info="$(FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$candidate" --version 2>/dev/null)" || return 1; printf '%s\n' "$info" | sed -nE 's/^([0-9]+\.[0-9]+(\.[0-9]+)?)([[:space:]].*)?$/\1/p';;
+    cloudflared) info="$("$candidate" --version 2>/dev/null)" || return 1; printf '%s\n' "$info" | sed -nE 's/^cloudflared version ([0-9]+\.[0-9]+(\.[0-9]+)?)([[:space:]].*)?$/\1/p';;
+    *) return 1;;
+  esac
+}
+# 比较器用退出码区分旧版本与非法输入，不把旧版当解析器故障。
+tool_at_least() {
+  local installed="$1" target="$2" result code
+  if result="$("$DEPENDENCY_RESOLVER" --compare "$installed" --at-least "$target" 2>> "$LOG_FILE")"; then
+    [ "$result" = 1 ] || fail '版本比较器返回异常。'
+    return 0
+  else
+    code=$?
+    if [ "$code" = 1 ] && [ "$result" = 0 ]; then return 1; fi
+    fail '无法可靠比较工具版本，停止部署。'
+  fi
+}
+# 只有当前功能与实际稳定版本同时达标，候选工具才可复用。
+tool_meets_version() {
+  local tool="$1" candidate="$2" target="$3" version
+  tool_healthy "$tool" "$candidate" || return 1
+  case "$candidate" in "$PROJECT_ENV_DIR"/Tools/*)
+    local cache_root="${candidate%/*}"
+    [ "$tool" != go ] || cache_root="${candidate%/go/bin/go}"
+    [ -f "$cache_root/executable.sha256" ] && [ "$(cat "$cache_root/executable.sha256")" = "$(hash_file "$candidate")" ] || return 1;;
+  esac
+  version="$(tool_version "$tool" "$candidate")" || return 1
+  [ -n "$version" ] && tool_at_least "$version" "$target"
+}
+# 每次正常部署重新查官方稳定发行版，只有临时网络失败持续重试。
+resolve_latest_asset() {
+  local tool="$1" row code delay=1 expected_url
+  local -a arguments
+  arguments=(--tool "$tool" --os "$PLATFORM_OS" --arch "$PLATFORM_ARCH" --locked-manifest "$PROJECT_DIR/部署/deploy-tools.lock.tsv")
+  [ "$tool" != go ] || arguments+=(--minimum-go 1.24.0)
+  while :; do
+    if run_dependency_command "$RUN_DIR/dependency-latest-$tool.tsv" "$DEPENDENCY_RESOLVER" "${arguments[@]}"; then row="$(cat "$RUN_DIR/dependency-latest-$tool.tsv")"; break; else code=$?; fi
+    [ "$code" -lt 128 ] || exit "$code"
+    [ "$code" = 75 ] || fail "官方${tool}版本或摘要无法确认，停止部署；详见日志。"
+    dependency_retry_wait "$delay" "官方${tool}版本查询暂未完成"
+    [ "$delay" -ge 15 ] || delay=$((delay * 2)); [ "$delay" -le 15 ] || delay=15
+  done
+  [ "$(printf '%s\n' "$row" | awk -F '\t' 'NF==8{n++} END{print n+0}')" = 1 ] && [ "$(printf '%s\n' "$row" | wc -l | tr -d ' ')" = 1 ] || fail '官方版本解析行格式不完整。'
+  IFS=$'\t' read -r RESOLVED_TOOL RESOLVED_OS RESOLVED_ARCH RESOLVED_VERSION RESOLVED_FILENAME RESOLVED_SHA RESOLVED_URL RESOLVED_KIND <<RESOLVED_ASSET
+$row
+RESOLVED_ASSET
+  [ "$RESOLVED_TOOL/$RESOLVED_OS/$RESOLVED_ARCH" = "$tool/$PLATFORM_OS/$PLATFORM_ARCH" ] || fail '官方版本平台或架构与本机不符。'
+  printf '%s\n' "$RESOLVED_VERSION" | grep -Eq '^[0-9]+\.[0-9]+(\.[0-9]+)?$' || fail '官方版本不是稳定数字版本。'
+  if [ "$RESOLVED_KIND" = unsupported ]; then
+    [ "$RESOLVED_FILENAME/$RESOLVED_SHA/$RESOLVED_URL" = '-/-/-' ] || fail '不支持的平台资产返回格式异常。'
+  else
+    case "$RESOLVED_KIND" in tar.gz|tgz|binary) ;; *) fail '官方资产归档类型与本Shell平台不符。';; esac
+    printf '%s\n' "$RESOLVED_SHA" | grep -Eq '^[a-fA-F0-9]{64}$' || fail '官方资产缺少可信SHA256。'
+    case "$RESOLVED_FILENAME" in ''|*/*|*\\*|*:*|.|..) fail '官方资产文件名无效。';; esac
+    case "$tool" in go) expected_url="https://go.dev/dl/$RESOLVED_FILENAME";; fzf) expected_url="https://github.com/junegunn/fzf/releases/download/v$RESOLVED_VERSION/$RESOLVED_FILENAME";; cloudflared) expected_url="https://github.com/cloudflare/cloudflared/releases/download/$RESOLVED_VERSION/$RESOLVED_FILENAME";; esac
+    [ "$RESOLVED_URL" = "$expected_url" ] || fail '官方资产来源与稳定版本不匹配。'
+  fi
+  RESOLVED_ROW="$row"
+}
+# 从显式、PATH与所有版本缓存择新；不覆盖显式文件或系统公共工具。
+resolve_latest_tool() {
+  local tool="$1" explicit='' initial='' candidate version current_version best='' best_version='' directory relative target row kind
+  resolve_latest_asset "$tool"
+  target="$RESOLVED_VERSION"; row="$RESOLVED_ROW"; kind="$RESOLVED_KIND"
+  case "$tool" in
+    go) explicit="${GO_BIN:-}"; initial="${GO_EXECUTABLE:-}"; directory=Go; relative=go/bin/go;;
+    fzf) explicit="${WB_FZF_BIN:-}"; initial="${FZF_EXECUTABLE:-}"; directory=Fzf; relative=fzf;;
+    cloudflared) explicit="${WB_CLOUDFLARED_BIN:-}"; initial="${CLOUDFLARED_EXECUTABLE:-}"; directory=Cloudflared; relative=cloudflared;;
+  esac
+  [ -n "$initial" ] || initial="$(command -v "$tool" 2>/dev/null || true)"
+  current_version="$(tool_version "$tool" "$initial" 2>/dev/null || true)"
+  log_message '0;34' "工具版本｜$tool｜当前 ${current_version:-未安装或不可识别}｜官方稳定目标 $target"
+  if [ -n "$explicit" ]; then
+    case "$explicit" in /*) ;; *) explicit="$PROJECT_DIR/$explicit";; esac
+    tool_meets_version "$tool" "$explicit" "$target" || fail "显式${tool}未达到官方稳定目标$target或功能不兼容；请更新显式配置，原文件保留。"
+    best="$explicit"
+  else
+    [ "$kind" != unsupported ] || fail "官方${tool} $target未提供$PLATFORM_OS/$PLATFORM_ARCH成品；仅可显式指定匹配的原生新版工具。"
+    for candidate in "$initial" "$(command -v "$tool" 2>/dev/null || true)" "$ENV_ROOT/$directory"/*/"$PLATFORM_LABEL-$PLATFORM_ARCH/$relative" "$PROJECT_ENV_DIR/Tools/$directory"/*/"$PLATFORM_LABEL-$PLATFORM_ARCH/$relative"; do
+      tool_meets_version "$tool" "$candidate" "$target" || continue
+      version="$(tool_version "$tool" "$candidate")"
+      if [ -z "$best" ] || tool_at_least "$version" "$best_version"; then best="$candidate"; best_version="$version"; fi
+    done
+    if [ -z "$best" ]; then install_cached_tool "$tool" "$row"; best="$TOOL_RESULT"; fi
+    tool_meets_version "$tool" "$best" "$target" || fail "${tool}采用版本复检未达到官方目标，停止部署。"
+  fi
+  version="$(tool_version "$tool" "$best")"
+  log_message '0;34' "采用工具｜$tool $version｜$best"
+  case "$tool" in go) GO_EXECUTABLE="$best";; fzf) FZF_EXECUTABLE="$best";; cloudflared) CLOUDFLARED_EXECUTABLE="$best";; esac
+}
+# 菜单引导完成后，最终构建与运行统一采用重新核验的稳定版本。
+prepare_latest_tools() {
+  resolve_latest_tool go
+  resolve_latest_tool fzf
+  if [ "$DEPLOY_MODE" = local ]; then resolve_latest_tool cloudflared; fi
+}
+# 仅报告当前模块路径可更新版本，不升级业务库或发现换路径的新主版本。
+check_module_updates() {
+  local name="$1" source="$2" code output="$RUN_DIR/module-updates-$1.txt" seconds="${WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS:-30}"
+  case "$seconds" in ''|*[!0-9]*) fail 'WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS须为1..300秒。';; esac
+  [ "$seconds" -ge 1 ] && [ "$seconds" -le 300 ] || fail '业务依赖检查超时须为1..300秒。'
+  prepare_module_copy "$source" "$name-check"
+  log_message '0;34' "业务依赖检查｜$name｜最多${seconds}秒，仅检查当前模块路径；源码依赖锁保持不变。"
+  if (configure_go_module_source && GOROOT= run_dependency_command "$output" "$DEPENDENCY_RESOLVER" --module-report --go-bin "$GO_EXECUTABLE" --module-dir "$source" --modfile "$MODULE_MODFILE" --timeout-seconds "$seconds"); then
+    if [ -s "$output" ]; then
+      log_message '1;33' "业务库可更新｜$name｜需单独升级与回归："
+      awk -F '\t' 'NF==3{printf "%s %s -> %s\n",$1,$2,$3}' "$output" | tee -a "$LOG_FILE"
+    else log_message '0;34' "业务依赖检查完成｜$name当前模块路径未报告更新；未检查换路径的新主版本。"; fi
+  else
+    code=$?
+    [ "$code" = 3 ] || fail "业务依赖检查的参数、路径或源码锁校验失败（$name，退出码$code）；停止核对。" "$code"
+    log_message '1;33' "业务依赖检查未完成或超时｜$name｜按现有锁构建，不视为已确认最新；详见日志。"
+  fi
+}
+# 后端和二维码各自独立检查，客户端工具链不在本部署中暗中升级。
+check_business_dependencies() {
+  check_module_updates backend "$PROJECT_DIR/代码/后端/后端代码"
+  check_module_updates qr "$PROJECT_DIR/部署/公共组件/地址二维码"
+}
+
 # 对实际调用的工具执行最小版本和必要参数健康检查。
 tool_healthy() {
   local tool="$1" candidate="$2" info minor
   [ -n "$candidate" ] && [ -x "$candidate" ] || return 1
   case "$tool" in
-    go) info="$("$candidate" version 2>/dev/null)" || return 1; minor="$(printf '%s\n' "$info" | sed -n 's/.*go1\.\([0-9][0-9]*\).*/\1/p')"; [ -n "$minor" ] && [ "$minor" -ge 24 ];;
+    go) info="$(GOROOT= GOTOOLCHAIN=local GOTELEMETRY=off "$candidate" version 2>/dev/null)" || return 1; minor="$(printf '%s\n' "$info" | sed -n 's/.*go1\.\([0-9][0-9]*\).*/\1/p')"; [ -n "$minor" ] && [ "$minor" -ge 24 ];;
     fzf) FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$candidate" --version >/dev/null 2>&1 && FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$candidate" --help 2>/dev/null | grep -- '--expect' >/dev/null;;
     cloudflared)
       "$candidate" --version >/dev/null 2>&1 || return 1
       info="$("$candidate" tunnel --help 2>/dev/null)" || return 1
-      printf '%s\n' "$info" | grep -- '--url' >/dev/null && printf '%s\n' "$info" | grep -- '--config' >/dev/null && printf '%s\n' "$info" | grep -- '--no-autoupdate' >/dev/null;;
+      printf '%s\n' "$info" | grep -- '--url' >/dev/null && printf '%s\n' "$info" | grep -- '--config' >/dev/null && printf '%s\n' "$info" | grep -- '--no-autoupdate' >/dev/null || return 1
+      [ "${PUBLIC_TUNNEL:-0}" = 1 ] || printf '%s\n' "$info" | grep -- '--allowed-mail' >/dev/null;;
     *) return 1;;
   esac
 }
@@ -880,12 +1134,31 @@ configure_paths() {
   for name in Build Modules Path; do [ ! -L "$go_cache/$name" ] || fail "缓存${name}是软链接，拒绝跟随。"; done
   export GOCACHE="$go_cache/Build" GOMODCACHE="$go_cache/Modules" GOPATH="$go_cache/Path" GOTOOLCHAIN=local GOTELEMETRY=off
 }
+# 只为未配置下载源的构建子进程设置回退，不覆盖用户或私库策略。
+configure_go_module_source() {
+  local effective_proxy go_env_file
+  effective_proxy="$("$GO_EXECUTABLE" env GOPROXY)" || fail '无法读取Go模块下载源。'
+  go_env_file="$("$GO_EXECUTABLE" env GOENV)" || fail '无法读取Go环境配置位置。'
+  if [ "${GOPROXY+x}" = x ]; then
+    log_message '0;34' '依赖来源｜沿用进程显式GOPROXY（含空值／off），不追加公共镜像。'
+  elif [ "$go_env_file" != off ] && [ -f "$go_env_file" ] && grep -q '^GOPROXY=' "$go_env_file"; then
+    log_message '0;34' '依赖来源｜沿用Go用户配置GOPROXY，不追加公共镜像。'
+  elif [ "$effective_proxy" = 'https://proxy.golang.org,direct' ]; then
+    export GOPROXY='https://goproxy.cn|https://proxy.golang.org|direct'
+    log_message '0;34' '依赖来源｜https://goproxy.cn → https://proxy.golang.org → 模块源码仓库；网络错误自动回退。'
+  else
+    log_message '0;34' '依赖来源｜沿用Go现有下载策略，不追加公共镜像。'
+  fi
+  log_message '0;34' "依赖缓存｜$GOMODCACHE；下载源仅本次构建生效，退出即撤回，不执行go env -w，不修改校验策略。"
+}
 # 只用新构建成功的二进制启动，不回退执行旧产物。
 build_workbench() {
   local pending="$RUN_DIR/workbench.new" result
   log_message '0;34' "构建｜$GO_EXECUTABLE｜代码/后端/后端代码"
   cd "$PROJECT_DIR/代码/后端/后端代码" || fail '源码目录不可进入。'
-  "$GO_EXECUTABLE" build -o "$pending" ./cmd/workbench >> "$LOG_FILE" 2>&1
+  prepare_module_copy "$PROJECT_DIR/代码/后端/后端代码" backend-build
+  configure_go_module_source
+  GOROOT= GOWORK=off "$GO_EXECUTABLE" build -mod=readonly -o "$pending" -modfile="$MODULE_MODFILE" ./cmd/workbench >> "$LOG_FILE" 2>&1
   result=$?
   [ "$result" = 0 ] || fail "构建失败，不启动旧程序。日志：$LOG_FILE" "$result"
   [ -x "$pending" ] || fail '构建没有生成新的可执行文件，不启动旧程序。'
@@ -950,9 +1223,10 @@ prepare_access_qr() {
   if ! (
     set -o pipefail
     cd "$PROJECT_DIR/部署/公共组件/地址二维码" || exit 1
+    prepare_module_copy "$PROJECT_DIR/部署/公共组件/地址二维码" qr-build
     configure_go_module_source
     log_message '0;34' '二维码依赖来源｜github.com/skip2/go-qrcode；版本与校验见部署/公共组件/地址二维码/go.mod、go.sum。'
-    "$GO_EXECUTABLE" build -mod=readonly -o "$QR_BINARY" . 2>&1 | tee -a "$LOG_FILE"
+    GOROOT= GOWORK=off "$GO_EXECUTABLE" build -mod=readonly -o "$QR_BINARY" -modfile="$MODULE_MODFILE" . 2>&1 | tee -a "$LOG_FILE"
   ); then
     QR_BINARY=''
     log_message '1;31' '二维码工具未能构建；保留完整URL，后端与隧道继续按原流程运行。'
@@ -1271,9 +1545,11 @@ main() {
   prepare_fzf # 复用健康选择器，缺失才准备机器环境副本。
   select_deploy_mode # 两种模式必须由正常入口fzf明确选择。
   configure_tunnel_access # 本地模式默认收集允许访问邮箱。
-  prepare_go # 复用已有Go或从官方锁定来源准备本地缓存。
-  prepare_tunnel_tool # 仅本地模式准备穿透工具。
-  configure_paths # 保留数据与路径配置并限制回环监听。
+  prepare_go # 健康Go只用于引导标准库版本解析器，最终工具还需查询官方最新。
+  configure_paths # 设置本项目机器缓存与回环路径，不修改全局工具。
+  prepare_dependency_resolver # 临时构建官方稳定版本解析器，检查和计划不执行。
+  prepare_latest_tools # 查询官方最新，显式旧版本停止；采用版本化项目缓存。
+  check_business_dependencies # 仅报告业务库更新，不自动改动依赖锁。
   build_workbench # 构建成功才替换本项目运行程序。
   prepare_access_qr # 使用已有Go构建独立离线二维码工具，失败保留URL。
   start_and_check_backend # 核实本次后端健康再继续。

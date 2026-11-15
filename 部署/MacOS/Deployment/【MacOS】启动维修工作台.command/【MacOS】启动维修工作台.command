@@ -1,7 +1,7 @@
 #!/bin/zsh
 # 脚本自述：
 # - 核心用途：用 fzf 选择本地部署＋内网穿透或服务器部署，构建并运行维修工作台。
-# - 外网访问：默认浏览器打开链接后用指定邮箱收验证码；邮箱只验证访问者身份。原生App／API联调可选无邮箱验证的公开演示，仅用合成数据。
+# - 外网访问：本地模式回车确认后生成公开演示链接，无需邮箱或确认词；显示前台与管理后台网页二维码，仅用合成数据。
 # - 影响范围：缺失公共工具下载到机器环境；运行资料留在本项目独立用户目录；不注册服务、不改全局PATH或防火墙。
 # - 运行提示：先回车确认再选择模式；Esc取消；Ctrl+C停止本次子进程并保留数据。
 
@@ -534,8 +534,6 @@ QR_PAGE=""
 QR_GENERATION=0
 WORKBENCH_BINARY=""
 RUN_DIR=""
-ALLOWED_MAIL=""
-PUBLIC_TUNNEL=0
 OUTPUT_COLOR=0
 EXPECTED_OS="darwin"
 EXPECTED_DISTRO=""
@@ -544,6 +542,11 @@ DEPLOY_OPERATION_LOCK=""
 DEPLOY_LOCK_HELD=0
 PROJECT_ENV_DIR=""
 MISSING_RUNTIME_PARENTS=""
+RUNTIME_EXISTED=absent
+DEPLOY_HANDOFF_FD=""
+GUARDIAN_PID=""
+DEPLOY_OWNER_PID=""
+CLEANUP_RUNNING=0
 
 # 根据脚本真实位置向上寻找本项目，不依赖启动工作目录。
 prepare_display_context() {
@@ -593,15 +596,15 @@ show_script_intro_and_wait() {
   parse_options "$@"
   display_line '1;31' '================ 维修平台双模式部署 ================'
   display_line '0;34' '1、本地部署＋内网穿透：运行本机后端，免费Quick Tunnel生成临时HTTPS公网链接。'
-  display_line '0;34' '   默认浏览器访问：打开链接→输入允许的邮箱→收取并填写验证码→进入工作台。'
-  display_line '0;34' '   邮箱只用于公网入口身份验证，与维修业务无关；原生App／API联调请选择公开演示，仅用合成数据。'
+  display_line '0;34' '   本地模式回车确认公开演示，无需填写邮箱或输入确认词；任何取得链接的人均可访问入口，仅用合成数据。'
   display_line '0;34' '2、服务器部署：仅构建并运行后端，不建立穿透；保留回环监听与现有数据语义。'
-  display_line '0;34' '3、缺失Go／fzf／cloudflared将从官方锁定来源校验后放入机器公共环境缓存，已有健康工具复用。'
-  display_line '0;34' '   未自定义GOPROXY时，本次构建使用goproxy.cn→proxy.golang.org→源码直取，超时自动回退；保留依赖校验。'
+  display_line '0;34' '3、菜单用健康Go／fzf引导；选定模式后查询官方最新稳定工具，校验下载至本项目机器缓存。'
+  display_line '0;34' '   仅版本达标且功能健康才复用；业务库只列更新待单独回归，不改源码依赖锁或全局环境。'
   display_line '0;34' '4、不安装系统服务、不改全局网络、PATH或电源；公网联调仅用合成数据。'
-  jobs_prompt_output display_line '0;34' '5、回车后用fzf选择；部署前Esc／空选取消，子菜单←返回。Ctrl+C停止本次子进程，保留业务数据。'
-  display_line '0;34' '6、启动后显示各端URL与离线二维码，fzf可打开公网／本机地址或扫码页面；服务保持运行。'
+  jobs_prompt_output display_line '0;34' '5、↑/↓选择、回车确认，Esc／空选取消；模式和公开范围确认后自动停止同项目旧实例，再启动新版。'
+  display_line '0;34' '6、启动后显示前台和管理后台Web网页URL与离线二维码，fzf可打开公网／本机地址或扫码页面；Ctrl+C停止本次服务，保留数据。'
   jobs_prompt_output display_line '0;34' '   网页菜单Esc仅收起，服务继续；回到终端按回车再次选择。'
+  display_line '1;31' '关闭此运行终端，服务将结束'
   display_line '0;34' "日志：$LOG_FILE（正常确认后才创建）；--check／--plan不写日志。"
   if [ "$CHECK_MODE" = 1 ] || [ "$PLAN_MODE" = 1 ]; then return 0; fi
   [ -t 0 ] && [ -t 1 ] || { printf '%s\n' '没有交互终端；正常部署必须在终端使用fzf。只读审阅用--check或--plan。' >&2; exit 1; }
@@ -655,9 +658,9 @@ handle_readonly_modes() {
   printf '公共环境：%s\n运行资料：%s\n' "$ENV_ROOT" "$RUNTIME_ROOT"
   [ -f "$PROJECT_DIR/代码/前端/PC端/Web/维修工作台/index.html" ] || { printf '%s\n' '缺少Web页面。' >&2; exit 1; }
   [ -f "$PROJECT_DIR/部署/deploy-tools.lock.tsv" ] || { printf '%s\n' '缺少工具锁定清单。' >&2; exit 1; }
-  printf '%s\n' '模式：本地部署＋内网穿透（默认浏览器访问，指定邮箱收验证码；App／API联调可选公开演示）；服务器部署（无隧道）。'
+  printf '%s\n' '模式：本地部署＋内网穿透（公开合成演示，回车确认，无需邮箱或确认词）；服务器部署（无隧道）。'
   printf '计划选择：%s\n' "${PLAN_TARGET:-由正常运行fzf选择}"
-  printf '%s\n' '正常流程：确认→准备fzf→选择模式→健康Go/必要穿透工具→构建新二进制→本机health→必要隧道→fzf选地址打开浏览器并持续监控→退出清理。'
+  printf '%s\n' '正常流程：确认→引导fzf并选择模式→引导Go编译解析器→查询官方稳定工具并择新→业务库只检查更新→readonly构建新二进制→本机health→必要隧道→fzf选地址打开浏览器并持续监控→退出清理。'
   printf '%s\n' '只读完成：没有下载、缓存/配置/日志写入、构建、业务启动或公网连接。'
   exit 0
 }
@@ -669,41 +672,42 @@ initialize_runtime() {
   detect_platform
   [ ! -L "$RUNTIME_ROOT" ] || fail '运行资料目录是软链接；请先核对真实目录。'
   RUNTIME_ROOT="$(deploy_state_path "$RUNTIME_ROOT")" || fail '运行资料目录无效。'
-  local runtime_existed=absent runtime_parent="$RUNTIME_ROOT"
+  local runtime_parent="$RUNTIME_ROOT" project_id
   while [ ! -e "$runtime_parent" ]; do
     if [ -z "$MISSING_RUNTIME_PARENTS" ]; then MISSING_RUNTIME_PARENTS="$runtime_parent"; else MISSING_RUNTIME_PARENTS="$MISSING_RUNTIME_PARENTS
 $runtime_parent"; fi
     runtime_parent="$(dirname "$runtime_parent")"
   done
-  [ ! -e "$RUNTIME_ROOT" ] || runtime_existed=existing
+  [ ! -e "$RUNTIME_ROOT" ] || RUNTIME_EXISTED=existing
   mkdir -p "$RUNTIME_ROOT" || fail '无法创建项目运行目录。'
   RUN_DIR="$(mktemp -d "$RUNTIME_ROOT/deploy-session.XXXXXXXX")" || fail '无法原子创建本次运行目录。'
   (set -C; : > "$LOG_FILE") 2>/dev/null || { printf '%s\n' '无法独占创建部署日志；已有同名文件时不会覆盖或跟随软链接。' >&2; exit 1; }
-  deploy_state_initialize "$runtime_existed"
+  project_id="$(printf '%s' "$PROJECT_DIR" | cksum | awk '{print $1}')"
+  PROJECT_ENV_DIR="$ENV_ROOT/Projects/RepairWorkbench/$project_id"
+  DEPLOY_STATE_DIR="$RUNTIME_ROOT/deploy-state"
+  DEPLOY_OPERATION_LOCK="$RUNTIME_ROOT/.deployment-operation.lock"
+  DEPLOY_OWNER_PID="$$"
+  trap 'exit 129' HUP
   trap 'exit 130' INT
   trap 'exit 143' TERM
 }
 # 仅终止本次启动并仍属于本次作业的后端与隧道进程。
 cleanup() {
   [ "${ZSH_SUBSHELL:-0}" = 0 ] && [ "${BASH_SUBSHELL:-0}" = 0 ] || return 0
-  local child guard
-  for child in "$BROWSER_MENU_PID" "$TUNNEL_PID" "$API_PID"; do
-    [ -n "$child" ] || continue
-    if kill -0 "$child" 2>/dev/null; then
-      kill -TERM "$child" 2>/dev/null || true
-      guard=0
-      while kill -0 "$child" 2>/dev/null && [ "$guard" -lt 30 ]; do sleep 0.1; guard=$((guard + 1)); done
-      kill -0 "$child" 2>/dev/null && kill -KILL "$child" 2>/dev/null || true
-    fi
-    guard=0
-    while kill -0 "$child" 2>/dev/null && [ "$guard" -lt 20 ]; do sleep 0.1; guard=$((guard + 1)); done
-    if kill -0 "$child" 2>/dev/null; then
-      printf '本次子进程%s未在宽限内结束，请核对操作系统状态；没有扩大停止范围。\n' "$child" >&2
-    else wait "$child" 2>/dev/null || true; fi
-  done
+  [ "$CLEANUP_RUNNING" = 0 ] || return 0
+  CLEANUP_RUNNING=1
+  trap '' HUP INT TERM
+  cleanup_dependency_commands
+  local role child started command
+  if [ "$DEPLOY_LOCK_HELD" = 1 ] && [ -f "$DEPLOY_STATE_DIR/processes.tsv" ]; then
+    while IFS=$'\t' read -r role child started command; do
+      case "$role" in backend|tunnel|menu|guardian) deploy_state_stop_identity "$child" "$started" "$command" || true;; esac
+    done < "$DEPLOY_STATE_DIR/processes.tsv"
+  fi
   BROWSER_MENU_PID=""; API_PID=""; TUNNEL_PID=""
   expire_access_qr
   deploy_state_finish
+  deploy_state_release_handoff
 }
 # zsh的函数内EXIT陷阱会随函数返回触发；全局定义才能覆盖整次会话。
 TRAPEXIT() {
@@ -716,25 +720,52 @@ hash_file() {
   elif command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk '{print $1}';
   else fail '缺少系统SHA256工具，不能跳过下载校验。'; fi
 }
-# 只从锁定HTTPS来源下载到本次缓存，失败不执行不完整文件。
+# 官方归档逐次有界获取；网络故障持续重试，摘要/权限/来源错误直接停止。
 download_verified() {
-  local source_url="$1" target_file="$2" expected="$3" actual
-  case "$source_url" in https://*) ;; *) fail '锁定来源必须为HTTPS。';; esac
+  local source_url="$1" target_file="$2" expected="$3" actual code http_code delay=1 transfer_log="$2.transfer.log"
+  case "$source_url" in https://*) ;; *) fail '官方来源必须为HTTPS。';; esac
   log_message '0;34' "来源｜$source_url"
   log_message '0;34' "目标｜$target_file"
-  if command -v curl >/dev/null 2>&1; then
-    curl --fail --location --show-error --connect-timeout 10 --max-time 240 --retry 2 --output "$target_file.part" "$source_url" >> "$LOG_FILE" 2>&1 || fail "下载失败：$source_url；检查本机网络或日志。"
-  elif command -v wget >/dev/null 2>&1; then
-    wget --timeout=30 --tries=2 -O "$target_file.part" "$source_url" >> "$LOG_FILE" 2>&1 || fail "下载失败：$source_url。"
-  else fail '系统缺少curl/wget；请按本系统文档准备基础下载命令，不能绕过校验。'; fi
-  actual="$(hash_file "$target_file.part")"
-  [ "$actual" = "$expected" ] || fail "SHA256不匹配，停止使用下载文件：$target_file.part"
-  mv "$target_file.part" "$target_file" || fail '无法落盘已校验归档。'
+  while :; do
+    if [ -f "$target_file.part" ] && [ "$(hash_file "$target_file.part")" = "$expected" ]; then mv "$target_file.part" "$target_file" || fail '无法保存校验后的归档。'; return 0; fi
+    code=0; http_code=''
+    if command -v curl >/dev/null 2>&1; then
+      run_dependency_command "$target_file.http" curl --fail --location --show-error --connect-timeout 10 --max-time 240 --continue-at - --write-out '%{http_code}' --output "$target_file.part" "$source_url" || code=$?
+      http_code="$(cat "$target_file.http" 2>/dev/null)"
+      [ "$code" -lt 128 ] || exit "$code"
+      if [ "$code" != 0 ]; then
+        case "$code:$http_code" in
+          33:*|*:416) : > "$target_file.part";;
+          6:*|7:*|18:*|28:*|35:*|52:*|55:*|56:*|*:408|*:429|*:5[0-9][0-9]) ;;
+          *) fail "下载被拒绝或本机条件不满足（curl=$code，HTTP=$http_code）；不使用部分文件。";;
+        esac
+      fi
+    elif command -v wget >/dev/null 2>&1; then
+      run_dependency_command "$transfer_log" wget --server-response --continue --timeout=30 --tries=1 -O "$target_file.part" "$source_url" || code=$?
+      [ "$code" -lt 128 ] || exit "$code"
+      cat "$transfer_log" >> "$LOG_FILE"
+      http_code="$(awk '/HTTP\/[0-9.]+ [0-9][0-9][0-9]/{value=$2} END{print value}' "$transfer_log")"
+      if [ "$code" != 0 ]; then
+        case "$code:$http_code" in
+          4:*|*:408|*:429|*:5[0-9][0-9]) ;;
+          *) fail "下载被拒绝或本机条件不满足（wget=$code，HTTP=$http_code）；不使用部分文件。";;
+        esac
+      fi
+    else fail '系统缺少curl/wget；请按本系统文档准备基础下载命令。'; fi
+    if [ "$code" = 0 ]; then
+      actual="$(hash_file "$target_file.part")"
+      [ "$actual" = "$expected" ] || fail "SHA256不匹配，停止使用下载文件：$target_file.part"
+      mv "$target_file.part" "$target_file" || fail '无法保存已校验归档。'
+      return 0
+    fi
+    dependency_retry_wait "$delay" "官方归档暂未获取完成"
+    [ "$delay" -ge 15 ] || delay=$((delay * 2)); [ "$delay" -le 15 ] || delay=15
+  done
 }
 # 只为缺失工具读取本仓锁定清单并安装到机器环境缓存。
 install_cached_tool() {
-  local tool="$1" row version filename expected source_url kind cache archive staging candidate tool_directory version_directory download_directory
-  row="$(awk -F '\t' -v t="$tool" -v o="$PLATFORM_OS" -v a="$PLATFORM_ARCH" '$1==t&&$2==o&&$3==a{print;exit}' "$PROJECT_DIR/部署/deploy-tools.lock.tsv")"
+  local tool="$1" row="${2:-}" version filename expected source_url kind cache archive staging candidate tool_directory version_directory download_directory
+  [ -n "$row" ] || row="$(awk -F '\t' -v t="$tool" -v o="$PLATFORM_OS" -v a="$PLATFORM_ARCH" '$1==t&&$2==o&&$3==a{print;exit}' "$PROJECT_DIR/部署/deploy-tools.lock.tsv")"
   [ -n "$row" ] || fail "缺少${tool}的$PLATFORM_OS/${PLATFORM_ARCH}官方锁定包。"
   version="$(printf '%s\n' "$row" | cut -f4)"; filename="$(printf '%s\n' "$row" | cut -f5)"
   expected="$(printf '%s\n' "$row" | cut -f6)"; source_url="$(printf '%s\n' "$row" | cut -f7)"; kind="$(printf '%s\n' "$row" | cut -f8)"
@@ -743,7 +774,9 @@ install_cached_tool() {
   [ ! -L "$ENV_ROOT" ] && [ ! -L "$PROJECT_ENV_DIR/Tools/$tool_directory" ] && [ ! -L "$PROJECT_ENV_DIR/Tools/$tool_directory/$version_directory" ] && [ ! -L "$cache" ] || fail '工具缓存目录是软链接，拒绝跟随到项目外。'
   [ ! -L "$cache/go" ] && [ ! -L "$cache/go/bin" ] && [ ! -L "$cache/$tool" ] || fail '工具缓存内部存在软链接，需先人工核对。'
   if [ "$tool" = go ]; then candidate="$cache/go/bin/go"; else candidate="$cache/$tool"; fi
-  if tool_healthy "$tool" "$candidate"; then TOOL_RESULT="$candidate"; return 0; fi
+  if tool_healthy "$tool" "$candidate"; then
+    if [ -z "${DEPENDENCY_RESOLVER:-}" ] || tool_meets_version "$tool" "$candidate" "$version"; then TOOL_RESULT="$candidate"; return 0; fi
+  fi
   mkdir -p "$(dirname "$cache")" || fail '工具缓存目录不可写。'
   [ ! -L "$PROJECT_ENV_DIR/Downloads" ] || fail '下载缓存目录是软链接，拒绝跟随。'
   mkdir -p "$PROJECT_ENV_DIR/Downloads" || fail '无法创建机器下载缓存。'
@@ -760,17 +793,240 @@ install_cached_tool() {
   [ -f "$candidate" ] && [ ! -L "$candidate" ] || fail '归档缺少预期普通可执行文件。'
   chmod u+x "$candidate" || fail '无法赋予本次工具执行位。'
   tool_healthy "$tool" "$candidate" || fail "安装后${tool}健康复检失败。"
+  if [ -n "${DEPENDENCY_RESOLVER:-}" ]; then tool_meets_version "$tool" "$candidate" "$version" || fail "安装后${tool}版本不达标。"; fi
+  printf '%s\n' "$expected" > "$staging/artifact.sha256"
+  hash_file "$candidate" > "$staging/executable.sha256"
   if [ -e "$cache" ]; then mv "$cache" "$RUN_DIR/tool-before-$tool" || fail '无法保留原损坏工具缓存。'; fi
   mv "$staging" "$cache" || fail '工具缓存安装失败。'
   if [ "$tool" = go ]; then TOOL_RESULT="$cache/go/bin/go"; else TOOL_RESULT="$cache/$tool"; fi
   log_message '0;34' "已准备｜$tool $version｜来源 $source_url"
 }
+# 仅按本轮PID、启动时间与命令快照回收下载/检查子树。
+stop_dependency_tree() {
+  local pid="$1" identity="$2" child child_identity
+  [ "$pid" != "$$" ] || return 0
+  [ -n "$identity" ] && [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ] || return 0
+  for child in $(LC_ALL=C ps -axo pid=,ppid= | awk -v parent="$pid" '$2==parent{print $1}'); do
+    [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ] || return 0
+    [ "$(LC_ALL=C ps -p "$child" -o ppid= 2>/dev/null | tr -d ' ')" = "$pid" ] || continue
+    child_identity="$(LC_ALL=C ps -p "$child" -o lstart= -o command= 2>/dev/null)"
+    stop_dependency_tree "$child" "$child_identity"
+  done
+  [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ] || return 0
+  kill -TERM "$pid" 2>/dev/null || true
+  sleep .1
+  if [ "$(LC_ALL=C ps -p "$pid" -o lstart= -o command= 2>/dev/null)" = "$identity" ]; then kill -KILL "$pid" 2>/dev/null || true; fi
+}
+# 工作进程先登记再启动命令，父入口异常退出时独立收回本轮子树。
+dependency_command_worker() {
+  local owner="$1" owner_identity="$2" output="$3" worker child='' child_started='' result=0
+  shift 3
+  if [ -n "${ZSH_VERSION:-}" ]; then zmodload zsh/system || return 1; worker="${sysparams[pid]}";
+  elif [ -n "${BASHPID:-}" ]; then worker="$BASHPID";
+  else worker="$(exec /bin/sh -c 'printf "%s" "$PPID"')"; fi
+  [ -n "$worker" ] && [ "$worker" != "$owner" ] || return 2
+  [ ! -L "$RUN_DIR/dependency-workers.tsv" ] || return 1
+  printf '%s\t%s\n' "$worker" "$(LC_ALL=C ps -p "$worker" -o lstart= -o command= 2>/dev/null)" >> "$RUN_DIR/dependency-workers.tsv" || return 1
+  DEPENDENCY_WORKER_PID="$worker"; DEPENDENCY_WORKER_CHILD=''; DEPENDENCY_WORKER_STARTED=''
+  dependency_worker_finish() {
+    trap - EXIT
+    trap '' HUP INT TERM
+    local identity
+    local owned="${DEPENDENCY_WORKER_CHILD:-}"
+    if [ -n "$owned" ] && [ "$(LC_ALL=C ps -p "$owned" -o ppid= 2>/dev/null | tr -d ' ')" = "$DEPENDENCY_WORKER_PID" ] && [ "$(LC_ALL=C ps -p "$owned" -o lstart= 2>/dev/null)" = "$DEPENDENCY_WORKER_STARTED" ]; then
+      identity="$(LC_ALL=C ps -p "$owned" -o lstart= -o command= 2>/dev/null)"
+      stop_dependency_tree "$owned" "$identity"
+    fi
+    [ -z "$owned" ] || wait "$owned" 2>/dev/null || true
+  }
+  trap 'dependency_worker_finish' EXIT
+  trap 'exit 129' HUP
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  "$@" > "$output" 2>> "$LOG_FILE" &
+  child=$!
+  child_started="$(LC_ALL=C ps -p "$child" -o lstart= 2>/dev/null)"
+  DEPENDENCY_WORKER_CHILD="$child"; DEPENDENCY_WORKER_STARTED="$child_started"
+  while kill -0 "$child" 2>/dev/null; do
+    [ "$(LC_ALL=C ps -p "$owner" -o lstart= -o command= 2>/dev/null)" = "$owner_identity" ] || return 129
+    sleep .2
+  done
+  if wait "$child"; then result=0; else result=$?; fi
+  child=''; DEPENDENCY_WORKER_CHILD=''
+  return "$result"
+}
+# 前台仅等待本轮监督子进程，退出清理可即时中断其实际命令。
+run_dependency_command() {
+  local output="$1" owner_identity worker result
+  shift
+  owner_identity="$(LC_ALL=C ps -p "$$" -o lstart= -o command= 2>/dev/null)"
+  dependency_command_worker "$$" "$owner_identity" "$output" "$@" &
+  worker=$!
+  if wait "$worker"; then return 0; else result=$?; return "$result"; fi
+}
+# 下载/查询产物封存前，先停止本轮仍存活的短作业。
+cleanup_dependency_commands() {
+  local pid identity
+  [ -n "${RUN_DIR:-}" ] && [ -f "$RUN_DIR/dependency-workers.tsv" ] && [ ! -L "$RUN_DIR/dependency-workers.tsv" ] || return 0
+  while IFS=$'\t' read -r pid identity; do
+    case "$pid" in ''|*[!0-9]*) continue;; esac
+    stop_dependency_tree "$pid" "$identity"
+  done < "$RUN_DIR/dependency-workers.tsv"
+}
+# 只给可重试的网络获取等待退避，校验与参数错误直接停止。
+dependency_retry_wait() {
+  local seconds="$1" reason="$2"
+  log_message '1;33' "$reason；${seconds}秒后继续获取，Ctrl+C可取消。"
+  run_dependency_command "$RUN_DIR/dependency-wait.out" sleep "$seconds" || exit "$?"
+}
+# 用本轮私有副本查询和构建，源工程的模块锁始终不写入。
+prepare_module_copy() {
+  local source="$1" name="$2" directory="$RUN_DIR/module-manifests/$2"
+  [ -f "$source/go.mod" ] || fail "缺少模块清单：$source/go.mod"
+  mkdir -p "$directory" || fail '无法创建本轮模块清单目录。'
+  cp "$source/go.mod" "$directory/module.mod" || fail '无法复制模块清单。'
+  if [ -f "$source/go.sum" ]; then cp "$source/go.sum" "$directory/module.sum" || fail '无法复制模块校验锁。'; fi
+  MODULE_MODFILE="$directory/module.mod"
+}
+# 解析器只依赖标准库，由菜单引导阶段已准备的健康Go构建。
+prepare_dependency_resolver() {
+  local source="$PROJECT_DIR/部署/公共组件/依赖版本"
+  prepare_module_copy "$source" resolver
+  DEPENDENCY_RESOLVER="$RUN_DIR/dependency-versions"
+  log_message '0;34' '依赖检查｜准备本轮官方稳定版本解析器；不会修改源码或全局工具。'
+  (cd "$source" && GOROOT= GOWORK=off GOTOOLCHAIN=local GOTELEMETRY=off run_dependency_command "$RUN_DIR/dependency-build.out" "$GO_EXECUTABLE" build -mod=readonly -modfile="$MODULE_MODFILE" -o "$DEPENDENCY_RESOLVER" .) >> "$LOG_FILE" 2>&1 || fail '版本解析器构建失败，停止部署。'
+}
+# 读取实际稳定版号，拒绝把开发版或预发布输出当作稳定工具。
+tool_version() {
+  local tool="$1" candidate="$2" info
+  case "$tool" in
+    go) info="$(GOROOT= GOTOOLCHAIN=local "$candidate" version 2>/dev/null)" || return 1; printf '%s\n' "$info" | sed -nE 's/^go version go([0-9]+\.[0-9]+(\.[0-9]+)?)([[:space:]].*)?$/\1/p';;
+    fzf) info="$(FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$candidate" --version 2>/dev/null)" || return 1; printf '%s\n' "$info" | sed -nE 's/^([0-9]+\.[0-9]+(\.[0-9]+)?)([[:space:]].*)?$/\1/p';;
+    cloudflared) info="$("$candidate" --version 2>/dev/null)" || return 1; printf '%s\n' "$info" | sed -nE 's/^cloudflared version ([0-9]+\.[0-9]+(\.[0-9]+)?)([[:space:]].*)?$/\1/p';;
+    *) return 1;;
+  esac
+}
+# 比较器用退出码区分旧版本与非法输入，不把旧版当解析器故障。
+tool_at_least() {
+  local installed="$1" target="$2" result code
+  if result="$("$DEPENDENCY_RESOLVER" --compare "$installed" --at-least "$target" 2>> "$LOG_FILE")"; then
+    [ "$result" = 1 ] || fail '版本比较器返回异常。'
+    return 0
+  else
+    code=$?
+    if [ "$code" = 1 ] && [ "$result" = 0 ]; then return 1; fi
+    fail '无法可靠比较工具版本，停止部署。'
+  fi
+}
+# 只有当前功能与实际稳定版本同时达标，候选工具才可复用。
+tool_meets_version() {
+  local tool="$1" candidate="$2" target="$3" version
+  tool_healthy "$tool" "$candidate" || return 1
+  case "$candidate" in "$PROJECT_ENV_DIR"/Tools/*)
+    local cache_root="${candidate%/*}"
+    [ "$tool" != go ] || cache_root="${candidate%/go/bin/go}"
+    [ -f "$cache_root/executable.sha256" ] && [ "$(cat "$cache_root/executable.sha256")" = "$(hash_file "$candidate")" ] || return 1;;
+  esac
+  version="$(tool_version "$tool" "$candidate")" || return 1
+  [ -n "$version" ] && tool_at_least "$version" "$target"
+}
+# 每次正常部署重新查官方稳定发行版，只有临时网络失败持续重试。
+resolve_latest_asset() {
+  local tool="$1" row code delay=1 expected_url
+  local -a arguments
+  arguments=(--tool "$tool" --os "$PLATFORM_OS" --arch "$PLATFORM_ARCH" --locked-manifest "$PROJECT_DIR/部署/deploy-tools.lock.tsv")
+  [ "$tool" != go ] || arguments+=(--minimum-go 1.24.0)
+  while :; do
+    if run_dependency_command "$RUN_DIR/dependency-latest-$tool.tsv" "$DEPENDENCY_RESOLVER" "${arguments[@]}"; then row="$(cat "$RUN_DIR/dependency-latest-$tool.tsv")"; break; else code=$?; fi
+    [ "$code" -lt 128 ] || exit "$code"
+    [ "$code" = 75 ] || fail "官方${tool}版本或摘要无法确认，停止部署；详见日志。"
+    dependency_retry_wait "$delay" "官方${tool}版本查询暂未完成"
+    [ "$delay" -ge 15 ] || delay=$((delay * 2)); [ "$delay" -le 15 ] || delay=15
+  done
+  [ "$(printf '%s\n' "$row" | awk -F '\t' 'NF==8{n++} END{print n+0}')" = 1 ] && [ "$(printf '%s\n' "$row" | wc -l | tr -d ' ')" = 1 ] || fail '官方版本解析行格式不完整。'
+  IFS=$'\t' read -r RESOLVED_TOOL RESOLVED_OS RESOLVED_ARCH RESOLVED_VERSION RESOLVED_FILENAME RESOLVED_SHA RESOLVED_URL RESOLVED_KIND <<RESOLVED_ASSET
+$row
+RESOLVED_ASSET
+  [ "$RESOLVED_TOOL/$RESOLVED_OS/$RESOLVED_ARCH" = "$tool/$PLATFORM_OS/$PLATFORM_ARCH" ] || fail '官方版本平台或架构与本机不符。'
+  printf '%s\n' "$RESOLVED_VERSION" | grep -Eq '^[0-9]+\.[0-9]+(\.[0-9]+)?$' || fail '官方版本不是稳定数字版本。'
+  if [ "$RESOLVED_KIND" = unsupported ]; then
+    [ "$RESOLVED_FILENAME/$RESOLVED_SHA/$RESOLVED_URL" = '-/-/-' ] || fail '不支持的平台资产返回格式异常。'
+  else
+    case "$RESOLVED_KIND" in tar.gz|tgz|binary) ;; *) fail '官方资产归档类型与本Shell平台不符。';; esac
+    printf '%s\n' "$RESOLVED_SHA" | grep -Eq '^[a-fA-F0-9]{64}$' || fail '官方资产缺少可信SHA256。'
+    case "$RESOLVED_FILENAME" in ''|*/*|*\\*|*:*|.|..) fail '官方资产文件名无效。';; esac
+    case "$tool" in go) expected_url="https://go.dev/dl/$RESOLVED_FILENAME";; fzf) expected_url="https://github.com/junegunn/fzf/releases/download/v$RESOLVED_VERSION/$RESOLVED_FILENAME";; cloudflared) expected_url="https://github.com/cloudflare/cloudflared/releases/download/$RESOLVED_VERSION/$RESOLVED_FILENAME";; esac
+    [ "$RESOLVED_URL" = "$expected_url" ] || fail '官方资产来源与稳定版本不匹配。'
+  fi
+  RESOLVED_ROW="$row"
+}
+# 从显式、PATH与所有版本缓存择新；不覆盖显式文件或系统公共工具。
+resolve_latest_tool() {
+  local tool="$1" explicit='' initial='' candidate version current_version best='' best_version='' directory relative target row kind
+  resolve_latest_asset "$tool"
+  target="$RESOLVED_VERSION"; row="$RESOLVED_ROW"; kind="$RESOLVED_KIND"
+  case "$tool" in
+    go) explicit="${GO_BIN:-}"; initial="${GO_EXECUTABLE:-}"; directory=Go; relative=go/bin/go;;
+    fzf) explicit="${WB_FZF_BIN:-}"; initial="${FZF_EXECUTABLE:-}"; directory=Fzf; relative=fzf;;
+    cloudflared) explicit="${WB_CLOUDFLARED_BIN:-}"; initial="${CLOUDFLARED_EXECUTABLE:-}"; directory=Cloudflared; relative=cloudflared;;
+  esac
+  [ -n "$initial" ] || initial="$(command -v "$tool" 2>/dev/null || true)"
+  current_version="$(tool_version "$tool" "$initial" 2>/dev/null || true)"
+  log_message '0;34' "工具版本｜$tool｜当前 ${current_version:-未安装或不可识别}｜官方稳定目标 $target"
+  if [ -n "$explicit" ]; then
+    case "$explicit" in /*) ;; *) explicit="$PROJECT_DIR/$explicit";; esac
+    tool_meets_version "$tool" "$explicit" "$target" || fail "显式${tool}未达到官方稳定目标$target或功能不兼容；请更新显式配置，原文件保留。"
+    best="$explicit"
+  else
+    [ "$kind" != unsupported ] || fail "官方${tool} $target未提供$PLATFORM_OS/$PLATFORM_ARCH成品；仅可显式指定匹配的原生新版工具。"
+    for candidate in "$initial" "$(command -v "$tool" 2>/dev/null || true)" "$ENV_ROOT/$directory"/*/"$PLATFORM_LABEL-$PLATFORM_ARCH/$relative" "$PROJECT_ENV_DIR/Tools/$directory"/*/"$PLATFORM_LABEL-$PLATFORM_ARCH/$relative"; do
+      tool_meets_version "$tool" "$candidate" "$target" || continue
+      version="$(tool_version "$tool" "$candidate")"
+      if [ -z "$best" ] || tool_at_least "$version" "$best_version"; then best="$candidate"; best_version="$version"; fi
+    done
+    if [ -z "$best" ]; then install_cached_tool "$tool" "$row"; best="$TOOL_RESULT"; fi
+    tool_meets_version "$tool" "$best" "$target" || fail "${tool}采用版本复检未达到官方目标，停止部署。"
+  fi
+  version="$(tool_version "$tool" "$best")"
+  log_message '0;34' "采用工具｜$tool $version｜$best"
+  case "$tool" in go) GO_EXECUTABLE="$best";; fzf) FZF_EXECUTABLE="$best";; cloudflared) CLOUDFLARED_EXECUTABLE="$best";; esac
+}
+# 菜单引导完成后，最终构建与运行统一采用重新核验的稳定版本。
+prepare_latest_tools() {
+  resolve_latest_tool go
+  resolve_latest_tool fzf
+  if [ "$DEPLOY_MODE" = local ]; then resolve_latest_tool cloudflared; fi
+}
+# 仅报告当前模块路径可更新版本，不升级业务库或发现换路径的新主版本。
+check_module_updates() {
+  local name="$1" source="$2" code output="$RUN_DIR/module-updates-$1.txt" seconds="${WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS:-30}"
+  case "$seconds" in ''|*[!0-9]*) fail 'WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS须为1..300秒。';; esac
+  [ "$seconds" -ge 1 ] && [ "$seconds" -le 300 ] || fail '业务依赖检查超时须为1..300秒。'
+  prepare_module_copy "$source" "$name-check"
+  log_message '0;34' "业务依赖检查｜$name｜最多${seconds}秒，仅检查当前模块路径；源码依赖锁保持不变。"
+  if (configure_go_module_source && GOROOT= run_dependency_command "$output" "$DEPENDENCY_RESOLVER" --module-report --go-bin "$GO_EXECUTABLE" --module-dir "$source" --modfile "$MODULE_MODFILE" --timeout-seconds "$seconds"); then
+    if [ -s "$output" ]; then
+      log_message '1;33' "业务库可更新｜$name｜需单独升级与回归："
+      awk -F '\t' 'NF==3{printf "%s %s -> %s\n",$1,$2,$3}' "$output" | tee -a "$LOG_FILE"
+    else log_message '0;34' "业务依赖检查完成｜$name当前模块路径未报告更新；未检查换路径的新主版本。"; fi
+  else
+    code=$?
+    [ "$code" = 3 ] || fail "业务依赖检查的参数、路径或源码锁校验失败（$name，退出码$code）；停止核对。" "$code"
+    log_message '1;33' "业务依赖检查未完成或超时｜$name｜按现有锁构建，不视为已确认最新；详见日志。"
+  fi
+}
+# 后端和二维码各自独立检查，客户端工具链不在本部署中暗中升级。
+check_business_dependencies() {
+  check_module_updates backend "$PROJECT_DIR/代码/后端/后端代码"
+  check_module_updates qr "$PROJECT_DIR/部署/公共组件/地址二维码"
+}
+
 # 对实际调用的工具执行最小版本和必要参数健康检查。
 tool_healthy() {
   local tool="$1" candidate="$2" info minor
   [ -n "$candidate" ] && [ -x "$candidate" ] || return 1
   case "$tool" in
-    go) info="$("$candidate" version 2>/dev/null)" || return 1; minor="$(printf '%s\n' "$info" | sed -n 's/.*go1\.\([0-9][0-9]*\).*/\1/p')"; [ -n "$minor" ] && [ "$minor" -ge 24 ];;
+    go) info="$(GOROOT= GOTOOLCHAIN=local GOTELEMETRY=off "$candidate" version 2>/dev/null)" || return 1; minor="$(printf '%s\n' "$info" | sed -n 's/.*go1\.\([0-9][0-9]*\).*/\1/p')"; [ -n "$minor" ] && [ "$minor" -ge 24 ];;
     fzf) FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$candidate" --version >/dev/null 2>&1 && FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$candidate" --help 2>/dev/null | grep -- '--expect' >/dev/null;;
     cloudflared)
       "$candidate" --version >/dev/null 2>&1 || return 1
@@ -779,58 +1035,45 @@ tool_healthy() {
     *) return 1;;
   esac
 }
-# 优先复用已有健康fzf，缺失才准备机器环境副本。
+# 选择模式前只读复用健康fzf；缺失时放本次会话，不改旧部署清单。
 prepare_fzf() {
-  local candidate="${WB_FZF_BIN:-$(command -v fzf 2>/dev/null || true)}"
-  if tool_healthy fzf "$candidate"; then FZF_EXECUTABLE="$candidate"; else install_cached_tool fzf; FZF_EXECUTABLE="$TOOL_RESULT"; fi
-}
-# 用fzf选择两种部署模式，取消和空选不会进入构建或启动。
-select_deploy_mode() {
-  local selected code scope
-  while :; do
-    selected="$(printf '%s\n' $'local\t本地部署＋内网穿透' $'server\t服务器部署' | FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$FZF_EXECUTABLE" --no-multi --delimiter='\t' --with-nth=2 --height=40% --border --prompt='部署模式 > ' --header='回车选择；Esc取消。本地模式生成公网链接，默认浏览器需用指定邮箱收验证码。')"
-    code=$?
-    case "$code" in 0) ;; 1|130) log_message '0;34' '已取消，没有构建或启动业务。'; exit 0;; *) fail "fzf选择器异常退出：$code。" "$code";; esac
-    [ -n "$selected" ] || { log_message '0;34' '已取消，没有构建或启动业务。'; exit 0; }
-    case "$selected" in
-      $'server\t服务器部署') DEPLOY_MODE=server; return 0;;
-      $'local\t本地部署＋内网穿透') DEPLOY_MODE=local;;
-      *) fail '选择结果异常。';;
-    esac
-    scope="$(printf '%s\n' $'private\t浏览器访问（指定邮箱收验证码）' $'public\t公开演示／App联调（隧道不验证邮箱）' | FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$FZF_EXECUTABLE" --no-multi --delimiter='\t' --with-nth=2 --height=40% --border --expect=left --prompt='外网访问方式 > ' --header=$'默认浏览器：打开公网链接→输入允许的邮箱→收取并填写验证码。\n邮箱只验证访问者身份，与维修业务无关。\n原生App／API不能完成网页验证码，请选公开演示。\n公开演示：取得链接即可到达服务入口；仅用合成数据。\n←返回部署模式；Esc全取消。')"
-    code=$?
-    case "$code:$scope" in 0:left|1:left|0:$'left\nprivate\t浏览器访问（指定邮箱收验证码）'|0:$'left\npublic\t公开演示／App联调（隧道不验证邮箱）') continue;; esac
-    case "$code" in 0) ;; 1|130) log_message '0;34' '已取消，没有构建或启动业务。'; exit 0;; *) fail "fzf访问范围选择器异常退出：$code。" "$code";; esac
-    [ -n "$scope" ] || { log_message '0;34' '已取消，没有构建或启动业务。'; exit 0; }
-    case "$scope" in
-      $'\nprivate\t浏览器访问（指定邮箱收验证码）') PUBLIC_TUNNEL=0; return 0;;
-      $'\npublic\t公开演示／App联调（隧道不验证邮箱）') PUBLIC_TUNNEL=1; return 0;;
-      *) fail '访问范围选择异常。';;
-    esac
+  local candidate="${WB_FZF_BIN:-$(command -v fzf 2>/dev/null || true)}" previous_env="$PROJECT_ENV_DIR" project_id
+  if tool_healthy fzf "$candidate"; then FZF_EXECUTABLE="$candidate"; return 0; fi
+  project_id="$(printf '%s' "$PROJECT_DIR" | cksum | awk '{print $1}')"
+  for candidate in "$ENV_ROOT/Projects/RepairWorkbench/$project_id"/Tools/Fzf/*/"$PLATFORM_LABEL-$PLATFORM_ARCH"/fzf; do
+    if tool_healthy fzf "$candidate"; then FZF_EXECUTABLE="$candidate"; return 0; fi
   done
+  PROJECT_ENV_DIR="$RUN_DIR/bootstrap-environment"
+  install_cached_tool fzf
+  FZF_EXECUTABLE="$TOOL_RESULT"
+  PROJECT_ENV_DIR="$previous_env"
 }
-# 仅为本地模式收集受限访问邮箱，公开访问必须明确输入PUBLIC。
+# 用fzf选择两种部署模式，取消和空选不会停止旧实例或启动业务。
+select_deploy_mode() {
+  local selected code
+  selected="$(printf '%s\n' $'local\t本地部署＋内网穿透' $'server\t服务器部署' | FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' "$FZF_EXECUTABLE" --no-multi --delimiter='\t' --with-nth=2 --height=40% --border --bind='up:up,down:down' --prompt='部署模式 > ' --header='↑/↓选择、回车确认；Esc取消。本地模式生成前台和管理后台网页的公网演示链接。')"
+  code=$?
+  case "$code" in
+    0) ;;
+    1|130) log_message '0;34' '已取消，没有构建或启动业务。'; exit 0;;
+    *) fail "fzf选择器异常退出：$code。" "$code";;
+  esac
+  [ -n "$selected" ] || { log_message '0;34' '已取消，没有构建或启动业务。'; exit 0; }
+  case "$selected" in
+    $'server\t服务器部署') DEPLOY_MODE=server;;
+    $'local\t本地部署＋内网穿透') DEPLOY_MODE=local;;
+    *) fail '选择结果异常。';;
+  esac
+}
+# 本地模式只需回车确认公开范围，取消时保留原运行实例。
 configure_tunnel_access() {
   [ "$DEPLOY_MODE" = local ] || return 0
   log_message '1;31' '关闭此运行终端，服务将结束'
-  if [ "$PUBLIC_TUNNEL" = 1 ]; then
-    printf '%s\n' '已选择公开演示／App联调：隧道不验证邮箱，任何取得链接的人都能到达服务入口。'
-    printf '%s\n' '风险：任何取得地址的人可访问已知演示身份；只允许合成数据。'
-    printf '%s' '确认公开合成演示请输入PUBLIC；其它输入取消：'
-    local confirmation; IFS= read -r confirmation || exit 0
-    [ "$confirmation" = PUBLIC ] || exit 0
-    ALLOWED_MAIL=''
-  else
-    printf '%s\n' '已选择浏览器访问：邮箱只用于公网入口身份验证，与维修业务无关。'
-    printf '%s\n' '访问者打开HTTPS链接后，输入允许的邮箱，再收取并填写一次性验证码才能进入。'
-    printf '%s\n' '原生App／普通API客户端不能完成网页验证码；联调时应选择公开演示。'
-    ALLOWED_MAIL="${WB_TUNNEL_ALLOWED_MAIL:-}"
-    if [ -z "$ALLOWED_MAIL" ]; then
-      printf '%s' '输入允许访问者的邮箱（本人或受邀者，多个用逗号分隔）；空行取消：'
-      IFS= read -r ALLOWED_MAIL || exit 0
-    fi
-    case "$ALLOWED_MAIL" in *@*.*) ;; '') exit 0;; *) fail '允许邮箱格式不正确，不能默认公开。';; esac
-  fi
+  log_message '0;34' '将公开前台和管理后台的演示入口：任何取得链接的人均可访问；只使用合成数据。'
+  local confirmation
+  jobs_prompt_output printf '%s' '已了解公开演示范围，按回车继续；其它输入取消：'
+  IFS= read -r confirmation || exit 0
+  [ -z "$confirmation" ] || exit 0
 }
 # 发现可用Go，显式配置错误时不擅自更换到其它版本。
 prepare_go() {
@@ -847,16 +1090,15 @@ prepare_go() {
   done
   install_cached_tool go; GO_EXECUTABLE="$TOOL_RESULT"
 }
-# 为本地模式准备支持受限邮箱的cloudflared，不修改健康已有工具。
+# 为本地模式复用健康cloudflared，缺失时校验安装锁定版本。
 prepare_tunnel_tool() {
   [ "$DEPLOY_MODE" = local ] || return 0
   local candidate="${WB_CLOUDFLARED_BIN:-$(command -v cloudflared 2>/dev/null || true)}"
   if tool_healthy cloudflared "$candidate"; then
-    if [ "$PUBLIC_TUNNEL" = 1 ] || "$candidate" tunnel --help 2>&1 | grep -- '--allowed-mail' >/dev/null; then CLOUDFLARED_EXECUTABLE="$candidate"; return 0; fi
-    log_message '0;34' '已有cloudflared缺少邮箱访问限制，保留它并准备机器环境内锁定版本。'
+    CLOUDFLARED_EXECUTABLE="$candidate"
+    return 0
   fi
   install_cached_tool cloudflared; CLOUDFLARED_EXECUTABLE="$TOOL_RESULT"
-  if [ "$PUBLIC_TUNNEL" != 1 ]; then "$CLOUDFLARED_EXECUTABLE" tunnel --help 2>&1 | grep -- '--allowed-mail' >/dev/null || fail '当前cloudflared未提供邮箱限制，不会回退为公开访问。'; fi
 }
 # 解析项目本地路径并保留原有数据、密钥和回环监听语义。
 configure_paths() {
@@ -906,9 +1148,10 @@ build_workbench() {
     local pending="$RUN_DIR/workbench.new" result
     set -o pipefail
     cd "$PROJECT_DIR/代码/后端/后端代码" || fail '源码目录不可进入。'
+    prepare_module_copy "$PROJECT_DIR/代码/后端/后端代码" backend-build
     configure_go_module_source
     log_message '0;34' "构建｜$GO_EXECUTABLE｜代码/后端/后端代码"
-    "$GO_EXECUTABLE" build -mod=readonly -o "$pending" ./cmd/workbench 2>&1 | tee -a "$LOG_FILE"
+    GOROOT= GOWORK=off "$GO_EXECUTABLE" build -mod=readonly -o "$pending" -modfile="$MODULE_MODFILE" ./cmd/workbench 2>&1 | tee -a "$LOG_FILE"
     result=$?
     [ "$result" = 0 ] || fail "构建失败，不启动旧程序。日志：$LOG_FILE" "$result"
     [ -x "$pending" ] || fail '构建没有生成新的可执行文件，不启动旧程序。'
@@ -934,13 +1177,50 @@ assert_port_available() {
   wait "$probe"; result=$?
   [ "$result" != 0 ] || fail '目标端口已有TCP监听，本入口不会复用或停止它。'
 }
+# 监督子Shell先登记，再允许实际服务启动，父Shell强退也保留回收入口。
+run_session_child() {
+  local role="$1" child result=0
+  shift
+  zmodload zsh/system || return 1
+  SESSION_CHILD_PID="${sysparams[pid]}"
+  session_child_finish() {
+    trap '' HUP INT TERM
+    local candidate started command parent
+    for candidate in $(/usr/bin/pgrep -P "$SESSION_CHILD_PID" 2>/dev/null); do
+      started="$(LC_ALL=C ps -p "$candidate" -o lstart= 2>/dev/null | sed 's/^ *//')"
+      command="$(LC_ALL=C ps -p "$candidate" -o command= 2>/dev/null)"
+      parent="$(LC_ALL=C ps -p "$candidate" -o ppid= 2>/dev/null | tr -d ' ')"
+      [ "$parent" != "$SESSION_CHILD_PID" ] || deploy_state_stop_identity "$candidate" "$started" "$command" || true
+    done
+  }
+  # 显式exit会展开函数局部变量，归属PID保存在本监督子Shell的独立状态中。
+  trap 'session_child_finish' EXIT
+  trap 'exit 129' HUP
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  deploy_state_process "$role" "$SESSION_CHILD_PID"
+  printf '%s\n' "$SESSION_CHILD_PID" > "$RUN_DIR/child-ready-$role" || return 1
+  "$@" &
+  child=$!
+  wait "$child"; result=$?
+  return "$result"
+}
+# 屏障仅核对本轮监督进程，不复用上一菜单的登记。
+wait_session_child_ready() {
+  local role="$1" pid="$2" count=0
+  while [ "$(cat "$RUN_DIR/child-ready-$role" 2>/dev/null)" != "$pid" ]; do
+    kill -0 "$pid" 2>/dev/null || fail "本次$role监督进程提前退出。"
+    [ "$count" -lt 100 ] || fail "本次$role监督登记超时。"
+    sleep 0.02; count=$((count + 1))
+  done
+}
 # 在本地健康检查通过后才允许启动穿透，失败不复用其它已有服务。
 start_and_check_backend() {
   command -v curl >/dev/null 2>&1 || fail '健康检查需要系统curl；不能只凭进程存在判定服务成功。'
   assert_port_available
-  "$WORKBENCH_BINARY" >> "$LOG_FILE" 2>&1 &
+  run_session_child backend "$WORKBENCH_BINARY" >> "$LOG_FILE" 2>&1 &
   API_PID=$!
-  deploy_state_process backend "$API_PID"
+  wait_session_child_ready backend "$API_PID"
   local count=0
   while [ "$count" -lt 60 ]; do
     kill -0 "$API_PID" 2>/dev/null || fail "本次后端提前退出。日志：$LOG_FILE"
@@ -958,17 +1238,13 @@ run_quick_client() {
   for name in $(env | sed -n 's/^\(TUNNEL_[A-Za-z0-9_]*\)=.*/\1/p'); do unset "$name"; done
   exec "$CLOUDFLARED_EXECUTABLE" "$@"
 }
-# 仅本地模式连接免费Quick Tunnel，访问限制只作用于本次子进程。
+# 仅本地模式连接免费Quick Tunnel，使用本次独立配置。
 start_tunnel() {
   [ "$DEPLOY_MODE" = local ] || { log_message '0;34' '服务器模式：没有建立穿透；对外HTTPS由部署方另行配置。'; return 0; }
   printf '{}\n' > "$RUN_DIR/quick-empty.yml" || fail '无法创建本次独立Quick配置；不会改动用户cloudflared配置。'
-  if [ "$PUBLIC_TUNNEL" = 1 ]; then
-    run_quick_client tunnel --config "$RUN_DIR/quick-empty.yml" --no-autoupdate --url "http://$WB_ADDR" > "$RUN_DIR/tunnel.log" 2>&1 &
-  else
-    run_quick_client tunnel --config "$RUN_DIR/quick-empty.yml" --no-autoupdate --url "http://$WB_ADDR" --allowed-mail "$ALLOWED_MAIL" > "$RUN_DIR/tunnel.log" 2>&1 &
-  fi
+  run_session_child tunnel run_quick_client tunnel --config "$RUN_DIR/quick-empty.yml" --no-autoupdate --url "http://$WB_ADDR" > "$RUN_DIR/tunnel.log" 2>&1 &
   TUNNEL_PID=$!
-  deploy_state_process tunnel "$TUNNEL_PID"
+  wait_session_child_ready tunnel "$TUNNEL_PID"
   log_message '0;34' '正在建立Quick Tunnel；无账号／域名费用，随机地址、无可用性保证，大陆网络需实测。'
 }
 # 二维码仅由独立锁定模块在本机生成；辅助功能失败不影响业务启动。
@@ -977,9 +1253,10 @@ prepare_access_qr() {
   if ! (
     set -o pipefail
     cd "$PROJECT_DIR/部署/公共组件/地址二维码" || exit 1
+    prepare_module_copy "$PROJECT_DIR/部署/公共组件/地址二维码" qr-build
     configure_go_module_source
     log_message '0;34' '二维码依赖来源｜github.com/skip2/go-qrcode；版本与校验见部署/公共组件/地址二维码/go.mod、go.sum。'
-    "$GO_EXECUTABLE" build -mod=readonly -o "$QR_BINARY" . 2>&1 | tee -a "$LOG_FILE"
+    GOROOT= GOWORK=off "$GO_EXECUTABLE" build -mod=readonly -o "$QR_BINARY" -modfile="$MODULE_MODFILE" . 2>&1 | tee -a "$LOG_FILE"
   ); then
     QR_BINARY=''
     log_message '1;31' '二维码工具未能构建；保留完整URL，后端与隧道继续按原流程运行。'
@@ -1040,19 +1317,15 @@ start_browser_menu() {
   } > "$RUN_DIR/browser-links.tsv" || fail '无法准备网页地址菜单。'
   header=$'回车：交给默认浏览器打开；打开后可继续选择。\n本机地址只供这台电脑访问。'
   if [ -n "$PUBLIC_URL" ]; then
-    if [ "$PUBLIC_TUNNEL" = 1 ]; then
-      header+=$'公网地址已公开，仅用合成数据。'
-    else
-      header+=$'公网地址需先完成邮箱验证码。'
-    fi
+    header+=$'\n公网地址已公开，仅用合成数据。'
   fi
   header+=$'\nEsc收起菜单，服务继续；回车重新打开。Ctrl+C停止服务。'
   FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE=/dev/null FZF_DEFAULT_COMMAND='' \
-    "$FZF_EXECUTABLE" --no-multi --delimiter='\t' --with-nth=2 --height=40% --border \
+    run_session_child menu "$FZF_EXECUTABLE" --no-multi --delimiter='\t' --with-nth=2 --height=40% --border \
       --expect=esc,ctrl-c --prompt='打开网页 > ' --header="$header" \
       < "$RUN_DIR/browser-links.tsv" > "$RUN_DIR/browser-selection" &
   BROWSER_MENU_PID=$!
-  deploy_state_process menu "$BROWSER_MENU_PID"
+  wait_session_child_ready menu "$BROWSER_MENU_PID"
 }
 # 处理一次选择，浏览器打开失败也不停止服务或阻止再次选择。
 handle_browser_menu_result() {
@@ -1200,7 +1473,141 @@ deploy_state_missing_parents() {
   done
 }
 
-# 取得串行锁并建立或核验首轮私有原点清单。
+# 核对身份和僵尸状态，旧PID被复用时不向新进程发送信号。
+deploy_state_same_process() {
+  local pid="$1" started="$2" command="$3" current_started current_command state
+  case "$pid" in ''|*[!0-9]*) return 1;; esac
+  current_started="$(LC_ALL=C ps -p "$pid" -o lstart= 2>/dev/null | sed 's/^ *//')"
+  current_command="$(LC_ALL=C ps -p "$pid" -o command= 2>/dev/null)"
+  state="$(LC_ALL=C ps -p "$pid" -o stat= 2>/dev/null)"
+  case "$state" in *Z*) return 1;; esac
+  [ -n "$started" ] && [ -n "$command" ] && [ "$started" = "$current_started" ] && [ "$command" = "$current_command" ]
+}
+# 每次发信号前重新核对；宽限后仍只处理同一身份。
+deploy_state_stop_identity() {
+  local pid="$1" started="$2" command="$3" count=0
+  deploy_state_same_process "$pid" "$started" "$command" || return 0
+  kill -TERM "$pid" 2>/dev/null || return 1
+  while deploy_state_same_process "$pid" "$started" "$command" && [ "$count" -lt 50 ]; do sleep 0.1; count=$((count + 1)); done
+  if deploy_state_same_process "$pid" "$started" "$command"; then kill -KILL "$pid" 2>/dev/null || return 1; fi
+  count=0
+  while deploy_state_same_process "$pid" "$started" "$command" && [ "$count" -lt 30 ]; do sleep 0.1; count=$((count + 1)); done
+  deploy_state_same_process "$pid" "$started" "$command" && return 1
+  wait "$pid" 2>/dev/null || true
+  return 0
+}
+# 交接锁由内核释放；锁文件留在临时目录，不借删锁实现互斥。
+deploy_state_acquire_handoff() {
+  local key lock_file
+  zmodload zsh/system || fail '无法加载系统文件锁，未停止旧实例。'
+  key="$(printf '%s' "$RUNTIME_ROOT" | shasum -a 256 | awk '{print $1}')"
+  lock_file="${TMPDIR:-/tmp}/repair-deploy-handoff-$UID-$key.lock"
+  [ ! -L "$lock_file" ] && { [ ! -e "$lock_file" ] || { [ -f "$lock_file" ] && [ -O "$lock_file" ]; }; } || fail '交接锁归属异常。'
+  if [ ! -e "$lock_file" ]; then (set -C; : > "$lock_file") 2>/dev/null || { [ -f "$lock_file" ] && [ ! -L "$lock_file" ] && [ -O "$lock_file" ]; } || fail '无法创建交接锁。'; fi
+  zsystem flock -t 30 -f DEPLOY_HANDOFF_FD "$lock_file" || fail '另一轮启动或反部署正在交接，请稍后重试。'
+}
+deploy_state_release_handoff() {
+  if [ -n "$DEPLOY_HANDOFF_FD" ]; then
+    zsystem flock -u "$DEPLOY_HANDOFF_FD" 2>/dev/null || true
+    DEPLOY_HANDOFF_FD=''
+  fi
+}
+# 只有模式已确认才停旧；旧清单与当前项目必须逐项吻合。
+deploy_state_handoff_previous() {
+  local owner='' lock_snapshot='' inode='' identity='' role pid started command old_supervisor=''
+  [ ! -L "$DEPLOY_OPERATION_LOCK" ] || fail '操作锁是软链接，保留现场。'
+  if [ -e "$DEPLOY_OPERATION_LOCK" ]; then
+    [ -d "$DEPLOY_OPERATION_LOCK" ] && [ -O "$DEPLOY_OPERATION_LOCK" ] && [ -f "$DEPLOY_OPERATION_LOCK/owner" ] && [ ! -L "$DEPLOY_OPERATION_LOCK/owner" ] || fail '旧操作锁缺少可核验归属，保留现场。'
+    owner="$(cat "$DEPLOY_OPERATION_LOCK/owner")"
+    case "$owner" in ''|*[!0-9]*) fail '旧操作锁PID无效。';; esac
+    inode="$(ls -di "$DEPLOY_OPERATION_LOCK" | awk '{print $1}')"
+    if [ -e "$DEPLOY_OPERATION_LOCK/identity.tsv" ]; then
+      [ -f "$DEPLOY_OPERATION_LOCK/identity.tsv" ] && [ ! -L "$DEPLOY_OPERATION_LOCK/identity.tsv" ] || fail '操作锁身份文件异常。'
+      identity="$(cat "$DEPLOY_OPERATION_LOCK/identity.tsv")"
+      case "$identity" in $'deployment\t'*) ;; *) fail '存在反部署事务或未知操作锁，未停止任何进程。';; esac
+    fi
+    lock_snapshot="$owner|$identity"
+  fi
+  if [ ! -e "$DEPLOY_STATE_DIR" ]; then
+    [ -z "$owner" ] || fail '旧锁没有配套部署清单，不能推测归属。'
+    return 0
+  fi
+  [ -d "$DEPLOY_STATE_DIR" ] && [ ! -L "$DEPLOY_STATE_DIR" ] || fail '旧部署状态目录异常。'
+  for role in settings.tsv processes.tsv artifacts.tsv; do
+    [ -f "$DEPLOY_STATE_DIR/$role" ] && [ ! -L "$DEPLOY_STATE_DIR/$role" ] && [ -O "$DEPLOY_STATE_DIR/$role" ] || fail '旧部署清单缺失或归属异常。'
+  done
+  [ "$(deploy_state_value schema)" = 1 ] && [ "$(deploy_state_value project_root)" = "$PROJECT_DIR" ] && [ "$(deploy_state_value runtime_root)" = "$RUNTIME_ROOT" ] && [ "$(deploy_state_value env_root)" = "$ENV_ROOT" ] || fail '旧部署不属于当前项目或配置，保留原实例。'
+  [ ! -e "$DEPLOY_STATE_DIR/undeploy-operation.tsv" ] && [ ! -e "$DEPLOY_STATE_DIR/restoring.tsv" ] || fail '存在未完成的反部署／恢复事务，请从反部署入口续跑。'
+  cp -p "$DEPLOY_STATE_DIR/processes.tsv" "$RUN_DIR/previous-processes.tsv" || fail '无法保存旧进程交接快照。'
+  while IFS=$'\t' read -r role pid started command; do
+    case "$role" in supervisor|backend|tunnel|menu|guardian) ;; *) fail '旧进程清单包含未知角色，未停止旧实例。';; esac
+    case "$pid" in ''|*[!0-9]*) fail '旧进程清单PID无效。';; esac
+    [ -n "$started" ] && [ -n "$command" ] || fail '旧进程身份不完整。'
+    if [ "$role" = supervisor ]; then
+      old_supervisor="$pid"
+      [ -z "$owner" ] || [ "$owner" = "$pid" ] || { [ -z "$identity" ] && [ -z "$(LC_ALL=C ps -p "$owner" -o lstart= 2>/dev/null)" ]; } || fail '操作锁与旧部署入口不一致，保留现场。'
+      if [ -n "$identity" ]; then [ "$identity" = "$(printf 'deployment\t%s\t%s\t%s' "$pid" "$started" "$command")" ] || fail '操作锁身份与清单不一致。'; fi
+    fi
+  done < "$RUN_DIR/previous-processes.tsv"
+  [ -z "$owner" ] || [ -n "$old_supervisor" ] || { [ -z "$(LC_ALL=C ps -p "$owner" -o lstart= 2>/dev/null)" ] || fail '旧锁持有者仍在运行且无入口身份，保留现场。'; }
+  while IFS=$'\t' read -r role pid started command; do
+    [ "$role" != supervisor ] || { deploy_state_stop_identity "$pid" "$started" "$command" || fail '旧部署入口未退出，保留锁与原实例。'; }
+  done < "$RUN_DIR/previous-processes.tsv"
+  while IFS=$'\t' read -r role pid started command; do
+    [ "$role" = supervisor ] || { deploy_state_stop_identity "$pid" "$started" "$command" || fail '旧部署子进程未退出，未开始新部署。'; }
+  done < "$RUN_DIR/previous-processes.tsv"
+  if [ -n "$owner" ] && [ -d "$DEPLOY_OPERATION_LOCK" ]; then
+    [ ! -L "$DEPLOY_OPERATION_LOCK" ] && [ "$inode" = "$(ls -di "$DEPLOY_OPERATION_LOCK" | awk '{print $1}')" ] && [ "$lock_snapshot" = "$(cat "$DEPLOY_OPERATION_LOCK/owner" 2>/dev/null)|$(cat "$DEPLOY_OPERATION_LOCK/identity.tsv" 2>/dev/null)" ] || fail '交接期间锁已变化，保留现场。'
+    [ -z "$(find "$DEPLOY_OPERATION_LOCK" -mindepth 1 -maxdepth 1 ! -name owner ! -name identity.tsv -print)" ] || fail '旧锁含未知内容，保留现场。'
+    [ ! -e "$DEPLOY_OPERATION_LOCK/identity.tsv" ] || rm -- "$DEPLOY_OPERATION_LOCK/identity.tsv" || fail '无法释放已失效的身份记录。'
+    rm -- "$DEPLOY_OPERATION_LOCK/owner" && rmdir "$DEPLOY_OPERATION_LOCK" || fail '无法释放已核验的失效锁。'
+    log_message '0;34' '已核验并回收上次部署失效锁，业务数据保留。'
+  fi
+  [ -z "$old_supervisor" ] || log_message '0;34' '同项目旧部署已停止，开始本轮部署；后续取消或失败不会自动恢复旧进程。'
+}
+# 选择模式后才进入串行交接与原点写入。
+deploy_state_begin_selected() {
+  deploy_state_acquire_handoff
+  deploy_state_handoff_previous
+  deploy_state_initialize "$RUNTIME_EXISTED"
+  deploy_state_start_guardian
+}
+# 主入口或其宿主异常消失后，独立监护仅回收匹配本轮清单的进程。
+deploy_state_start_guardian() {
+  local owner="$$" owner_started owner_command parent="$PPID" parent_started parent_command
+  owner_started="$(LC_ALL=C ps -p "$owner" -o lstart= | sed 's/^ *//')"
+  owner_command="$(LC_ALL=C ps -p "$owner" -o command=)"
+  parent_started="$(LC_ALL=C ps -p "$parent" -o lstart= | sed 's/^ *//')"
+  parent_command="$(LC_ALL=C ps -p "$parent" -o command=)"
+  (
+    trap '' HUP
+    trap - INT TERM EXIT
+    local role pid started command qr count=0
+    if [ -n "$DEPLOY_HANDOFF_FD" ]; then exec {DEPLOY_HANDOFF_FD}>&-; DEPLOY_HANDOFF_FD=''; fi
+    while deploy_state_same_process "$owner" "$owner_started" "$owner_command"; do
+      if ! deploy_state_same_process "$parent" "$parent_started" "$parent_command"; then
+        kill -HUP "$owner" 2>/dev/null || true
+        break
+      fi
+      sleep 0.5
+    done
+    while deploy_state_same_process "$owner" "$owner_started" "$owner_command" && [ "$count" -lt 100 ]; do sleep 0.1; count=$((count + 1)); done
+    if deploy_state_same_process "$owner" "$owner_started" "$owner_command"; then deploy_state_stop_identity "$owner" "$owner_started" "$owner_command" || exit 1; fi
+    [ "$(cat "$DEPLOY_OPERATION_LOCK/owner" 2>/dev/null)" = "$owner" ] || exit 0
+    cleanup_dependency_commands
+    while IFS=$'\t' read -r role pid started command; do
+      case "$role" in backend|tunnel|menu) deploy_state_stop_identity "$pid" "$started" "$command" || exit 1;; esac
+    done < "$DEPLOY_STATE_DIR/processes.tsv"
+    if [ -x "$RUN_DIR/qr-access" ]; then
+      for qr in "$RUN_DIR"/access-qr-*(N/); do "$RUN_DIR/qr-access" --expire --output-dir "$qr" >> "$LOG_FILE" 2>&1 || true; done
+    fi
+    GUARDIAN_CONTEXT=1
+    deploy_state_finish
+  ) </dev/null >> "$LOG_FILE" 2>&1 &
+  GUARDIAN_PID=$!
+  deploy_state_process guardian "$GUARDIAN_PID"
+}
+# 已完成交接后，建立或核验首轮私有原点清单。
 deploy_state_initialize() {
   local existed="$1" project_id data key storage=file value
   RUNTIME_ROOT="$(deploy_state_path "$RUNTIME_ROOT")" || fail '运行目录无效。'
@@ -1211,6 +1618,7 @@ deploy_state_initialize() {
   mkdir "$DEPLOY_OPERATION_LOCK" 2>/dev/null || fail '部署／反部署正在运行；先结束原运行终端，不删除操作锁。'
   DEPLOY_LOCK_HELD=1
   printf '%s\n' "$$" > "$DEPLOY_OPERATION_LOCK/owner"
+  printf 'deployment\t%s\t%s\t%s\n' "$$" "$(LC_ALL=C ps -p $$ -o lstart= | sed 's/^ *//')" "$(LC_ALL=C ps -p $$ -o command=)" > "$DEPLOY_OPERATION_LOCK/identity.tsv" || fail '无法保存操作锁身份。'
   project_id="$(printf '%s' "$PROJECT_DIR" | cksum | awk '{print $1}')"
   PROJECT_ENV_DIR="$ENV_ROOT/Projects/RepairWorkbench/$project_id"
   [ "$PROJECT_ENV_DIR" = "$(deploy_state_path "$PROJECT_ENV_DIR")" ] || fail '专属环境祖先含软链接，拒绝写入。'
@@ -1246,14 +1654,15 @@ deploy_state_initialize() {
 }
 # 主会话退出后封存目录状态并释放自己持有的操作锁。
 deploy_state_finish() {
-  [ "${ZSH_SUBSHELL:-0}" = 0 ] && [ "${BASH_SUBSHELL:-0}" = 0 ] || return 0
+  { [ "${ZSH_SUBSHELL:-0}" = 0 ] && [ "${BASH_SUBSHELL:-0}" = 0 ]; } || [ "${GUARDIAN_CONTEXT:-0}" = 1 ] || return 0
   if [ "$DEPLOY_LOCK_HELD" = 1 ]; then
     local session_path resource_kind before backup signature
     while IFS=$'\t' read -r resource_kind session_path before backup signature; do
       [ "$resource_kind" != session ] || deploy_state_seal "$session_path" || printf '%s\n' '会话目录无法封存；反部署保留现场。' >&2
     done < "$DEPLOY_STATE_DIR/artifacts.tsv"
     deploy_state_seal "$PROJECT_ENV_DIR" || printf '%s\n' '无法封存依赖指纹；反部署将保留冲突对象。' >&2
-    if [ "$(cat "$DEPLOY_OPERATION_LOCK/owner" 2>/dev/null)" = "$$" ]; then
+    if [ "$(cat "$DEPLOY_OPERATION_LOCK/owner" 2>/dev/null)" = "${DEPLOY_OWNER_PID:-$$}" ]; then
+      [ ! -f "$DEPLOY_OPERATION_LOCK/identity.tsv" ] || rm -- "$DEPLOY_OPERATION_LOCK/identity.tsv"
       rm "$DEPLOY_OPERATION_LOCK/owner" && rmdir "$DEPLOY_OPERATION_LOCK" || true
     fi
     DEPLOY_LOCK_HELD=0
@@ -1267,15 +1676,19 @@ main() {
   initialize_runtime # 确认后在本项目独立用户目录建立日志与清理边界。
   prepare_fzf # 复用健康选择器，缺失才准备机器环境副本。
   select_deploy_mode # 两种模式必须由正常入口fzf明确选择。
-  configure_tunnel_access # 本地模式默认收集允许访问邮箱。
-  prepare_go # 复用已有Go或从官方锁定来源准备本地缓存。
-  prepare_tunnel_tool # 仅本地模式准备穿透工具。
-  configure_paths # 保留数据与路径配置并限制回环监听。
+  configure_tunnel_access # 本地模式回车确认公开合成演示，取消保留旧实例。
+  deploy_state_begin_selected # 模式及公开范围确认后串行接管同项目旧实例。
+  prepare_go # 健康Go只用于引导标准库版本解析器，最终工具还需查询官方最新。
+  configure_paths # 设置本项目机器缓存与回环路径，不修改全局工具。
+  prepare_dependency_resolver # 临时构建官方稳定版本解析器，检查和计划不执行。
+  prepare_latest_tools # 查询官方最新，显式旧版本停止；采用版本化项目缓存。
+  check_business_dependencies # 仅报告业务库更新，不自动改动依赖锁。
   build_workbench # 仅构建成功才替换运行程序，失败保留退出码并停止后续启动。
   prepare_access_qr # 使用已有Go构建独立离线二维码工具，失败保留URL。
   start_and_check_backend # 核实本次后端健康再继续。
+  deploy_state_release_handoff # 新后端健康后释放重启交接门禁。
   show_access_qr # 回环入口明确仅本机；公网地址就绪后自动重生成。
-  start_tunnel # 仅已选择本地模式时建立受限隧道。
+  start_tunnel # 仅已确认本地公开演示时建立隧道。
   monitor_processes # 监控本次子进程并在结束时清理。
 }
 

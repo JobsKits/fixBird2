@@ -417,11 +417,7 @@ LOG_FILE="$WB_TEST_CASE/build.log"
 GO_EXECUTABLE="$WB_TEST_GO"
 OUTPUT_COLOR=0
 GOMODCACHE="$WB_TEST_CASE/modules"
-# 本组验证真实子进程退出和网页交互；原点清单与PID复用由配对反部署回归独立核验。
-if [[ -n "${WB_TEST_BROWSER:-}${WB_TEST_LIFECYCLE:-}" ]]; then
-  deploy_state_initialize() { return 0; }
-  deploy_state_process() { return 0; }
-fi
+# 生命周期夹具保留真实原点与进程身份登记，退出清理不能退回裸PID。
 if [[ -n "${WB_TEST_BROWSER:-}" ]]; then
   # 选择器和打开请求用函数替身，避免临时脚本启动时序干扰真实进程回收断言。
   fixture_fzf() {
@@ -453,16 +449,18 @@ if [[ -n "${WB_TEST_BROWSER:-}" ]]; then
   }
   RUN_DIR=''
   initialize_runtime
+  deploy_state_initialize existing
   WB_ADDR=127.0.0.1:18098
   DEPLOY_MODE="$WB_TEST_DEPLOY_MODE"
-  PUBLIC_TUNNEL=1
   FZF_EXECUTABLE=fixture_fzf
   /bin/sleep 300 &
   API_PID=$!
+  deploy_state_process backend "$API_PID"
   printf '%s\n' "$API_PID" > "$WB_TEST_CASE/backend-pid"
   if [[ "$DEPLOY_MODE" = local ]]; then
     /bin/sleep 300 &
     TUNNEL_PID=$!
+    deploy_state_process tunnel "$TUNNEL_PID"
     printf '%s\n' "$TUNNEL_PID" > "$WB_TEST_CASE/tunnel-pid"
     printf '%s\n' 'https://fixture-repair.trycloudflare.com' > "$RUN_DIR/tunnel.log"
   fi
@@ -476,6 +474,8 @@ if [[ -n "${WB_TEST_LIFECYCLE:-}" ]]; then
   API_PID=$!
   printf '%s\n' "$API_PID" > "$WB_TEST_CASE/backend-pid"
   initialize_runtime
+  deploy_state_initialize existing
+  deploy_state_process backend "$API_PID"
   [[ -n "$API_PID" ]] && kill -0 "$API_PID" 2>/dev/null || exit 95
   printf '%s\n' ready > "$WB_TEST_CASE/initialized"
   case "$WB_TEST_LIFECYCLE" in
@@ -518,6 +518,11 @@ fi
 printf 'GOPROXY_SET=%s\nGOPROXY=%s\nGOSUMDB=%s\nGOPRIVATE=%s\nGONOPROXY=%s\nGONOSUMDB=%s\n' \
   "${GOPROXY+x}" "${GOPROXY-}" "$GOSUMDB" "$GOPRIVATE" "$GONOPROXY" "$GONOSUMDB" > "$WB_TEST_CASE/build-environment"
 [[ "$PWD" = "$WB_TEST_CASE/中文 空格工程/代码/后端/后端代码" ]] || exit 92
+[[ "$5" = -modfile=* && "$GOWORK" = off ]] || exit 95
+fixture_modfile="${5#-modfile=}"
+[[ "$fixture_modfile" = "$WB_TEST_CASE/session/"* && "$fixture_modfile" != "$PWD/go.mod" ]] || exit 96
+cmp -s "$fixture_modfile" "$PWD/go.mod" || exit 97
+cmp -s "${fixture_modfile%.mod}.sum" "$PWD/go.sum" || exit 98
 printf '%s\n' fake-go-stdout
 printf '%s\n' fake-go-stderr >&2
 if [[ "$WB_TEST_NO_BINARY" != 1 ]]; then
@@ -571,6 +576,8 @@ run_case() {
   local case_dir="$TEST_ROOT/$case_name" result case_failed=0 effective='https://proxy.golang.org,direct' goenv
   local -a case_env
   mkdir -p "$case_dir/中文 空格工程/代码/后端/后端代码" "$case_dir/session" "$case_dir/runtime" || exit 1
+  printf 'module fixture\n\ngo 1.24.0\n' > "$case_dir/中文 空格工程/代码/后端/后端代码/go.mod"
+  printf 'fixture v1.0.0 h1:fixture\n' > "$case_dir/中文 空格工程/代码/后端/后端代码/go.sum"
   printf '%s\n' OLD_EXECUTABLE > "$case_dir/runtime/workbench"
   cp "$case_dir/runtime/workbench" "$case_dir/old-binary"
   goenv="$case_dir/go-env"

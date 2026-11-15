@@ -19,6 +19,7 @@
   - [3.2、SDK 与数据分别管理](#sdk-and-data)
   - [3.3、静态资料与验证边界](#static-boundaries)
   - [3.4、SDK 来源记录](#sdk-provenance)
+  - [3.5、工具更新与业务依赖检查](#tool-updates)
 - [四、MacOS 本机启动](#macos)
   - [4.1、执行前检查](#preflight)
   - [4.2、双击或终端启动](#quick-start)
@@ -43,15 +44,15 @@
 - [十一、验收入口与正式部署条件](#verification)
 - [十二、多端静态客户端](#new-clients)
 - [十三、本地部署＋内网穿透](#local-tunnel)
-  - [13.1、运行结构、资源和费用](#jobs-toc-heading-37)
-  - [13.2、按平台准备工具](#jobs-toc-heading-38)
-  - [13.3、先启动本机应用并检查](#jobs-toc-heading-39)
-  - [13.4、可选cpolar：用一个客户端映射两个项目](#jobs-toc-heading-40)
-  - [13.5、保留固定HTTPS地址与同源设置](#jobs-toc-heading-41)
-  - [13.6、Cloudflare手工诊断与固定域名](#jobs-toc-heading-42)
-  - [13.7、从手机外网验收真实请求](#jobs-toc-heading-43)
-  - [13.8、日志、在线时间与停止](#jobs-toc-heading-44)
-  - [13.9、常见故障与验证边界](#jobs-toc-heading-45)
+  - [13.1、运行结构、资源和费用](#jobs-toc-heading-38)
+  - [13.2、按平台准备工具](#jobs-toc-heading-39)
+  - [13.3、先启动本机应用并检查](#jobs-toc-heading-40)
+  - [13.4、可选cpolar：用一个客户端映射两个项目](#jobs-toc-heading-41)
+  - [13.5、保留固定HTTPS地址与同源设置](#jobs-toc-heading-42)
+  - [13.6、Cloudflare手工诊断与固定域名](#jobs-toc-heading-43)
+  - [13.7、从手机外网验收真实请求](#jobs-toc-heading-44)
+  - [13.8、日志、在线时间与停止](#jobs-toc-heading-45)
+  - [13.9、常见故障与验证边界](#jobs-toc-heading-46)
 
 </details>
 <!-- jobs-toc:end -->
@@ -142,7 +143,7 @@ Shell 命令追加 `--check` 或 `--plan`；PowerShell 追加 `-Check` 或 `-Pla
 
 ### 1.3、<span id="access-qr">各端访问地址与扫码入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-六个系统的部署入口保留完整可复制 URL，并为用户／工程师工作台与管理端分别本地生成二维码。公网码直接编码本轮实际 Quick Tunnel 地址，管理端使用同源 `/admin/`；扫码后仍须完成原有邮箱验证及业务登录。回环地址明确标记“仅本机，手机不可用”，服务器模式未提供公网入口时不会推测公网域名或把监听地址当作手机入口。
+六个系统的部署入口保留完整可复制 URL，并为前端用户／工程师工作台 `/` 与后台管理网页 `/admin/` 分别本地生成两张二维码。公网码直接编码本轮实际 Quick Tunnel 地址，扫码后继续执行现有业务登录与权限校验；MacOS 本地模式直接公开演示、不设隧道邮箱门禁，其他平台仍按所选访问方式验证邮箱。回环地址明确标记“仅本机，手机不可用”，服务器模式未提供公网入口时不会推测公网域名或把监听地址当作手机入口。
 
 支持颜色且宽度足够的终端显示黑白方块码；窄窗口、纯文本、非 TTY、`TERM=dumb` 或 `NO_COLOR` 时保留 URL，并在 fzf 的“打开扫码页面”中打开本地 `index.html`。页面内嵌二维码，不依赖网络图片或在线二维码服务，同时保留 SVG／PNG；无桌面的服务器可取出这些本地文件后打开。选择器仍用方向键与回车，Esc收起、回车恢复，Ctrl+C停止本次服务。
 
@@ -204,11 +205,11 @@ Shell 命令追加 `--check` 或 `--plan`；PowerShell 追加 `-Check` 或 `-Pla
 
 ### 3.2、<span id="sdk-and-data">SDK 与数据分别管理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-公共工具按名称、版本、系统及架构隔离，已有健康工具（例如 `Go/go1.27.2/MacOS-arm64/go/`）优先复用。需要新增时，工具、下载暂存及 Go 构建缓存进入机器环境 `Projects/RepairWorkbench/<项目标识>/` 下的 `Tools/`、`Downloads/`、`GoCache/`，与其它项目和原有共享 SDK 分开，便于按原点完整撤回。来源及校验信息见 [SDK来源](#sdk-provenance) 和 [工具锁清单](./deploy-tools.lock.tsv)。不将公共 SDK、下载归档或 Go 缓存复制回源码，不以项目内软链接替代外置。
+公共工具按名称、版本、系统及架构隔离；已有工具还须达到当次官方稳定目标，不能只因健康便跳过版本检查。需要新增时，工具、下载暂存及 Go 构建缓存进入机器环境 `Projects/RepairWorkbench/<项目标识>/` 下的 `Tools/`、`Downloads/`、`GoCache/`，与其它项目和原有共享 SDK 分开，便于按原点完整撤回。来源及校验信息见 [SDK来源](#sdk-provenance) 和 [工具锁清单](./deploy-tools.lock.tsv)。不将公共 SDK、下载归档或 Go 缓存复制回源码，不以项目内软链接替代外置。
 
 Runtime 保留 `data/`、匹配 `keys/`、备份与恢复副本的原有相对结构；默认数据为其 `data/`，默认密钥为同级 `keys/storage.key`。已有显式 `WB_DATA_DIR`、`WB_KEY_FILE`、`WB_BACKUP_DIR` 配置继续有效。运行目录中的旧验证快照及密钥仍按数据保管，不能按构建缓存删除。
 
-正常部署仍先展示自述、等待确认，再由 fzf 选择模式；缺失工具才按锁定来源准备到机器环境。只读 `--check/--plan` 或 PowerShell `-Check/-Plan` 不下载、不创建缓存、不构建、不启动服务。
+正常部署先展示自述、等待确认，再由fzf选择模式；菜单与解析器允许静态锁引导，最终构建前重新检查官方稳定版。只读 `--check/--plan` 或 PowerShell `-Check/-Plan` 不下载、不创建缓存、不构建、不启动服务。
 
 ### 3.3、<span id="static-boundaries">静态资料与验证边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -218,7 +219,7 @@ Flutter 发布网页默认位于各端 `Dist/Web/`；它是已构建发布副本
 
 ### 3.4、<span id="sdk-provenance">SDK 来源记录</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-以下记录对应已核验的 Apple Silicon Go 工具，来源、SHA256、许可文件及安装布局完整保留；其它平台工具以[工具锁清单](./deploy-tools.lock.tsv)为准。
+以下是已有Apple Silicon共享Go的来源记录，保留来源、SHA256、许可文件及安装布局；不是本次部署采用版本的声明。静态[工具锁清单](./deploy-tools.lock.tsv)用于引导与精确摘要兜底，当次官方目标和实际采用版本以运行日志为准。
 
 ```json
 {
@@ -233,6 +234,18 @@ Flutter 发布网页默认位于各端 `Dist/Web/`；它是已构建发布副本
   "installationLayout": "Go/go1.27.2/MacOS-arm64/go"
 }
 ```
+
+### 3.5、<span id="tool-updates">工具更新与业务依赖检查</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+六个系统的正常部署在确认用途并选择模式后，每次查询Go、fzf的官方最新稳定版；仅本地穿透模式查询cloudflared。Go使用官方发行目录，fzf／cloudflared使用对应官方GitHub Release，排除预发布。菜单所需fzf及编译标准库[版本解析器](./公共组件/依赖版本/README.md)的Go可先复用健康工具，缺失时依静态锁校验引导；最终构建会再次按官方目标核验，静态锁不冒充当次最新版。
+
+日志显示当前版本、官方稳定目标及实际采用路径／版本。显式 `GO_BIN`、`WB_FZF_BIN`、`WB_CLOUDFLARED_BIN` 过旧或功能不兼容时停止，由操作者修正配置；不覆盖显式文件或悄悄改用其它来源。未显式指定时，从PATH、既有公共缓存及本项目全部版本缓存中按实际语义版本择新，只有不低于官方目标且功能健康才复用。新工具下载到机器环境的项目专属版本目录，校验官方SHA256后切换；保留原点与旧对象，反部署按原清单恢复专属资源，原有共享工具及后续修改不被误删。若官方没有本平台／架构成品，只有明确提供且满足目标的原生工具可用，否则停止，不混用架构。
+
+SDK元数据或归档获取的临时网络错误、限流及服务端故障采用有界单次等待与退避持续重试，Ctrl+C可取消本轮短作业；来源、摘要、参数、平台错误立即停止，不跳过校验或回旧锁假称最新版。cloudflared运行仍带 `--no-autoupdate`，由下一次部署检查更新，不在服务运行中自行替换。只读 `--check/--plan`、`-Check/-Plan` 不查询网络、不构建解析器、不下载或创建缓存。
+
+后端与二维码业务库只通过 `go list -m -u` 查询当前模块路径的可更新项，列出版本后由维护者单独升级并回归；不会自动执行 `go get`、`go mod tidy` 或改写源码锁，也不发现换路径的新主版本。查询与readonly构建使用Runtime内的 `module.mod/module.sum` 副本，禁用外部workspace，原 `go.mod/go.sum` 字节保留。检查默认每模块30秒，可用 `WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS` 设置1—300秒；超时或查询失败明确显示“检查未完成”后可按已有锁构建，参数／路径／源码变化校验失败则停止核对。
+
+本入口不暗中升级Flutter、Pods、Gradle／Android或其它客户端依赖；它只托管已存在的Web及Flutter发布资源。客户端依赖更新须在各自工程单独回归；不会批量升级系统基础包或执行sudo、Homebrew、APT、DNF全局安装。隔离边界与命令见[依赖更新验证](../测试/部署/依赖更新/README.md)。
 
 ## 四、<span id="macos">MacOS 本机启动</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -263,9 +276,9 @@ lsof -nP -iTCP:8098 -sTCP:LISTEN
 
 - 双击 `./部署/MacOS/Deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command`。它位于同名脚本目录内；移动项目时保留目录结构。
 
-- 阅读终端自述，按回车后由fzf选择“本地部署＋内网穿透”或“服务器部署”；本地默认“浏览器访问（指定邮箱收验证码）”，邮箱只用于验证公网访问者身份，与维修业务无关。原生App／API联调应选择“公开演示／App联调（隧道不验证邮箱）”并输入 `PUBLIC`，只使用合成数据。脚本按需补齐机器公共环境中的工具，每次编译 `./代码/后端/后端代码/cmd/workbench`，成功后以前台方式运行 `"${WB_RUNTIME_DIR}/workbench"`。构建失败不启动旧二进制。
+- 阅读终端自述并按回车，用 fzf 的 `↑`／`↓` 选择“本地部署＋内网穿透”或“服务器部署”，回车确认、`Esc` 取消。MacOS 本地模式只需再按回车确认公开临时入口，不收邮箱，也不要求输入 `PUBLIC`；仅使用合成数据。确认后先按登记身份停止本项目旧实例，等待退出封存、解锁再准备依赖与构建；确认前取消及 `--check`／`--plan` 保留旧实例，未知归属或反部署作业保留并报告。脚本每次编译 `./代码/后端/后端代码/cmd/workbench`，成功后以前台方式运行 `"${WB_RUNTIME_DIR}/workbench"`，本次后端健康后才建立隧道，构建失败不启动旧二进制。
 
-- 启动后自动显示“打开网页”fzf菜单；选择本次公网地址或[本机工作台](http://127.0.0.1:8098/)并回车，脚本会交给默认浏览器打开，随后返回菜单继续选择。服务器模式只列本机地址；公网地址仍按上一步所选规则验证邮箱。`Esc`或“收起菜单”只收起菜单、保留服务，在原终端按回车重新显示；`Ctrl+C`停止本次菜单、后端和隧道。Windows及各Linux入口采用相同交互；Linux需已有桌面会话和 `xdg-open` 才能在本机拉起浏览器，无桌面时提示并保持服务运行。
+- 启动后显示工作台 `/` 和后台 `/admin/` 的完整 URL 与两张二维码，并自动显示“打开网页”fzf 菜单；选择本次公网、本机或扫码页面并回车，由默认浏览器打开，随后返回菜单继续选择。服务器模式列本机入口及扫码页面，回环码明确仅本机。`Esc` 或“收起菜单”只收起菜单、保留服务，在原终端按回车重新显示；`Ctrl+C` 或关闭 MacOS 运行终端停止本轮菜单、后端与隧道，独立守护核验入口及终端父进程异常退出并完成回收与解锁，数据、配置、密钥和首轮原点保留，再次双击可重新部署。Windows 及各 Linux 的网页菜单交互相同，邮箱／`PUBLIC` 流程仍以各自文档为准；Linux 本机打开浏览器需已有桌面会话与 `xdg-open`，无桌面时提示并保持服务运行。
 
 Apple Silicon 在终端复用机器环境中的工具、默认文件存储的明确配置示例：
 
@@ -649,23 +662,27 @@ Web管理端随Go服务位于 `/admin/`，共同规范位于 `/admin-contract/ad
 | RockyLinux | `/bin/bash './部署/RockyLinux/Deployment/【Linux】部署维修工作台.sh/【Linux】部署维修工作台.sh'` | [本平台教程](./RockyLinux/README.md#local-tunnel) |
 | AlibabaCloudLinux | `/bin/bash './部署/AlibabaCloudLinux/Deployment/【Linux】部署维修工作台.sh/【Linux】部署维修工作台.sh'` | [本平台教程](./AlibabaCloudLinux/README.md#local-tunnel) |
 
-- 选择“本地部署＋内网穿透”：缺失或不兼容的Go、fzf、cloudflared按需从官方锁定来源准备到机器公共环境目录，先验证SHA256；健康已有工具复用，不升级已有系统工具。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；国内网络无法下载时会停止并给出日志，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](./deploy-tools.lock.tsv)。
+- 选择“本地部署＋内网穿透”：模式确认后查询Go／fzf／本地模式cloudflared的官方最新稳定版；已有工具仅在实际版本不低于目标且功能健康时复用，否则按官方摘要校验下载到项目专属机器缓存，不覆盖系统或显式路径文件。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；临时网络故障持续退避重试，Ctrl+C可取消；来源、摘要或参数错误明确停止，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](./deploy-tools.lock.tsv)。
 
-- 本地模式的“外网访问方式”默认选择“浏览器访问（指定邮箱收验证码）”。部署者先填本人或受邀者的邮箱（多个用逗号分隔），也可由当前进程的 `WB_TUNNEL_ALLOWED_MAIL` 提供。访问者打开本次HTTPS公网链接，输入允许的邮箱，再收取并填写一次性验证码才能进入；邮箱只验证公网访问者身份，与维修业务无关。原生App／普通API客户端无法完成浏览器验证码；联调时选择“公开演示／App联调（隧道不验证邮箱）”，再输入 `PUBLIC`。公开后取得链接即可到达服务入口，仅使用合成资料；固定演示身份和随机网址不能充当私人认证，不接入真实客户数据。
+- **MacOS 本地模式：** 直接采用公开演示／App 联调，模式选定后再按回车确认公开，不收邮箱，不要求输入 `PUBLIC`，继承的 `WB_TUNNEL_ALLOWED_MAIL` 不会重新启用邮箱门禁。自述、模式选择或公开确认取消均保留旧实例；确认后先按登记身份停止本项目旧实例，等待其退出封存、解锁再部署，未知归属与反部署作业保留并报告。此调整仅适用于 MacOS。
+
+  MacOS 模式选择前只读复用健康 fzf；缺失时仅下载校验后的选择器到本次会话的 `RUN_DIR/bootstrap-environment`，不改动旧部署专属缓存，临时资源随本次会话登记原点和清单。取消可保留本次工具与诊断记录；其他平台的依赖目录沿用各自实现。
+
+- **Windows 与各 Linux 本地模式：** 保留“外网访问方式”菜单，默认“浏览器访问（指定邮箱收验证码）”。部署者先填本人或受邀者邮箱（多个用逗号分隔），也可由当前进程的 `WB_TUNNEL_ALLOWED_MAIL` 提供。访问者打开本次 HTTPS 公网链接，输入允许的邮箱，再收取并填写一次性验证码才能进入；邮箱只验证公网访问者身份，与维修业务无关。原生 App／普通 API 客户端联调选择“公开演示／App联调（隧道不验证邮箱）”并输入 `PUBLIC`。各平台公开演示均为取得链接即可到达服务入口，仅使用合成资料，固定演示身份和随机网址不能充当私人认证，不接入真实客户数据。
 
 - 选择“服务器部署”：仅准备Go／fzf、构建并前台运行，保留 `127.0.0.1:8098` 和原有数据／密钥语义，不建立隧道，不购买机器，不自动配置反向代理、TLS、服务注册或防火墙。需要固定cpolar地址时先用该模式运行本机服务，再按本文可选cpolar步骤配置，避免同时建立两套公网入口。
 
-- 部署选择阶段Esc／空选取消，“外网访问方式”子菜单按←返回部署模式；选择阶段取消不会构建或启动业务，已经校验好的fzf缓存和本次诊断日志可保留。初始说明前没有写入；确认后才允许机器公共环境缓存、构建和日志。Go路径可用 `GO_BIN` 指定，fzf／cloudflared可用 `WB_FZF_BIN`／`WB_CLOUDFLARED_BIN` 指向本人已核验工具；不需要修改全局PATH。默认文件模式须确保未误设 `WB_TIDB_DSN`；既有数据库用户保留自己的已核验配置，不把切换为空值当作数据迁移。
+- 部署模式用方向键及回车选择，`Esc`／空选取消；仅 Windows／Linux 的“外网访问方式”子菜单按 `←` 返回部署模式。选择阶段取消不会构建或启动业务，MacOS 本地公开确认取消也保留旧实例；已经校验好的 fzf 缓存和本次诊断日志可保留。初始说明前没有业务写入。Go 路径可用 `GO_BIN` 指定，fzf／cloudflared 可用 `WB_FZF_BIN`／`WB_CLOUDFLARED_BIN` 指向本人已核验工具，不需要修改全局 PATH。默认文件模式须确保未误设 `WB_TIDB_DSN`；既有数据库用户保留自己的已核验配置，不把切换为空值当作数据迁移。
 
 `--check`／`--plan`（PowerShell为 `-Check`／`-Plan`）是结构和计划检查，不能代替实机部署验收；模式参数只供计划审阅，正常入口不能用它跳过fzf。
 
 - 取得本次公网地址后自动显示“打开网页”fzf菜单；选择公网或本机地址并回车，即交给系统默认浏览器打开，随后回到菜单继续选择，终端及服务保持运行。Esc或“收起菜单”仅收起菜单，在原终端按回车重新显示；服务器模式列本机地址及扫码页面，回环码明确仅本机。MacOS、Windows和各Linux入口提供相同交互；Linux本机打开浏览器需要已有桌面会话及 `xdg-open`，无桌面环境时提示并保持服务运行。Quick Tunnel每个项目获得自己的随机HTTPS地址；维修8098与学术8080分别用各自部署入口启动，不共用一个服务端口。URL仅表示取得入口，必须完成本节外网验收。Quick官方没有可用性保证，最多200个在途请求且不支持SSE；中国大陆不同运营商可达性另行实测。固定地址可选择下方cpolar或自有域名命名Tunnel，不能把Quick地址写成长期生产入口。[Quick限制](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/)
 
-- Ctrl+C停止本次后端和本次隧道；任一子进程异常或隧道没有及时取得地址时也会回收另一方，保留数据。脚本先检查目标TCP端口，不复用或停止已有服务；只记录并终止本次PID，不使用killall／按名字批量结束。Shell取得地址默认限45秒，可在本次进程设置 `WB_TUNNEL_START_TIMEOUT=90`（1..600）；应用构建耗时不计入此地址等待。日志位置在终端显示：Shell主日志位于系统临时目录，本次后端日志写入其中，隧道日志位于本项目独立 Runtime 下的 `deploy-session.*`；Windows路径以其入口提示为准。日志可能含公网地址，分享前脱敏；不把邮箱、令牌、数据密钥写进README或提交仓库。
+- `Ctrl+C` 停止本次后端和隧道；任一子进程异常或隧道没有及时取得地址时也会回收另一方，保留数据。MacOS 另由独立会话守护处理关窗、入口或终端父进程异常结束；确认再次部署后只接管身份可核验的本项目旧会话，保留首轮原点。各平台都不复用或停止其他服务，外部服务占用端口时报告并停止，不使用 `killall` 或按名字、端口批量结束进程。隧道取得地址默认限45秒，可在本次进程设置 `WB_TUNNEL_START_TIMEOUT=90`（1..600）；应用构建耗时不计入此地址等待。日志位置在终端显示：Shell 主日志位于系统临时目录，本次后端日志写入其中，隧道日志位于本项目独立 Runtime 下的 `deploy-session.*`；Windows 路径以其入口提示为准。日志可能含公网地址，分享前脱敏，不把邮箱、令牌或数据密钥写进 README 或提交仓库。
 
 本路线复用已有电脑，面向前期低访问量、少量合成数据的远程演示；无需先采购云主机。现有本机启动验证不等于已完成穿透或公网业务验收。
 
-### <span id="jobs-toc-heading-37" data-jobs-toc="v2">13.1、运行结构、资源和费用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-38" data-jobs-toc="v2">13.1、运行结构、资源和费用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 维修后端使用本机 `127.0.0.1:8098`，陈泉羽项目使用 `127.0.0.1:8080`；各自保留数据目录，不合并数据库或复制正在写入的状态。内网穿透客户端与后端运行在同一台机器，直接转发回环地址；不需要把 `WB_ADDR` 改为 `0.0.0.0`，也不需要路由器转发入站端口。浏览器使用两个独立 HTTPS 地址，访问者无需安装穿透客户端。
 
@@ -681,7 +698,7 @@ Web管理端随Go服务位于 `/admin/`，共同规范位于 `/admin-contract/ad
 
 普通HTTP隧道也会生成公网HTTPS地址，专业版“端到端HTTPS”不等于基础版没有公网HTTPS。套餐流量不限不代表带宽、连接速率或请求大小无限；两条隧道不能据此推断有双倍带宽。已有电脑、宽带之外还需考虑电费、附件增长和备份存储。
 
-### <span id="jobs-toc-heading-38" data-jobs-toc="v2">13.2、按平台准备工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-39" data-jobs-toc="v2">13.2、按平台准备工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工具品牌可以跨平台复用，安装包、架构、终端语法及后台方式分别选择；不能在Windows运行Mac包，也不能把Linux安装器当作MacOS工具。
 
@@ -689,14 +706,14 @@ Web管理端随Go服务位于 `/admin/`，共同规范位于 `/admin-contract/ad
 | --- | --- | --- |
 | MacOS | 官网下载Mac M1／ARM64或Intel 64-bit包；可选官方Homebrew tap，zsh前台运行 | [本系统详细步骤](./MacOS/README.md#local-tunnel) |
 | Windows | Windows原生安装器／cpolar.exe＋PowerShell；确认默认Windows服务是否已运行 | [本系统详细步骤](./Windows/README.md#local-tunnel) |
-| Ubuntu | Linux原生amd64／ARMv8 64bit包；APT系仅在缺工具时安装解压／下载依赖，先不注册systemd | [本系统详细步骤](./Ubuntu/README.md#local-tunnel) |
-| Debian | Linux原生amd64／ARMv8 64bit包；APT系仅在缺工具时安装解压／下载依赖，先不注册systemd | [本系统详细步骤](./Debian/README.md#local-tunnel) |
-| Rocky Linux | Linux原生amd64／ARMv8 64bit包；DNF系仅在缺工具时安装解压／下载依赖，先不注册systemd | [本系统详细步骤](./RockyLinux/README.md#local-tunnel) |
-| Alibaba Cloud Linux | Linux原生amd64／ARMv8 64bit包；DNF系仅在缺工具时安装解压／下载依赖，先不注册systemd | [本系统详细步骤](./AlibabaCloudLinux/README.md#local-tunnel) |
+| Ubuntu | Linux原生amd64／ARMv8 64bit包；复用已有下载／解压工具，不自动APT安装／升级或注册systemd | [本系统详细步骤](./Ubuntu/README.md#local-tunnel) |
+| Debian | Linux原生amd64／ARMv8 64bit包；复用已有下载／解压工具，不自动APT安装／升级或注册systemd | [本系统详细步骤](./Debian/README.md#local-tunnel) |
+| Rocky Linux | Linux原生amd64／ARMv8 64bit包；复用已有下载／解压工具，不自动DNF安装／升级或注册systemd | [本系统详细步骤](./RockyLinux/README.md#local-tunnel) |
+| Alibaba Cloud Linux | Linux原生amd64／ARMv8 64bit包；复用已有下载／解压工具，不自动DNF安装／升级或注册systemd | [本系统详细步骤](./AlibabaCloudLinux/README.md#local-tunnel) |
 
 上方交互入口默认免费Quick；下文cpolar是需要账户／固定地址时的可选人工路线，先用“服务器部署”保持本机服务，再按平台准备原生客户端。
 
-### <span id="jobs-toc-heading-39" data-jobs-toc="v2">13.3、先启动本机应用并检查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-40" data-jobs-toc="v2">13.3、先启动本机应用并检查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 使用上方本平台交互入口，选择本地模式会自动先检查本次后端health再连Quick；采用下方cpolar方案时选择服务器模式，只保持本地服务。不要同时运行同一项目两个入口；另一个项目在另一终端按自己的脚本启动。可另开终端检查：
 
@@ -707,7 +724,7 @@ curl --fail --show-error http://127.0.0.1:8080/healthz
 
 第二项只用于已启动学术服务的情况。维修8099是离线预览，不是真实API；Flutter页面尚未构建时先用原Web工作台与 /admin/ 验证。文件模式与既有TiDB数据互相独立，启动前核对本人目标、密钥和备份，不自动迁移数据。
 
-### <span id="jobs-toc-heading-40" data-jobs-toc="v2">13.4、可选cpolar：用一个客户端映射两个项目 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-41" data-jobs-toc="v2">13.4、可选cpolar：用一个客户端映射两个项目 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 cpolar隧道默认网址可被知晓地址者访问，先落实应用权限或额外访问控制，仅用合成资料。不要因cpolar账号令牌存在就认为访客已被认证。在仓库外建立本机私人客户端目录，将实际客户端和专用 `cpolar.yml` 放入该目录。使用本机编辑器写入下例；令牌从本人cpolar控制台取得，替换占位文字后才能运行，不放进仓库、截图、共享压缩包或命令历史。配置文件含凭据，应只允许当前账户读取；MacOS／Linux可用 `chmod 600 ./cpolar.yml`，Windows在“属性→安全”核对当前账户权限。
 
@@ -743,7 +760,7 @@ chmod 600 ./cpolar.yml
 
 Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-Command cpolar` 返回位置核对实际 `cpolar.exe`，以上相对路径须指向该真实文件；不要把不存在的解压目录当成已安装。已选择Windows服务模式时，在本地 `http://127.0.0.1:9200` 的管理界面分别创建HTTP隧道，名称为repair／academic、本地地址为8098／8080，先停用无关样例，不再运行上面的第二个前台进程。CLI检查界面可能使用4040，以本次终端显示为准；这些管理端口均不对外映射。
 
-### <span id="jobs-toc-heading-41" data-jobs-toc="v2">13.5、保留固定HTTPS地址与同源设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-42" data-jobs-toc="v2">13.5、保留固定HTTPS地址与同源设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 免费随机地址只用于初次测试。需要固定地址时，先核对套餐，再到cpolar控制台“预留→保留二级子域名”为两个项目分别保留不同前缀，并记录保留时选择的地区。
 
@@ -755,9 +772,9 @@ Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-C
 
 - 保留原始公网Host，不添加 `-host-header=rewrite` 或把Host改成localhost。学术服务校验Origin与Host，错误重写会导致首页可开、提交被拒；确需单独网页来源时仅按该项目实际支持的 `CORS_ORIGINS` 精确列入可信HTTPS来源，不用通配符绕过保护。维修自身的同源限制继续保留。
 
-### <span id="jobs-toc-heading-42" data-jobs-toc="v2">13.6、Cloudflare手工诊断与固定域名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-43" data-jobs-toc="v2">13.6、Cloudflare手工诊断与固定域名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-[**Cloudflare Tunnel**](https://developers.cloudflare.com/tunnel/get-started/)已用于上方本地默认路线；以下仅用于排查现有客户端或另行配置固定域名，避免与入口重复启动隧道。按[官方下载](https://developers.cloudflare.com/tunnel/downloads/)准备对应系统／CPU的 `cloudflared`，不要拿Mac构建包用于Windows或Linux。Quick Tunnel无需账号和域名，仅适合临时验证；默认受限浏览器方案需要支持 `--allowed-mail` 的版本（本仓锁定2026.10.7）。以下在cloudflared实际文件目录运行，示例邮箱必须改成本人允许名单；另一个项目需在另一终端将端口改为8080。手工命令同样只使用合成数据；原生API不能绕过邮箱交互。
+[**Cloudflare Tunnel**](https://developers.cloudflare.com/tunnel/get-started/)已用于上方本地路线；以下仅用于排查现有客户端或另行配置固定域名，避免与入口重复启动隧道。按[官方下载](https://developers.cloudflare.com/tunnel/downloads/)准备对应系统／CPU的 `cloudflared`，不要拿 Mac 构建包用于 Windows 或 Linux。Quick Tunnel 无需账号和域名，仅适合临时验证；Windows／Linux 的默认受限浏览器方案需要支持 `--allowed-mail` 的版本（静态引导锁基线为2026.10.7，正常部署另查当次官方稳定版并核对必需能力）。下例保留该受限手工方案，在 cloudflared 实际文件目录运行，示例邮箱必须改成本人允许名单；MacOS 自动公开演示入口不使用此邮箱参数，匹配命令见 [MacOS 教程](./MacOS/README.md#local-tunnel)。另一个项目需在另一终端将端口改为8080。手工命令同样只使用合成数据；采用邮箱门禁时原生 API 不能绕过邮箱交互。
 
 ```shell
 ./cloudflared tunnel \
@@ -768,7 +785,7 @@ Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-C
 
 需要固定Cloudflare地址时，使用本人账号和托管于Cloudflare的自有域名创建命名Tunnel，再分别把两个公网主机名映射到 `http://127.0.0.1:8098` 与 `http://127.0.0.1:8080`，不要配置Origin Host重写。域名费用、账号权限和当前免费额度单独核对；连接令牌只存本机私人位置。免费全球网络不等于免费中国大陆加速，需用目标访问者实际运营商网络测试，不保证国内链路稳定。
 
-### <span id="jobs-toc-heading-43" data-jobs-toc="v2">13.7、从手机外网验收真实请求 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-44" data-jobs-toc="v2">13.7、从手机外网验收真实请求 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 先停留在本机验证正常状态，再让指定测试者关闭Wi-Fi、使用移动网络打开两个实际HTTPS地址；浏览器访问无需安装客户端，原生App需分别设置公网API基址。
 
@@ -778,7 +795,7 @@ Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-C
 
 - 退出、切换身份、重复刷新和断网重连，核对真实／演示来源提示、写入未知结果与权限边界。不重放资金或业务写请求来排查隧道。维修仍有既有待修问题与固定演示身份，公网联调先使用合成资料和受控访问，不能直接承载真实客户资料。
 
-### <span id="jobs-toc-heading-44" data-jobs-toc="v2">13.8、日志、在线时间与停止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-45" data-jobs-toc="v2">13.8、日志、在线时间与停止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 双模式入口由同一终端管理本次后端和Quick，Ctrl+C统一停止；只有下面的手工cpolar路线才将应用终端与穿透终端分开保留。Mac根启动器的日志在系统临时目录，启动时显示位置；手工运行的Go日志输出到该终端。上述cpolar专用配置将连接日志写入私人客户端目录的 `cpolar.log`，不要启用请求体调试或把登录、文件、令牌日志公开；分享排查信息前脱敏。
 
@@ -788,7 +805,7 @@ Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-C
 
 停止后旧页面仍可能展示缓存或自动回退演示，必须以新的公网健康／API请求失败确认撤回。备份保留维修数据、对应密钥、附件、配置及必要备份；跨Mac／Windows迁移先停写再备份，不让两台电脑同时写同一份文件快照。
 
-### <span id="jobs-toc-heading-45" data-jobs-toc="v2">13.9、常见故障与验证边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-46" data-jobs-toc="v2">13.9、常见故障与验证边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 现象 | 检查顺序 |
 | --- | --- |

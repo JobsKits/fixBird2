@@ -85,6 +85,26 @@ RUN_DIR=''
 `);
     execute(mac ? '/bin/zsh' : '/bin/bash', [fixture], { SOURCE: functions, CASE_ROOT: runDir, QR_TOOL: binary });
     console.log(`PASS ${system}: URL/card/menu/update/expiry/failure/plain-log`); count++;
+    if (mac && process.platform === 'darwin') {
+      // 用系统图像识别解码实际PNG，避免只验证页面文案却遗漏码内地址。
+      const decoded = JSON.parse(execute('/usr/bin/osascript', ['-l', 'JavaScript', '-e', `
+ObjC.import('AppKit');
+ObjC.import('CoreImage');
+function run(argv) {
+  var detector = $.CIDetector.detectorOfTypeContextOptions($.CIDetectorTypeQRCode, $.CIContext.contextWithOptions($.NSDictionary.dictionary), $({CIDetectorAccuracy: 'CIDetectorAccuracyHigh'}));
+  var result = [];
+  for (var name of ['01.png', '02.png', '03.png', '04.png']) {
+    var image = $.CIImage.imageWithContentsOfURL($.NSURL.fileURLWithPath(argv[0] + '/' + name));
+    var features = detector.featuresInImage(image);
+    if (Number(features.count) !== 1) throw new Error('PNG必须能解出唯一二维码：' + name);
+    result.push(ObjC.unwrap(features.objectAtIndex(0).messageString));
+  }
+  return JSON.stringify(result);
+}`, path.join(runDir, 'access-qr-2')]));
+      const expected = ['https://fixture-b.trycloudflare.com/', 'https://fixture-b.trycloudflare.com/admin/', 'http://127.0.0.1:18198/', 'http://127.0.0.1:18198/admin/'];
+      if (JSON.stringify(decoded) !== JSON.stringify(expected)) throw new Error(`MacOS二维码内容错误：${JSON.stringify(decoded)}`);
+      console.log('PASS MacOS: actual-PNG-decode/frontend/admin/loopback'); count++;
+    }
   }
   const ps = path.join(temp, 'windows-fixture.ps1');
   fs.writeFileSync(ps, `Set-StrictMode -Version 2.0
@@ -92,7 +112,12 @@ $ErrorActionPreference = 'Stop'
 $tokens=$null; $errors=$null
 $ast=[Management.Automation.Language.Parser]::ParseFile($env:PS_SOURCE,[ref]$tokens,[ref]$errors)
 if ($errors) { throw '部署脚本解析失败。' }
-foreach ($node in $ast.EndBlock.Statements) { if ($node -is [Management.Automation.Language.FunctionDefinitionAst]) { . ([scriptblock]::Create($node.Extent.Text)) } }
+# 只提取二维码实际需要的函数，兼容入口外层的终端配色try/finally；不执行初始化或部署。
+foreach ($name in @('Write-DeployLog', 'Expire-AccessQr', 'Show-AccessQr')) {
+    $matches = @($ast.FindAll({ param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name }, $true))
+    if ($matches.Count -ne 1) { throw ('二维码函数缺失或重复：' + $name) }
+    . ([scriptblock]::Create($matches[0].Extent.Text))
+}
 $script:QrBinary=$env:QR_TOOL; $script:QrPage=$null; $script:QrGeneration=0
 $script:RunDirectory=$env:CASE_ROOT; $script:AppEnvironment=@{WB_ADDR='127.0.0.1:18198'}
 $script:LogFile=Join-Path $script:RunDirectory 'deploy.log'

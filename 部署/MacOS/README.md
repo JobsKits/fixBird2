@@ -35,7 +35,7 @@
 
 **双击部署：** 在本系统目录打开 [【MacOS】双击部署（快捷入口）.command](./【MacOS】双击部署（快捷入口）.command)。快捷文件按自身位置转交 `Deployment/` 内的规范 zsh 脚本，保留参数与退出码，复用内层自述和确认。完整反部署使用同目录独立的 [【MacOS】双击反部署（快捷入口）.command](./【MacOS】双击反部署（快捷入口）.command)，只转交 `Undeployment/` 内配对实现，保留原有自述、数据备份默认／清零选择和危险确认；操作前先看 [反部署说明](./Undeployment/README.md)。两个快捷入口按名称区分用途。
 
-本系统部署同时提供各端完整 URL、终端二维码及 fzf“打开扫码页面”；回环明确仅本机，公网码取本轮真实入口。窄终端用本地 HTML／SVG／PNG，二维码失败不停止服务；退出或地址变化使旧页面失效。共同行为与验证见[访问二维码说明](../README.md#access-qr)。
+本系统部署同时提供前端用户／工程师工作台 `/` 与后台管理网页 `/admin/` 的完整 URL、两张终端二维码及 fzf“打开扫码页面”；回环明确仅本机，公网码取本轮真实入口。窄终端用本地 HTML／SVG／PNG，二维码失败不停止服务；退出或地址变化使旧页面失效。共同行为与验证见[访问二维码说明](../README.md#access-qr)。
 
 ## 一、<span id="layout">目录与入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -67,13 +67,15 @@
 
 ## 二、<span id="run">现有启动方式</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-双击 [启动工作台](./Deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command)。先阅读内置自述并按回车确认，再用fzf选择模式；缺失工具经官方SHA256校验后仅准备到机器公共环境缓存，构建并以前台进程运行。本地模式先health再建立邮箱受限Quick，服务器模式不建立隧道。
+双击 [启动工作台](./Deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command)。先阅读内置自述并按回车，再用 fzf 的 `↑`／`↓` 选择模式、回车确认、`Esc` 取消。本地演示只需再按回车确认公开临时入口，不收邮箱，也不要求输入 `PUBLIC`；确认后先安全停止本项目旧实例，再准备依赖、构建、检查本次后端健康并建立免费 Quick Tunnel。服务器模式不建立隧道。此流程调整仅适用于 MacOS，其他系统仍按各自文档操作。
+
+模式选择前只读复用健康 fzf；缺失时按锁清单校验并下载到本次会话的 `RUN_DIR/bootstrap-environment`，不改动旧部署的项目专属工具缓存。临时选择器随本次会话登记原点与资源清单；因此取消可能留下本次会话及工具记录，旧实例和原数据保持运行状态。
 
 默认访问本机回环地址 `127.0.0.1:8098`。当前源代码位于 `../../代码/后端/后端代码`，网页位于 `../../代码/前端/PC端/Web/维修工作台`；默认数据为本项目独立 Runtime 下的 `data/`，匹配密钥为同级 `keys/storage.key`，可通过 `WB_RUNTIME_DIR`、`WB_DATA_DIR` 与 `WB_KEY_FILE` 显式覆盖，详见[机器环境与运行资料](../README.md#machine-environment)。配置、日志与全部参数见 [脚本 README](./Deployment/【MacOS】启动维修工作台.command/README.md)。端口已被使用时不能停止他人服务来让出端口。
 
 ## 三、<span id="stop">停止、反部署与数据保留</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-在启动服务的原终端按 `Ctrl+C`，仅停止本入口自己运行的前台服务。 完整反部署先由用户选择备份归档或清零，并核对范围。不能默认删除共享服务、其它项目或整个运行目录。
+在启动服务的原终端按 `Ctrl+C` 或关闭终端，只停止本轮登记的后端、隧道与菜单，保留数据、密钥、配置和首轮部署原点。独立会话守护监测入口及其终端父进程异常结束，核对进程身份后完成本轮回收、二维码失效与解锁；再次双击可启动新一轮。同项目旧实例仍运行时，在模式及本地公开确认后先核验身份、等待旧实例退出封存再启动；确认前取消、`--check` 或 `--plan` 不停止旧实例。未知归属、PID 身份不符或正在反部署时保留现场并报告，不手工删锁绕过，也不按名称或端口停止其他服务。完整反部署仍需选择备份归档或清零，并核对范围。
 
 完整移除与环境恢复使用[配对反部署](./Undeployment/README.md#paired-undeployment)：fzf默认先备份当前应用数据和匹配密钥，核验后清理；可明确选择清零，原有程序与依赖按首轮清单恢复。没有原点清单的旧部署保留环境，不推测SDK归属。
 
@@ -91,13 +93,13 @@
 /bin/zsh './Deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command'
 ```
 
-- 选择“本地部署＋内网穿透”：缺失或不兼容的Go、fzf、cloudflared按需从官方锁定来源准备到机器公共环境目录，先验证SHA256；健康已有工具复用，不升级已有系统工具。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；国内网络无法下载时会停止并给出日志，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](../deploy-tools.lock.tsv)。
+- 选择“本地部署＋内网穿透”：模式确认后查询Go／fzf／本地模式cloudflared的官方最新稳定版；已有工具仅在实际版本不低于目标且功能健康时复用，否则按官方摘要校验下载到项目专属机器缓存，不覆盖系统或显式路径文件。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；临时网络故障持续退避重试，Ctrl+C可取消；来源、摘要或参数错误明确停止，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](../deploy-tools.lock.tsv)。
 
-- 本地模式的“外网访问方式”默认选择“浏览器访问（指定邮箱收验证码）”。部署者先填本人或受邀者的邮箱（多个用逗号分隔），也可由当前进程的 `WB_TUNNEL_ALLOWED_MAIL` 提供。访问者打开脚本显示的HTTPS公网链接，输入允许的邮箱，再收取并填写一次性验证码才能进入。邮箱只验证公网访问者身份，与维修业务无关；脚本不会在状态提示或日志中回显邮箱。原生App／普通API客户端无法完成浏览器验证码；联调时选择“公开演示／App联调（隧道不验证邮箱）”，再输入 `PUBLIC`。公开后任何取得链接的人都能到达服务入口，仅允许合成资料；固定演示身份不是私人认证，随机网址也不能充当密码，不接入真实客户数据。
+- 本地模式直接采用公开演示／App 联调：选择模式后说明公开范围，按回车继续，其他输入或输入结束取消；不再选择“外网访问方式”、填写邮箱或输入 `PUBLIC`，也不使用继承的 `WB_TUNNEL_ALLOWED_MAIL` 加回邮箱门禁。取得链接的人都能到达服务入口，业务登录和权限继续按现有实现执行；仅使用合成资料，固定演示身份与随机网址不能充当私人认证，不接入真实客户数据。
 
 - 选择“服务器部署”：仅准备Go／fzf、构建并前台运行，保留 `127.0.0.1:8098` 和原有数据／密钥语义，不建立隧道，不购买机器，不自动配置反向代理、TLS、服务注册或防火墙。需要固定cpolar地址时先用该模式运行本机服务，再按本文可选cpolar步骤配置，避免同时建立两套公网入口。
 
-- Esc／空选取消，“外网访问方式”子菜单按←返回部署模式；选择阶段取消不会构建或启动业务，已经校验好的fzf缓存和本次诊断日志可保留。初始说明前没有写入；确认后才允许机器公共环境缓存、构建和日志。Go路径可用 `GO_BIN` 指定，fzf／cloudflared可用 `WB_FZF_BIN`／`WB_CLOUDFLARED_BIN` 指向本人已核验工具；不需要修改全局PATH。默认文件模式须确保未误设 `WB_TIDB_DSN`；既有数据库用户保留自己的已核验配置，不把切换为空值当作数据迁移。
+- fzf 使用 `↑`／`↓` 与回车选择，`Esc`／空选取消；自述、模式选择及本地公开确认取消均保留旧实例，不构建或启动新业务，已经校验好的 fzf 缓存和本次诊断日志可保留。确认重启后才按登记身份接管本项目旧实例；后续失败不承诺自动恢复旧实例。初始说明前没有业务写入；Go 路径可用 `GO_BIN` 指定，fzf／cloudflared 可用 `WB_FZF_BIN`／`WB_CLOUDFLARED_BIN` 指向本人已核验工具，不需要修改全局 PATH。默认文件模式须确保未误设 `WB_TIDB_DSN`；既有数据库用户保留自己的已核验配置，不把切换为空值当作数据迁移。
 
 只读审阅（不会下载、写缓存／配置／日志、构建、启动后端或连接公网）：
 
@@ -110,7 +112,7 @@
 
 - 取得本次公网地址后自动显示“打开网页”fzf菜单；选择公网或本机地址并回车，即交给默认浏览器打开，随后回到菜单继续选择。终端和服务保持运行；Esc或“收起菜单”仅收起菜单，回到原终端按回车可重新显示。服务器模式列本机地址及扫码页面，回环码明确仅本机。Quick Tunnel每个项目获得自己的随机HTTPS地址；维修8098与学术8080分别用各自部署入口启动，不共用一个服务端口。URL仅表示取得入口，必须完成本节外网验收。Quick官方没有可用性保证，最多200个在途请求且不支持SSE；中国大陆不同运营商可达性另行实测。固定地址可选择下方cpolar或自有域名命名Tunnel，不能把Quick地址写成长期生产入口。[Quick限制](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/)
 
-- Ctrl+C停止本次后端和本次隧道；任一子进程异常或隧道没有及时取得地址时也会回收另一方，保留数据。脚本先检查目标TCP端口，不复用或停止已有服务；只记录并终止本次PID，不使用killall／按名字批量结束。Shell取得地址默认限45秒，可在本次进程设置 `WB_TUNNEL_START_TIMEOUT=90`（1..600）；应用构建耗时不计入此地址等待。日志位置在终端显示：Shell主日志位于系统临时目录，本次后端日志写入其中，隧道日志位于本项目独立 Runtime 下的 `deploy-session.*`；Windows路径以其入口提示为准。日志可能含公网地址，分享前脱敏；不把邮箱、令牌、数据密钥写进README或提交仓库。
+- `Ctrl+C`、关窗及任一子进程异常时回收本次后端和隧道，保留数据。独立守护处理入口或终端父进程异常退出；再次部署只接管身份可核验的本项目旧实例，其他服务占用端口时停止并报告。不会使用 `killall` 或按名字、端口批量结束进程。隧道取得地址默认限45秒，可在本次进程设置 `WB_TUNNEL_START_TIMEOUT=90`（1..600）；应用构建耗时不计入此地址等待。日志位置在终端显示：主日志位于系统临时目录，本次后端日志写入其中，隧道日志位于本项目独立 Runtime 下的 `deploy-session.*`。日志可能含公网地址，分享前脱敏，不把令牌或数据密钥写进 README 或提交仓库。
 
 本路线复用已有电脑，面向前期低访问量、少量合成数据的远程演示；无需先采购云主机。现有本机启动验证不等于已完成穿透或公网业务验收。
 
@@ -205,14 +207,14 @@ Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-C
 
 ### <span id="jobs-toc-heading-13" data-jobs-toc="v2">5.6、Cloudflare手工诊断与固定域名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-[**Cloudflare Tunnel**](https://developers.cloudflare.com/tunnel/get-started/)已用于上方本地默认路线；以下仅用于排查现有客户端或另行配置固定域名，避免与入口重复启动隧道。按[官方下载](https://developers.cloudflare.com/tunnel/downloads/)准备对应系统／CPU的 `cloudflared`，不要拿Mac构建包用于Windows或Linux。Quick Tunnel无需账号和域名，仅适合临时验证；默认受限浏览器方案需要支持 `--allowed-mail` 的版本（本仓锁定2026.10.7）。以下在cloudflared实际文件目录运行，示例邮箱必须改成本人允许名单；另一个项目需在另一终端将端口改为8080。手工命令同样只使用合成数据；原生API不能绕过邮箱交互。
+[**Cloudflare Tunnel**](https://developers.cloudflare.com/tunnel/get-started/)已用于上方本地公开演示路线；以下仅用于排查现有客户端或另行配置固定域名，避免与入口重复启动隧道。按[官方下载](https://developers.cloudflare.com/tunnel/downloads/)准备对应系统／CPU的 `cloudflared`，不要拿 Mac 构建包用于 Windows 或 Linux。Quick Tunnel 无需账号和域名，仅适合临时验证；以下命令与 MacOS 自动入口一样不设邮箱门禁，任何取得链接的人均可到达服务入口，只使用合成数据。命令在 cloudflared 实际文件目录运行；另一个项目需在另一终端将端口改为8080。
 
 ```shell
 ./cloudflared tunnel \
-  --url http://127.0.0.1:8098 --allowed-mail tester@example.invalid
+  --url http://127.0.0.1:8098
 ```
 
-如果使用包管理器安装并已加入PATH，则使用 `cloudflared` 而非上述相对文件路径。不要将示例邮箱直接当成有效授权。复制本次打印的 `https://…trycloudflare.com` 地址；停止进程后失效，每次创建可能变化。官方明确Quick Tunnel无可用性保证、每条最多200个在途请求、无SSE支持，不能把它作为发布客户端的固定地址。[Quick Tunnel限制](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/)
+如果使用包管理器安装并已加入 PATH，则使用 `cloudflared` 而非上述相对文件路径。复制本次打印的 `https://…trycloudflare.com` 地址；停止进程后失效，每次创建可能变化。官方明确 Quick Tunnel 无可用性保证、每条最多200个在途请求、无 SSE 支持，不能把它作为发布客户端的固定地址。[Quick Tunnel限制](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/)
 
 需要固定Cloudflare地址时，使用本人账号和托管于Cloudflare的自有域名创建命名Tunnel，再分别把两个公网主机名映射到 `http://127.0.0.1:8098` 与 `http://127.0.0.1:8080`，不要配置Origin Host重写。域名费用、账号权限和当前免费额度单独核对；连接令牌只存本机私人位置。免费全球网络不等于免费中国大陆加速，需用目标访问者实际运营商网络测试，不保证国内链路稳定。
 

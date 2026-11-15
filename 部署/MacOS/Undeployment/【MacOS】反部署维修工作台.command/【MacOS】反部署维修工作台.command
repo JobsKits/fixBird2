@@ -1,7 +1,7 @@
 #!/bin/zsh
 # 脚本自述：
 # - 核心用途：按部署原点清单反向停止本项目进程、恢复原程序并撤回本次新增依赖。
-# - 数据处理：fzf默认先备份；清零必须单独选择并复核。备份失败或身份冲突时停止删除。
+# - 数据处理：fzf默认先备份；清零单独选择后按回车复核。备份失败或身份冲突时停止删除。
 # - 影响范围：仅已登记的本项目资源；保留原有共享工具、其它项目和数据库结构。
 # - 运行提示：先阅读并回车，再用fzf明确确认；--check/--plan严格只读，不下载工具。
 # >>> Jobs terminal style protection v1 >>>
@@ -513,6 +513,7 @@ ENV_ROOT=""
 DEPLOY_STATE_DIR=""
 DEPLOY_OPERATION_LOCK=""
 DEPLOY_LOCK_HELD=0
+UNDEPLOY_HANDOFF_FD=""
 PROJECT_ENV_DIR=""
 FZF_EXECUTABLE=""
 DATA_ACTION=""
@@ -577,7 +578,7 @@ show_script_intro_and_wait() {
   intro_line '0;34' '恢复部署原点：停止清单中身份匹配的进程，撤回本项目新增SDK／依赖并恢复原程序。'
   intro_line '0;34' '数据用fzf选择：备份（默认）或清零；备份和匹配密钥验证成功后才处理原数据。'
   intro_line '0;34' '不会删除其它项目、共享已有SDK、数据库结构或自行配置的DNS／订阅。'
-  intro_line '0;34' 'Esc／空选取消，清零还需空格复核。--check／--plan只读，不安装或下载fzf。'
+  intro_line '0;34' 'Esc／空选取消，选定清零后按回车复核，其它输入取消。--check／--plan只读，不安装或下载fzf。'
   if [ "$CHECK_MODE" = 1 ] || [ "$PLAN_MODE" = 1 ]; then return; fi
   [ -t 0 ] && [ -t 1 ] || fail '正常反部署需要交互终端；只读审阅使用--check或--plan。'
   local answer
@@ -671,9 +672,9 @@ select_data_action() {
   choice="$(printf 'cancel\t取消（默认）\nexecute\t已核对范围，执行配对反部署\n' | choose '执行确认 > ' '先停止本次进程；备份失败、资源指纹冲突或PID复用会停止后续操作。')" || exit 0
   [ "$choice" = execute ] || exit 0
   if [ "$DATA_ACTION" = clear ]; then
-    jobs_prompt_output printf '%s' '清零不可恢复；按空格后回车确认，其它输入取消：'
+    jobs_prompt_output printf '%s' '清零不可恢复；按回车确认，其它输入取消：'
     IFS= read -r answer || exit 0
-    [ "$answer" = ' ' ] || exit 0
+    [ -z "$answer" ] || exit 0
   fi
 }
 # 比较启动时间与完整命令后才停止，PID被复用或权限不明时绝不发送信号。
@@ -695,18 +696,32 @@ stop_recorded_processes() {
   done < "$DEPLOY_STATE_DIR/processes.tsv"
 }
 # 原子取得与部署共用的操作锁，避免并发写入。
+acquire_undeploy_handoff() {
+  local key lock_file
+  [ -z "$UNDEPLOY_HANDOFF_FD" ] || return 0
+  zmodload zsh/system || fail '无法加载系统文件锁，未停止部署实例。'
+  key="$(printf '%s' "$RUNTIME_ROOT" | shasum -a 256 | awk '{print $1}')"
+  lock_file="${TMPDIR:-/tmp}/repair-deploy-handoff-$UID-$key.lock"
+  [ ! -L "$lock_file" ] && { [ ! -e "$lock_file" ] || { [ -f "$lock_file" ] && [ -O "$lock_file" ]; }; } || fail '交接锁归属异常。'
+  if [ ! -e "$lock_file" ]; then (set -C; : > "$lock_file") 2>/dev/null || { [ -f "$lock_file" ] && [ ! -L "$lock_file" ] && [ -O "$lock_file" ]; } || fail '无法创建交接锁。'; fi
+  zsystem flock -t 30 -f UNDEPLOY_HANDOFF_FD "$lock_file" || fail '另一轮部署或反部署正在交接，未停止任何实例。'
+}
 acquire_operation_lock() {
+  acquire_undeploy_handoff
   mkdir "$DEPLOY_OPERATION_LOCK" 2>/dev/null || fail '仍有部署操作或异常残留锁；核对原终端，不能删除锁绕过。'
   DEPLOY_LOCK_HELD=1
   printf '%s\n' "$$" > "$DEPLOY_OPERATION_LOCK/owner"
+  printf 'undeployment\t%s\t%s\t%s\n' "$$" "$(LC_ALL=C ps -p $$ -o lstart= | sed 's/^ *//')" "$(LC_ALL=C ps -p $$ -o command=)" > "$DEPLOY_OPERATION_LOCK/identity.tsv" || fail '无法保存反部署锁身份。'
 }
 # 只在主执行层释放自己持有的锁。
 release_operation_lock() {
   [ "${ZSH_SUBSHELL:-0}" = 0 ] && [ "${BASH_SUBSHELL:-0}" = 0 ] || return 0
   if [ "$DEPLOY_LOCK_HELD" = 1 ] && [ "$(cat "$DEPLOY_OPERATION_LOCK/owner" 2>/dev/null)" = "$$" ]; then
+    [ ! -f "$DEPLOY_OPERATION_LOCK/identity.tsv" ] || rm -- "$DEPLOY_OPERATION_LOCK/identity.tsv"
     rm "$DEPLOY_OPERATION_LOCK/owner" && rmdir "$DEPLOY_OPERATION_LOCK" || true
   fi
   DEPLOY_LOCK_HELD=0
+  if [ -n "$UNDEPLOY_HANDOFF_FD" ]; then zsystem flock -u "$UNDEPLOY_HANDOFF_FD" 2>/dev/null || true; UNDEPLOY_HANDOFF_FD=''; fi
 }
 # 所有原点对象先整体预检；其中任一被并发改动时，尚未开始清理数据。
 preflight_artifacts() {
@@ -869,6 +884,7 @@ initialize_undeployment() {
   if [ -n "${ZSH_VERSION:-}" ]; then setopt NO_NOMATCH; else trap release_operation_lock EXIT; fi
   trap 'exit 130' INT
   trap 'exit 143' TERM
+  trap 'exit 129' HUP
   acquire_operation_lock
   validate_state
   preflight_artifacts
@@ -884,6 +900,7 @@ main() {
   prepare_context # 由脚本位置解析项目和机器路径。
   handle_readonly_modes # 只读检查／计划完成后直接退出。
   prepare_interactive_plan # 验证归属并取得fzf数据选择与执行授权。
+  acquire_undeploy_handoff # 与再次部署的停旧／换锁过程串行。
   stop_recorded_processes # 仅停止身份匹配的本项目进程。
   initialize_undeployment # 串行写操作，复查资源及恢复依据。
   backup_business_data # 默认完整备份、验证密钥及摘要。

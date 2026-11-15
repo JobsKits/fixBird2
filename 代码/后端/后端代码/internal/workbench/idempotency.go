@@ -56,6 +56,9 @@ func (s *Service) replayRequest(actor Actor, path string, request CachedRequest)
 		}
 		return nil, 0, fail(409, "recovery_reconciliation_required", "此请求恢复前已处理，但对应业务未确认恢复；不会再次执行，请由负责人核对恢复差异")
 	}
+	if personalWritePath(path) {
+		return s.replayPersonalRequest(actor, path, request)
+	}
 	var value any
 	switch {
 	case ref.ID != "" && path == accountStatusPath:
@@ -87,7 +90,7 @@ func (s *Service) replayRequest(actor Actor, path string, request CachedRequest)
 	case strings.HasPrefix(ref.ID, "purchase_"):
 		for _, purchase := range s.state.Purchases {
 			if purchase.ID == ref.ID && (actor.Role == "admin" || actor.Role == "warehouse" || actor.Role == "finance" || actor.Role == "dispatcher" || actor.Role == "supplier" && (purchase.Supplier == actor.ID || purchase.Supplier == actor.Name)) {
-				value = purchase
+				value = purchaseView(purchase)
 				break
 			}
 		}

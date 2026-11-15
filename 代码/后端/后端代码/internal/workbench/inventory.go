@@ -18,11 +18,12 @@ type loanPayload struct {
 	DueAt     string `json:"dueAt"`
 }
 type PurchaseInput struct {
-	Supplier  string `json:"supplier"`
-	PartID    string `json:"partId"`
-	Quantity  int    `json:"quantity"`
-	UnitCents int64  `json:"unitCents"`
-	Note      string `json:"note"`
+	Supplier    string                    `json:"supplier"`
+	PartID      string                    `json:"partId"`
+	Quantity    int                       `json:"quantity"`
+	UnitCents   int64                     `json:"unitCents"`
+	Note        string                    `json:"note"`
+	Attachments []PurchaseAttachmentInput `json:"attachments,omitempty"`
 }
 type PurchaseReceive struct {
 	Version  int    `json:"version"`
@@ -189,8 +190,18 @@ func (s *Service) createPurchase(state *State, actor Actor, input PurchaseInput)
 		return Purchase{}, err
 	}
 	value := Purchase{ID: randomID("purchase_"), Version: 1, Supplier: input.Supplier, PartID: input.PartID, Quantity: input.Quantity, UnitCents: input.UnitCents, Note: input.Note}
+	for _, attachment := range input.Attachments {
+		file, err := s.newPurchaseFile(actor, attachment)
+		if err != nil {
+			return Purchase{}, err
+		}
+		value.Files = append(value.Files, file)
+	}
+	if err := validatePurchaseFileSet(value.Files); err != nil {
+		return Purchase{}, err
+	}
 	state.Purchases = append(state.Purchases, value)
-	return value, nil
+	return purchaseView(value), nil
 }
 
 func (s *Service) receivePurchase(state *State, actor Actor, id string, input PurchaseReceive) (Purchase, error) {
@@ -215,7 +226,7 @@ func (s *Service) receivePurchase(state *State, actor Actor, id string, input Pu
 		part.Available += input.Quantity
 		purchase.Received += input.Quantity
 		purchase.Version++
-		return *purchase, nil
+		return purchaseView(*purchase), nil
 	}
 	return Purchase{}, fail(404, "not_found", "采购单不存在")
 }

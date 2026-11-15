@@ -19,7 +19,7 @@
 
 ---
 
-本包的 [【Windows】部署.ps1](【Windows】部署.ps1) 面向 Windows PowerShell 5.1 和更新版本。保留完整项目，双击兄弟包中的 [【Windows】部署.cmd](../【Windows】部署.cmd/【Windows】部署.cmd)，或在普通用户的 PowerShell 终端运行下列命令，阅读自述并直接回车。入口通过 [fzf](https://github.com/junegunn/fzf) 选择两种模式，缺失的工具会按锁清单下载到机器公共环境缓存，校验后使用，不需要先安装 Go 或 cloudflared。
+本包的 [【Windows】部署.ps1](【Windows】部署.ps1) 面向 Windows PowerShell 5.1 和更新版本。保留完整项目，双击兄弟包中的 [【Windows】部署.cmd](../【Windows】部署.cmd/【Windows】部署.cmd)，或在普通用户的 PowerShell 终端运行下列命令，阅读自述并直接回车。入口通过 [fzf](https://github.com/junegunn/fzf) 选择两种模式，菜单及解析器可按静态锁引导；选择模式后重新查询官方稳定工具，校验下载至本项目机器缓存，不需要预先安装Go或cloudflared。
 
 **部署快捷入口：** 可在本系统目录直接双击 [【Windows】双击部署（快捷入口）.cmd](../../【Windows】双击部署（快捷入口）.cmd)；它调用本目录下的规范部署实现，复用同一自述、确认与参数，不另存部署逻辑。
 
@@ -65,16 +65,16 @@ Quick Tunnel 不要求租用云服务器、固定公网 IP 或购买域名，适
 | --- | --- |
 | 系统 | 能运行 Windows PowerShell 5.1、.NET Framework 4.5+，且具备 `Get-NetTCPConnection` 的 Windows；建议使用仍受厂商支持的 Windows 版本 |
 | amd64 / x64 | 两种模式均有锁定的原生工具资产 |
-| ARM64 | 服务器模式支持下载原生 Go 和 fzf；当前上游未提供锁定的 Windows ARM64 cloudflared 成品。本地模式仅可复用明确提供且通过架构与能力检查的原生客户端，缺失时在启动后端前停止，不混用 x64 下载包 |
+| ARM64 | 服务器模式支持下载原生 Go 和 fzf；若官方当次未提供Windows ARM64 cloudflared成品，本地模式只接受显式指定且满足官方目标、架构与能力检查的原生客户端，否则在启动后端前停止，不混用x64下载包 |
 | 单项目最低可用资源 | 2 核 CPU、4 GiB **可用内存**、20 GiB 空闲 SSD；这是应用的规划下限，另留 Windows 和其它程序的资源 |
 | 同机运行两个项目 | 建议至少 4 核 CPU、8 GiB **可用内存**、40 GiB 空闲 SSD；仍需按并发、附件和数据库实际占用监测调整 |
 | 网络 | 首次缺工具时需要 HTTPS 访问 GitHub Releases 和 `go.dev`；首次 Go 构建还需模块下载网络 |
 
-默认下载版本来自工程内 [deploy-tools.lock.tsv](../../../deploy-tools.lock.tsv)：fzf `0.74.5`、Go `1.27.3`、cloudflared `2026.10.7`。入口记录官方来源、版本、目标路径和 SHA256；完整下载经 SHA256 校验后才解压和执行，失败立即停止，不使用部分下载或旧构建产物。压缩包中的绝对路径、父级跳转和符号链接会被拒绝。
+工程内 [deploy-tools.lock.tsv](../../../deploy-tools.lock.tsv) 的fzf `0.74.5`、Go `1.27.3`、cloudflared `2026.10.7` 只是静态引导基线；正常部署由官方元数据确定当次稳定目标。入口记录官方来源、版本、目标路径和 SHA256；完整下载经SHA256校验后才解压和执行；临时网络错误退避重试可取消，摘要或来源错误停止，不使用部分下载或旧构建产物。压缩包中的绝对路径、父级跳转和符号链接会被拒绝。
 
-优先复用满足能力检查的已有工具，不主动升级健康工具：显式 `GO_BIN` / `WB_FZF_BIN` / `WB_CLOUDFLARED_BIN`，然后 PATH；Go 还会检查机器公共环境已有的匹配 SDK，最后检查本项目专属且已验证的缓存。已有工具需为当前 Windows 原生架构；Go 至少 1.24，fzf 至少 0.74，cloudflared 的 `tunnel --help` 必须能提供 `--config`、`--allowed-mail`、`--url` 和 `--no-autoupdate`。显式指定了损坏或不满足要求的工具时，入口停止并提示修正，不悄悄改用其它工具。
+最终工具必须同时满足当次官方稳定版本与能力检查。显式 `GO_BIN` / `WB_FZF_BIN` / `WB_CLOUDFLARED_BIN` 过旧、损坏或架构不符即停止；未显式指定时从PATH、公共及项目专属多版本缓存中按实际语义版本择新，否则校验下载新版。保留Go至少1.24、fzf菜单参数及cloudflared的 `--config`、`--url`、`--no-autoupdate` 能力门禁；私有邮箱模式额外要求 `--allowed-mail`，公开模式不要求邮箱能力，不以新版号代替可用性检查。完整策略见[工具更新与业务依赖检查](../../../README.md#tool-updates)。
 
-下载不需要管理员权限，不修改系统 PATH、系统服务、网络代理或防火墙，不自动开放路由器端口。不能访问官方来源时，不会关闭 TLS 校验或改用无校验镜像；可自行从官方来源准备对应原生工具，并用上述环境变量指定路径后重试。
+下载不需要管理员权限，不修改系统 PATH、系统服务、网络代理或防火墙，不自动开放路由器端口。访问官方来源发生临时网络故障会持续退避，可Ctrl+C取消；不会关闭TLS校验或改用无校验镜像。显式工具仍须完成官方目标确认，不以离线旧锁假称最新版。
 
 ## <span id="jobs-toc-heading-4" data-jobs-toc="v2">四、只读检查与计划 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 

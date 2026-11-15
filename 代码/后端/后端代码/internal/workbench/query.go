@@ -12,11 +12,12 @@ type OrderQuery struct {
 }
 
 type OrderPage struct {
-	Items      []Order `json:"items"`
-	Total      int     `json:"total"`
-	Page       int     `json:"page"`
-	PageSize   int     `json:"pageSize"`
-	TotalPages int     `json:"totalPages"`
+	Items      []Order        `json:"items"`
+	Total      int            `json:"total"`
+	Page       int            `json:"page"`
+	PageSize   int            `json:"pageSize"`
+	TotalPages int            `json:"totalPages"`
+	Counts     map[string]int `json:"counts"`
 }
 
 func parseOrderQuery(values url.Values) (OrderQuery, error) {
@@ -68,7 +69,7 @@ func (s *Service) orderSummary(order Order, actor Actor) Order {
 }
 
 func (s *Service) queryOrders(actor Actor, query OrderQuery) OrderPage {
-	page := OrderPage{Items: []Order{}, Page: query.Page, PageSize: query.PageSize}
+	page := OrderPage{Items: []Order{}, Page: query.Page, PageSize: query.PageSize, Counts: map[string]int{"all": 0, "mine": 0, "settling": 0, "pending_completion": 0, "blocked": 0}}
 	start := (query.Page - 1) * query.PageSize
 	for index := len(s.state.Orders) - 1; index >= 0; index-- {
 		raw := s.state.Orders[index]
@@ -77,7 +78,7 @@ func (s *Service) queryOrders(actor Actor, query OrderQuery) OrderPage {
 		}
 		order := s.derivedOrder(raw)
 		order.Summary.PendingCashCents = visiblePendingCash(order, actor)
-		if query.Status != "" && order.Status != query.Status || !matchesFilter(order, actor, query.Filter) {
+		if query.Status == "active" && order.Status == "completed" || query.Status != "" && query.Status != "active" && order.Status != query.Status {
 			continue
 		}
 		haystack := order.Number + " " + order.Customer + " " + order.Project + " " + order.Device + " " + order.Description + " " + order.OwnerID
@@ -92,6 +93,15 @@ func (s *Service) queryOrders(actor Actor, query OrderQuery) OrderPage {
 			continue
 		}
 		if query.Payment == "outstanding" && summary.RemainingCents == 0 || query.Payment == "pending" && (!internal(actor) || summary.PendingCashCents == 0) || query.Payment == "paid" && (summary.RemainingCents != 0 || summary.OverpaidCents != 0 || summary.PendingCashCents != 0) {
+			continue
+		}
+		// Tab数量包含当前公共筛选的全部授权记录，不受当前Tab或分页截断。
+		for filter := range page.Counts {
+			if matchesFilter(order, actor, filter) {
+				page.Counts[filter]++
+			}
+		}
+		if !matchesFilter(order, actor, query.Filter) {
 			continue
 		}
 		if page.Total >= start && len(page.Items) < query.PageSize {

@@ -40,15 +40,25 @@
     return source.replace(matcher, match => dictionary[match]);
   }
 
+  // 独立功能仅用此入口翻译固定界面文案，不传业务正文。
+  window.RepairI18n = Object.freeze({ translate: source => translate(source, true) });
+
   function ensurePicker() {
     if (document.querySelector('#repairLocale')) return;
-    const host = document.querySelector('.topbar-actions')
+    const host = document.querySelector('.appearance-controls')
+      || document.querySelector('.topbar-actions')
       || document.querySelector('.workspace > .toolbar .actions')
       || document.querySelector('.login .brand');
     if (!host) return;
     const label = document.createElement('label');
     label.className = 'locale-control';
     label.dataset.noTranslate = '';
+    if (host.matches('.appearance-controls')) {
+      const caption = document.createElement('span');
+      caption.className = 'locale-caption';
+      caption.textContent = translate('语言');
+      label.append(caption);
+    }
     const select = document.createElement('select');
     select.id = 'repairLocale';
     select.setAttribute('aria-label', translate('应用语言'));
@@ -65,6 +75,7 @@
       keys = Object.keys(messages[locale] || {}).sort((a, b) => b.length - a.length);
       document.documentElement.lang = locale === 'zh-Hans' ? 'zh-CN' : locale === 'zh-Hant' ? 'zh-TW' : locale;
       apply();
+      document.dispatchEvent(new CustomEvent('repair-locale-change'));
     };
     label.append(select);
     host.append(label);
@@ -74,6 +85,8 @@
     queued = false;
     observer.disconnect();
     ensurePicker();
+    const localeCaption = document.querySelector('.appearance-controls .locale-caption');
+    if (localeCaption) localeCaption.textContent = translate('语言');
     document.querySelector('#repairLocale')?.setAttribute('aria-label', translate('应用语言'));
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node;
@@ -121,6 +134,7 @@
     keys = Object.keys(messages[locale] || {}).sort((a, b) => b.length - a.length);
     document.documentElement.lang = locale === 'zh-Hans' ? 'zh-CN' : locale === 'zh-Hant' ? 'zh-TW' : locale;
     apply();
+    document.dispatchEvent(new CustomEvent('repair-locale-change'));
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
   else start();

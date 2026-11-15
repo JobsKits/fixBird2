@@ -22,6 +22,8 @@
   - [3.4、设置、账号与安全审计](#audit-contract)
   - [3.5、幂等持久化与隔离恢复](#persistence-contract)
   - [3.6、网页响应校验与离线行为](#client-contract)
+  - [3.7、个人工作日志与独立事件提醒](#work-log-contract)
+  - [3.8、库存明细与采购私有附件](#inventory-purchase-contract)
 
 </details>
 <!-- jobs-toc:end -->
@@ -146,7 +148,7 @@ POST `/orders/{id}/actions` => Order，body `{type,version,payload}`。当前实
 
 POST `/loans {orderId,partId,quantity,borrowerId,dueAt,note}` => Loan；POST `/loans/{id}/actions {type,version,payload}`，return `{quantity,condition}` good/quarantine；consume/dispose `{quantity,reason}`；transfer `{quantity,ownerId,dueAt,reason}`。Loan `id,version,orderId,partId,partName,quantity,returnedGood,returnedQuarantine,consumed,disposed,outstanding,borrowerId,dueAt,note`。
 
-Part `id,name,sku,available,quarantine`；POST `/purchases {supplier,partId,quantity,unitCents,note}` => Purchase；POST `/purchases/{id}/receive {version,quantity,note}` => Purchase；Purchase `id,version,supplier,partId,quantity,received,unitCents,note`。
+Part `id,name,sku,available,quarantine`；POST `/purchases {supplier,partId,quantity,unitCents,note,attachments?}` => Purchase；POST `/purchases/{id}/receive {version,quantity,note}` => Purchase；Purchase `id,version,supplier,partId,quantity,received,unitCents,note,files?`。库存明细与采购附件的字段、权限及原件路径见[专节](#inventory-purchase-contract)。
 
 POST `/auto-accept` 受控执行到期扫描（停机异议待核实）；GET `/healthz`。后台在启动和每分钟执行同一验收校验，不绘制客户签章。
 
@@ -210,5 +212,25 @@ HTTP 登录成功／失败、鉴权拒绝、退出、完整工单详情、原件
 响应校验须覆盖实际渲染消费的嵌套记录与摘要类型，非法库存条目或缺失 `summary.missing` 等结构在写入当前快照或详情缓存前拒绝，详情保留完整错误与重载入口。未知提交结果的请求键属于原提交意图，打开无关弹窗不清除它；明确成功后另一笔合法同内容操作使用新键。
 
 API 地址留空表示当前页面地址；只接受同源且不含凭据、路径、查询或片段的地址。切换服务／端口需打开目标网页后登录。`file://` 仅离线合成预览，不发 API 请求。动态列表有空态与重载，工单分页、筛选与完整详情由服务器读取；角色切换重新登录，权限由服务端检查。
+
+### 3.7、<span id="work-log-contract">个人工作日志与独立事件提醒</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+本轮范围为 Web 与后端，App 顶部 tips 后续实现。产品要求、字段、媒体类型、时区及验收以[个人日志需求](../../需求/项目需求与开发评审/项目需求与开发评审.md#personal-work-log)与[接口数据设计](../../需求/项目需求与开发评审/项目需求与开发评审.md#work-log-design)为统一详细定义；以下路径均在 `/api/v38` 下，不据源码具备能力推断真实公网或跨端验收已通过。
+
+- 日志入口为 `GET /work-logs`、`GET/PUT/DELETE /work-logs/{date}`、`POST /work-logs/{date}/media` 与 `GET /work-log-media/{id}`。仅本人编辑所选合法日期，默认打开今日；管理员可显式选择他人日志只读。普通账号不能跨账户读取、修改或下载原件，同企业及工单授权不能扩大个人日志权限。
+- 按月查询继续使用 `month=YYYY-MM`；全部日志使用 `scope=all&page=1&pageSize=20`，按日期降序跨月份分页，页容量1—100，响应保留账户／时区／只读元数据并含 `scope,page,pageSize,total,hasMore,items`。两者均可带 `ownerId,timeZone`，不返回删除墓碑。
+- 本人删除提交 `{version,timeZone}`，成功返回 `{ok,ownerId,date,version,deleted:true}`。删除清正文及所属媒体并保留递增版本墓碑，旧版本不能覆盖删除后重建；缓存响应及私密重试按当前资源重建，不重新暴露删除前正文或原件。管理员不能代删他人，不连带删除其他日志、独立提醒或已另存副本，既有备份不由界面删除自动撤销。
+- 提醒入口为 `GET/POST /reminders`、`PUT/DELETE /reminders/{id}` 与 `POST /reminders/{id}/fire`。独立提醒仅当前账户可读写和到期认领，管理员查看他人日志也不取得其提醒权限；`fire` 原子检查归属、到期、版本与状态，多标签页不重复触发同一版本。关闭站内提示不自动完成待办，页面关闭后不承诺系统级送达。
+- 媒体通过鉴权接口上传／读取 Base64 内容，不公开静态 URL；列表只含元数据，个人原始内容不进入工单 `bootstrap` 或 `export`。`WB_JOURNAL_MEDIA_MAX_BYTES` 默认16 MiB、硬上限32 MiB；图片另受固定8 MiB上限，与配置取小。每日日志8个附件、合计32 MiB为当前工程限额，不能外推生产容量。
+- 日志、媒体与提醒随加密聚合快照原子持久化，使用对象版本与稳定请求键；保存失败不交换内存状态，旧快照按空集合兼容。未登录、停用、会话失效及越权请求继续拒绝；日志正文按纯文本处理，账号切换不能复用另一账户内容。
+
+### 3.8、<span id="inventory-purchase-contract">库存明细与采购私有附件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+详细请求／响应和验收见[库存采购接口设计](../../需求/项目需求与开发评审/项目需求与开发评审.md#inventory-purchase-design)，以下路径均位于 `/api/v38`。
+
+- `GET /parts/{id}` 返回 `{part,loans,purchases}`，仅内部角色可读；管理员／仓库／调度可看该配件全部借还，工程师仅本人借还，关联采购按采购原权限过滤。
+- `GET /purchases/{id}`、`GET /purchases/{id}/attachments/{fileId}` 继承采购读取授权：管理员／仓库／财务／调度，或 `supplier` 与当前供应商账户 ID／名称匹配；未授权目标不返回资料。原件下载先持久化读取审计，返回二进制、`no-store` 与附件下载头，网页图片预览也经过同一鉴权接口。
+- 创建采购可带 `attachments:[{name,mime,dataBase64}]`；`POST /purchases/{id}/attachments` 提交 `{version,name,mime,dataBase64}` 追加并递增采购版本，均限管理员／仓库／调度。沿用稳定请求键、严格输入、版本冲突及事务回滚；附件不更改库存数量。
+- `files` 只含 `{id,name,mime,size,uploaderId,createdAt}`，创建／收货／详情／bootstrap／幂等重试全部使用去原件视图。单件8 MiB、每单8件且原件合计32 MiB，JSON 请求体仍限12 MiB（含 Base64 膨胀）。支持 PNG／JPEG／GIF／WebP、PDF、TXT／CSV、DOCX／XLSX／PPTX，声明类型须与实际格式匹配；不接受 HTML／SVG、路径文件名或伪装可执行内容，不提供公开静态原件或内联文档执行。
 
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

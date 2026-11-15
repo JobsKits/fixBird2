@@ -91,13 +91,13 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\Undeployment\【Windo
 
 部署入口提供可交互的双模式选择。正常运行先展示影响范围，回车授权本次项目内准备，再必须通过[**fzf**](https://github.com/junegunn/fzf)选择“本地部署＋内网穿透”或“服务器部署”；不是先装好一套云服务再开始。
 
-在终端进入本文所在目录后执行下面的本系统入口；脚本从自身位置定位项目，支持中文／空格及项目迁移，不依赖调用时的工作目录。请在PowerShell运行PS1，不用Mac .command或Linux脚本。Windows ARM64缺少官方原生cloudflared锁定包；只有本人已有健康原生客户端才可复用本地模式，否则在启动后端前停止，不尝试x64仿真包。服务器模式可用匹配ARM64 Go。
+在终端进入本文所在目录后执行下面的本系统入口；脚本从自身位置定位项目，支持中文／空格及项目迁移，不依赖调用时的工作目录。请在PowerShell运行PS1，不用Mac .command或Linux脚本。Windows ARM64若当次官方未提供cloudflared原生成品，本地模式只接受显式WB_CLOUDFLARED_BIN指定、实际版本不低于官方目标且能力合格的原生客户端，否则停止，不混用x64仿真包。服务器模式可用匹配ARM64 Go。
 
 ```powershell
 & './Deployment/【Windows】部署.ps1/【Windows】部署.ps1'
 ```
 
-- 选择“本地部署＋内网穿透”：缺失或不兼容的Go、fzf、cloudflared按需从官方锁定来源准备到机器公共环境目录，先验证SHA256；健康已有工具复用，不升级已有系统工具。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；国内网络无法下载时会停止并给出日志，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](../deploy-tools.lock.tsv)。
+- 选择“本地部署＋内网穿透”：模式确认后查询Go／fzf／本地模式cloudflared的官方最新稳定版；已有工具仅在实际版本不低于目标且功能健康时复用，否则按官方摘要校验下载到项目专属机器缓存，不覆盖系统或显式路径文件。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；临时网络故障持续退避重试，Ctrl+C可取消；来源、摘要或参数错误明确停止，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](../deploy-tools.lock.tsv)。
 
 - 本地模式的“外网访问方式”默认选择“浏览器访问（指定邮箱收验证码）”。部署者先填本人或受邀者的邮箱（多个用逗号分隔），也可由当前进程的 `WB_TUNNEL_ALLOWED_MAIL` 提供。访问者打开脚本显示的HTTPS公网链接，输入允许的邮箱，再收取并填写一次性验证码才能进入。邮箱只验证公网访问者身份，与维修业务无关；脚本不会在状态提示或日志中回显邮箱。原生App／普通API客户端无法完成浏览器验证码；联调时选择“公开演示／App联调（隧道不验证邮箱）”，再输入 `PUBLIC`。公开后任何取得链接的人都能到达服务入口，仅允许合成资料；固定演示身份不是私人认证，随机网址也不能充当密码，不接入真实客户数据。
 
@@ -209,7 +209,7 @@ Windows若客户端由安装器装在其它位置，先在安装目录或 `Get-C
 
 ### <span id="jobs-toc-heading-13" data-jobs-toc="v2">5.6、Cloudflare手工诊断与固定域名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-[**Cloudflare Tunnel**](https://developers.cloudflare.com/tunnel/get-started/)已用于上方本地默认路线；以下仅用于排查现有客户端或另行配置固定域名，避免与入口重复启动隧道。按[官方下载](https://developers.cloudflare.com/tunnel/downloads/)准备对应系统／CPU的 `cloudflared`，不要拿Mac构建包用于Windows或Linux。Quick Tunnel无需账号和域名，仅适合临时验证；默认受限浏览器方案需要支持 `--allowed-mail` 的版本（本仓锁定2026.10.7）。以下在cloudflared实际文件目录运行，示例邮箱必须改成本人允许名单；另一个项目需在另一终端将端口改为8080。手工命令同样只使用合成数据；原生API不能绕过邮箱交互。
+[**Cloudflare Tunnel**](https://developers.cloudflare.com/tunnel/get-started/)已用于上方本地默认路线；以下仅用于排查现有客户端或另行配置固定域名，避免与入口重复启动隧道。按[官方下载](https://developers.cloudflare.com/tunnel/downloads/)准备对应系统／CPU的 `cloudflared`，不要拿Mac构建包用于Windows或Linux。Quick Tunnel无需账号和域名，仅适合临时验证；默认受限浏览器方案需要支持 `--allowed-mail` 的版本（静态引导锁基线为2026.10.7，正常部署另查当次官方稳定版并核对必需能力）。以下在cloudflared实际文件目录运行，示例邮箱必须改成本人允许名单；另一个项目需在另一终端将端口改为8080。手工命令同样只使用合成数据；原生API不能绕过邮箱交互。
 
 ```powershell
 & '.\cloudflared.exe' tunnel --url http://127.0.0.1:8098 --allowed-mail tester@example.invalid

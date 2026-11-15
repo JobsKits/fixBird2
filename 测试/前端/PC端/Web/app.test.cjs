@@ -6,6 +6,124 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const D = require("../../../../代码/前端/PC端/Web/维修工作台/data.js");
 const source = fs.readFileSync(path.join(__dirname, "../../../../代码/前端/PC端/Web/维修工作台/app.js"), "utf8");
+test("工作日志优先展示个人编辑，隐藏无关工单指标与创建入口后能恢复", async () => {
+  const h = await connected();
+  await h.click({view:"worklogs"});
+  assert.equal(h.node("#metrics").hidden,true);
+  assert.equal(h.node("#createOrder").hidden,true);
+  await h.click({view:"orders"});
+  assert.equal(h.node("#metrics").hidden,false);
+  assert.equal(h.node("#createOrder").hidden,false);
+});
+
+test("概览四卡按实际集合跳转并清除旧筛选，不把进行中当全部工单", async () => {
+  const h = harness({url:"file:///fixture/index.html"});
+  h.app.openDemo("dispatcher");
+  await flush();
+  h.node("#search").value = "不应保留";
+  h.node("#paymentFilter").value = "paid";
+  await h.click({metric:"open"});
+  const visible = h.app.getState().data.orders;
+  const open = visible.filter(order=>order.status!=="completed");
+  assert.equal(h.node("#statusFilter").value,"active");
+  assert.equal(h.node("#search").value,"");
+  assert.equal(h.node("#paymentFilter").value,"");
+  assert.equal(h.node("#orderCount").textContent,open.length);
+  assert.equal(h.node("#quickCountAll").textContent,"（"+open.length+"）");
+  for(const order of visible.filter(order=>order.status==="completed"))
+    assert.ok(!h.node("#ordersBody").innerHTML.includes(order.number));
+  await h.click({metric:"settling"});
+  assert.equal(h.node("#orderCount").textContent,visible.filter(order=>order.status==="settling").length);
+  await h.click({metric:"ready"});
+  assert.equal(h.node("#orderCount").textContent,visible.filter(order=>order.status==="pending_completion").length);
+  await h.click({metric:"receivable"});
+  assert.equal(h.app.getState().view,"finance");
+  assert.match(h.node("#financeView").innerHTML,/data-finance-all="true"/);
+  await h.click({financeAll:"true"});
+  assert.doesNotMatch(h.node("#financeView").innerHTML,/data-finance-all="true"/);
+});
+
+test("服务端五Tab采用授权全量counts而非本页长度，概览跳转发送对应筛选", async () => {
+  const h = await connected();
+  assert.ok(h.app.getState().data.orders.length<95);
+  for(const [id,total] of [["All",95],["Mine",23],["Settling",51],["Ready",15],["Blocked",12]])
+    assert.equal(h.node("#quickCount"+id).textContent,"（"+total+"）");
+  h.app.setPage(3);
+  h.node("#search").value="旧条件";
+  await h.click({metric:"settling"});
+  let query = new URL(h.calls.at(-1).url, "http://fixture").searchParams;
+  assert.equal(query.get("page"),"1");
+  assert.equal(query.get("filter"),"settling");
+  assert.equal(query.get("q"),"");
+  await h.click({metric:"ready"});
+  assert.equal(new URL(h.calls.at(-1).url, "http://fixture").searchParams.get("filter"),"pending_completion");
+  await h.click({metric:"open"});
+  assert.equal(new URL(h.calls.at(-1).url, "http://fixture").searchParams.get("status"),"active");
+  await h.click({metric:"receivable"});
+  query = new URL(h.calls.at(-1).url, "http://fixture").searchParams;
+  assert.equal(query.get("payment"),"outstanding");
+  assert.equal(query.get("filter"),"all");
+});
+
+test("旧服务无counts时并发精确total兼容，个别计数失败显示未知而非零", async () => {
+  for(const failed of [false,true]){
+    const value=fixture(), totals={all:95,mine:71,settling:51,pending_completion:15,blocked:0};
+    const base=reads(value);
+    const h=harness({fetcher:async(url,options)=>{
+      const query=new URL(url, "http://fixture").searchParams;
+      if(url.includes("/orders?")&&query.get("pageSize")==="1"){
+        const key=query.get("filter");
+        if(failed&&key==="mine")return response({message:"暂不可用"},503);
+        const total=totals[key];
+        return response({items:[],page:1,pageSize:1,total,totalPages:total});
+      }
+      const result=await base(url,options);
+      const body=await result.json();
+      if(url.includes("/orders?"))delete body.counts;
+      return response(body,result.status);
+    }});
+    await h.app.login("dispatcher","synthetic");
+    await flush();
+    assert.equal(h.app.getState().dataKind,"server");
+    assert.equal(h.node("#quickCountAll").textContent,"（95）");
+    assert.equal(h.node("#quickCountMine").textContent,failed?"（—）":"（71）");
+    assert.equal(h.node("#quickCountBlocked").textContent,"（0）");
+    assert.equal(h.calls.filter(call=>new URL(call.url, "http://fixture").searchParams.get("pageSize")==="1").length,5);
+  }
+});
+
+test("身份切换后迟到的旧服务Tab数量不能覆盖独立演示", async () => {
+  const value=fixture(), base=reads(value), pending=[];
+  const h=harness({fetcher:async(url,options)=>{
+    if(url.includes("/orders?")&&new URL(url, "http://fixture").searchParams.get("pageSize")==="1")
+      return new Promise(resolve=>pending.push(resolve));
+    const result=await base(url,options), body=await result.json();
+    if(url.includes("/orders?"))delete body.counts;
+    return response(body,result.status);
+  }});
+  await h.app.login("dispatcher","synthetic");
+  assert.equal(pending.length,5);
+  assert.equal(h.node("#quickCountMine").textContent,"（…）");
+  h.app.openDemo("customer");
+  const demoCount=h.node("#quickCountAll").textContent;
+  for(const resolve of pending)resolve(response({items:[],page:1,pageSize:1,total:999,totalPages:999}));
+  await flush();
+  assert.equal(h.app.getState().dataKind,"demo");
+  assert.equal(h.node("#quickCountAll").textContent,demoCount);
+  assert.doesNotMatch(h.node("#quickCountMine").textContent,/999/);
+});
+
+test("角色按钮只按实际actor标记aria-pressed，拒绝切换不假选中目标角色", async () => {
+  const h=await connected();
+  await h.click({view:"settings"});
+  assert.match(h.node("#settingsView").innerHTML,/<button class="role-button active" type="button" aria-pressed="true" data-role="admin">/);
+  h.context.fetch=async()=>response({message:"拒绝"},403);
+  await h.click({role:"finance"});
+  assert.notEqual(h.app.getState().actor.role,"finance");
+  assert.match(h.node("#settingsView").innerHTML,new RegExp('aria-pressed="true" data-role="'+h.app.getState().actor.role+'"'));
+  assert.match(h.node("#settingsView").innerHTML,/aria-pressed="false" data-role="finance"/);
+  assert.equal(h.node("#accountButton").onclick,undefined);
+});
 const flush = async () => {
   for (let i = 0; i < 4; i++) await new Promise(setImmediate);
 };
@@ -204,6 +322,7 @@ function reads(value = fixture(), override = {}) {
       return response({
         items: value.orders,
         ...value.orderPage,
+        counts: { all: value.orderPage.total, mine: 23, settling: value.metrics.settlingCount, pending_completion: value.metrics.readyCount, blocked: value.metrics.blockedCount },
         page: Number(query.get("page")),
         ...override,
       });
@@ -292,7 +411,7 @@ test("服务器分页查询重置页码，指标使用全部授权范围，工�
   const h = await connected();
   assert.equal(h.node("#navCount").textContent, 89);
   assert.equal(h.node("#taskCount").textContent, 135);
-  assert.equal(h.node("#blockedCount").textContent, 12);
+  assert.equal(h.node("#quickCountBlocked").textContent, "（12）");
   assert.equal(h.node("#orderCount").textContent, 95);
   assert.match(h.node("#metrics").innerHTML, /990,000\.00/);
   for (const selector of ["#orderPagination", "#tasksView", "#financeView"])
@@ -3389,5 +3508,202 @@ test("R4-C29: 仅未报价version0允许零月份占位，正式报价version正
     h.context.fetch = reads();
     await h.app.refresh();
     assert.equal(h.app.getState().dataKind, "server");
+  }
+});
+
+function inventoryPurchase(partId, files = []) {
+  return { id: "purchase-private", partId, supplier: "合成供应商", quantity: 3, received: 0, unitCents: 500, note: "合成采购说明", version: 1, files };
+}
+function purchaseBrowserFiles(h) {
+  const urls = [], revoked = [];
+  h.context.URL = class extends URL {
+    static createObjectURL() { const value = "blob:purchase-" + (urls.length + 1); urls.push(value); return value; }
+    static revokeObjectURL(value) { revoked.push(value); }
+  };
+  h.context.atob = value => Buffer.from(value, "base64").toString("binary");
+  h.context.FileReader = class {
+    readAsDataURL(file) { this.result = "data:" + file.type + ";base64," + Buffer.from("synthetic-file").toString("base64"); this.onload(); }
+  };
+  return { urls, revoked };
+}
+function purchaseAmounts(h) {
+  h.context.document.querySelectorAll = selector => selector === "#actionForm [data-integer]"
+    ? [{ name: "quantity", value: "3" }]
+    : selector === "#actionForm [data-cents]"
+      ? [{ name: "unitCents", value: "5.00", hasAttribute: () => true }]
+      : [];
+}
+
+test("IP-01: 库存按钮进入准确SKU与授权明细，错配关联记录被拒且不显示替代内容", async () => {
+  const h = await connected(), live = fixture(), part = live.parts[0];
+  await h.click({ view: "inventory" });
+  assert.match(h.node("#inventoryView").innerHTML, new RegExp('<button type="button" class="inventory-stat inventory-detail-trigger" data-part-detail="' + part.id + '"'));
+  const detail = { part, loans: live.loans.filter(loan => loan.partId === part.id), purchases: [] };
+  h.context.fetch = async () => response(detail);
+  await h.click({ partDetail: part.id });
+  assert.equal(h.node("#formDialog").open, true);
+  assert.match(h.node("#formContent").innerHTML, new RegExp(part.sku));
+  assert.match(h.node("#formContent").innerHTML, /关联借还|关联采购/);
+  h.node("#formDialog").close();
+  for (const bad of [
+    { ...detail, part: { ...part, id: "other-part" } },
+    { ...detail, purchases: [inventoryPurchase("other-part")] },
+    { ...detail, loans: [{ ...live.loans[0], partId: "other-part" }] },
+  ]) {
+    h.context.fetch = async () => response(bad);
+    await h.click({ partDetail: part.id });
+    assert.equal(h.node("#formDialog").open, false);
+    assert.match(h.node("#toast").textContent, /未显示替代明细/);
+    assert.equal(h.app.getState().dataKind, "server");
+  }
+});
+
+test("IP-02: 采购本地文件原子随表单提交，未知响应保留输入且同体重试复用请求键", async () => {
+  const h = await connected(), live = fixture(), part = live.parts[0];
+  purchaseBrowserFiles(h); purchaseAmounts(h);
+  const file = Object.assign(new Blob(["synthetic-file"], { type: "text/plain" }), { name: "采购.txt" });
+  const writes = []; let valid = false;
+  h.context.fetch = async (url, options) => {
+    if (url.endsWith("/purchases") && options.method === "POST") {
+      writes.push(options);
+      if (!valid) return response({});
+      live.purchases = [inventoryPurchase(part.id, [{ id: "file-text", name: file.name, mime: file.type, size: file.size }])];
+      return response(live.purchases[0]);
+    }
+    return reads(live)(url, options);
+  };
+  h.app.globalForm("purchase");
+  h.node("#purchaseFile").files = [file]; h.node("#purchaseFile").onchange();
+  const fields = { supplier: "合成供应商", partId: part.id, quantity: "3", unitCents: "5.00", note: "必须保留的说明", purchaseFile: file };
+  await h.submit("actionForm", fields);
+  assert.equal(h.node("#formDialog").open, true);
+  assert.match(h.node("#formError").textContent, /响应格式.*输入保留/);
+  assert.equal(h.node("#purchaseFile").files[0], file);
+  assert.equal(h.app.getState().dataKind, "server");
+  const sent = JSON.parse(writes[0].body);
+  assert.equal(sent.quantity, 3); assert.equal(sent.unitCents, 500);
+  assert.equal(sent.note, fields.note); assert.equal(Object.hasOwn(sent, "purchaseFile"), false);
+  assert.deepEqual(sent.attachments, [{ name: file.name, mime: file.type, dataBase64: Buffer.from("synthetic-file").toString("base64") }]);
+  valid = true; await h.submit("actionForm", fields);
+  assert.equal(h.node("#formDialog").open, false);
+  assert.equal(writes.length, 2);
+  assert.equal(writes[0].headers["Idempotency-Key"], writes[1].headers["Idempotency-Key"]);
+  assert.equal(writes[0].body, writes[1].body);
+  assert.equal(h.app.getState().data.purchases[0].files[0].id, "file-text");
+});
+
+test("IP-03: 主动粘贴图片可预览及按采购版本追加，无文件不提交且无关粘贴不拦截", async () => {
+  const h = await connected(), live = fixture(), purchase = inventoryPurchase(live.parts[0].id), browsers = purchaseBrowserFiles(h);
+  live.purchases = [purchase]; const writes = [];
+  h.context.fetch = async (url, options) => {
+    if (url.endsWith("/purchases/" + purchase.id)) return response(purchase);
+    if (url.endsWith("/purchases/" + purchase.id + "/attachments")) {
+      writes.push(JSON.parse(options.body));
+      live.purchases = [{ ...purchase, version: 2, files: [{ id: "file-image", name: "clipboard.png", mime: "image/png", size: 14 }] }];
+      return response(live.purchases[0]);
+    }
+    return reads(live)(url, options);
+  };
+  await h.click({ purchaseDetail: purchase.id });
+  await h.click({ purchaseAttach: purchase.id });
+  h.node("#purchaseFile").files = [];
+  await h.submit("actionForm", {});
+  assert.equal(writes.length, 0); assert.match(h.node("#formError").textContent, /请选择文件原件/);
+  let prevented = 0;
+  h.node("#actionForm").onpaste({ clipboardData: { items: [{ kind: "string" }] }, preventDefault() { prevented++; } });
+  assert.equal(prevented, 0);
+  const file = Object.assign(new Blob(["synthetic-file"], { type: "image/png" }), { name: "clipboard.png" });
+  h.node("#actionForm").onpaste({ clipboardData: { items: [{ kind: "file", getAsFile: () => file }] }, preventDefault() { prevented++; } });
+  assert.equal(prevented, 1); assert.match(h.node("#purchasePicked").innerHTML, /clipboard.png.*14 B/);
+  assert.match(h.node("#purchasePicked").innerHTML, /purchase-file-preview/);
+  await h.submit("actionForm", {});
+  assert.equal(writes.length, 1); assert.equal(writes[0].version, 1);
+  assert.equal(writes[0].name, file.name); assert.equal(writes[0].mime, file.type);
+  assert.equal(Object.hasOwn(writes[0], "attachments"), false);
+  assert.equal(h.app.getState().data.purchases[0].version, 2);
+  assert.deepEqual(browsers.revoked, browsers.urls);
+});
+
+test("IP-04: 附件元数据拒绝原件与执行类型，授权只读角色不出现上传操作", async () => {
+  const h = await connected(), live = fixture(), file = { id: "file-pdf", name: "合成.pdf", mime: "application/pdf", size: 5 }, purchase = inventoryPurchase(live.parts[0].id, [file]);
+  for (const bad of [ { ...file, dataBase64: "JVBERi0=" }, { ...file, demoData: "JVBERi0=" }, { ...file, mime: "image/svg+xml" }, { ...file, size: 8 * 1024 * 1024 + 1 } ]) {
+    h.context.fetch = async () => response({ ...purchase, files: [bad] });
+    await h.click({ purchaseDetail: purchase.id });
+    assert.equal(h.node("#formDialog").open, false);
+    assert.match(h.node("#toast").textContent, /未显示替代明细/);
+  }
+  live.actor = { ...live.actor, id: "finance", role: "finance" }; live.purchases = [purchase];
+  h.context.fetch = (url, options) => url.endsWith("/purchases/" + purchase.id) ? response(purchase) : reads(live)(url, options);
+  await h.app.login("finance", "synthetic"); await h.click({ purchaseDetail: purchase.id });
+  assert.match(h.node("#formContent").innerHTML, /file-pdf|合成.pdf/);
+  assert.doesNotMatch(h.node("#formContent").innerHTML, /data-purchase-attach|<iframe|<object|<embed/);
+});
+
+test("IP-05: 原件下载携带当前鉴权并核验类型大小，身份切换使迟到原件失效", async () => {
+  const h = await connected(), live = fixture(), file = { id: "file-pdf", name: "合成.pdf", mime: "application/pdf", size: 5 }, purchase = inventoryPurchase(live.parts[0].id, [file]), browsers = purchaseBrowserFiles(h);
+  let finish, mime = "text/html", delayed = false, downloads = 0;
+  h.context.document.createElement = () => ({ click() { downloads++; } });
+  h.context.fetch = async (url, options) => {
+    if (url.endsWith("/purchases/" + purchase.id)) return response(purchase);
+    if (url.endsWith("/attachments/" + file.id)) {
+      assert.equal(options.headers.Authorization, "Bearer synthetic-test-token");
+      const binary = { ok: true, status: 200, headers: { get: () => mime }, blob: async () => new Blob(["%PDF-"], { type: mime }) };
+      return delayed ? new Promise(resolve => { finish = () => resolve(binary); }) : binary;
+    }
+    return reads(live)(url, options);
+  };
+  await h.click({ purchaseDetail: purchase.id });
+  await h.click({ purchaseId: purchase.id, purchaseFile: file.id });
+  assert.equal(downloads, 0); assert.equal(browsers.urls.length, 0);
+  assert.match(h.node("#toast").textContent, /元数据不符/);
+  mime = file.mime;
+  await h.click({ purchaseId: purchase.id, purchaseFile: file.id });
+  assert.equal(downloads, 1);
+  delayed = true;
+  const pending = h.click({ purchaseId: purchase.id, purchaseFile: file.id }); await flush();
+  h.app.openDemo("customer"); finish(); await pending;
+  assert.equal(downloads, 1); assert.equal(h.app.getState().actor.role, "customer");
+  assert.equal(h.node("#formDialog").open, false);
+});
+
+test("IP-06: 采购附件读取未完成时换号不发送旧表单，超限与危险文件保留表单", async () => {
+  const h = await connected(); purchaseBrowserFiles(h); purchaseAmounts(h);
+  let completeRead;
+  h.context.FileReader = class { readAsDataURL() { completeRead = () => { this.result = "data:text/plain;base64,eA=="; this.onload(); }; } };
+  h.app.globalForm("purchase");
+  h.node("#purchaseFile").files = [{ name: "old.txt", type: "text/plain", size: 1 }];
+  const before = h.calls.filter(call => call.url.endsWith("/purchases")).length;
+  const pending = h.submit("actionForm", { supplier: "旧账户", partId: fixture().parts[0].id, quantity: "3", unitCents: "5.00" });
+  await flush(); h.app.openDemo("customer"); completeRead(); await pending;
+  assert.equal(h.calls.filter(call => call.url.endsWith("/purchases")).length, before);
+  for (const file of [{ name: "large.png", type: "image/png", size: 8 * 1024 * 1024 + 1 }, { name: "script.svg", type: "image/svg+xml", size: 10 }]) {
+    h.app.openDemo("admin"); h.app.globalForm("purchase"); h.node("#purchaseFile").files = [file]; h.node("#purchaseFile").onchange();
+    assert.equal(h.node("#formError").hidden, false);
+    assert.doesNotMatch(h.node("#purchasePicked").innerHTML, /<img/);
+    await h.submit("actionForm", { supplier: "合成供应商", partId: "demo-part-1", quantity: "3", unitCents: "5.00" });
+    assert.equal(h.node("#formDialog").open, true);
+    assert.equal(h.app.getState().data.purchases.length, 0);
+  }
+});
+
+test("IP-07: 关闭关联采购的原明细或另开表单后，迟到详情不复活弹窗及原件请求", async () => {
+  for (const replacement of [false, true]) {
+    const h = await connected(), live = fixture(), part = live.parts[0], file = { id: "late-image", name: "late.png", mime: "image/png", size: 5 }, purchase = inventoryPurchase(part.id, [file]);
+    let finish, originals = 0;
+    h.context.fetch = async (url, options) => {
+      if (url.endsWith("/parts/" + part.id)) return response({ part, loans: [], purchases: [purchase] });
+      if (url.endsWith("/purchases/" + purchase.id)) return new Promise(resolve => { finish = () => resolve(response(purchase)); });
+      if (url.includes("/attachments/")) { originals++; throw Error("关闭后不应开始读取原件"); }
+      return reads(live)(url, options);
+    };
+    await h.click({ partDetail: part.id });
+    const pending = h.click({ purchaseDetail: purchase.id }); await flush();
+    h.node("#formDialog").close();
+    if (replacement) h.app.globalForm("purchase");
+    const content = h.node("#formContent").innerHTML;
+    finish(); await pending;
+    assert.equal(h.node("#formDialog").open, replacement);
+    assert.equal(h.node("#formContent").innerHTML, content);
+    assert.equal(originals, 0);
   }
 });

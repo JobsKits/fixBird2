@@ -49,7 +49,7 @@
 /bin/bash './【Linux】部署维修工作台.sh/【Linux】部署维修工作台.sh'
 ```
 
-1、选择“本地部署＋内网穿透”：缺失或不兼容的Go、fzf、cloudflared按需从官方锁定来源准备到机器公共环境目录，先验证SHA256；健康已有工具复用，不升级已有系统工具。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；国内网络无法下载时会停止并给出日志，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](../../deploy-tools.lock.tsv)。
+1、选择“本地部署＋内网穿透”：模式确认后查询Go／fzf／本地模式cloudflared的官方最新稳定版；已有工具仅在实际版本不低于目标且功能健康时复用，否则按官方摘要校验下载到项目专属机器缓存，不覆盖系统或显式路径文件。构建成功且本次子进程通过本机health后才连接免费Cloudflare Quick Tunnel，无需注册账号、购买域名或云主机。Quick只为本次子进程使用会话内空配置{}并清除继承的TUNNEL_*，不会改动本人已有cloudflared配置或父进程环境。首次下载和Go依赖需要网络；临时网络故障持续退避重试，Ctrl+C可取消；来源、摘要或参数错误明确停止，不跳过校验。系统还需自带基础下载／解压／校验工具（Shell需要curl、tar与shasum或sha256sum）；不会自动执行sudo、brew、apt、dnf或全局安装。来源清单见[锁定文件](../../deploy-tools.lock.tsv)。
 
 2、本地模式的“外网访问方式”默认选择“浏览器访问（指定邮箱收验证码）”。部署者先填本人或受邀者的邮箱（多个用逗号分隔），也可由当前进程的 `WB_TUNNEL_ALLOWED_MAIL` 提供。访问者打开脚本显示的HTTPS公网链接，输入允许的邮箱，再收取并填写一次性验证码才能进入。邮箱只验证公网访问者身份，与维修业务无关；脚本不会在状态提示或日志中回显邮箱。原生App／普通API客户端无法完成浏览器验证码；联调时选择“公开演示／App联调（隧道不验证邮箱）”，再输入 `PUBLIC`。公开后任何取得链接的人都能到达服务入口，仅允许合成资料；固定演示身份不是私人认证，随机网址也不能充当密码，不接入真实客户数据。
 
@@ -80,7 +80,7 @@
 
 
 
-首次部署在 Runtime 的 `deploy-state/` 保存原程序及项目专属环境原件、指纹与进程身份；重复部署不覆盖首轮原点。已有健康共享工具继续复用，缺失工具、下载与Go缓存写入机器环境 `Projects/RepairWorkbench/<项目标识>/` 下的 `Tools/`、`Downloads/`、`GoCache/`，以便按归属完整撤回。配套[反部署入口](../Undeployment/README.md)恢复原件并处理数据；未记录原点的旧部署不会推测删除共享SDK。
+首次部署在 Runtime 的 `deploy-state/` 保存原程序及项目专属环境原件、指纹与进程身份；重复部署不覆盖首轮原点。已有共享工具仅在版本与功能达标时复用，新工具、下载与Go缓存写入机器环境 `Projects/RepairWorkbench/<项目标识>/` 下的 `Tools/`、`Downloads/`、`GoCache/`，以便按归属完整撤回。配套[反部署入口](../Undeployment/README.md)恢复原件并处理数据；未记录原点的旧部署不会推测删除共享SDK。
 
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 

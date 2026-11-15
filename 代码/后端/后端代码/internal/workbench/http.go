@@ -113,6 +113,8 @@ func (s *Service) Handler(webDir string) http.Handler {
 			fn(w, r, actor)
 		})
 	}
+	s.registerPersonalRoutes(protected)
+	s.registerInventoryRoutes(protected)
 	protected("GET /api/v38/session", func(w http.ResponseWriter, r *http.Request, actor Actor) { writeJSON(w, 200, actor) })
 	protected("POST /api/v38/logout", func(w http.ResponseWriter, r *http.Request, actor Actor) {
 		s.mu.Lock()
@@ -405,7 +407,7 @@ func (s *Service) bootstrapMetadata(actor Actor) map[string]any {
 	}
 	for _, p := range s.state.Purchases {
 		if actor.Role == "admin" || actor.Role == "warehouse" || actor.Role == "finance" || actor.Role == "dispatcher" || actor.Role == "supplier" && (p.Supplier == actor.ID || p.Supplier == actor.Name) {
-			purchases = append(purchases, p)
+			purchases = append(purchases, purchaseView(p))
 		}
 	}
 	return map[string]any{"actor": actor, "states": States, "parts": parts, "loans": loans, "purchases": purchases, "settings": s.state.Settings}

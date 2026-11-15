@@ -115,4 +115,9 @@
 "/测试/部署/二维码/README.md" filter=jobs-markdown-toc
 "/测试/部署/二维码/验证访问二维码.mjs/README.md" filter=jobs-markdown-toc
 "/部署/公共组件/README.md" filter=jobs-markdown-toc
+"/部署/公共组件/依赖版本/README.md" filter=jobs-markdown-toc
+"/测试/部署/依赖版本/README.md" filter=jobs-markdown-toc
+"/测试/部署/依赖更新/README.md" filter=jobs-markdown-toc
+"/测试/部署/依赖更新/验证依赖更新.mjs/README.md" filter=jobs-markdown-toc
+"/测试/部署/Windows/【Windows】验证依赖更新.ps1/README.md" filter=jobs-markdown-toc
 # jobs-markdown-toc:end

@@ -753,10 +753,21 @@ def main() -> int:
         env.setdefault(name, str(cache / leaf))
     env.update(GOTOOLCHAIN='local', GOTELEMETRY='off', GOPROXY='off', GOSUMDB='off')
     packages = args.package or ['./cmd/workbench', './internal/workbench']
+    # Go overlays compare path bytes; a case-insensitive filesystem does not canonicalize their keys.
+    module_result = subprocess.run([go, '-C', str(MODULE), 'env', 'GOMOD'], env=env, text=True, capture_output=True, check=True)
+    module_file = Path(module_result.stdout.strip())
+    if not module_file.is_file() or not module_file.samefile(MODULE / 'go.mod'):
+        raise RuntimeError('Go解析的module与当前工程不一致，拒绝执行测试。')
+    go_module = module_file.parent
+    mapping = {str(go_module / Path(virtual).relative_to(MODULE)): source for virtual, source in mapping.items()}
     with tempfile.TemporaryDirectory(prefix='RepairWorkbench-GoTests-') as temp:
         overlay = Path(temp) / 'Overlay.json'
         overlay.write_text(json.dumps({'Replace': mapping}, ensure_ascii=False), encoding='utf-8')
-        common = [go, '-C', str(MODULE)]
+        common = [go, '-C', str(go_module)]
+        discovery = subprocess.run(common + ['list', '-overlay', str(overlay), '-mod=readonly', '-f', '{{.ImportPath}} {{len .TestGoFiles}} {{len .XTestGoFiles}}'] + packages, env=env, text=True, capture_output=True, check=True)
+        discovered = discovery.stdout.splitlines()
+        if len(discovered) != len(packages) or any(sum(map(int, line.split()[-2:])) == 0 for line in discovered):
+            raise RuntimeError('所选包未发现外置测试，拒绝把无测试运行写成通过。')
         command = common + ['test', '-overlay', str(overlay), '-mod=readonly', '-count=1', '-timeout=10m']
         if args.race:
             command.append('-race')

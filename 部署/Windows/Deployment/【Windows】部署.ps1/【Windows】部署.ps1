@@ -366,6 +366,7 @@ $script:AppEnvironment = @{}
 $script:Backend = $null
 $script:Tunnel = $null
 $script:FzfExecutable = $null
+$script:DependencyResolver = $null
 $script:BrowserMenu = $null
 $script:BrowserMenuPaused = $false
 $script:BrowserItems = @()
@@ -491,14 +492,15 @@ function Write-DeployLog {
 function Confirm-Introduction {
     Write-Host '================ Windows维修工作台部署 ================' -ForegroundColor Red
     Write-Host '1、fzf选择：本地部署＋内网穿透 / 正常服务器部署。'
-    Write-Host '2、缺少健康fzf、Go或cloudflared时，按锁清单下载到机器公共环境缓存并校验SHA256。'
+    Write-Host '2、菜单以健康fzf/Go引导；选定模式后查询官方最新稳定工具，校验下载至本项目机器缓存。'
     Write-Host '3、只管理本次进程；Ctrl+C关闭本次后端和隧道，保留业务数据、密钥和备份。'
     Write-Host '4、服务器模式仍仅回环监听；当前固定账号是合成演示，不等于生产公网服务。'
     Write-Host '5、默认浏览器访问：打开公网链接→输入允许的邮箱→收取并填写验证码→进入。'
     Write-Host '   邮箱只验证公网访问者身份，与维修业务无关；原生App/API请选择公开演示，仅用合成数据并输入PUBLIC确认。'
-    Write-Host '6、不安装系统服务，不改系统PATH、网络代理或防火墙；下载失败即停止。'
+    Write-Host '6、旧版本不因健康而跳过；网络故障持续重试可取消，来源/摘要错误停止；不改系统PATH或全局工具。'
     Write-JobsEnterChoiceText '7、启动后fzf列出公网／本机地址，回车用默认浏览器打开；打开后继续选，服务保持运行。'
     Write-JobsEnterChoiceText '   网页菜单Esc仅收起，在原终端按回车再次显示；Ctrl+C停止本次服务。'
+    Write-Host '   业务Go库只检查并列出更新，升级需单独回归；源码依赖锁与客户端工具链保留。'
     Write-Host '========================================================'
     if ([Console]::IsInputRedirected -or [Console]::IsOutputRedirected) {
         throw '正常入口需要交互终端；自动检查请使用-Check或-Plan。'
@@ -901,7 +903,7 @@ function Get-LockedAsset {
     return $asset
 }
 # 下载至独立暂存文件，任何HTTP错误或超时均不采用部分产物。
-function Save-VerifiedDownload {
+function Save-VerifiedDownloadOnce {
     param([object]$Asset, [string]$Destination)
     Write-DeployLog ("来源｜" + $Asset.tool + ' windows/' + $Asset.arch + ' ' + $Asset.version)
     Write-DeployLog ("下载｜" + $Asset.url)
@@ -924,7 +926,7 @@ function Save-VerifiedDownload {
         $buffer = New-Object byte[] 65536
         $timer = [Diagnostics.Stopwatch]::StartNew()
         while (($read = $inputStream.Read($buffer, 0, $buffer.Length)) -gt 0) {
-            if ($timer.Elapsed.TotalSeconds -gt 180) { throw '下载超过180秒，已停止，不使用未完成文件。' }
+            if ($timer.Elapsed.TotalSeconds -gt 180) { throw (New-Object TimeoutException -ArgumentList '本次下载超过180秒，不使用未完成文件。') }
             $outputStream.Write($buffer, 0, $read)
         }
     } finally {
@@ -935,6 +937,37 @@ function Save-VerifiedDownload {
     }
     $actual = (Get-FileHash -LiteralPath $Destination -Algorithm SHA256).Hash
     if ($actual -ine $Asset.sha256) { throw '下载产物SHA256与锁清单不符，拒绝解压和执行。' }
+}
+# 网络故障持续退避；权限、来源、摘要或本机写入错误不重试。
+function Save-VerifiedDownload {
+    param([object]$Asset, [string]$Destination)
+    Assert-NoReparsePoint $Destination
+    if (Test-Path -LiteralPath $Destination) { throw '下载暂存目标已存在，拒绝覆盖。' }
+    $delay = 1
+    while ($true) {
+        try { Save-VerifiedDownloadOnce $Asset $Destination; return }
+        catch {
+            $retry = $false
+            $exception = $_.Exception
+            while ($exception) {
+                if ($exception -is [TimeoutException]) { $retry = $true }
+                if ($exception -is [Net.WebException]) {
+                    if ($exception.Status -in @([Net.WebExceptionStatus]::Timeout,[Net.WebExceptionStatus]::ConnectFailure,[Net.WebExceptionStatus]::NameResolutionFailure,[Net.WebExceptionStatus]::ReceiveFailure,[Net.WebExceptionStatus]::SendFailure,[Net.WebExceptionStatus]::ConnectionClosed,[Net.WebExceptionStatus]::KeepAliveFailure)) { $retry = $true }
+                    if ($exception.Response -is [Net.HttpWebResponse]) {
+                        $status = [int]$exception.Response.StatusCode
+                        if ($status -eq 408 -or $status -eq 429 -or $status -ge 500 -and $status -le 599 -or $status -eq 403 -and $exception.Response.Headers['X-RateLimit-Remaining'] -eq '0') { $retry = $true }
+                    }
+                }
+                if ($exception -is [Net.Sockets.SocketException] -and $exception.SocketErrorCode -in @([Net.Sockets.SocketError]::TimedOut,[Net.Sockets.SocketError]::ConnectionReset,[Net.Sockets.SocketError]::ConnectionAborted,[Net.Sockets.SocketError]::NetworkDown,[Net.Sockets.SocketError]::NetworkUnreachable)) { $retry = $true }
+                $exception = $exception.InnerException
+            }
+            if (-not $retry) { throw }
+            if (Test-Path -LiteralPath $Destination -PathType Leaf) { Assert-NoReparsePoint $Destination; Remove-Item -LiteralPath $Destination -Force }
+            Write-DeployLog ("官方归档暂未获取完成；${delay}秒后继续，Ctrl+C可取消。") 'WARN'
+            Start-Sleep -Seconds $delay
+            $delay = [Math]::Min(15, $delay * 2)
+        }
+    }
 }
 # 仅解压已验摘要的安全相对路径，拒绝绝对路径、父级跳转及链接。
 function Expand-VerifiedZip {
@@ -1038,7 +1071,7 @@ function Test-ToolHealth {
                 $helpPath = Join-Path $script:RunDirectory $helpName
                 if (-not (Test-Path -LiteralPath $helpPath -PathType Leaf)) { return $false }
                 $helpText = [IO.File]::ReadAllText($helpPath)
-                return $helpText.Contains('--allowed-mail') -and $helpText.Contains('--url') -and $helpText.Contains('--no-autoupdate') -and $helpText.Contains('--config')
+                return $helpText.Contains('--url') -and $helpText.Contains('--no-autoupdate') -and $helpText.Contains('--config') -and ($script:PublicDemo -or $helpText.Contains('--allowed-mail'))
             }
         }
     } catch { return $false }
@@ -1046,7 +1079,8 @@ function Test-ToolHealth {
 }
 # 优先复用显式配置与PATH健康工具，缺失后仅写工程内缓存。
 function Ensure-DeploymentTool {
-    param([object[]]$Rows, [string]$Tool)
+    param([object[]]$Rows, [string]$Tool, [object]$RequiredAsset = $null)
+    if ($RequiredAsset) { $asset = $RequiredAsset } else {
     $explicitName = switch ($Tool) { 'go' { 'GO_BIN' } 'fzf' { 'WB_FZF_BIN' } 'cloudflared' { 'WB_CLOUDFLARED_BIN' } }
     $explicit = [Environment]::GetEnvironmentVariable($explicitName)
     if ($explicit) {
@@ -1070,6 +1104,7 @@ function Ensure-DeploymentTool {
         }
     }
     $asset = Get-LockedAsset $Rows $Tool
+    }
     $toolDirectory = @{ go = 'Go'; fzf = 'Fzf'; cloudflared = 'Cloudflared' }[$Tool]
     $versionDirectory = $(if ($Tool -eq 'go') { 'go' + $asset.version } else { $asset.version })
     $sharedCache = Join-Path $script:EnvironmentRoot ($toolDirectory + '\' + $versionDirectory + '\Windows-' + $script:ToolArch)
@@ -1077,7 +1112,7 @@ function Ensure-DeploymentTool {
     Assert-NoReparsePoint $cache
     $relativeExe = if ($Tool -eq 'go') { 'go\bin\go.exe' } elseif ($Tool -eq 'fzf') { 'fzf.exe' } else { 'cloudflared.exe' }
     $sharedExecutable = Join-Path $sharedCache $relativeExe
-    if (Test-ToolHealth $sharedExecutable $Tool) { return $sharedExecutable }
+    if ((Test-ToolHealth $sharedExecutable $Tool) -and (-not $RequiredAsset -or (Test-DeploymentToolVersion $sharedExecutable $Tool $asset.version))) { return $sharedExecutable }
     $executable = Join-Path $cache $relativeExe
     $stamp = Join-Path $cache 'artifact.sha256'
     $binaryStamp = Join-Path $cache 'executable.sha256'
@@ -1085,7 +1120,7 @@ function Ensure-DeploymentTool {
         Assert-NoReparsePoint $executable
         $recorded = [IO.File]::ReadAllText($stamp).Trim()
         $recordedBinary = [IO.File]::ReadAllText($binaryStamp).Trim()
-        if ($recorded -ieq $asset.sha256 -and $recordedBinary -ieq (Get-FileHash -LiteralPath $executable -Algorithm SHA256).Hash -and (Test-ToolHealth $executable $Tool)) {
+        if ($recorded -ieq $asset.sha256 -and $recordedBinary -ieq (Get-FileHash -LiteralPath $executable -Algorithm SHA256).Hash -and (Test-ToolHealth $executable $Tool) -and (-not $RequiredAsset -or (Test-DeploymentToolVersion $executable $Tool $asset.version))) {
             Write-DeployLog ("复用已校验缓存｜" + $Tool + ' ' + $asset.version)
             return $executable
         }
@@ -1102,7 +1137,7 @@ function Ensure-DeploymentTool {
     elseif ($asset.kind -eq 'binary') { Copy-Item -LiteralPath $archive -Destination (Join-Path $staging $relativeExe) }
     else { throw 'Windows工具归档类型不受支持。' }
     $stagedExe = Join-Path $staging $relativeExe
-    if (-not (Test-ToolHealth $stagedExe $Tool)) { throw "下载校验成功但 $Tool 运行复检失败；停止下游操作。" }
+    if (-not (Test-ToolHealth $stagedExe $Tool) -or ($RequiredAsset -and -not (Test-DeploymentToolVersion $stagedExe $Tool $asset.version))) { throw "下载校验成功但 $Tool 运行复检失败；停止下游操作。" }
     [IO.File]::WriteAllText((Join-Path $staging 'artifact.sha256'), $asset.sha256)
     [IO.File]::WriteAllText((Join-Path $staging 'executable.sha256'), (Get-FileHash -LiteralPath $stagedExe -Algorithm SHA256).Hash)
     $null = New-Item -ItemType Directory -Force -Path ([IO.Path]::GetDirectoryName($cache))
@@ -1113,6 +1148,183 @@ function Ensure-DeploymentTool {
     Write-DeployLog ("工具就绪｜" + $Tool + ' ' + $asset.version + '，官方来源与SHA256校验通过。')
     return $executable
 }
+# 使用本次Job Object启动解析器/探针，输出只保留在本轮私有日志。
+function Invoke-DependencyCapture {
+    param([string]$File, [string[]]$Arguments, [hashtable]$Environment = @{}, [int]$TimeoutSeconds = 90, [int]$TimeoutCode = 75)
+    $name = 'dependency-' + [Guid]::NewGuid().ToString('N') + '.log'
+    $process = Start-OwnedProcess $File $Arguments $Environment $name
+    if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
+        $process.Kill()
+        $null = $process.WaitForExit(2000)
+        return [pscustomobject]@{ code = $TimeoutCode; text = '本次依赖查询/工具探针超时。' }
+    }
+    if (-not $script:Session.FlushOutput($process, 2000)) { throw '依赖查询日志无法完整封存。' }
+    return [pscustomobject]@{ code = $process.ExitCode; text = [IO.File]::ReadAllText((Join-Path $script:RunDirectory $name)).TrimEnd([char[]]"`r`n") }
+}
+# 原源码锁只读，查询与构建使用本轮普通文件副本。
+function New-ModuleManifestCopy {
+    param([string]$Source, [string]$Name)
+    $directory = Join-Path $script:RunDirectory ('module-manifests\' + $Name)
+    Assert-NoReparsePoint $directory
+    $null = New-Item -ItemType Directory -Force -Path $directory
+    $original = Join-Path $Source 'go.mod'
+    if (-not (Test-Path -LiteralPath $original -PathType Leaf)) { throw '缺少源模块go.mod。' }
+    Copy-Item -LiteralPath $original -Destination (Join-Path $directory 'module.mod') -Force
+    if (Test-Path -LiteralPath (Join-Path $Source 'go.sum') -PathType Leaf) { Copy-Item -LiteralPath (Join-Path $Source 'go.sum') -Destination (Join-Path $directory 'module.sum') -Force }
+    return (Join-Path $directory 'module.mod')
+}
+# 标准库解析器由引导Go构建；只读检查和计划不会进入此步骤。
+function Initialize-DependencyResolver {
+    param([string]$Go)
+    $source = Join-Path $script:ProjectRoot '部署\公共组件\依赖版本'
+    $modfile = New-ModuleManifestCopy $source 'resolver'
+    $script:DependencyResolver = Join-Path $script:RunDirectory 'dependency-versions.exe'
+    $environment = @{}
+    foreach ($key in $script:AppEnvironment.Keys) { $environment[$key] = $script:AppEnvironment[$key] }
+    $environment['GOWORK'] = 'off'
+    Write-DeployLog '准备本轮官方稳定版本解析器；不修改源码或全局工具。'
+    $process = Start-OwnedProcess $Go @('-C', $source, 'build', '-mod=readonly', ('-modfile=' + $modfile), '-o', $script:DependencyResolver, '.') $environment 'dependency-build.log'
+    Wait-OwnedBuild $process
+    if (-not (Test-Path -LiteralPath $script:DependencyResolver -PathType Leaf)) { throw '版本解析器未生成。' }
+}
+# 提取实际稳定版号，不把开发版或预发布版算作达标。
+function Get-DeploymentToolVersion {
+    param([string]$Path, [string]$Tool)
+    $flag = if ($Tool -eq 'go') { 'version' } else { '--version' }
+    $reply = Invoke-DependencyCapture $Path @($flag) (Get-ToolProbeEnvironment $Tool) 8
+    if ($reply.code -ne 0) { return '' }
+    $pattern = switch ($Tool) {
+        'go' { '^go version go(\d+\.\d+(?:\.\d+)?)(?:\s|$)' }
+        'fzf' { '^(\d+\.\d+(?:\.\d+)?)(?:\s|$)' }
+        'cloudflared' { '^cloudflared version (\d+\.\d+(?:\.\d+)?)(?:\s|$)' }
+    }
+    if ($reply.text -match $pattern) { return $Matches[1] }
+    return ''
+}
+# >=与旧版是正常比较结果，非法输入或解析器故障才停止。
+function Test-DependencyVersionAtLeast {
+    param([string]$Installed, [string]$Target)
+    $reply = Invoke-DependencyCapture $script:DependencyResolver @('--compare', $Installed, '--at-least', $Target)
+    if ($reply.code -eq 0 -and $reply.text -ceq '1') { return $true }
+    if ($reply.code -eq 1 -and $reply.text -ceq '0') { return $false }
+    throw '无法可靠比较工具版本，停止部署。'
+}
+# 功能和实际稳定版本都满足官方目标才复用候选工具。
+function Test-DeploymentToolVersion {
+    param([string]$Path, [string]$Tool, [string]$Target)
+    if (-not (Test-ToolHealth $Path $Tool)) { return $false }
+    $version = Get-DeploymentToolVersion $Path $Tool
+    return $version -and (Test-DependencyVersionAtLeast $version $Target)
+}
+# 每次正常部署查官方最新稳定发行版，仅75类网络故障持续退避。
+function Get-OfficialDependencyAsset {
+    param([string]$Tool)
+    $delay = 1
+    $arguments = @('--tool', $Tool, '--os', 'windows', '--arch', $script:ToolArch, '--locked-manifest', $script:ManifestPath)
+    if ($Tool -eq 'go') { $arguments += @('--minimum-go', '1.24.0') }
+    while ($true) {
+        $reply = Invoke-DependencyCapture $script:DependencyResolver $arguments
+        if ($reply.code -eq 0) { break }
+        if ($reply.code -ne 75) { throw ("官方$Tool 版本/摘要无法确认，停止部署。" + $reply.text) }
+        Write-DeployLog ("官方$Tool 查询暂未完成；${delay}秒后继续，Ctrl+C可取消。") 'WARN'
+        Start-Sleep -Seconds $delay
+        $delay = [Math]::Min(15, $delay * 2)
+    }
+    $fields = $reply.text.Split([char]9)
+    if ($fields.Length -ne 8 -or $reply.text.Contains("`n") -or $fields[0] -cne $Tool -or $fields[1] -cne 'windows' -or $fields[2] -cne $script:ToolArch -or $fields[3] -notmatch '^\d+\.\d+(?:\.\d+)?$') { throw '官方资产解析行无效或平台架构不匹配。' }
+    $asset = [pscustomobject]@{ tool=$fields[0]; os=$fields[1]; arch=$fields[2]; version=$fields[3]; filename=$fields[4]; sha256=$fields[5]; url=$fields[6]; kind=$fields[7] }
+    if ($asset.kind -eq 'unsupported') {
+        if ($asset.filename -cne '-' -or $asset.sha256 -cne '-' -or $asset.url -cne '-') { throw '不支持的平台资产返回格式异常。' }
+    } else {
+        $repo = if ($Tool -eq 'fzf') { 'junegunn/fzf' } else { 'cloudflare/cloudflared' }
+        $tag = if ($Tool -eq 'fzf') { 'v' + $asset.version } else { $asset.version }
+        $expected = if ($Tool -eq 'go') { 'https://go.dev/dl/' + $asset.filename } else { 'https://github.com/' + $repo + '/releases/download/' + $tag + '/' + $asset.filename }
+        if ($asset.url -cne $expected -or $asset.sha256 -notmatch '^[a-fA-F0-9]{64}$' -or $asset.filename -match '[/\\:]' -or $asset.kind -notin @('zip','binary')) { throw '官方资产来源、摘要或归档格式不匹配。' }
+    }
+    return $asset
+}
+# 从显式、PATH和全部版本缓存择新，不覆盖显式或系统工具。
+function Resolve-LatestDeploymentTool {
+    param([object[]]$Rows, [string]$Tool)
+    $asset = Get-OfficialDependencyAsset $Tool
+    $explicitName = switch ($Tool) { 'go' { 'GO_BIN' } 'fzf' { 'WB_FZF_BIN' } 'cloudflared' { 'WB_CLOUDFLARED_BIN' } }
+    $explicit = [Environment]::GetEnvironmentVariable($explicitName)
+    $command = Get-Command ($Tool + '.exe') -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    $initial = if ($explicit) { Resolve-ProjectPath $explicit } elseif ($command) { $command.Source } else { '' }
+    $current = if ($initial -and (Test-NativeExecutable $initial)) { Get-DeploymentToolVersion $initial $Tool } else { '' }
+    Write-DeployLog ("工具版本｜$Tool｜当前 " + $(if ($current) { $current } else { '未安装或不可识别' }) + '｜官方稳定目标 ' + $asset.version)
+    $selected = ''; $selectedVersion = ''
+    if ($explicit) {
+        if (-not (Test-DeploymentToolVersion $initial $Tool $asset.version)) { throw "显式$Tool 未达到官方稳定目标$($asset.version)或功能不兼容；请更新显式配置，原文件保留。" }
+        $selected = $initial
+    } else {
+        if ($asset.kind -eq 'unsupported') { throw "官方$Tool $($asset.version)未提供windows/$($script:ToolArch)成品；仅可显式指定匹配的原生新版工具。" }
+        $directory = @{ go='Go'; fzf='Fzf'; cloudflared='Cloudflared' }[$Tool]
+        $relative = if ($Tool -eq 'go') { 'go\bin\go.exe' } else { $Tool + '.exe' }
+        $candidates = @()
+        if ($command) { $candidates += $command.Source }
+        if ($Tool -eq 'fzf' -and $script:FzfExecutable) { $candidates += $script:FzfExecutable }
+        foreach ($base in @((Join-Path $script:EnvironmentRoot $directory), (Join-Path $script:ProjectCacheRoot ('Tools\' + $directory)))) {
+            if (Test-Path -LiteralPath $base -PathType Container) {
+                foreach ($versionRoot in @(Get-ChildItem -LiteralPath $base -Directory)) { $candidates += Join-Path $versionRoot.FullName ('Windows-' + $script:ToolArch + '\' + $relative) }
+            }
+        }
+        foreach ($candidate in $candidates) {
+            if (-not (Test-DeploymentToolVersion $candidate $Tool $asset.version)) { continue }
+            if ($candidate.StartsWith($script:ProjectCacheRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
+                $cacheRoot = if ($Tool -eq 'go') { [IO.Path]::GetDirectoryName([IO.Path]::GetDirectoryName([IO.Path]::GetDirectoryName($candidate))) } else { [IO.Path]::GetDirectoryName($candidate) }
+                $stamp = Join-Path $cacheRoot 'executable.sha256'
+                if (-not (Test-Path -LiteralPath $stamp -PathType Leaf) -or [IO.File]::ReadAllText($stamp).Trim() -ine (Get-FileHash -LiteralPath $candidate -Algorithm SHA256).Hash) { continue }
+            }
+            $version = Get-DeploymentToolVersion $candidate $Tool
+            if (-not $selected -or (Test-DependencyVersionAtLeast $version $selectedVersion)) { $selected=$candidate; $selectedVersion=$version }
+        }
+        if (-not $selected) { $selected = Ensure-DeploymentTool $Rows $Tool $asset }
+        if (-not (Test-DeploymentToolVersion $selected $Tool $asset.version)) { throw "$Tool 采用版本复检未达到官方目标。" }
+    }
+    $version = Get-DeploymentToolVersion $selected $Tool
+    Write-DeployLog ("采用工具｜$Tool $version｜$selected")
+    return $selected
+}
+# 业务库仅检查当前模块路径，超时或查询失败不伪称已是最新。
+function Test-BusinessModuleUpdates {
+    param([string]$Go)
+    $seconds = 30
+    if ($env:WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS) {
+        if ($env:WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS -notmatch '^\d+$') { throw 'WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS须为1..300秒。' }
+        $seconds = [int]$env:WB_DEPENDENCY_CHECK_TIMEOUT_SECONDS
+    }
+    if ($seconds -lt 1 -or $seconds -gt 300) { throw '业务依赖检查超时须为1..300秒。' }
+    foreach ($entry in @(@('backend','代码\后端\后端代码'), @('qr','部署\公共组件\地址二维码'))) {
+        $source = Join-Path $script:ProjectRoot $entry[1]
+        $modfile = New-ModuleManifestCopy $source ($entry[0] + '-check')
+        $environment = Get-ModuleBuildEnvironment $Go
+        Write-DeployLog ("业务依赖检查｜$($entry[0])｜最多${seconds}秒，仅检查当前模块路径；源码锁保持不变。")
+        $reply = Invoke-DependencyCapture $script:DependencyResolver @('--module-report','--go-bin',$Go,'--module-dir',$source,'--modfile',$modfile,'--timeout-seconds',([string]$seconds)) $environment ($seconds + 8) 3
+        if ($reply.code -eq 0) {
+            if ($reply.text) { Write-DeployLog ('业务库可更新｜' + $entry[0] + '｜需单独升级与回归：' + [Environment]::NewLine + $reply.text) 'WARN' }
+            else { Write-DeployLog ('业务依赖检查完成｜' + $entry[0] + '当前模块路径未报告更新；未检查换路径的新主版本。') }
+        } elseif ($reply.code -eq 3) { Write-DeployLog ('业务依赖检查未完成或超时｜' + $entry[0] + '｜按现有锁构建，不视为已确认最新。' + $reply.text) 'WARN' }
+        elseif ($reply.code -ge 128) { throw (New-Object OperationCanceledException -ArgumentList '已取消本次业务依赖检查。') }
+        else { throw ('业务依赖检查参数、路径或源码锁校验失败，停止核对。' + $reply.text) }
+    }
+}
+# 保留显式模块源含空值/off；用户Go配置存在时不擅自覆盖。
+function Get-ModuleBuildEnvironment {
+    param([string]$Go)
+    $environment = @{}
+    foreach ($key in $script:AppEnvironment.Keys) { $environment[$key] = $script:AppEnvironment[$key] }
+    $environment['GOWORK'] = 'off'
+    if (Test-Path Env:GOPROXY) { $environment['GOPROXY'] = $env:GOPROXY; return $environment }
+    $reply = Invoke-DependencyCapture $Go @('env','GOPROXY','GOENV') $environment 8
+    if ($reply.code -ne 0) { throw '无法读取Go模块下载源配置。' }
+    $values = $reply.text -split '\r?\n'
+    if ($values.Length -lt 2) { throw 'Go模块来源配置不完整。' }
+    $configured = $values[1] -ne 'off' -and (Test-Path -LiteralPath $values[1] -PathType Leaf) -and (Select-String -LiteralPath $values[1] -Pattern '^GOPROXY=' -Quiet)
+    if (-not $configured -and $values[0] -ceq 'https://proxy.golang.org,direct') { $environment['GOPROXY'] = 'https://goproxy.cn|https://proxy.golang.org|direct' }
+    return $environment
+}
+
 # 临时隔离fzf默认参数与编码，严格返回内部ID或取消。
 function Invoke-DeploymentMenu {
     param([string]$Fzf, [string[]]$Items, [string[]]$AllowedIds, [string]$Header, [switch]$CanGoBack)
@@ -1261,13 +1473,11 @@ function Wait-OwnedBuild {
 function Build-Workbench {
     param([string]$Go)
     $binary = Join-Path $script:RunDirectory 'workbench.exe'
-    $buildEnvironment = @{}
-    foreach ($key in $script:AppEnvironment.Keys) { $buildEnvironment[$key] = $script:AppEnvironment[$key] }
-    $buildEnvironment['GOPROXY'] = $(if ($env:GOPROXY) { $env:GOPROXY } else { 'https://goproxy.cn|https://proxy.golang.org|direct' })
-    Write-DeployLog '正在构建当前Go源码；依赖源仅本次子进程有效，不修改全局Go配置。'
-    Write-DeployLog ('Go模块来源｜' + $buildEnvironment['GOPROXY'])
+    $buildEnvironment = Get-ModuleBuildEnvironment $Go
+    Write-DeployLog '正在按源码依赖锁构建；模块源仅对子进程有效，不修改全局Go配置。'
     $source = Join-Path $script:ProjectRoot '代码\后端\后端代码'
-    $arguments = @('-C', $source, 'build', '-o', $binary, './cmd/workbench')
+    $modfile = New-ModuleManifestCopy $source 'backend-build'
+    $arguments = @('-C', $source, 'build', '-mod=readonly', ('-modfile=' + $modfile), '-o', $binary, './cmd/workbench')
     $process = Start-OwnedProcess $Go $arguments $buildEnvironment 'build.log'
     Wait-OwnedBuild $process
     if (-not (Test-Path -LiteralPath $binary -PathType Leaf)) { throw '构建退出成功但没有本次程序，停止。' }
@@ -1302,11 +1512,10 @@ function Build-AccessQr {
     try {
         $binary = Join-Path $script:RunDirectory 'qr-access.exe'
         $source = Join-Path $script:ProjectRoot '部署\公共组件\地址二维码'
-        $environment = @{}
-        foreach ($key in $script:AppEnvironment.Keys) { $environment[$key] = $script:AppEnvironment[$key] }
-        $environment['GOPROXY'] = $(if (Test-Path Env:GOPROXY) { $env:GOPROXY } else { 'https://goproxy.cn|https://proxy.golang.org|direct' })
+        $environment = Get-ModuleBuildEnvironment $Go
+        $modfile = New-ModuleManifestCopy $source 'qr-build'
         Write-DeployLog '二维码依赖来源｜github.com/skip2/go-qrcode；固定版本与校验见部署/公共组件/地址二维码/go.mod、go.sum。'
-        $process = Start-OwnedProcess $Go @('-C', $source, 'build', '-mod=readonly', '-o', $binary, '.') $environment 'qr-build.log'
+        $process = Start-OwnedProcess $Go @('-C', $source, 'build', '-mod=readonly', ('-modfile=' + $modfile), '-o', $binary, '.') $environment 'qr-build.log'
         Wait-OwnedBuild $process
         if (-not (Test-Path -LiteralPath $binary -PathType Leaf)) { throw '未生成二维码工具。' }
         $script:QrBinary = $binary
@@ -1496,10 +1705,14 @@ function Start-SelectedDeployment {
     Set-WorkbenchEnvironment
     Save-DeploymentConfiguration
     Assert-ListeningPortFree
-    $cloudflared = $null
-    if ($script:Selection -eq 'local') { $cloudflared = Ensure-DeploymentTool $Rows 'cloudflared' }
-    $go = Ensure-DeploymentTool $Rows 'go'
+    $bootstrapGo = Ensure-DeploymentTool $Rows 'go'
     Initialize-OwnedProcessSession
+    Initialize-DependencyResolver $bootstrapGo
+    $go = Resolve-LatestDeploymentTool $Rows 'go'
+    $script:FzfExecutable = Resolve-LatestDeploymentTool $Rows 'fzf'
+    $cloudflared = $null
+    if ($script:Selection -eq 'local') { $cloudflared = Resolve-LatestDeploymentTool $Rows 'cloudflared' }
+    Test-BusinessModuleUpdates $go
     $binary = Build-Workbench $go
     Build-AccessQr $go
     $script:Receipt.binary = $binary

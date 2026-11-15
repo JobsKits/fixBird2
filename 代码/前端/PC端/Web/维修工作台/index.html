@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="./styles.css" />
     <script defer src="./appearance.js"></script>
     <script defer src="./data.js"></script>
+    <script defer src="./personal.js"></script>
     <script defer src="./app.js"></script>
+    <script defer src="./navigation-sound.js"></script>
   <script defer src="./localization.js"></script></head>
   <body>
     <a class="skip-link" href="#mainContent">跳到主要内容</a>
@@ -19,7 +21,6 @@
           >啄木鸟<strong>维修协同平台</strong></span
         ></a
       >
-      <div class="workspace-caption">公司工作空间 <span>V3.8</span></div>
       <nav aria-label="工作空间导航">
         <button class="nav-item active" data-view="orders">
           <span class="nav-icon">▦</span>工单工作台<span
@@ -35,6 +36,7 @@
             >0</span
           >
         </button>
+        <button class="nav-item" data-view="worklogs"><span class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18M7 14h3m4 0h3M7 17h3"/></svg></span><span>工作日志</span></button>
         <button class="nav-item" data-view="finance">
           <span class="nav-icon">¥</span>现金与票据
         </button>
@@ -46,6 +48,10 @@
         </button>
       </nav>
       <div class="sidebar-bottom">
+        <button type="button" id="navigationSoundToggle" class="navigation-sound-toggle" aria-pressed="true" aria-label="关闭导航音效">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-muted" d="m16 9 5 6m0-6-5 6"/></svg>
+          <span data-ui-l10n>导航音效</span>
+        </button>
         <span class="live-dot"></span>本机业务框架<small
           >人工确认 · 全程留痕</small
         >
@@ -57,19 +63,13 @@
           工作空间 <span>/</span> <strong id="breadcrumb">工单工作台</strong>
         </div>
         <div class="topbar-actions">
-          <label class="theme-picker"><span>显示主题</span><select id="appearanceTheme" aria-label="显示主题"><option value="system">跟随系统</option><option value="light">白天</option><option value="dark">黑夜</option></select></label>
-          <span id="sourceBadge" class="source-badge">本地演示</span
-          ><button
-            class="icon-button"
-            id="refresh"
-            title="重新加载"
-            aria-label="重新加载"
-          >
-            ↻</button
-          ><button class="account-button" id="accountButton">
-            <span class="avatar">客</span><span id="accountLabel">演示角色</span
-            ><span>⌄</span>
-          </button>
+          <div class="appearance-controls">
+            <label class="theme-picker"><span>主题</span><select id="appearanceTheme" aria-label="显示主题"><option value="system">跟随系统</option><option value="light">白天</option><option value="dark">黑夜</option></select></label>
+          </div>
+          <span class="account-status" id="accountButton">
+            <span class="avatar" aria-hidden="true">客</span><span id="accountLabel" data-ui-l10n>演示角色</span
+            >
+          </span>
         </div>
       </header>
       <main id="mainContent" tabindex="-1">
@@ -104,14 +104,11 @@
               <button class="button quiet" id="exportOrders">↓ 导出清单</button>
             </div>
             <div class="segment-row" id="quickFilters">
-              <button data-quick="all" class="segment active">全部工单</button
-              ><button data-quick="mine" class="segment">我负责的</button
-              ><button data-quick="settling" class="segment">结算中</button
-              ><button data-quick="pending_completion" class="segment">
-                待完结确认</button
-              ><button data-quick="blocked" class="segment">
-                有未解决异议 <span id="blockedCount">0</span>
-              </button>
+              <button type="button" data-quick="all" class="segment active" aria-pressed="true"><span>全部工单</span><span id="quickCountAll" class="segment-count" data-no-translate>（…）</span></button>
+              <button type="button" data-quick="mine" class="segment" aria-pressed="false"><span>我负责的</span><span id="quickCountMine" class="segment-count" data-no-translate>（…）</span></button>
+              <button type="button" data-quick="settling" class="segment" aria-pressed="false"><span>结算中</span><span id="quickCountSettling" class="segment-count" data-no-translate>（…）</span></button>
+              <button type="button" data-quick="pending_completion" class="segment" aria-pressed="false"><span>待完结确认</span><span id="quickCountReady" class="segment-count" data-no-translate>（…）</span></button>
+              <button type="button" data-quick="blocked" class="segment" aria-pressed="false"><span>有未解决异议</span><span id="quickCountBlocked" class="segment-count" data-no-translate>（…）</span></button>
             </div>
             <form class="filters" id="filterForm">
               <label class="search-field"
@@ -198,6 +195,7 @@
           </div>
         </section>
         <section id="tasksView" class="view" hidden></section>
+        <section id="worklogsView" class="view" hidden></section>
         <section id="financeView" class="view" hidden></section>
         <section id="inventoryView" class="view" hidden></section>
         <section id="settingsView" class="view" hidden></section>
@@ -213,5 +211,6 @@
       <div id="formContent"></div>
     </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <section id="personalTips" class="personal-tips" role="log" aria-live="polite" aria-relevant="additions" aria-label="事件提醒"></section>
   </body>
 </html>

@@ -39,19 +39,29 @@
 | [index.html](../维修工作台/index.html) | 导航、工单筛选、全范围指标、弹窗与脚本加载顺序 | `ordersView`、`filterForm`、`metrics`、`detailDialog`、`formDialog` |
 | [styles.css](../维修工作台/styles.css) | 桌面／移动布局、表格、弹窗、空态与分页 | `.orders-table`、`.detail-dialog`、`.empty-state`、`.list-pagination` |
 | [appearance.js](../维修工作台/appearance.js) | 白天／黑夜／跟随系统入口、有效主题与本地偏好 | `apply`、`appearanceTheme` |
+| [navigation-sound.js](../维修工作台/navigation-sound.js) | 手势解锁后的导航木质合成音、节流及本地开关 | `createNavigationSound`、`woodBuffer`、`unlock`、`play`、`stop` |
 | [localization.js](../维修工作台/localization.js) | 十语展示切换、动态页面及表单提示翻译，不改业务值 | `translate`、`ensurePicker`、`apply`；维护源为 `共享组件/Resources/web-l10n.js` |
 | [app.js](../维修工作台/app.js) | IIFE 内集中管理身份、真实／合成数据与事件绑定 | `render`、`showView`、`login`、`openDemo`、`refresh`、`applySnapshotMetadata` |
 | `app.js` 请求与写入 | 同源地址、超时、嵌套校验、请求键与成功确认 | `normalizeBase`、`request`、`validateResponse`、`validSummary`、`validPart`、`validLoan`、`validPurchase`、`validOrderRecords`、`formKey`、`releaseFormKey` |
 | `app.js` 身份与快照 | 任一当前 401 撤销旧资料，以登录会话校验完整及迟到元数据，待加载配置禁止保存 | `revokeSession`、`enterFallback`、`clearSessionViews`、`emptyServerSnapshot`、`sameSessionActor`、`sessionActor`、`snapshotReady` |
-| `app.js` 列表与指标 | 服务器分页、全范围概览、工单页筛选作用域 | `orderQuery`、`loadOrders`、`pageInfo`、`pageOrders`、`pager`、`renderMetrics` |
+| `app.js` 列表与指标 | 服务器分页、概览卡跳转、工单页筛选及五类全量计数 | `orderQuery`、`loadOrders`、`pageInfo`、`pageOrders`、`pager`、`renderMetrics`、`tabCountQuery`、`prepareTabCounts`、`adoptTabCounts`、`renderOrderTabs` |
 | `app.js` 详情与表单 | 完整详情读取后办理；先款约定、签署历史只读展示、附件和全局库存操作 | `completeOrder`、`openDetail`、`showAction`、`modal`、`finishForm`、`showSignature`、`globalForm` |
 | `app.js` 设置与审计 | 账号授权变更、备份状态、管理员审计分页 | `settingsMetadata`、`accountStatusForm`、`loadAudit` |
 | [data.js](../维修工作台/data.js) | 独立合成样例、执行／完结边界、按数量借还与阶段派生，不缓存真实台账 | `seed`、`createOrder`、`apply`、`derive`、`loanBlockingQuantity`、`refreshOrder`、`cents`、`integer`、`addMonths`、`chinaDay` |
+| [personal.js](../维修工作台/personal.js) | 私有日历日志、图片／视频草稿、提醒编辑与单次到期提示 | `createController`、`validateResponse`、`loadMonth`、`loadDay`、`saveLog`、`previewMedia`、`saveReminder`、`pollReminders`、`retryUnknownReminder`、`reset` |
+| `personal.js` 日志历史 | 跨月份分页、打开详情与本人删除确认 | `renderLogHistory`、`loadLogHistory`、`openLogDelete`、`deleteLog` |
+| `personal.js` 提醒时间 | 临时时间选择、确认回填、取消与焦点恢复 | `openReminderTimePicker`、`renderReminderTimePicker`、`confirmReminderTimePicker`、`closeReminderTimePicker` |
 | [RepairLogo.png](../维修工作台/assets/RepairLogo.png) | 随包本地 Logo | `index.html` 中图标与品牌资源 |
 
 `dataKind` 区分真实服务和独立演示，`sessionActor` 固定当前真实认证身份；bootstrap 的身份必须匹配该会话，不能信任旧 `data.actor`。登录开始和成功确立新身份时均撤销旧界面与表单，`snapshotReady` 防止保存未加载的占位公司配置。`revokeSession` 在请求边界处理任一当前会话 401，导航序号不能吞掉撤销；非 401 网络回退保留可信会话以便自动重连，401 或主动独立演示撤销会话。
 
 `epoch` 拦截身份／连接／回退变化后的旧结果，列表使用 `listRevision`，详情使用 `detailRequests`；`formRevision` 保护当前表单实例，`actionIntent` 取消迟到办理意图，`refreshJob` 协调连续成功保存与导航期间的最新刷新。导航的工单页先到时，迟到 bootstrap 只补当前身份的概览等元数据，同会话概览失败仍完整回退演示；等待时显示待加载。嵌套校验先于缓存提交，兼容真实未报价版本 0；`modal` 不清除无关未知写入意图键。修改异步交互先查这些边界，再看视图函数。`isSummary=true` 的列表项不能当完整工单打开办理表单。
+
+`renderMetrics` 使用原生按钮；点击时清除旧筛选，进行中设置 `status=active`，结算与完结确认选择对应 `quick`，客户待收款进入 `financeReceivables` 范围。`renderOrderTabs` 只显示独立合成台账计算或服务端全量 `counts`；旧服务缺少 `counts` 时，`adoptTabCounts` 以每页一条的五个请求读取精确 `total`，并用 `epoch`、`tabCountRevision` 与公共筛选作用域拦截迟到结果。加载及失败不补造零，列表分页不会覆盖全量数量；当前角色按钮的 `aria-pressed` 始终由实际 `actor.role` 决定。
+
+`personalContext` 以可信 `sessionActor` 和会话判断个人模块真实身份，不把业务网络回退后的合成 `actor` 作为真实日志归属。`clearSessionViews` 在身份变化时调用个人模块 `reset`，非401网络回退可保留同一真实账号内存草稿；`request` 通过个人模块校验器严格检查新接口的归属、日期、版本与字段。`render`／`showView` 只提供上下文和导航桥接，个人正文、媒体与提醒不进入工单 bootstrap 或合成台账。
+
+个人模块以账户代次、独立月／日序号及提醒读写版本隔离迟到结果；已确认日志拒绝低版本覆盖，日志写入冻结原始归属和时区。提醒编辑使用表单实例保护，删除墓碑和认领序号防止迟到响应复活记录；未知创建保留原意图，核对后才允许显式重试。所有 Blob、草稿及 tips 由 `reset`／`destroy` 回收；语言事件只更新日历、展示时间与提示，不翻译正文或重建正在输入的文本框。
 
 ### 2.1、<span id="pending-web-issue-locators">当前 P2 与相关守卫定位</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -84,6 +94,8 @@
 | [app.test.cjs](../../../../../测试/前端/PC端/Web/app.test.cjs) | 加载本端真实 app.js，检查身份、当前401、概览恢复、迟到回包、嵌套坏响应、未知写与表单生命周期。 |
 | [data.test.cjs](../../../../../测试/前端/PC端/Web/data.test.cjs) | 独立合成台账的金额、质保、库存与权限计算。 |
 | [data-boundaries.test.cjs](../../../../../测试/前端/PC端/Web/data-boundaries.test.cjs) | 演示异议、报价、重开返修、借还数量、先款与冻结销售报价边界。 |
+| [personal.test.cjs](../../../../../测试/前端/PC端/Web/personal.test.cjs) | 私有草稿与 Blob、日历／读写交错、原文与媒体、管理员只读、未知保存、到期认领、多标签与非抢焦点提示。 |
+| [navigation-sound.test.cjs](../../../../../测试/前端/PC端/Web/navigation-sound.test.cjs) | 手势门槛、四次合成敲击、节流与停止、开关偏好、窄屏及音频不可用边界。 |
 
 管理后台是独立工程，入口见 [Web 管理端地图](../../../后台管理端/Web/代码地图/README.md)。本图只定位本工作台；接口约定见 [工作台接口约定](../../../../后端/README.md#api-contract)。
 
