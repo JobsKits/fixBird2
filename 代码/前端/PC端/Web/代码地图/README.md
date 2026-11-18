@@ -37,7 +37,7 @@
 | 文件 | 职责 | 关键符号／区域 |
 | --- | --- | --- |
 | [index.html](../维修工作台/index.html) | 导航、工单筛选、全范围指标、弹窗与脚本加载顺序 | `ordersView`、`filterForm`、`metrics`、`detailDialog`、`formDialog` |
-| [styles.css](../维修工作台/styles.css) | 桌面／移动布局、表格、弹窗、空态与分页 | `.orders-table`、`.detail-dialog`、`.empty-state`、`.list-pagination` |
+| [styles.css](../维修工作台/styles.css) | 桌面侧栏／手机顶部横向导航、卡片表格、弹窗、安全区、空态与分页 | `.sidebar nav`、`.orders-table`、`.detail-dialog`、`.form-field`、`.empty-state`、`.list-pagination`；手机输入字号16px |
 | [appearance.js](../维修工作台/appearance.js) | 白天／黑夜／跟随系统入口、有效主题与本地偏好 | `apply`、`appearanceTheme` |
 | [navigation-sound.js](../维修工作台/navigation-sound.js) | 手势解锁后的导航木质合成音、节流及本地开关 | `createNavigationSound`、`woodBuffer`、`unlock`、`play`、`stop` |
 | [localization.js](../维修工作台/localization.js) | 十语展示切换、动态页面及表单提示翻译，不改业务值 | `translate`、`ensurePicker`、`apply`；维护源为 `共享组件/Resources/web-l10n.js` |

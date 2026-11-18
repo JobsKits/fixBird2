@@ -1,0 +1,2835 @@
+{
+  "admin" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-admin",
+      "name" : "合成演示 · admin",
+      "role" : "admin",
+      "status" : "active",
+      "username" : "admin"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "resolve_issue",
+          "intake"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "resolve_issue",
+          "quote"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "resolve_issue",
+          "start"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+      {
+        "available" : 8,
+        "id" : "ios-demo-part",
+        "name" : "合成控制主板",
+        "quarantine" : 1,
+        "sku" : "DEMO-PCB"
+      }
+    ]
+  },
+  "customer" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-customer",
+      "name" : "合成演示 · customer",
+      "role" : "customer",
+      "status" : "active",
+      "username" : "customer"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+
+    ]
+  },
+  "dispatcher" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-dispatcher",
+      "name" : "合成演示 · dispatcher",
+      "role" : "dispatcher",
+      "status" : "active",
+      "username" : "dispatcher"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "resolve_issue",
+          "intake"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "resolve_issue",
+          "quote"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "resolve_issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+      {
+        "available" : 8,
+        "id" : "ios-demo-part",
+        "name" : "合成控制主板",
+        "quarantine" : 1,
+        "sku" : "DEMO-PCB"
+      }
+    ]
+  },
+  "engineer" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-engineer",
+      "name" : "合成演示 · engineer",
+      "role" : "engineer",
+      "status" : "active",
+      "username" : "engineer"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "quote"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue",
+          "start"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+      {
+        "available" : 8,
+        "id" : "ios-demo-part",
+        "name" : "合成控制主板",
+        "quarantine" : 1,
+        "sku" : "DEMO-PCB"
+      }
+    ]
+  },
+  "finance" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-finance",
+      "name" : "合成演示 · finance",
+      "role" : "finance",
+      "status" : "active",
+      "username" : "finance"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+      {
+        "available" : 8,
+        "id" : "ios-demo-part",
+        "name" : "合成控制主板",
+        "quarantine" : 1,
+        "sku" : "DEMO-PCB"
+      }
+    ]
+  },
+  "outsource" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-outsource",
+      "name" : "合成演示 · outsource",
+      "role" : "outsource",
+      "status" : "active",
+      "username" : "outsource"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-outsource",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "issue",
+          "quote"
+        ],
+        "assigneeId" : "ios-demo-outsource",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "issue",
+          "start"
+        ],
+        "assigneeId" : "ios-demo-outsource",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+
+    ]
+  },
+  "qc" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-qc",
+      "name" : "合成演示 · qc",
+      "role" : "qc",
+      "status" : "active",
+      "username" : "qc"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+      {
+        "available" : 8,
+        "id" : "ios-demo-part",
+        "name" : "合成控制主板",
+        "quarantine" : 1,
+        "sku" : "DEMO-PCB"
+      }
+    ]
+  },
+  "supplier" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-supplier",
+      "name" : "合成演示 · supplier",
+      "role" : "supplier",
+      "status" : "active",
+      "username" : "supplier"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+
+    ],
+    "parts" : [
+
+    ]
+  },
+  "warehouse" : {
+    "actor" : {
+      "authVersion" : 1,
+      "companyId" : "ios-demo-company-a",
+      "id" : "ios-demo-warehouse",
+      "name" : "合成演示 · warehouse",
+      "role" : "warehouse",
+      "status" : "active",
+      "username" : "warehouse"
+    },
+    "loans" : [
+
+    ],
+    "orders" : [
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "变频水泵控制柜",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-intake",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--intake",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 0,
+          "approved" : false,
+          "autoAccept" : false,
+          "description" : "",
+          "paymentTerms" : "",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "",
+          "version" : 0,
+          "warrantyMonths" : 0
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 0,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_intake",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 0,
+          "remainingCents" : 0,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "工业控制主板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-confirm",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO-confirm",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 128000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : false,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 128000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_customer_confirmation",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 128000,
+          "remainingCents" : 128000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      },
+      {
+        "allowedActions" : [
+          "remark",
+          "issue"
+        ],
+        "assigneeId" : "ios-demo-engineer",
+        "cash" : [
+
+        ],
+        "commissions" : [
+
+        ],
+        "companyId" : "ios-demo-company-a",
+        "completionChecks" : [
+
+        ],
+        "costs" : [
+
+        ],
+        "createdAt" : "2026-11-18T03:31:28Z",
+        "customer" : "海棠物业（独立合成）",
+        "customerId" : "ios-demo-customer",
+        "customerNote" : "合成资料，不得提交真实附件",
+        "description" : "仅用于本地演示，不代表真实履约",
+        "device" : "门禁控制板",
+        "documents" : {
+          "files" : [
+
+          ],
+          "prepared" : false,
+          "reason" : "",
+          "recipient" : "",
+          "requirement" : "unknown",
+          "sent" : false,
+          "version" : 1
+        },
+        "events" : [
+
+        ],
+        "evidence" : [
+
+        ],
+        "id" : "ios-demo-repair",
+        "invoiceDueCents" : 0,
+        "invoiceReason" : "",
+        "invoiceRequirement" : "unknown",
+        "invoices" : [
+
+        ],
+        "issues" : [
+
+        ],
+        "number" : "DEMO--repair",
+        "obligations" : [
+
+        ],
+        "originalOrderId" : "",
+        "outcome" : "",
+        "outsource" : [
+
+        ],
+        "ownerId" : "ios-demo-dispatcher",
+        "project" : "合成演示项目",
+        "quote" : {
+          "amountCents" : 50000,
+          "approved" : true,
+          "autoAccept" : false,
+          "description" : "合成维修及测试范围",
+          "paymentTerms" : "credit",
+          "prepayCents" : 0,
+          "signed" : true,
+          "startRequiresPrepayment" : false,
+          "validUntil" : "2099-12-31T15:59:59Z",
+          "version" : 1,
+          "warrantyMonths" : 3
+        },
+        "quoteHistory" : [
+
+        ],
+        "receivableCents" : 50000,
+        "remark" : "合成内部交接",
+        "restartReview" : false,
+        "status" : "pending_execution",
+        "summary" : {
+          "collectedCents" : 0,
+          "documentStatus" : "待确认需求",
+          "invoiceCents" : 0,
+          "invoiceStatus" : "待确认需求",
+          "missing" : [
+
+          ],
+          "nextTask" : "合成办理",
+          "overpaidCents" : 0,
+          "pendingCashCents" : 0,
+          "receivableCents" : 50000,
+          "remainingCents" : 50000,
+          "warrantyLabel" : "未起保"
+        },
+        "type" : "mail",
+        "updatedAt" : "2026-11-18T03:31:28Z",
+        "version" : 1,
+        "visits" : [
+
+        ],
+        "warranty" : {
+          "endsAt" : "",
+          "startsAt" : ""
+        }
+      }
+    ],
+    "parts" : [
+      {
+        "available" : 8,
+        "id" : "ios-demo-part",
+        "name" : "合成控制主板",
+        "quarantine" : 1,
+        "sku" : "DEMO-PCB"
+      }
+    ]
+  }
+}

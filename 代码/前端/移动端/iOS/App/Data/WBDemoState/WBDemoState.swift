@@ -51,7 +51,8 @@ final class WBDemoState {
                     outstanding: 1,
                     borrowerId: "ios-demo-engineer",
                     dueAt: "2099-12-31T15:59:59Z",
-                    transfers: []
+                    transfers: [],
+                    createdAt: WBFoundation.now()
                 )
             ]
             if !["admin", "warehouse", "dispatcher", "engineer"].contains(safeRole) {
@@ -106,6 +107,13 @@ final class WBDemoState {
         ] {
             raw[key] = [Any]()
         }
+        #if os(macOS)
+        // Only the three bundled desktop examples receive synthetic device originals.
+        raw["evidence"] = WBDemoMediaSeed.evidence(orderID: id,
+                                                   actorID: actor.id,
+                                                   stage: status,
+                                                   createdAt: raw["createdAt"] as? String ?? "")
+        #endif
         raw["quote"] = [
             "version": price > 0 ? 1 : 0, "amountCents": price, "description": price > 0 ? "合成维修及测试范围" : "",
             "warrantyMonths": price > 0 ? 3 : 0, "paymentTerms": price > 0 ? "credit" : "", "prepayCents": 0,
@@ -146,6 +154,61 @@ final class WBDemoState {
         result.raw["type"] = .string(input.type)
         result.raw["description"] = .string(input.description)
         result.raw["project"] = .string(input.project)
+        if actor.role != "customer", !input.customerId.isEmpty, !input.companyId.isEmpty {
+            result.raw["customerId"] = .string(input.customerId)
+            result.raw["companyId"] = .string(input.companyId)
+        }
+        guard input.files.count <= 8 else {
+            throw WBError.unavailable("新建工单最多8个设备附件，合计32MiB")
+        }
+        var total = 0
+        var evidence: [WBJSON] = []
+        for file in input.localMedia {
+            guard let name = file["name"] as? String, !name.isEmpty,
+                  let mime = file["mime"] as? String,
+                  ["image/png", "image/jpeg", "image/gif", "image/webp", "video/mp4", "video/quicktime", "video/webm"].contains(mime),
+                  let reference = file["localFileReference"] as? String, !reference.isEmpty,
+                  let size = file["size"] as? NSNumber, size.int64Value > 0,
+                  let digest = file["sha256"] as? String, digest.count == 64 else {
+                throw WBError.unavailable("请选择有效设备图片或视频原件")
+            }
+            evidence.append(try WBFoundation.json([
+                "id": "ios-demo-file-" + UUID().uuidString, "name": name,
+                "kind": mime.hasPrefix("video/") ? "video" : "image", "text": "", "mime": mime,
+                "localFileReference": reference, "size": size, "sha256": digest,
+                "uploaderId": actor.id, "createdAt": WBFoundation.now(), "deleted": false,
+                "stage": "pending_intake", "public": true,
+            ]))
+        }
+        for file in input.files {
+            guard let name = file["name"] as? String, !name.isEmpty,
+                let mime = file["mime"] as? String,
+                let encoded = file["dataBase64"] as? String,
+                let data = Data(base64Encoded: encoded), !data.isEmpty,
+                ["image/png", "image/jpeg", "image/gif", "image/webp", "video/mp4", "video/quicktime", "video/webm"].contains(mime),
+                data.count <= (mime.hasPrefix("video/") ? 16 : 8) * 1024 * 1024
+            else {
+                throw WBError.unavailable("请选择有效设备图片或视频原件")
+            }
+            total += data.count
+            guard total <= 32 * 1024 * 1024 else {
+                throw WBError.unavailable("新建工单设备附件合计最多32MiB")
+            }
+            evidence.append(try WBFoundation.json([
+                "id": "ios-demo-file-" + UUID().uuidString,
+                "name": name,
+                "kind": mime.hasPrefix("video/") ? "video" : "image",
+                "text": "",
+                "mime": mime,
+                "data": encoded,
+                "uploaderId": actor.id,
+                "createdAt": WBFoundation.now(),
+                "deleted": false,
+                "stage": "pending_intake",
+                "public": true,
+            ]))
+        }
+        result.raw["evidence"] = .array(evidence)
         if !input.customer.isEmpty {
             result.raw["customer"] = .string(input.customer + "（合成）")
         }

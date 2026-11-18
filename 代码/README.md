@@ -46,7 +46,9 @@
 
 - [PC Web 代码地图](./前端/PC端/Web/代码地图/README.md)
 - [移动 Flutter 代码地图](./前端/移动端/Flutter/代码地图/README.md)
-- [iOS 代码地图](./前端/移动端/iOS/代码地图/README.md)
+- [iOS 工程与代码地图](./前端/移动端/iOS/README.md#ios-map)
+- [MacOS 原生桌面](./前端/PC端/MacOS/README.md)
+- [WindowsOS 原生桌面](./前端/PC端/WindowsOS/README.md)
 - [Android 代码地图](./前端/移动端/Android/代码地图/README.md)
 - [鸿蒙 代码地图](./前端/移动端/鸿蒙/代码地图/README.md)
 - [微信小程序 代码地图](./前端/微信小程序/代码地图/README.md)

@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "orders": {
+    "ios-demo-intake": [
+      {
+        "resource": "DeviceIntake.png",
+        "name": "电路板外观（演示参考）.png",
+        "mime": "image/png",
+        "size": 1503838,
+        "sha256": "7e95b06cb45402480c7e7fce87fddc4081d0f0af3d073779d5a7d711f5f6eb14"
+      },
+      {
+        "resource": "DeviceBoard.png",
+        "name": "主板元件（演示参考）.png",
+        "mime": "image/png",
+        "size": 1569393,
+        "sha256": "32723859c6fa43247cb605dbdde4095259ab622c4054a0122bef2ef617139fb0"
+      }
+    ],
+    "ios-demo-confirm": [
+      {
+        "resource": "DeviceBoard.png",
+        "name": "主板元件（演示参考）.png",
+        "mime": "image/png",
+        "size": 1569393,
+        "sha256": "32723859c6fa43247cb605dbdde4095259ab622c4054a0122bef2ef617139fb0"
+      },
+      {
+        "resource": "DeviceInspection.mp4",
+        "name": "焊接过程（演示参考）.mp4",
+        "mime": "video/mp4",
+        "size": 1940235,
+        "sha256": "fd6165ad6c0580649c6b7290ab69bc070c2cad62718d3b0bead1516228cf83a8",
+        "posterResource": "DeviceRepair.png",
+        "durationSeconds": 13.8
+      }
+    ],
+    "ios-demo-repair": [
+      {
+        "resource": "DeviceRepair.png",
+        "name": "焊接细节（演示参考）.png",
+        "mime": "image/png",
+        "size": 297794,
+        "sha256": "ad0fc4233030966a59baeee5b1d62324e3e509ac305b6377835b8d068dccad6c"
+      },
+      {
+        "resource": "DeviceInspection.mp4",
+        "name": "焊接过程（演示参考）.mp4",
+        "mime": "video/mp4",
+        "size": 1940235,
+        "sha256": "fd6165ad6c0580649c6b7290ab69bc070c2cad62718d3b0bead1516228cf83a8",
+        "posterResource": "DeviceRepair.png",
+        "durationSeconds": 13.8
+      }
+    ]
+  },
+  "credits": [
+    {
+      "resources": [
+        "DeviceIntake.png"
+      ],
+      "title": "Printed circuit board.jpg",
+      "author": "Cjp24",
+      "source": "https://commons.wikimedia.org/wiki/File:Printed_circuit_board.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Printed_circuit_board.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseURL": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "changes": "Resized to 1280px and converted JPEG to PNG; derivative licensed CC BY-SA 3.0."
+    },
+    {
+      "resources": [
+        "DeviceBoard.png"
+      ],
+      "title": "Fluke 79 Series II Multimeter circuit board 2.jpg",
+      "author": "Alex P. Kok",
+      "source": "https://commons.wikimedia.org/wiki/File:Fluke_79_Series_II_Multimeter_circuit_board_2.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/08/Fluke_79_Series_II_Multimeter_circuit_board_2.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "changes": "Resized to 1280px and converted JPEG to PNG; derivative licensed CC BY-SA 4.0."
+    },
+    {
+      "resources": [
+        "DeviceRepair.png",
+        "DeviceInspection.mp4"
+      ],
+      "title": "Circuit Soldering.gif",
+      "author": "Glosome",
+      "source": "https://commons.wikimedia.org/wiki/File:Circuit_Soldering.gif",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Circuit_Soldering.gif",
+      "license": "CC BY-SA 4.0",
+      "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "changes": "Transcoded the original 138-frame soldering animation to H.264 MP4; extracted frame at 4 seconds. Derivatives licensed CC BY-SA 4.0."
+    }
+  ],
+  "notice": "Only illustrative demo attachments. These are not photographs or recordings of the demo customer or demo devices."
+}

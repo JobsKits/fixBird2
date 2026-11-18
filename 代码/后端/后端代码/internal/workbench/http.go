@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -24,7 +25,15 @@ func decodeStrict(raw []byte, value any) error {
 	return nil
 }
 func readBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
-	r.Body = http.MaxBytesReader(w, r.Body, 12*1024*1024)
+	if r.Method == "POST" && r.URL.Path == "/api/v38/orders" {
+		clearMediaDeadlines(w, r)
+		return io.ReadAll(r.Body)
+	}
+	limit := int64(12 * 1024 * 1024)
+	if r.URL.Path == "/api/v38/loans" || strings.HasPrefix(r.URL.Path, "/api/v38/loans/") || r.Method == "POST" && r.URL.Path == "/api/v38/orders" {
+		limit = 45 * 1024 * 1024
+	}
+	r.Body = http.MaxBytesReader(w, r.Body, limit)
 	value, err := io.ReadAll(r.Body)
 	if err != nil {
 		return nil, fail(413, "body_too_large", "请求体超过允许大小")
@@ -56,6 +65,7 @@ func bearer(r *http.Request) string {
 
 func (s *Service) Handler(webDir string) http.Handler {
 	mux := http.NewServeMux()
+	s.registerPublicAuth(mux)
 	mux.HandleFunc("GET /api/v38/healthz", func(w http.ResponseWriter, r *http.Request) {
 		s.mu.Lock()
 		demo := s.state.Settings.Demo
@@ -115,6 +125,9 @@ func (s *Service) Handler(webDir string) http.Handler {
 	}
 	s.registerPersonalRoutes(protected)
 	s.registerInventoryRoutes(protected)
+	s.registerLoanFileRoutes(protected)
+	s.registerCustomerDirectoryRoutes(protected)
+	s.registerOrderUploadRoutes(protected)
 	protected("GET /api/v38/session", func(w http.ResponseWriter, r *http.Request, actor Actor) { writeJSON(w, 200, actor) })
 	protected("POST /api/v38/logout", func(w http.ResponseWriter, r *http.Request, actor Actor) {
 		s.mu.Lock()
@@ -402,7 +415,7 @@ func (s *Service) bootstrapMetadata(actor Actor) map[string]any {
 	}
 	for _, l := range s.state.Loans {
 		if actor.Role == "admin" || actor.Role == "warehouse" || actor.Role == "dispatcher" || actor.Role == "engineer" && l.BorrowerID == actor.ID {
-			loans = append(loans, l)
+			loans = append(loans, loanView(l))
 		}
 	}
 	for _, p := range s.state.Purchases {
@@ -468,59 +481,74 @@ func matchesFilter(o Order, a Actor, filter string) bool {
 }
 func (s *Service) downloadEvidence(w http.ResponseWriter, r *http.Request, actor Actor) {
 	s.mu.Lock()
-	defer s.mu.Unlock()
+	var selected Evidence
 	actor, err := s.currentActorLocked(actor)
-	if err != nil {
-		writeFailure(w, err)
-		return
-	}
-	order, err := findOrder(&s.state, r.PathValue("id"), actor)
-	if err != nil {
-		if auditErr := s.auditLocked(actor, "download", "unavailable_evidence", "denied"); auditErr != nil {
-			writeFailure(w, auditErr)
-			return
-		}
-		writeFailure(w, err)
-		return
-	}
-	for _, e := range order.Evidence {
-		if e.ID != r.PathValue("evidenceId") || e.Deleted || !canReadEvidence(*order, e, actor) {
-			continue
-		}
-		if err = s.auditLocked(actor, "download", order.ID+"/"+e.ID, "success"); err != nil {
-			writeFailure(w, err)
-			return
-		}
-		data := []byte(e.Text)
-		if e.Data != "" {
-			data, err = decodeBase64(e.Data)
-			if err != nil {
-				writeFailure(w, err)
-				return
+	if err == nil {
+		var order *Order
+		order, err = findOrder(&s.state, r.PathValue("id"), actor)
+		if err == nil {
+			for _, item := range order.Evidence {
+				if item.ID == r.PathValue("evidenceId") && !item.Deleted && canReadEvidence(*order, item, actor) {
+					selected = item
+					break
+				}
+			}
+			if selected.ID != "" {
+				err = s.auditLocked(actor, "download", order.ID+"/"+selected.ID, "success")
+			} else {
+				err = fail(404, "not_found", "文件不存在、已删除或无访问权限")
 			}
 		}
-		mime := e.MIME
-		if e.Kind == "text" {
-			mime = "text/plain; charset=utf-8"
-		}
-		if mime == "" {
-			mime = "application/octet-stream"
-		}
-		w.Header().Set("Content-Type", mime)
-		w.Header().Set("Cache-Control", "no-store")
-		name := filepath.Base(e.Name)
-		name = strings.ReplaceAll(strings.ReplaceAll(name, "\"", ""), "\r", "")
-		name = strings.ReplaceAll(name, "\n", "")
-		w.Header().Set("Content-Disposition", "attachment; filename*=UTF-8''"+urlPathEscape(name))
-		w.WriteHeader(200)
-		_, _ = w.Write(data)
-		return
 	}
-	if err = s.auditLocked(actor, "download", order.ID, "denied"); err != nil {
+	if err != nil {
+		auditErr := s.auditLocked(actor, "download", "unavailable_evidence", "denied")
+		s.mu.Unlock()
+		if auditErr != nil {
+			err = auditErr
+		}
 		writeFailure(w, err)
 		return
 	}
-	writeFailure(w, fail(404, "not_found", "文件不存在、已删除或无访问权限"))
+	s.mu.Unlock()
+	var reader io.ReadCloser
+	if selected.BlobID != "" {
+		clearMediaDeadlines(w, r)
+		if s.orderMedia == nil {
+			writeFailure(w, errors.New("原件存储缺失"))
+			return
+		}
+		reader, err = s.orderMedia.open(r.Context(), selected.BlobID, selected.Size, selected.SHA256)
+	} else {
+		data := []byte(selected.Text)
+		if selected.Data != "" {
+			data, err = decodeBase64(selected.Data)
+		}
+		reader = io.NopCloser(bytes.NewReader(data))
+	}
+	if err != nil {
+		writeFailure(w, err)
+		return
+	}
+	defer reader.Close()
+	contentType := selected.MIME
+	if selected.Kind == "text" {
+		contentType = "text/plain; charset=utf-8"
+	}
+	if contentType == "" {
+		contentType = "application/octet-stream"
+	}
+	w.Header().Set("Content-Type", contentType)
+	w.Header().Set("Cache-Control", "no-store")
+	name := filepath.Base(selected.Name)
+	name = strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(name, "\"", ""), "\r", ""), "\n", "")
+	w.Header().Set("Content-Disposition", "attachment; filename*=UTF-8''"+urlPathEscape(name))
+	if selected.BlobID != "" {
+		w.Header().Set("Content-Length", strconv.FormatInt(selected.Size, 10))
+	}
+	w.WriteHeader(200)
+	if _, err = io.CopyBuffer(w, reader, make([]byte, orderMediaChunk)); err != nil {
+		log.Printf("device original streaming interrupted (%T)", err)
+	}
 }
 func urlPathEscape(value string) string {
 	const digits = "0123456789ABCDEF"

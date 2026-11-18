@@ -697,15 +697,30 @@ function Invoke-UndoStorageCommand {
     $info.EnvironmentVariables['WB_BACKUP_DIR'] = ''
     $process = New-Object Diagnostics.Process
     $process.StartInfo = $info
+    $started = $false
+    $largeMaintenance = $Arguments.Count -gt 0 -and $Arguments[0] -in @('-backup','-restore')
+    $timer = [Diagnostics.Stopwatch]::StartNew()
     try {
         if (-not $process.Start()) { throw '存储工具未启动。' }
+        $started = $true
         $stdout = $process.StandardOutput.ReadToEndAsync()
         $stderr = $process.StandardError.ReadToEndAsync()
-        if (-not $process.WaitForExit(60000)) { $process.Kill(); throw '存储工具超时，停止删除。' }
+        # 大原件维护没有总时限；短轮询保留PowerShell取消进入finally的机会。
+        while (-not $process.WaitForExit(250)) {
+            if (-not $largeMaintenance -and $timer.Elapsed.TotalSeconds -ge 60) { throw '存储工具超时，停止删除。' }
+        }
         if ($process.ExitCode -ne 0) { throw '应用数据库备份/清零失败，已保留数据及程序；不输出连接详情。' }
         $null = $stdout.GetAwaiter().GetResult()
         $null = $stderr.GetAwaiter().GetResult()
-    } finally { $process.Dispose() }
+    } finally {
+        try {
+            # 存储CLI不派生子进程，只回收本函数确实启动且仍活跃的程序。
+            if ($started -and -not $process.HasExited) {
+                $process.Kill()
+                if (-not $process.WaitForExit(5000)) { throw '存储工具取消后未停止，保留数据、程序及原点记录。' }
+            }
+        } finally { $process.Dispose() }
+    }
 }
 # 活写入者和不可识别的写锁均保留，不按PID盲目终止其它进程。
 function Assert-NoActiveDataWriter {

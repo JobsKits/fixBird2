@@ -1,0 +1,16 @@
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/RepairDesktop.pdb
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/DeviceBoard.png
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/DeviceIntake.png
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/DeviceRepair.png
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/LoanBorrow.png
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/LoanReturn.png
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/DeviceInspection.mp4
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/actions.json
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/demo.json
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/desktop-l10n.json
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/media-seed.json
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/password-emoji-ranges.json
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/Unicode-LICENSE.txt
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/ui-l10n.json
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/Resources/RepairLogo.png
+/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/repair-windows-release-rkc6Lr/publish/RepairDesktop.exe

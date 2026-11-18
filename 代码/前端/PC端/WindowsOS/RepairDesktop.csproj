@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>RepairDesktop</AssemblyName>
+    <RootNamespace>RepairDesktop</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="../原生共享契约/Assets/*.png" Link="Resources/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../原生共享契约/Assets/*.mp4" Link="Resources/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../原生共享契约/*.json" Link="Resources/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../原生共享契约/Unicode-LICENSE.txt" Link="Resources/Unicode-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../共享组件/Resources/ui-l10n.json" Link="Resources/ui-l10n.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../Web/维修工作台/assets/RepairLogo.png" Link="Resources/RepairLogo.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

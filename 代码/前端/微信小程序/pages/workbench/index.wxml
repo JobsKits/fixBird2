@@ -1,12 +1,12 @@
 <view class="shell theme-{{appearance || 'system'}}">
-  <view class="brand"><image class="logo" src="/assets/RepairLogo.png" mode="aspectFit"/><view><view class="title">{{ui['啄木鸟维修'] || '啄木鸟维修'}}</view><text class="muted">{{ui['工单协同 · 微信小程序'] || '工单协同 · 微信小程序'}}</text></view></view>
+  <view class="brand"><image class="logo" src="/assets/RepairLogo.png" mode="aspectFit"/><view><view class="title">{{ui['啄木鸟维修平台'] || '啄木鸟维修平台'}}</view><text class="muted">{{ui['工单协同 · 微信小程序'] || '工单协同 · 微信小程序'}}</text></view></view>
   <view class="notice {{source === 'server' ? 'online' : ''}}">{{message}}</view>
   <view wx:if="{{pending}}" class="notice">{{ui['存在结果未确认的提交。请核对服务端记录，或按原内容与请求键重试。'] || '存在结果未确认的提交。请核对服务端记录，或按原内容与请求键重试。'}}<button bindtap="retryPending" disabled="{{busy}}">{{ui['按原内容重试'] || '按原内容重试'}}</button><button bindtap="acknowledgePending" disabled="{{busy}}">{{ui['已核对，结束重试'] || '已核对，结束重试'}}</button></view>
   <view wx:if="{{loggedIn}}" class="nav">
     <button class="{{screen === 'orders' ? 'active' : ''}}" bindtap="nav" data-screen="orders">{{ui['工单'] || '工单'}}</button><button class="{{screen === 'inventory' ? 'active' : ''}}" bindtap="nav" data-screen="inventory">{{ui['库存借还'] || '库存借还'}}</button><button class="{{screen === 'settings' ? 'active' : ''}}" bindtap="nav" data-screen="settings">{{ui['我的'] || '我的'}}</button>
   </view>
   <view wx:if="{{screen === 'login'}}" class="card">
-    <view class="heading">{{ui['登录维修工作台'] || '登录维修工作台'}}</view><text class="muted">{{ui['使用现有 V3.8 账号；真实微信身份尚未接入。'] || '使用现有 V3.8 账号；真实微信身份尚未接入。'}}</text>
+    <view class="heading">{{ui['登录维修工作台'] || '登录维修工作台'}}</view><text class="muted">{{ui['使用现有平台账号；真实微信身份尚未接入。'] || '使用现有平台账号；真实微信身份尚未接入。'}}</text>
     <text class="label">{{ui['账号'] || '账号'}}</text><input value="{{username}}" bindinput="input" data-key="username" placeholder="{{ui['请输入账号'] || '请输入账号'}}"/>
     <text class="label">{{ui['密码'] || '密码'}}</text><input value="{{password}}" password bindinput="input" data-key="password" placeholder="{{ui['请输入密码'] || '请输入密码'}}"/>
     <button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="login">{{ui['登录并进入'] || '登录并进入'}}</button>

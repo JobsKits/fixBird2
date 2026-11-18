@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 自述：构建 V3.8 独立后端，用临时回环端口及合成数据验证 HTTP 业务，不连接现有实例。
+// 自述：构建啄木鸟维修平台独立后端，用临时回环端口及合成数据验证 HTTP 业务，不连接现有实例。
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
@@ -269,7 +269,7 @@ async function cleanup() {
 
 // 编排独立构建、临时启动和 HTTP 检查，并传播真实退出码。
 async function main() {
-  console.log('V3.8 工作台验证：临时回环服务、独立合成数据；不连接现有实例，不部署。');
+  console.log('啄木鸟维修平台验证：临时回环服务、独立合成数据；不连接现有实例，不部署。');
   try {
     const go = findGo();
     assert.ok(existsSync(path.join(root, '前端', 'Web网页', '维修工作台', 'index.html')), '前端/Web网页/维修工作台/index.html 尚未完成');

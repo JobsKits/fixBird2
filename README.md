@@ -1,4 +1,4 @@
-# 啄木鸟维修平台 · V3.8
+# 啄木鸟维修平台
 
 ![Jobs出品，必属精品](./代码/前端/PC端/Web/维修工作台/assets/RepairLogo.png)
 
@@ -73,7 +73,9 @@ node './代码/前端/PC端/Web/离线预览.mjs'
 | [Android 原生](./代码/前端/移动端/Android/README.md) | Kotlin 原生工程 |
 | [鸿蒙原生](./代码/前端/移动端/鸿蒙/README.md) | ArkTS／ArkUI Stage 工程 |
 | [微信小程序](./代码/前端/微信小程序/README.md) | 官方原生 JavaScript／WXML／WXSS／JSON；工单、合同表单、签名、附件与库存 |
-| [维修工作台 Web](./代码/前端/PC端/Web/README.md) | 业务网页与离线预览入口 |
+| [维修工作台 Web](./代码/前端/PC端/Web/README.md) | 桌面与手机竖屏业务网页、离线预览入口 |
+| [MacOS 原生桌面](./代码/前端/PC端/MacOS/README.md) | SwiftUI 桌面工程、构建入口及 App |
+| [WindowsOS 原生桌面](./代码/前端/PC端/WindowsOS/README.md) | C#／WPF 桌面工程、构建入口及 EXE |
 | [Go 服务端](./代码/后端/后端代码/README.md) | 单份通用业务代码、加密快照及 TiDB 适配 |
 | [验证](./测试/README.md) | HTTP 流程与各端回归入口 |
 | [部署](./部署/README.md) | 数据、备份、配置和操作系统边界 |
@@ -109,7 +111,7 @@ Demo 后台管理员为 `admin / 1234`，页面识别到服务端明确的 Demo 
 
 本机服务默认只监听回环 `127.0.0.1:8098`，不可直接给手机填电脑回环地址。模拟器、Android USB 端口转发和远程服务器的区别见使用说明；正式多机服务需要部署到可信 HTTPS 环境。测试／线上地址分别保存，切换时清会话，线上地址不预填为某台开发机。
 
-沿用本地打包 Logo；新增界面使用文字导航和原生控件，无运行时外链图片依赖。离线预览不要求先部署服务器；动态列表提供完整空态和重载入口。
+沿用本地打包 Logo；新增界面使用文字导航和原生控件，无运行时外链图片依赖。原生桌面登录／注册／忘记密码侧卡采用放大图标与标题，保留选中态和长译文换行；三张演示工单带设备图片／视频，列表支持状态与搜索联合过滤，过滤后同步清理旧详情。各系统构建与界面验收见[PC原生桌面资产盘点](./项目相关报告/PC原生桌面资产盘点.md)。离线预览不要求先部署服务器；动态列表提供完整空态和重载入口。
 
 后端 `WB_DATA_DIR`、`WB_KEY_FILE`、`WB_WEB_DIR`、`WB_ADMIN_DIR`、`WB_ADMIN_FLUTTER_DIR`、`WB_CLIENT_FLUTTER_DIR`、`WB_ADMIN_CONTRACT_DIR`、`WB_TIDB_DSN`、`WB_BACKUP_DIR` 与 `WB_BACKUP_INTERVAL_MINUTES` 按需配置。部署入口按自身位置解析项目资料，按目标机器标准位置或显式参数发现环境和运行数据。Flutter 管理端 web 构建后由 `/admin-flutter/` 托管，构建时使用 `--base-href /admin-flutter/`。
 
@@ -120,6 +122,8 @@ Demo 后台管理员为 `admin / 1234`，页面识别到服务端明确的 Demo 
 当前有 17 组 P2 问题，按后端、网页响应保护和独立演示列在 [当前问题清单](./需求/当前问题清单/当前问题清单.md)。生产身份、可信加密链路、完整灾备、关系明细、分批履约及实际渠道接入仍需按交付范围实施。
 
 ## 六、<span id="maintenance">工程维护</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+产品名称、Web 竖屏和原生桌面的当前核对情况见[资产盘点](./项目相关报告/README.md)。修改本工程任意内容，须按[上级维护规约](../AGENTS.md)在同一任务中同步更新[产品工程总览](../README.md)。
 
 修改业务先看 [项目需求与开发评审](./需求/项目需求与开发评审/项目需求与开发评审.md)、接口合同和代码地图，源码修改后仅同步所属具体端／语言工程的 [**CodeGraph**](https://github.com/colbymchenry/codegraph) 索引。`.codegraph/` 与配置位于具体代码开发单元，项目根只通过[开发单元导航](./代码/README.md#unit-code-maps)定位。第三方 Pods、供应商与生成代码遵守原有维护边界。工具链、构建产物和密钥不进入源码交付。文档维护当前版本的能力、操作和限制，不追加更新日志或过程报告。
 

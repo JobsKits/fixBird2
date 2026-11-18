@@ -11,6 +11,7 @@
 		01AAA6E9284065FBE34F0C04 /* WBDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624F35DC815D24126C2A47E /* WBDataTests.swift */; };
 		034BA5DDF40908C92AE2993B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A46D855895D3607E29FB53 /* Assets.xcassets */; };
 		0D8851B6BF6A311D9DABA75A /* WBAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3AA779A61B1C49E050B8B8 /* WBAppCoordinator.swift */; };
+		10315CA46F586A8DC2D4E38B /* WBInitialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B85D634CC4EE98E4C69DD2 /* WBInitialMedia.swift */; };
 		1257C771BD168095754F6D47 /* Pods_RepairWorkbenchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9640BEA7F88A536B90570A /* Pods_RepairWorkbenchTests.framework */; };
 		1285B8626AB4C21B4CA8E844 /* WBOrderFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1287044D52391151EEB2BD69 /* WBOrderFormVC.swift */; };
 		12BB1F05F9DAB17F2BDDA21F /* WBActionFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4B492FDDD11860A5FA53E9 /* WBActionFormVC.swift */; };
@@ -38,6 +39,7 @@
 		753CF5721CC341A0A1A39811 /* WBStubTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18699827937CFB9C95FEE4E3 /* WBStubTransport.swift */; };
 		75E2E026B00AEA2A5A0BB147 /* ui-l10n.json in Resources */ = {isa = PBXBuildFile; fileRef = 350B2256A8DEE35D2292392E /* ui-l10n.json */; };
 		77BE7DD2DD1D561641BEA5D4 /* WBAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBFB2DA6678DF7A3DB3042A /* WBAppDelegate.swift */; };
+		7D49F20C20BB9B6FECBF175A /* WBDemoState+Loans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6937B485F36F5166660A2939 /* WBDemoState+Loans.swift */; };
 		8158B9ABFFF4C94151FA14E7 /* WBSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFA45DAA1ABCB3AE1F34CF /* WBSettingsVC.swift */; };
 		97834E494EE2539600937045 /* WBUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C401D3D1C582F292D17EC8B3 /* WBUI.swift */; };
 		9DED56AAF93A9B580E1C8B25 /* WBQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59006426E1B481E858BFF748 /* WBQuote.swift */; };
@@ -99,11 +101,13 @@
 		4CA3257DBCCA65E2F272E751 /* WBUIError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBUIError.swift; sourceTree = "<group>"; };
 		512B4A93C5F5E9417D85D296 /* WBMetrics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBMetrics.swift; sourceTree = "<group>"; };
 		56EECF5293E62FA5E2595E58 /* Pods-RepairWorkbenchTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RepairWorkbenchTests.debug.xcconfig"; path = "Target Support Files/Pods-RepairWorkbenchTests/Pods-RepairWorkbenchTests.debug.xcconfig"; sourceTree = "<group>"; };
+		58B85D634CC4EE98E4C69DD2 /* WBInitialMedia.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBInitialMedia.swift; sourceTree = "<group>"; };
 		59006426E1B481E858BFF748 /* WBQuote.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBQuote.swift; sourceTree = "<group>"; };
 		5A58CC8EEDE48F8C81C4CB9D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		5B9640BEA7F88A536B90570A /* Pods_RepairWorkbenchTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RepairWorkbenchTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636F78851B1126DE16FFCD52 /* WBRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBRequest.swift; sourceTree = "<group>"; };
 		68B69D98D3759F432B13704C /* WBError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBError.swift; sourceTree = "<group>"; };
+		6937B485F36F5166660A2939 /* WBDemoState+Loans.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "WBDemoState+Loans.swift"; sourceTree = "<group>"; };
 		6B3596E29A9D474AB6FBBD50 /* WBSceneDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBSceneDelegate.swift; sourceTree = "<group>"; };
 		6B39AC9F2E6EAF25F80D5894 /* WBJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBJSON.swift; sourceTree = "<group>"; };
 		73FDED232AFC95E7C857C95B /* WBOrdersVC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBOrdersVC.swift; sourceTree = "<group>"; };
@@ -229,6 +233,15 @@
 			path = WBOrderDetailVC;
 			sourceTree = "<group>";
 		};
+		4522A83CA699C4507E2AD689 /* WBInitialMedia */ = {
+			isa = PBXGroup;
+			children = (
+				58B85D634CC4EE98E4C69DD2 /* WBInitialMedia.swift */,
+			);
+			name = WBInitialMedia;
+			path = WBInitialMedia;
+			sourceTree = "<group>";
+		};
 		452B279E467DDF8587C3AED2 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -323,6 +336,7 @@
 				84BAA36DB1D4E296D09D3C01 /* WBEnvironment */,
 				C90487C2A71A94EA015DA070 /* WBJobsTransport */,
 				0045A363B3A8C01DE1602D7B /* WBStore */,
+				4522A83CA699C4507E2AD689 /* WBInitialMedia */,
 			);
 			name = Data;
 			path = Data;
@@ -546,6 +560,7 @@
 			isa = PBXGroup;
 			children = (
 				1CA2A51AE825785EF5412049 /* WBDemoState.swift */,
+				6937B485F36F5166660A2939 /* WBDemoState+Loans.swift */,
 			);
 			name = WBDemoState;
 			path = WBDemoState;
@@ -997,6 +1012,8 @@
 				3CD6C63DE182027342F9F75B /* WBInventoryVC.swift in Sources */,
 				F22006170D06C6B2DE1F4FDA /* UIDocumentPickerViewController+Workbench.swift in Sources */,
 				F45AFAE5FD5298C30DA3FE12 /* UIGraphicsImageRenderer+Workbench.swift in Sources */,
+				7D49F20C20BB9B6FECBF175A /* WBDemoState+Loans.swift in Sources */,
+				10315CA46F586A8DC2D4E38B /* WBInitialMedia.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

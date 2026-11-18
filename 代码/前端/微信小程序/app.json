@@ -3,7 +3,7 @@
     "pages/workbench/index"
   ],
   "window": {
-    "navigationBarTitleText": "啄木鸟维修",
+    "navigationBarTitleText": "啄木鸟维修平台",
     "navigationBarBackgroundColor": "#0F5144",
     "navigationBarTextStyle": "white",
     "backgroundTextStyle": "dark",

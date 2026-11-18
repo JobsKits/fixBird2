@@ -611,7 +611,7 @@ struct Index {
       Row({ space: 12 }) {
         Image($r('app.media.repair_logo')).width(40).height(40).objectFit(ImageFit.Contain)
         Column({ space: 4 }) {
-          Text(this.staticText('啄木鸟维修')).fontColor(this.inkColor).fontSize(21).fontWeight(FontWeight.Bold).width('100%')
+          Text(this.staticText('啄木鸟维修平台')).fontColor(this.inkColor).fontSize(21).fontWeight(FontWeight.Bold).width('100%')
           Text(this.actorName || this.staticText('维修进度与工单协作')).fontColor(this.inkColor).fontSize(12).fontColor(this.mutedColor).width('100%')
         }.layoutWeight(1)
       }.padding(16).width('100%').backgroundColor(this.surfaceColor)

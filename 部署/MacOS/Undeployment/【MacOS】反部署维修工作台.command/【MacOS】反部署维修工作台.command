@@ -775,6 +775,73 @@ copy_verified() {
   after="$(resource_digest "$dst")" || fail '备份资料无法核验。'
   [ "$before" = "$after" ] && [ "$before" = "$(resource_digest "$src")" ] || fail '备份内容或复制期间源状态变化，原件保留。'
 }
+# 只提取顶层字符串摘要，忽略媒体清单里的同名字段；兼容缩进和紧凑JSON。
+backup_manifest_sha256() {
+  awk '
+    BEGIN { depth=0; quoted=0; escaped=0; ended=0; count=0; pending="root" }
+    {
+      for (i=1; i<=length($0); i++) {
+        c=substr($0,i,1)
+        if (quoted) {
+          if (escaped) { token=token "\\" c; escaped=0; continue }
+          if (c=="\\") { escaped=1; continue }
+          if (c!="\"") { token=token c; continue }
+          quoted=0
+          if (depth==1) {
+            if (pending=="key") { key=token; pending="colon" }
+            else if (pending=="value") {
+              if (key=="sha256") { digest=token; count++ }
+              pending="comma"
+            } else invalid=1
+          }
+          continue
+        }
+        if (c ~ /[[:space:]]/) continue
+        if (ended) { invalid=1; continue }
+        if (c=="\"") { quoted=1; token=""; continue }
+        if (c=="{" || c=="[") {
+          if (depth==0 && (c!="{" || pending!="root")) invalid=1
+          if (depth==1 && (pending!="value" || key=="sha256")) invalid=1
+          depth++; stack[depth]=c
+          if (depth==1) pending="key"
+          continue
+        }
+        if (c=="}" || c=="]") {
+          if (depth<1 || (c=="}" && stack[depth]!="{") || (c=="]" && stack[depth]!="[")) invalid=1
+          if (depth==1 && pending!="comma" && pending!="primitive") invalid=1
+          depth--
+          if (depth==0) ended=1
+          else if (depth==1) pending="comma"
+          continue
+        }
+        if (depth!=1) continue
+        if (c==":" && pending=="colon") { pending="value"; continue }
+        if (c=="," && (pending=="comma" || pending=="primitive")) { pending="key"; continue }
+        if (pending=="value" && key!="sha256") { pending="primitive"; continue }
+        if (pending!="primitive") invalid=1
+      }
+      if (quoted) invalid=1
+    }
+    END {
+      if (invalid || quoted || depth!=0 || !ended || count!=1 || length(digest)!=64 || digest ~ /[^0-9a-f]/) exit 1
+      print digest
+    }
+  ' "$1"
+}
+# 新备份使用独立候选目录；旧检查点仍可引用原来的固定文件。
+database_backup_path() {
+  local checkpoint="$OPERATION_DIR/database-backup.path" target="$OPERATION_DIR/database.wbbak" parent
+  if [ -e "$checkpoint" ] || [ -L "$checkpoint" ]; then
+    [ -f "$checkpoint" ] && [ ! -L "$checkpoint" ] || fail '聚合备份检查点不是本操作的普通文件。'
+    target="$(cat "$checkpoint")"
+    parent="$(dirname "$target")"
+    case "$parent" in "$OPERATION_DIR"/database-attempt.*) ;; *) fail '聚合备份检查点超出本操作候选目录。';; esac
+    [ "$(dirname "$parent")" = "$OPERATION_DIR" ] && [ -d "$parent" ] && [ ! -L "$parent" ] || fail '聚合备份候选目录归属不明。'
+    [ "$(basename "$target")" = database.wbbak ] || fail '聚合备份检查点文件名不符。'
+  fi
+  [ -f "$target" ] && [ ! -L "$target" ] && [ "$target" = "$(canonical_path "$target")" ] || fail '聚合备份引用缺失或包含未知链接。'
+  printf '%s\n' "$target"
+}
 # 先配对备份并验证原程序解密结果，再允许清理。
 backup_business_data() {
   [ "$DATA_ACTION" = backup ] || return 0
@@ -791,14 +858,19 @@ backup_business_data() {
   copy_verified "$key" "$OPERATION_DIR/storage.key"
   if [ "$(state_value storage)" = tidb ] || [ -f "$data/snapshot.enc" ]; then
     [ -x "$binary" ] && [ -f "$key" ] || fail '缺少可验证应用数据的原程序或密钥。'
-    [ ! -e "$OPERATION_DIR/database.wbbak" ] || rm -- "$OPERATION_DIR/database.wbbak" || fail '无法重试未完成聚合备份。'
-    [ ! -e "$OPERATION_DIR/database.wbbak.manifest.json" ] || rm -- "$OPERATION_DIR/database.wbbak.manifest.json" || fail '无法重试未完成摘要清单。'
+    local attempt database_backup expected_hash checkpoint
+    attempt="$(mktemp -d "$OPERATION_DIR/database-attempt.XXXXXXXX")" || fail '无法建立独立聚合备份候选目录。'
+    database_backup="$attempt/database.wbbak"
     WB_TIDB_DSN="$(state_value db_dsn)" WB_REQUIRE_DB_TLS="$(state_value db_tls)" WB_DATA_DIR="$data" WB_KEY_FILE="$key" \
-      "$binary" -backup "$OPERATION_DIR/database.wbbak" >> "$OPERATION_DIR/operation.log" 2>&1 || fail '应用备份或密钥解密验证失败；数据、程序与密钥保留。'
-    [ -s "$OPERATION_DIR/database.wbbak" ] && [ -s "$OPERATION_DIR/database.wbbak.manifest.json" ] || fail 'TiDB备份或清单缺失。'
-    local expected_hash
-    expected_hash="$(sed -n 's/.*"sha256": "\([0-9a-f]*\)".*/\1/p' "$OPERATION_DIR/database.wbbak.manifest.json")"
-    [ -n "$expected_hash" ] && [ "$(hash_file "$OPERATION_DIR/database.wbbak")" = "$expected_hash" ] || fail 'TiDB备份摘要不匹配，数据库保留。'
+      "$binary" -backup "$database_backup" >> "$OPERATION_DIR/operation.log" 2>&1 || fail '应用备份或密钥解密验证失败；原件及本次候选保留，重试会另建目标。'
+    [ -s "$database_backup" ] && [ -s "$database_backup.manifest.json" ] || fail '应用备份或清单缺失；候选保留。'
+    expected_hash="$(backup_manifest_sha256 "$database_backup.manifest.json")" || fail '应用备份顶层摘要无效；原件及候选保留。'
+    [ "$(hash_file "$database_backup")" = "$expected_hash" ] || fail '应用备份摘要不匹配；原件及候选保留。'
+    if [ -e "$OPERATION_DIR/database-backup.path" ] || [ -L "$OPERATION_DIR/database-backup.path" ]; then
+      database_backup_path >/dev/null || fail '现有聚合备份检查点归属不明，原件及候选保留。'
+    fi
+    checkpoint="$(mktemp "$OPERATION_DIR/.database-backup.XXXXXXXX")" || fail '无法建立聚合备份检查点。'
+    printf '%s\n' "$database_backup" > "$checkpoint" && mv -- "$checkpoint" "$OPERATION_DIR/database-backup.path" || fail '无法保存已核验聚合备份引用。'
   fi
   resource_digest "$data" > "$OPERATION_DIR/data.sha256" || fail '无法封存已备份源数据状态。'
   resource_digest "$key" > "$OPERATION_DIR/key.sha256" || fail '无法封存已备份密钥状态。'
@@ -812,7 +884,11 @@ clear_business_data() {
   local data="$(state_value data_dir)" key="$(state_value key_file)" binary="$(state_value binary)"
   if [ "$(state_value storage)" = tidb ] && [ ! -f "$DEPLOY_STATE_DIR/database-cleared" ]; then
     local -a clear_backup_args=()
-    if [ "$DATA_ACTION" = backup ]; then clear_backup_args=(-clear-storage-backup "$OPERATION_DIR/database.wbbak"); fi
+    if [ "$DATA_ACTION" = backup ]; then
+      local database_backup
+      database_backup="$(database_backup_path)" || fail '无法核对已验证聚合备份引用，数据库保留。'
+      clear_backup_args=(-clear-storage-backup "$database_backup")
+    fi
     WB_TIDB_DSN="$(state_value db_dsn)" WB_REQUIRE_DB_TLS="$(state_value db_tls)" WB_DATA_DIR="$data" WB_KEY_FILE="$key" \
       "$binary" -clear-storage -confirm-clear-storage "${clear_backup_args[@]}" >> "$OPERATION_DIR/operation.log" 2>&1 || fail 'TiDB应用清零失败，未继续移除程序或本地数据。'
     : > "$DEPLOY_STATE_DIR/database-cleared" || fail '无法记录数据库处理完成阶段。'

@@ -15,7 +15,7 @@
 ---
 
 - [Flutter](./Flutter/README.md) · [代码地图](./Flutter/代码地图/README.md)
-- [iOS](./iOS/README.md) · [代码地图](./iOS/代码地图/README.md)
+- [iOS](./iOS/README.md) · [代码地图](./iOS/README.md#ios-map)
 - [Android](./Android/README.md) · [代码地图](./Android/代码地图/README.md)
 - [鸿蒙](./鸿蒙/README.md) · [代码地图](./鸿蒙/代码地图/README.md)
 

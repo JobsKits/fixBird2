@@ -22,6 +22,8 @@ struct WBLoan: Equatable, Sendable {
     let borrowerId: String
     let dueAt: String
     var transfers: [WBRecord]
+    var files: [WBRecord] = []
+    var createdAt = ""
 
     var blockingQuantity: Int {
         max(

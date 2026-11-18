@@ -19,6 +19,8 @@
 
 浏览器维修协同工作台调用 `/api/v38`，提供完整业务操作和独立合成演示。
 
+页面同时支持桌面与手机竖屏。600px 及以下使用顶部横向滑动导航、工单字段卡片、全屏详情和单列表单；输入字号16px、触控关闭按钮44px，并预留设备安全区。语言、主题、筛选、工作日志及全部业务入口保留。原生桌面另见 [PC 端导航](../README.md)，当前截图与验证边界见[客户端资产盘点](../../../../项目相关报告/README.md#web-portrait)。
+
 ## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、启动与演示 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 运行 [MacOS 部署入口](../../../../部署/MacOS/Deployment/【MacOS】启动维修工作台.command/【MacOS】启动维修工作台.command) 后访问 [维修工作台](http://127.0.0.1:8098/)；[Web 管理端](http://127.0.0.1:8098/admin/)使用独立界面。

@@ -1,5 +1,5 @@
 {
-  "description": "啄木鸟维修平台 V3.8 微信原生小程序",
+  "description": "啄木鸟维修平台微信原生小程序",
   "miniprogramRoot": "./",
   "compileType": "miniprogram",
   "appid": "touristappid",

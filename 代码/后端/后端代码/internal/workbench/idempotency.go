@@ -59,6 +59,9 @@ func (s *Service) replayRequest(actor Actor, path string, request CachedRequest)
 	if personalWritePath(path) {
 		return s.replayPersonalRequest(actor, path, request)
 	}
+	if path == "POST /api/v38/customer-directory" {
+		return s.replayCustomerDirectory(actor, request)
+	}
 	var value any
 	switch {
 	case ref.ID != "" && path == accountStatusPath:
@@ -83,7 +86,7 @@ func (s *Service) replayRequest(actor Actor, path string, request CachedRequest)
 	case strings.HasPrefix(ref.ID, "loan_"):
 		for _, loan := range s.state.Loans {
 			if loan.ID == ref.ID && (actor.Role == "admin" || actor.Role == "warehouse" || actor.Role == "dispatcher" || actor.Role == "engineer" && loan.BorrowerID == actor.ID) {
-				value = loan
+				value = loanView(loan)
 				break
 			}
 		}

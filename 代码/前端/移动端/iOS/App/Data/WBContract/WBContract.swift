@@ -268,7 +268,7 @@ enum WBContract {
             }
             remainingTransferable -= count
         }
-        return WBLoan(
+        var loan = WBLoan(
             id: try text(raw, "id", nonempty: true),
             version: Int(try integer(raw, "version", minimum: 1)),
             orderId: try text(raw, "orderId"),
@@ -284,6 +284,38 @@ enum WBContract {
             dueAt: try text(raw, "dueAt"),
             transfers: transfers
         )
+        if let createdAt = raw["createdAt"] {
+            guard let value = createdAt.string, value.isEmpty || WBFoundation.validDate(value) else {
+                throw WBError.invalidResponse("createdAt 时间无效")
+            }
+            loan.createdAt = value
+        }
+        var fileIDs = Set<String>()
+        var totalBytes = 0
+        loan.files = try array(raw, "files", optional: true).map { value in
+            let file = try object(value)
+            let id = try text(file, "id", nonempty: true)
+            let mime = try text(file, "mime", nonempty: true)
+            let stage = try text(file, "stage", nonempty: true)
+            let size = Int(try integer(file, "size", minimum: 1))
+            let count = Int(try integer(file, "quantity", minimum: 1))
+            _ = try text(file, "name", nonempty: true)
+            _ = try text(file, "uploaderId", nonempty: true)
+            let created = try text(file, "createdAt", nonempty: true)
+            guard fileIDs.insert(id).inserted, ["image/png", "image/jpeg", "image/gif"].contains(mime),
+                ["borrow", "return"].contains(stage), count <= quantity, size <= 8 * 1024 * 1024,
+                WBFoundation.validDate(created), file["dataBase64"] == nil,
+                stage != "return" || ["good", "quarantine"].contains(file["condition"]?.string ?? "")
+            else {
+                throw WBError.invalidResponse("借还图片凭据响应无效")
+            }
+            totalBytes += size
+            return WBRecord(raw: file)
+        }
+        guard loan.files.count <= 8, totalBytes <= 32 * 1024 * 1024 else {
+            throw WBError.invalidResponse("图片最多8张，单张8MiB，总计32MiB")
+        }
+        return loan
     }
 
     static func settings(_ value: WBJSON) throws -> WBSettings {

@@ -28,8 +28,14 @@
 | --- | --- | --- |
 | [models.go](../models.go) | 聚合业务类型、整数金额、报价先款约定、验收原件历史与持久化合同 | `Actor`、`Quote.StartRequiresPrepayment`、`AcceptanceRecord`、`Order`、`Summary`、`State`、`Persistence` |
 | [service.go](../service.go) | 启动迁移、会话、原子写入、工单可见性与派生状态 | `New`、`activeActor`、`validateAccounts`、`authenticate`、`transact`、`validateState`、`visible`、`refresh`、`view` |
+| [auth.go](../auth.go)、[auth_mail.go](../auth_mail.go) | 普通邮箱验证码、独立客户注册、绑定邮箱重置及安全SMTP投递 | `registerPublicAuth`、`requestAuthCode`、`applyPublicAuth`、`localAuthRequest`、`deliverAuthEmail` |
+| [password_policy.go](../password_policy.go)、[Unicode静态表](../password_emoji_data.go) | 登录／新密码及确认字段统一拒表情，保留普通文字及ASCII；静态表与桌面Unicode18契约全量核对 | `validatePasswordEmoji`、`passwordContainsEmoji` |
 | [http.go](../http.go) | 路由、严格输入解析、鉴权、写包装、导出与附件下载 | `Handler`、`decodeStrict`、`write`、`bootstrap`、`listOrders`、`downloadEvidence` |
 | [actions.go](../actions.go) | 工单创建及受理、报价、签署历史追加、先款执行门槛、票款与完结动作 | `createOrder`、`act`、`executionReady`、`validSignature`、`acceptance`、`actionPermission`、`allowedActions` |
+| [customer_directory.go](../customer_directory.go) | 客户分组、多账户／企业、授权新建、旧账户目录、客户本人投影与持久约束 | `CustomerProfile`、`registerCustomerDirectoryRoutes`、`mutateCustomerDirectory`、`validateCustomerDirectory` |
+| [order_media.go](../order_media.go) | 创建工单时图片／视频原件校验，无设备大小／数量上限、同事务绑定与旧Base64兼容 | `OrderMediaInput`、`initialOrderMedia`、`validOrderVideo` |
+| [order_uploads.go](../order_uploads.go) | 原件流式上传、账号／企业／授权绑定、同键回执、取消、64KiB认证帧及私有下载读取 | `OrderUpload`、`uploadOrderMedia`、`cancelOrderUpload`、`bindOrderUpload`、`orderMediaStore`、`clearMediaDeadlines`、`cleanupRemovedOrderMedia`、`cleanupAbandonedOrderMedia` |
+| [order_media_backup.go](../order_media_backup.go) | 原件旁件备份、密文清单与流式校验、隔离恢复 | `BackupMedia`、`backupOrderMedia`、`restoreOrderMedia`、`verifyMedia` |
 | [calendar.go](../calendar.go) | 中国日期加日历月、月底截断与质保截止日全天有效 | `warrantyEnd`、`warrantyActive` |
 | [journal.go](../journal.go) | 账户私密日志、月历与跨月分页、版本删除墓碑、管理员只读、受限媒体及鉴权原件 | `readWorkLogs`、`readAllWorkLogs`、`deleteWorkLog`、`updateWorkLog`、`appendJournalMedia`、`downloadJournalMedia`、`journalView` |
 | [reminders.go](../reminders.go)、[personal_validation.go](../personal_validation.go) | 本人事件提醒、到期原子认领、当前版本与持久状态校验 | `registerPersonalRoutes`、`saveReminder`、`fireReminder`、`replayPersonalRequest`、`validatePersonalState` |
@@ -37,8 +43,9 @@
 | [permissions.go](../permissions.go) | 职责字段与签署历史过滤、本人成本／现金范围、证据用途读取 | `readsFinancialDetails`、`filterOrderFields`、`filterFinancialTasks`、`canReadEvidence`、`canEditInternalRemark`、`canResolveObligation` |
 | [idempotency.go](../idempotency.go) | 保留请求键与摘要、压缩历史响应、按当前授权重建重试结果 | `compactRequests`、`compactResponse`、`replayRequest`、`validateCachedRequest`、`capacity` |
 | [audit.go](../audit.go) | 必要审计元数据、保存失败时拒绝读取、当前授权复核 | `AuditEvent`、`appendAudit`、`auditLocked`、`audit`、`currentActorLocked` |
-| [inventory.go](../inventory.go) | 配件借还、采购与分批收货；手动触发自动验收入口 | `createLoan`、`loanAction`、`createPurchase`、`receivePurchase`、`autoAccept` |
+| [inventory.go](../inventory.go) | 配件借还真实创建时间、采购与分批收货；手动触发自动验收入口；旧借出时间缺失保持未知 | `createLoan`、`loanAction`、`createPurchase`、`receivePurchase`、`autoAccept` |
 | [inventory_files.go](../inventory_files.go) | 授权库存／采购明细、采购私有附件校验、原件视图剥离及鉴权下载 | `registerInventoryRoutes`、`PurchaseFile`、`canReadPurchase`、`purchaseView`、`validPurchaseFile`、`validatePurchaseFileSet` |
+| [loan_files.go](../loan_files.go) | 借还图片与数量／阶段关联、原子追加、旧单补录、私有原件投影与鉴权下载 | `LoanFile`、`appendLoanFiles`、`validateLoanFiles`、`loanView`、`canReadLoan`、`registerLoanFileRoutes` |
 | [tasks.go](../tasks.go) | 自然日验收扫描与定时调度 | `SweepAutoAcceptance`、`RunScheduledTasks` |
 | [storage.go](../storage.go) | 加密文件、独占写锁、原子落盘、隔离恢复与约束合并 | `NewFilePersistence`、`atomicWrite`、`WriteBackup`、`RestoreBackup`、`mergeRestrictions`、`recoveryAccounts`、`mergeRecoveryRequests`、`mergeRecoveryAudit` |
 | [writer_lock.go](../writer_lock.go)、[Unix锁](../writer_lock_unix.go)、[Windows锁](../writer_lock_windows.go) | 持久内核排他锁、旧PID锁的串行恢复；只有确认占用进程不存在才回收 | `acquireWriterLock`、`recoverAbandonedWriterLock`、`readWriterLock`、`lockWriterGuard`、`writerProcessDead` |
@@ -49,6 +56,13 @@
 | 覆盖范围 | 原有用例 |
 | --- | --- |
 | 工单流程、金额、签署、完结、借还与基础权限 | [business_test.go](../../../../../../测试/后端/单元/internal/workbench/business_test.go) |
+| 客户多账户／企业、新建真实客户凭据、跨户投影、重启、幂等与失败回滚 | [customer_directory_test.go](../../../../../../测试/后端/单元/internal/workbench/customer_directory_test.go) |
+| 设备图／视频原子创建、当前授权原件、伪类型／路径、旧内联兼容及超过12MiB真实HTTP | [order_media_test.go](../../../../../../测试/后端/单元/internal/workbench/order_media_test.go) |
+| GCM帧篡改／截断／重排／尾随、取消清理、绑定／删除失败回滚、提交后旁件清理、重启孤件清理与完整旁件备份恢复 | [order_uploads_test.go](../../../../../../测试/后端/单元/internal/workbench/order_uploads_test.go) |
+| 邮箱注册、找回、真实登录、权限与企业隔离、SMTP不可用、限流／过期／单次消费及保存失败回滚 | [auth_test.go](../../../../../../测试/后端/单元/internal/workbench/auth_test.go) |
+| 密码表情序列与普通文字、共用Unicode表一致、注册／重置／目录账户API及旧hash登录策略，失败不改凭据或消费验证码 | [password_policy_test.go](../../../../../../测试/后端/单元/internal/workbench/password_policy_test.go) |
+| 借出真实创建时间、幂等／归还／列表／重启保留、拒客户端伪造及旧单不补造时间 | [loan_created_at_test.go](../../../../../../测试/后端/单元/internal/workbench/loan_created_at_test.go) |
+| 借还图片权限／原件剥离、幂等、数量与库存原子性、失败重试、旧端兼容、补录、尺寸与总量限制 | [loan_files_test.go](../../../../../../测试/后端/单元/internal/workbench/loan_files_test.go) |
 | 私密日志、历史日期、跨月分页、删除／重建版本、媒体与旧重试隐私、加密重启及并发单次提醒 | [personal_test.go](../../../../../../测试/后端/单元/internal/workbench/personal_test.go) |
 | 库存关联角色过滤、采购原件投影／下载、附件校验／幂等／版本／回滚与加密重启 | [inventory_files_test.go](../../../../../../测试/后端/单元/internal/workbench/inventory_files_test.go) |
 | 中国日历月、闰年、UTC 日界、截止日全天及输入原子性 | [calendar_acceptance_regression_test.go](../../../../../../测试/后端/单元/internal/workbench/calendar_acceptance_regression_test.go) |

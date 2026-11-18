@@ -1,5 +1,5 @@
 name: repair_shared
-description: 啄木鸟维修平台 V3.8 Flutter 共享业务与响应式界面。
+description: 啄木鸟维修平台 Flutter 共享业务与响应式界面。
 version: 1.0.0
 publish_to: none
 environment:

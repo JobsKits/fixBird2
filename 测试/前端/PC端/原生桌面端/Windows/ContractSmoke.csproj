@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net11.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../../../../代码/前端/PC端/WindowsOS/Sources/WorkbenchClient.cs" Link="WorkbenchClient.cs" />
+    <Compile Include="../../../../../代码/前端/PC端/WindowsOS/Sources/LocalDemoAuthentication.cs" Link="LocalDemoAuthentication.cs" />
+    <Compile Include="../../../../../代码/前端/PC端/WindowsOS/Sources/PasswordCharacterPolicy.cs" Link="PasswordCharacterPolicy.cs" />
+    <Compile Include="../../../../../代码/前端/PC端/WindowsOS/Sources/WorkbenchClient.Streaming.cs" Link="WorkbenchClient.Streaming.cs" />
+    <Compile Include="../../../../../代码/前端/PC端/WindowsOS/Sources/NativeDeviceFile.cs" Link="NativeDeviceFile.cs" />
+    <Compile Include="../../../../../代码/前端/PC端/WindowsOS/Sources/NativeTransferStream.cs" Link="NativeTransferStream.cs" />
+    <Content Include="../../../../../代码/前端/PC端/原生共享契约/demo.json" Link="Resources/demo.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../../../../代码/前端/PC端/原生共享契约/password-emoji-ranges.json" Link="Resources/password-emoji-ranges.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../../../../代码/前端/PC端/原生共享契约/media-seed.json" Link="Resources/media-seed.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../../../../代码/前端/PC端/原生共享契约/Assets/Device*.png" Link="Resources/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../../../../代码/前端/PC端/原生共享契约/Assets/Device*.mp4" Link="Resources/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

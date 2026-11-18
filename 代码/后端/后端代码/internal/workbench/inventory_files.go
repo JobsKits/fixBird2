@@ -138,7 +138,7 @@ func (s *Service) registerInventoryRoutes(protected func(string, func(http.Respo
 		loans, purchases := []Loan{}, []Purchase{}
 		for _, loan := range s.state.Loans {
 			if loan.PartID == part.ID && (actor.Role == "admin" || actor.Role == "warehouse" || actor.Role == "dispatcher" || actor.Role == "engineer" && loan.BorrowerID == actor.ID) {
-				loans = append(loans, loan)
+				loans = append(loans, loanView(loan))
 			}
 		}
 		for _, purchase := range s.state.Purchases {

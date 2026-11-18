@@ -116,7 +116,7 @@ func run() error {
 	host, _, err := net.SplitHostPort(address)
 	ip := net.ParseIP(host)
 	if err != nil || (host != "localhost" && (ip == nil || !ip.IsLoopback())) {
-		return errors.New("V3.8合成演示仅允许回环地址，真实内测须另行验证可信HTTPS与运维配置")
+		return errors.New("啄木鸟维修平台合成演示仅允许回环地址，真实内测须另行验证可信HTTPS与运维配置")
 	}
 	svc, err := workbench.New(p)
 	if err != nil {
@@ -171,7 +171,7 @@ func run() error {
 		defer cancel()
 		_ = server.Shutdown(ctx)
 	}()
-	log.Printf("啄木鸟维修 V3.8 · 合成演示 · http://%s/", address)
+	log.Printf("啄木鸟维修平台 · 合成演示 · http://%s/", address)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		return err
 	}

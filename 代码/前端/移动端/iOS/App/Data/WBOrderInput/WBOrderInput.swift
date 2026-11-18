@@ -17,6 +17,9 @@ struct WBOrderInput {
     var description = ""
     var remark = ""
     var customerNote = ""
+    var files: [[String: Any]] = []
+    // In-memory demo references never enter the server JSON payload.
+    var localMedia: [[String: Any]] = []
 
     func byType(_ value: String) -> Self {
         var copy = self
@@ -73,9 +76,13 @@ struct WBOrderInput {
     }
 
     var payload: [String: Any] {
-        [
+        var result: [String: Any] = [
             "type": type, "customer": customer, "customerId": customerId, "companyId": companyId, "project": project,
             "device": device, "description": description, "remark": remark, "customerNote": customerNote,
         ]
+        if !files.isEmpty {
+            result["files"] = files
+        }
+        return result
     }
 }

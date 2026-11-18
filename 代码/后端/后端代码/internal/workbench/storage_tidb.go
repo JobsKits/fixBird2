@@ -11,6 +11,7 @@ import (
 	"errors"
 	"net"
 	"os"
+	"path/filepath"
 	"sync"
 	"time"
 
@@ -23,6 +24,7 @@ type TiDBPersistence struct {
 	key      []byte
 	revision int64
 	loaded   bool
+	mediaDir string
 }
 
 func NewTiDBPersistence(dsn, keyFile string, requireTLS bool) (*TiDBPersistence, error) {
@@ -68,7 +70,7 @@ func NewTiDBPersistence(dsn, keyFile string, requireTLS bool) (*TiDBPersistence,
 		_ = db.Close()
 		return nil, err
 	}
-	return &TiDBPersistence{db: db, key: key}, nil
+	return &TiDBPersistence{db: db, key: key, mediaDir: filepath.Join(filepath.Dir(keyFile), "order-media")}, nil
 }
 
 func (p *TiDBPersistence) Load() ([]byte, error) {
@@ -159,6 +161,9 @@ func (p *TiDBPersistence) ClearApplicationSnapshotFromBackup(backupFile string) 
 	backedUp, err := unseal(p.key, data)
 	if err != nil {
 		return errors.New("当前密钥不能验证清零引用的备份")
+	}
+	if err = verifyBackupOrderMedia(backedUp, manifest, backupFile, p.key); err != nil {
+		return err
 	}
 	current, err := p.Load()
 	if err != nil {

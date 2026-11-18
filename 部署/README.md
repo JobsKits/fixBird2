@@ -1,4 +1,4 @@
-# 啄木鸟维修平台 V3.8 部署指南
+# 啄木鸟维修平台部署指南
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
@@ -139,6 +139,8 @@ Shell 命令追加 `--check` 或 `--plan`；PowerShell 追加 `-Check` 或 `-Pla
 
 备份与反部署审计默认放在 Runtime 外、同级的 `UndeploymentBackups/`；可用 `WB_UNDEPLOY_BACKUP_DIR` 指定其它独立位置，不能放在待清理目录内。包含密钥及私有恢复配置，分享前脱敏。可选 TiDB 仅处理当前应用的 `v38_workbench_snapshot` 中 `id=1` 聚合记录，默认备份策略在清零时引用已验证备份，与最新业务内容和读取版本核对；备份失败、备份后出现新写入或版本冲突时保留数据并停止。不删除数据库、表结构、账号权限、其它记录或数据库服务，应用备份也不等于数据库完整灾备。
 
+MacOS与四Linux反部署将聚合备份写入独立 `database-attempt.*` 候选目录，主文件、摘要清单与 `.media/` 原件旁件一起保留；只读取唯一顶层 `sha256`，成功引用保存在 `database-backup.path`。失败后重试另建目标，保留旧候选及未知旁件，不通过删除目录腾位置；旧版已验证固定备份仍可续跑。具体位置及保管范围见各系统反部署说明，隔离验证入口见[媒体备份专项](../测试/部署/反部署/验证反部署.mjs/README.md)。
+
 自行配置的 cpolar、命名 Tunnel、DNS、订阅、系统常驻项与电源设置继续按原记录单独撤回；部署脚本没有安装的对象不纳入自动删除。脚本源码、隔离回归和各目标系统实机反部署分别验收，不能用本机临时夹具推定 Windows／Linux 原生或真实数据库已验收。
 
 ### 1.3、<span id="access-qr">各端访问地址与扫码入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
@@ -162,7 +164,7 @@ Shell 命令追加 `--check` 或 `--plan`；PowerShell 追加 `-Check` 或 `-Pla
 
 当前 API 只允许 `127.0.0.1`、`localhost` 或回环 IPv6 地址，不能将 `WB_ADDR` 改为 `0.0.0.0`、局域网 IP 或公网 IP 直接开放。手机尺寸响应式页面可以在本机浏览器预览；实体手机外网访问须按[内网穿透步骤](#local-tunnel)单独验收，当前尚未完成公网业务验收。
 
-管理后台为 `代码/前端/后台管理端/{Web,Flutter}` 两套客户端，均调用 `/api/v38`。此目录没有针对 V3.8 应用的一键容器／集群部署包；下文容器示例仅准备演示数据库。
+管理后台为 `代码/前端/后台管理端/{Web,Flutter}` 两套客户端，均调用 `/api/v38`。此目录没有针对本平台应用的一键容器／集群部署包；下文容器示例仅准备演示数据库。
 
 ### 2.1、<span id="minimum-machine">最低支持的机器配置</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -468,7 +470,7 @@ WB_BACKUP_DIR='' \
 "$WB_RUNTIME_DIR/workbench"
 ```
 
-构建失败时停止，不继续启动已有产物。当前没有 V3.8 的后台守护、开机启动或应用容器包；不把关掉终端后仍运行作为默认行为。
+构建失败时停止，不继续启动已有产物。当前没有本平台的后台守护、开机启动或应用容器包；不把关掉终端后仍运行作为默认行为。
 
 ### 7.2、<span id="windows">Windows PowerShell 前台运行</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 

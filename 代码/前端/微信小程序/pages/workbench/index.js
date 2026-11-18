@@ -32,7 +32,7 @@ Page({
   },
   languageChange(event){const code=UI.languages[Number(event.detail.value)].code;wx.setStorageSync('repair-language',code);this.setData(UI.state());this.showState();this.applyAppearance();},
   appearanceChange(event){const mode=['system','light','dark'][Number(event.detail.value)];wx.setStorageSync('repair-appearance',mode);this.setData({appearance:mode});this.applyAppearance();},
-  applyAppearance(){const system=wx.getSystemInfoSync?wx.getSystemInfoSync().theme:'light';const dark=this.data.appearance==='dark'||(this.data.appearance==='system'&&system==='dark');if(wx.setNavigationBarColor)wx.setNavigationBarColor({frontColor:dark?'#ffffff':'#000000',backgroundColor:dark?'#192A22':'#FFFFFF'});if(wx.setNavigationBarTitle)wx.setNavigationBarTitle({title:UI.tr('啄木鸟维修')});},
+  applyAppearance(){const system=wx.getSystemInfoSync?wx.getSystemInfoSync().theme:'light';const dark=this.data.appearance==='dark'||(this.data.appearance==='system'&&system==='dark');if(wx.setNavigationBarColor)wx.setNavigationBarColor({frontColor:dark?'#ffffff':'#000000',backgroundColor:dark?'#192A22':'#FFFFFF'});if(wx.setNavigationBarTitle)wx.setNavigationBarTitle({title:UI.tr('啄木鸟维修平台')});},
   input(event){this.setData({[event.currentTarget.dataset.key]:event.detail.value});},
   role(event){this.setData({username:C.roles[Number(event.detail.value)].id,password:'',screen:'login'});},
   login(){return this.run(async()=>{

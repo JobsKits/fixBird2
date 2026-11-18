@@ -30,6 +30,7 @@ final class WBStore {
     private var sessionActor: WBActor?
     private var token: String?
     private var credentials: (username: String, password: String)?
+    private var localCustomerIdentity: WBActor?
     private var generation = 0
     private var readRevision = 0
     private var busyCount = 0
@@ -40,13 +41,31 @@ final class WBStore {
     private var detailCache: [String: WBOrder] = [:]
     private var intents: [String: String] = [:]
     private var demo = WBDemoState(username: "customer")
+    private var allowsSyntheticDemo: Bool
+    private let requiresSyntheticPassword: Bool
 
-    init(transport: WBTransport? = nil, environment: WBEnvironment? = nil) {
+    init(
+        transport: WBTransport? = nil,
+        environment: WBEnvironment? = nil,
+        allowsSyntheticDemo: Bool = true,
+        requiresSyntheticPassword: Bool = false
+    ) {
         self.transport = transport ?? WBJobsTransport()
+        self.allowsSyntheticDemo = allowsSyntheticDemo
+        self.requiresSyntheticPassword = requiresSyntheticPassword
         let environment = environment ?? WBEnvironment.current()
         endpoint = (try? WBEnvironment.validate(environment.endpoint, requireHTTPS: !environment.editable)) ?? ""
         timeout = environment.timeout.isFinite ? min(30, max(0.5, environment.timeout)) : 2.5
         canConfigureEndpoint = environment.editable
+    }
+
+    func setSyntheticDemoAllowed(_ allowed: Bool) {
+        allowsSyntheticDemo = allowed
+        if !allowed, isDemo, actor != nil {
+            clearIdentity()
+            lastMessage = "服务连接不可用，请重试"
+            publish()
+        }
     }
 
     var demoAccounts: [WBActor] {
@@ -98,6 +117,7 @@ final class WBStore {
         sessionActor = nil
         token = nil
         credentials = nil
+        localCustomerIdentity = nil
         detailCache.removeAll()
         intents.removeAll()
         orders.removeAll()
@@ -164,7 +184,10 @@ final class WBStore {
                     completion(.failure(error))
                     return
                 }
-                guard Self.isSyntheticUsername(username), !password.isEmpty else {
+                let knownPassword = username == "admin" ? "1234" : "Demo-Repair-2026!"
+                guard self.allowsSyntheticDemo, Self.isSyntheticUsername(username),
+                    !password.isEmpty, !self.requiresSyntheticPassword || password == knownPassword
+                else {
                     self.clearIdentity()
                     self.lastMessage = "登录未完成；可选择合成账号体验独立演示"
                     self.publish()
@@ -205,6 +228,7 @@ final class WBStore {
                 self.token = token
                 self.sessionActor = actor
                 self.actor = actor
+                self.localCustomerIdentity = nil
                 completion(.success(()))
             } catch let error as WBError {
                 completion(.failure(error))
@@ -407,6 +431,11 @@ final class WBStore {
             publish()
             return
         }
+        guard allowsSyntheticDemo else {
+            lastMessage = error.localizedDescription
+            publish()
+            return
+        }
         useDemo(
             username: credentials?.username ?? sessionActor?.username ?? "customer",
             message: "读取未完成，显示独立合成样例；真实会话不自动重放写操作"
@@ -414,7 +443,20 @@ final class WBStore {
     }
 
     private func useDemo(username: String, message: String) {
+        if let identity = localCustomerIdentity {
+            actor = identity
+            orders = demo.orders.filter { $0.customerId == identity.id && $0.companyId == identity.companyId }
+            loans = []
+            parts = []
+            metrics = demo.metrics
+            isDemo = true
+            sourceLabel = "独立合成演示 · 不代表真实履约"
+            lastMessage = message
+            publish()
+            return
+        }
         demo = WBDemoState(username: Self.isSyntheticUsername(username) ? username : "customer")
+        demo.installLoanProofsIfAvailable()
         actor = demo.actor
         orders = demo.orders
         parts = demo.parts
@@ -427,6 +469,36 @@ final class WBStore {
         detailCache.removeAll()
         page = 1
         hasMore = false
+        publish()
+    }
+
+    func installLocalCustomerDemo(_ customer: WBActor, username: String, password: String) throws {
+        let host = URLComponents(string: endpoint)?.host?.lowercased() ?? ""
+        let components = host.split(separator: ".", omittingEmptySubsequences: false)
+        let local = ["localhost", "::1", "[::1]"].contains(host)
+            || components.count == 4 && components.first == "127" && components.allSatisfy { UInt8($0) != nil }
+        guard local, allowsSyntheticDemo, customer.role == "customer", customer.status == "active",
+            customer.authVersion > 0, customer.id.hasPrefix("desktop-local-customer-"),
+            customer.companyId.hasPrefix("desktop-local-company-") else {
+            throw WBError.unavailable("服务连接不可用，请重试")
+        }
+        clearIdentity()
+        localCustomerIdentity = customer
+        credentials = (username, password)
+        demo = WBDemoState(username: "customer")
+        demo.actor = customer
+        demo.orders = []
+        demo.loans = []
+        demo.parts = []
+        actor = customer
+        orders = []
+        parts = []
+        loans = []
+        settings = demo.settings
+        metrics = demo.metrics
+        isDemo = true
+        sourceLabel = "独立合成演示 · 不代表真实履约"
+        lastMessage = "仅独立合成演示已更新，未保存到服务端"
         publish()
     }
 
@@ -554,6 +626,9 @@ final class WBStore {
                         order.description == body["description"] as? String, order.customerId == expectedCustomer
                     else {
                         throw WBError.invalidResponse("新建响应与原提交客户、设备或需求不匹配")
+                    }
+                    if let files = body["files"] as? [[String: Any]], !files.isEmpty {
+                        try WBInitialMedia.confirm(order: order, submitted: files)
                     }
                 }
                 self.releaseIntent(path: path, body: body)
@@ -700,6 +775,12 @@ final class WBStore {
     }
 
     func createLoan(payload: [String: Any], completion: @escaping (Result<Void, Error>) -> Void) {
+        if isDemo {
+            demoLoanMutation(completion: completion) {
+                try self.demo.createLoan(payload: payload)
+            }
+            return
+        }
         guard !isDemo, ["admin", "warehouse"].contains(actor?.role ?? "") else {
             completion(.failure(WBError.unavailable("借出首版仅支持服务端授权仓库或管理员办理，演示不虚构库存过账")))
             return
@@ -727,6 +808,12 @@ final class WBStore {
         payload: [String: Any],
         completion: @escaping (Result<Void, Error>) -> Void
     ) {
+        if isDemo, action == "return" {
+            demoLoanMutation(completion: completion) {
+                try self.demo.returnLoan(id: loan.id, version: loan.version, payload: payload)
+            }
+            return
+        }
         let role = actor?.role ?? ""
         guard !isDemo, ["admin", "warehouse"].contains(role), action == "return" || role == "admin" else {
             completion(.failure(WBError.unavailable("仅服务端授权人员可办理；耗用、处置及转出须管理员批准")))
@@ -743,6 +830,91 @@ final class WBStore {
             },
             completion: completion
         )
+    }
+
+    func addLoanFiles(loan: WBLoan, payload: [String: Any], completion: @escaping (Result<Void, Error>) -> Void) {
+        if isDemo {
+            demoLoanMutation(completion: completion) {
+                try self.demo.addLoanFiles(id: loan.id, version: loan.version, payload: payload)
+            }
+            return
+        }
+        var body = payload
+        body["version"] = loan.version
+        simpleWrite(path: "/loans/" + loan.id + "/files", body: body, validate: { value in
+            let returned = try WBContract.loan(value)
+            guard returned.id == loan.id, returned.version > loan.version else {
+                throw WBError.invalidResponse("借用写响应版本或ID不匹配")
+            }
+        }, completion: completion)
+    }
+
+    func orderUploadRequest(key: String) throws -> WBRequest {
+        guard !isDemo, let token, let actor = sessionActor,
+              ["admin", "dispatcher", "customer"].contains(actor.role) else {
+            throw WBError.unavailable("请先登录")
+        }
+        return WBRequest(endpoint: endpoint, path: "/order-uploads", method: "POST",
+                         headers: ["Authorization": "Bearer " + token, "Idempotency-Key": key],
+                         body: nil, timeout: timeout)
+    }
+
+    func evidenceRequest(orderID: String, fileID: String) throws -> WBRequest {
+        guard !isDemo, let token, sessionActor != nil,
+              let order = detailCache[orderID], order.evidence.contains(where: {
+                  $0.id == fileID && !$0.bool("deleted") && ["image", "video"].contains($0.string("kind"))
+              }) else {
+            throw WBError.unavailable("请重新选择工单")
+        }
+        return WBRequest(endpoint: endpoint, path: "/orders/" + orderID + "/evidence/" + fileID,
+                         method: "GET", headers: ["Authorization": "Bearer " + token], body: nil, timeout: timeout)
+    }
+
+    func loanFileRequest(loanID: String, fileID: String) throws -> WBRequest {
+        guard !isDemo, let token, sessionActor != nil,
+            loans.contains(where: { $0.id == loanID && $0.files.contains(where: { $0.id == fileID }) })
+        else {
+            throw WBError.unavailable("请重新选择借还记录")
+        }
+        return WBRequest(
+            endpoint: endpoint, path: "/loans/" + loanID + "/files/" + fileID,
+            method: "GET", headers: ["Authorization": "Bearer " + token], body: nil, timeout: timeout)
+    }
+
+    private func demoLoanMutation(completion: @escaping (Result<Void, Error>) -> Void, mutation: @escaping () throws -> Void) {
+        guard allowsSyntheticDemo else {
+            completion(.failure(WBError.unavailable("请先登录")))
+            return
+        }
+        let captured = begin()
+        probeDemo { result in
+            defer { self.end(captured) }
+            guard captured == self.generation else {
+                completion(.failure(WBError.stale))
+                return
+            }
+            switch result {
+            case .success:
+                completion(.failure(WBError.stale))
+            case .failure(let error):
+                guard !error.isUnauthorized, !error.isBusinessRejection, self.actor != nil else {
+                    completion(.failure(error))
+                    return
+                }
+                do {
+                    try mutation()
+                    self.orders = self.demo.orders
+                    self.loans = self.demo.loans
+                    self.parts = self.demo.parts
+                    self.metrics = self.demo.metrics
+                    self.lastMessage = "仅独立合成演示已更新，未保存到服务端"
+                    self.publish()
+                    completion(.success(()))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
     }
 
     private func simpleWrite(
@@ -789,7 +961,7 @@ final class WBStore {
         intents.removeValue(forKey: fingerprint(path: path, body: body))
     }
 
-    private func send(
+    func send(
         path: String,
         method: String = "GET",
         body: [String: Any]? = nil,

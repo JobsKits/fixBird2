@@ -1,0 +1,16 @@
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/RepairDesktop.pdb
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/DeviceBoard.png
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/DeviceIntake.png
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/DeviceRepair.png
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/LoanBorrow.png
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/LoanReturn.png
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/DeviceInspection.mp4
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/actions.json
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/demo.json
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/desktop-l10n.json
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/media-seed.json
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/password-emoji-ranges.json
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/Unicode-LICENSE.txt
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/ui-l10n.json
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/Resources/RepairLogo.png
+/Users/jobs/Documents/GitHub/JobsProds/啄木鸟维修平台/代码/前端/PC端/WindowsOS/Dist/win-x64/RepairDesktop.exe

@@ -244,7 +244,7 @@ class MainActivity : Activity() {
         val header = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL; setPadding(dp(20), dp(16), dp(20), dp(16)); setBackgroundColor(surface) }
         header.addView(ImageView(this).apply { setImageResource(com.jobs.repair.R.drawable.repair_logo); contentDescription = tr("啄木鸟维修标志") }, LinearLayout.LayoutParams(dp(44), dp(44)).apply { marginEnd = dp(12) })
         header.addView(column().apply {
-            addView(text("啄木鸟 · 维修服务", 20f).apply { setTypeface(typeface, Typeface.BOLD) })
+            addView(text("啄木鸟维修平台", 20f).apply { setTypeface(typeface, Typeface.BOLD) })
             addView(text(if (repository.actor == null) "维修进度与工单协作" else repository.actor!!.optString("name") + " · " + tr(if (repository.demo) "独立演示" else "服务器已连接"), 13f, muted))
         }, LinearLayout.LayoutParams(0, -2, 1f))
         root.addView(header)

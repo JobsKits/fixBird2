@@ -3,19 +3,22 @@ package workbench
 import "time"
 
 type LoanInput struct {
-	OrderID    string `json:"orderId"`
-	PartID     string `json:"partId"`
-	Quantity   int    `json:"quantity"`
-	BorrowerID string `json:"borrowerId"`
-	DueAt      string `json:"dueAt"`
-	Note       string `json:"note"`
+	OrderID     string                    `json:"orderId"`
+	PartID      string                    `json:"partId"`
+	Quantity    int                       `json:"quantity"`
+	BorrowerID  string                    `json:"borrowerId"`
+	DueAt       string                    `json:"dueAt"`
+	Note        string                    `json:"note"`
+	Attachments []PurchaseAttachmentInput `json:"attachments,omitempty"`
 }
 type loanPayload struct {
-	Quantity  int    `json:"quantity"`
-	Condition string `json:"condition"`
-	Reason    string `json:"reason"`
-	OwnerID   string `json:"ownerId"`
-	DueAt     string `json:"dueAt"`
+	Quantity    int                       `json:"quantity"`
+	Condition   string                    `json:"condition"`
+	Reason      string                    `json:"reason"`
+	OwnerID     string                    `json:"ownerId"`
+	DueAt       string                    `json:"dueAt"`
+	Note        string                    `json:"note"`
+	Attachments []PurchaseAttachmentInput `json:"attachments,omitempty"`
 }
 type PurchaseInput struct {
 	Supplier    string                    `json:"supplier"`
@@ -59,16 +62,20 @@ func (s *Service) createLoan(state *State, actor Actor, input LoanInput) (Loan, 
 	if input.Quantity > part.Available {
 		return Loan{}, fail(422, "insufficient_inventory", "可用库存不足，未执行借出")
 	}
+	now := s.now()
+	loan := Loan{ID: randomID("loan_"), Version: 1, OrderID: input.OrderID, PartID: part.ID, PartName: part.Name, Quantity: input.Quantity, Outstanding: input.Quantity, BorrowerID: input.BorrowerID, CreatedAt: nowString(now), DueAt: input.DueAt, Note: input.Note, Transfers: []LoanTransfer{}}
+	if err := s.appendLoanFiles(&loan, actor, input.Attachments, "borrow", input.Quantity, "", input.Note); err != nil {
+		return Loan{}, err
+	}
 	part.Available -= input.Quantity
-	loan := Loan{ID: randomID("loan_"), Version: 1, OrderID: input.OrderID, PartID: part.ID, PartName: part.Name, Quantity: input.Quantity, Outstanding: input.Quantity, BorrowerID: input.BorrowerID, DueAt: input.DueAt, Note: input.Note, Transfers: []LoanTransfer{}}
 	state.Loans = append(state.Loans, loan)
 	if order != nil {
-		addEvent(order, actor, "loan", "仓库确认实际借出", input.Note, true, s.now())
+		addEvent(order, actor, "loan", "仓库确认实际借出", input.Note, true, now)
 		order.Version++
-		order.UpdatedAt = nowString(s.now())
+		order.UpdatedAt = nowString(now)
 		s.refresh(order, state)
 	}
-	return loan, nil
+	return loanView(loan), nil
 }
 
 func (s *Service) loanAction(state *State, actor Actor, id string, action Action) (Loan, error) {
@@ -94,6 +101,17 @@ func (s *Service) loanAction(state *State, actor Actor, id string, action Action
 	}
 	if p.Quantity < 1 || p.Quantity > loan.Outstanding {
 		return Loan{}, fail(422, "loan_quantity_exceeded", "归还／处置数量不能超过尚欠")
+	}
+	if action.Type != "return" && p.Attachments != nil {
+		return Loan{}, fail(422, "invalid_attachment_stage", "图片凭据只能随借出、归还或补录提交")
+	}
+	if action.Type == "return" {
+		if p.Condition != "good" && p.Condition != "quarantine" {
+			return Loan{}, fail(422, "invalid_condition", "请按实物成色选择完好或隔离归还")
+		}
+		if err := s.appendLoanFiles(loan, actor, p.Attachments, "return", p.Quantity, p.Condition, p.Note); err != nil {
+			return Loan{}, err
+		}
 	}
 	part, err := findPart(state, loan.PartID)
 	if err != nil {
@@ -173,7 +191,7 @@ func (s *Service) loanAction(state *State, actor Actor, id string, action Action
 			}
 		}
 	}
-	return *loan, nil
+	return loanView(*loan), nil
 }
 
 func (s *Service) createPurchase(state *State, actor Actor, input PurchaseInput) (Purchase, error) {

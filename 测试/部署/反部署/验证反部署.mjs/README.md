@@ -33,6 +33,14 @@ node './验证反部署.mjs' --run
 node './验证反部署.mjs' --run --macos-only
 ```
 
+媒体旁件与聚合备份重试另有五平台专项，仅使用假后端及自有临时数据：
+
+```shell
+node './验证媒体备份.mjs' --run
+```
+
+专项覆盖带多层 `media` 摘要清单、无媒体紧凑清单、失败重试另建目标、旧／未知旁件及链接保留、旧已验证固定文件续跑、异常备份引用拒绝清零，并逐字核对五份备份／清零实现。测试需要的Node.js与交付脚本依赖分开；脚本本身只使用原生Shell和已有基础工具。
+
 每组子进程清除继承的 `WB_*` 配置，显式注入本组临时路径，并使用系统基础命令 PATH，避免操作者已有部署参数进入夹具。
 
 ## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、覆盖与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->

@@ -84,16 +84,17 @@ type actionPayload struct {
 }
 
 type CreateOrderInput struct {
-	Type            string `json:"type"`
-	Customer        string `json:"customer"`
-	CustomerID      string `json:"customerId"`
-	CompanyID       string `json:"companyId"`
-	Project         string `json:"project"`
-	Device          string `json:"device"`
-	Description     string `json:"description"`
-	Remark          string `json:"remark"`
-	CustomerNote    string `json:"customerNote"`
-	OriginalOrderID string `json:"originalOrderId"`
+	Type            string            `json:"type"`
+	Customer        string            `json:"customer"`
+	CustomerID      string            `json:"customerId"`
+	CompanyID       string            `json:"companyId"`
+	Project         string            `json:"project"`
+	Device          string            `json:"device"`
+	Description     string            `json:"description"`
+	Remark          string            `json:"remark"`
+	CustomerNote    string            `json:"customerNote"`
+	OriginalOrderID string            `json:"originalOrderId"`
+	Files           []OrderMediaInput `json:"files,omitempty"`
 }
 
 func textValid(value string, min, max int) bool {
@@ -216,6 +217,11 @@ func (s *Service) createOrder(state *State, actor Actor, input CreateOrderInput)
 	}
 	now := s.now()
 	order := newOrder(randomID("wo_"), input, now)
+	files, err := s.initialOrderMedia(state, actor, order.ID, input.Files, now)
+	if err != nil {
+		return Order{}, err
+	}
+	order.Evidence = files
 	order.Number = "ZM" + now.In(chinaLocation()).Format("20060102") + "-" + strings.ToUpper(order.ID[len(order.ID)-6:])
 	addEvent(&order, actor, "create", "提交维修／销售需求", "合成演示工单已提交", false, now)
 	state.Orders = append(state.Orders, order)
@@ -715,6 +721,7 @@ func (s *Service) act(state *State, actor Actor, id string, action Action) (Orde
 				e.Deleted = true
 				e.Data = ""
 				e.Text = ""
+				e.BlobID = ""
 				e.DeleteReason = p.Reason
 				found = true
 				break

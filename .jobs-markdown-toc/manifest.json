@@ -63,7 +63,6 @@
     "部署/AlibabaCloudLinux/Deployment/【Linux】部署维修工作台.sh/README.md",
     "部署/Windows/Deployment/【Windows】部署.ps1/README.md",
     "部署/Windows/Deployment/【Windows】部署.cmd/README.md",
-    "代码/前端/移动端/iOS/工程说明/README.md",
     "需求/交付与运维清单/交付与运维清单.md",
     "需求/当前问题清单/当前问题清单.md",
     "测试/测试与分级验收/测试与分级验收.md",
@@ -87,8 +86,6 @@
     "代码/前端/PC端/Web/代码地图/README.md",
     "代码/前端/移动端/README.md",
     "代码/前端/移动端/鸿蒙/代码地图/README.md",
-    "代码/前端/移动端/iOS/私库说明/README.md",
-    "代码/前端/移动端/iOS/代码地图/README.md",
     "代码/前端/移动端/Flutter/代码地图/README.md",
     "代码/前端/移动端/Android/代码地图/README.md",
     "代码/前端/后台管理端/Web/代码地图/README.md",
@@ -120,6 +117,15 @@
     "测试/部署/依赖版本/README.md",
     "测试/部署/依赖更新/README.md",
     "测试/部署/依赖更新/验证依赖更新.mjs/README.md",
-    "测试/部署/Windows/【Windows】验证依赖更新.ps1/README.md"
+    "测试/部署/Windows/【Windows】验证依赖更新.ps1/README.md",
+    "项目相关报告/README.md",
+    "代码/前端/PC端/MacOS/README.md",
+    "代码/前端/PC端/MacOS/Scripts/【MacOS】构建桌面端.command/README.md",
+    "代码/前端/PC端/WindowsOS/README.md",
+    "代码/前端/PC端/WindowsOS/Scripts/【Windows】构建桌面端.ps1/README.md",
+    "代码/前端/PC端/原生共享契约/README.md",
+    "测试/前端/PC端/原生桌面端/README.md",
+    "项目相关报告/PC原生桌面资产盘点.md",
+    "测试/后端/接口/验证设备流式附件.mjs/README.md"
   ]
 }

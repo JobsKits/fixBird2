@@ -1,11 +1,11 @@
 {
-  "name": "啄木鸟维修服务",
-  "short_name": "啄木鸟维修服务",
+  "name": "啄木鸟维修平台",
+  "short_name": "啄木鸟维修平台",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#F4F7F8",
   "theme_color": "#0F766E",
-  "description": "啄木鸟维修平台V3.8",
+  "description": "啄木鸟维修平台",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [

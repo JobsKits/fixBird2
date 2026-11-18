@@ -2,7 +2,7 @@
   "modelVersion": "5.0.0",
   "name": "repair-workbench",
   "version": "3.8.1",
-  "description": "Jobs 啄木鸟维修原生 ArkTS 客户端",
+  "description": "Jobs 啄木鸟维修平台原生 ArkTS 客户端",
   "dependencies": {},
   "devDependencies": {}
 }

@@ -1,4 +1,4 @@
-/* Jobs · V3.8 工作台的合成样例与离线演示计算。金额始终使用整数分。 */
+/* Jobs · 啄木鸟维修平台的合成样例与离线演示计算。金额始终使用整数分。 */
 (function (root) {
   "use strict";
   const states = {

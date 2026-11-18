@@ -25,6 +25,7 @@ type Account struct {
 	Actor Actor  `json:"actor"`
 	Salt  string `json:"salt"`
 	Hash  string `json:"hash"`
+	Email string `json:"email,omitempty"`
 }
 
 type Quote struct {
@@ -89,6 +90,8 @@ type Evidence struct {
 	Data         string `json:"data,omitempty"`
 	Public       bool   `json:"public"`
 	SHA256       string `json:"sha256,omitempty"`
+	Size         int64  `json:"size,omitempty"`
+	BlobID       string `json:"blobId,omitempty"`
 	DeleteReason string `json:"deleteReason,omitempty"`
 }
 
@@ -263,9 +266,11 @@ type Loan struct {
 	Disposed           int            `json:"disposed"`
 	Outstanding        int            `json:"outstanding"`
 	BorrowerID         string         `json:"borrowerId"`
+	CreatedAt          string         `json:"createdAt,omitempty"`
 	DueAt              string         `json:"dueAt"`
 	Note               string         `json:"note"`
 	Transfers          []LoanTransfer `json:"transfers"`
+	Files              []LoanFile     `json:"files,omitempty"`
 }
 
 type Purchase struct {
@@ -298,17 +303,19 @@ type CachedRequest struct {
 }
 
 type State struct {
-	Schema    int                      `json:"schema"`
-	Accounts  []Account                `json:"accounts"`
-	Orders    []Order                  `json:"orders"`
-	Parts     []Part                   `json:"parts"`
-	Loans     []Loan                   `json:"loans"`
-	Purchases []Purchase               `json:"purchases"`
-	Settings  Settings                 `json:"settings"`
-	Requests  map[string]CachedRequest `json:"idempotency"`
-	Audit     []AuditEvent             `json:"audit"`
-	WorkLogs  []WorkLog                `json:"workLogs,omitempty"`
-	Reminders []PersonalReminder       `json:"reminders,omitempty"`
+	Schema       int                      `json:"schema"`
+	Accounts     []Account                `json:"accounts"`
+	Customers    []CustomerProfile        `json:"customers,omitempty"`
+	Orders       []Order                  `json:"orders"`
+	Parts        []Part                   `json:"parts"`
+	Loans        []Loan                   `json:"loans"`
+	Purchases    []Purchase               `json:"purchases"`
+	Settings     Settings                 `json:"settings"`
+	Requests     map[string]CachedRequest `json:"idempotency"`
+	OrderUploads map[string]OrderUpload   `json:"orderUploads,omitempty"`
+	Audit        []AuditEvent             `json:"audit"`
+	WorkLogs     []WorkLog                `json:"workLogs,omitempty"`
+	Reminders    []PersonalReminder       `json:"reminders,omitempty"`
 }
 
 type StateDefinition struct {

@@ -1,0 +1,951 @@
+{
+  "intake": {
+    "title": "确认受理",
+    "fields": [
+      {
+        "key": "ownerId",
+        "title": "公司负责人账号",
+        "kind": "text",
+        "value": "$owner",
+        "options": []
+      },
+      {
+        "key": "assigneeId",
+        "title": "执行责任人账号",
+        "kind": "text",
+        "value": "$assignee",
+        "options": []
+      }
+    ]
+  },
+  "assign": {
+    "title": "安排 / 改派",
+    "fields": [
+      {
+        "key": "assigneeId",
+        "title": "新执行责任人账号",
+        "kind": "text",
+        "value": "$assignee",
+        "options": []
+      }
+    ]
+  },
+  "handover_contact": {
+    "title": "交接客户经办人",
+    "fields": [
+      {
+        "key": "customerId",
+        "title": "同企业新授权经办人账号",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "reason",
+        "title": "授权核实、交接原因及待办说明",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "quote": {
+    "title": "拟定报价",
+    "fields": [
+      {
+        "key": "amountCents",
+        "title": "含税总价（元）",
+        "kind": "money",
+        "value": "$amount",
+        "options": []
+      },
+      {
+        "key": "description",
+        "title": "型号、数量、维修方案与完整条款",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "warrantyMonths",
+        "title": "质保月数（1～60）",
+        "kind": "integer",
+        "value": "12",
+        "options": []
+      },
+      {
+        "key": "paymentTerms",
+        "title": "付款约定",
+        "kind": "choice",
+        "value": "cash",
+        "options": [
+          "cash",
+          "credit"
+        ]
+      },
+      {
+        "key": "prepayCents",
+        "title": "约定预付款（元，可为零）",
+        "kind": "money",
+        "value": "0",
+        "options": []
+      },
+      {
+        "key": "startRequiresPrepayment",
+        "title": "是否明确约定先款开修",
+        "kind": "bool",
+        "value": "false",
+        "options": []
+      },
+      {
+        "key": "validUntil",
+        "title": "报价接受截止日",
+        "kind": "date",
+        "value": "$future",
+        "options": []
+      },
+      {
+        "key": "autoAccept",
+        "title": "七日自动验收规则",
+        "kind": "bool",
+        "value": "false",
+        "options": []
+      }
+    ]
+  },
+  "qc": {
+    "title": "确认公司质检",
+    "fields": [
+      {
+        "key": "passed",
+        "title": "实际质量结论",
+        "kind": "bool",
+        "value": "true",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "stock_ready": {
+    "title": "销售备货 / 出库",
+    "fields": [
+      {
+        "key": "partId",
+        "title": "实际出库配件",
+        "kind": "ref",
+        "value": "parts",
+        "options": []
+      },
+      {
+        "key": "quantity",
+        "title": "实际出库数量",
+        "kind": "integer",
+        "value": "1",
+        "options": []
+      }
+    ]
+  },
+  "dispatch": {
+    "title": "登记实际发货",
+    "fields": [
+      {
+        "key": "carrier",
+        "title": "承运方 / 自送方式",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "tracking",
+        "title": "真实物流号（自送可注明）",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "deliver": {
+    "title": "确认客户签收 / 交接",
+    "fields": [
+      {
+        "key": "deliveredAt",
+        "title": "实际完整签收时间",
+        "kind": "instant",
+        "value": "$now",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "sign_quote": {
+    "title": "签署报价与维修确认",
+    "fields": [
+      {
+        "key": "signature",
+        "title": "请在此处手写签名",
+        "kind": "signature",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "quoteVersion",
+        "title": "报价版本",
+        "kind": "integer",
+        "value": "$quoteVersion",
+        "options": []
+      }
+    ]
+  },
+  "accept": {
+    "title": "签署最终验收",
+    "fields": [
+      {
+        "key": "signature",
+        "title": "请在此处手写签名",
+        "kind": "signature",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "passed",
+        "title": "实际验收结论",
+        "kind": "bool",
+        "value": "true",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "cash": {
+    "title": "登记现金收款 / 退款",
+    "fields": [
+      {
+        "key": "kind",
+        "title": "本次实际现金事实",
+        "kind": "choice",
+        "value": "receipt",
+        "options": [
+          "receipt",
+          "refund"
+        ]
+      },
+      {
+        "key": "amountCents",
+        "title": "现金金额（元）",
+        "kind": "money",
+        "value": "0",
+        "options": []
+      },
+      {
+        "key": "purpose",
+        "title": "款项用途（预付 / 尾款等）",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "receipt",
+        "title": "现金凭证 / 客户收讫依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "occurredAt",
+        "title": "现金实际发生时间",
+        "kind": "instant",
+        "value": "$now",
+        "options": []
+      }
+    ]
+  },
+  "verify_cash": {
+    "title": "财务核实现金",
+    "fields": [
+      {
+        "key": "cashId",
+        "title": "选择未核实现金记录",
+        "kind": "ref",
+        "value": "cash",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "handover_cash": {
+    "title": "确认内部现金交接",
+    "fields": [
+      {
+        "key": "cashId",
+        "title": "选择尚未内部交接的现金",
+        "kind": "ref",
+        "value": "cash",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "remark": {
+    "title": "编辑工单备注",
+    "fields": [
+      {
+        "key": "remark",
+        "title": "内部备注",
+        "kind": "text",
+        "value": "$remark",
+        "options": []
+      },
+      {
+        "key": "customerNote",
+        "title": "发布给客户的说明",
+        "kind": "text",
+        "value": "$customerNote",
+        "options": []
+      }
+    ]
+  },
+  "adjust_receivable": {
+    "title": "批准调整应收",
+    "fields": [
+      {
+        "key": "amountCents",
+        "title": "批准后的有效应收总额（元）",
+        "kind": "money",
+        "value": "$receivable",
+        "options": []
+      },
+      {
+        "key": "reason",
+        "title": "批准人与调整依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "requirements": {
+    "title": "确认资料与开票约定",
+    "fields": [
+      {
+        "key": "documentRequirement",
+        "title": "付款资料要求",
+        "kind": "choice",
+        "value": "unknown",
+        "options": [
+          "unknown",
+          "required",
+          "none"
+        ]
+      },
+      {
+        "key": "documentReason",
+        "title": "付款资料要求来源 / 无需依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "invoiceRequirement",
+        "title": "本单开票要求",
+        "kind": "choice",
+        "value": "unknown",
+        "options": [
+          "unknown",
+          "required",
+          "none"
+        ]
+      },
+      {
+        "key": "invoiceReason",
+        "title": "开票要求来源 / 无需依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "invoiceDueCents",
+        "title": "当前应开含税票额（元）",
+        "kind": "money",
+        "value": "$amount",
+        "options": []
+      }
+    ]
+  },
+  "documents": {
+    "title": "制作 / 发送付款资料",
+    "fields": [
+      {
+        "key": "prepared",
+        "title": "实际制作状态",
+        "kind": "bool",
+        "value": "false",
+        "options": []
+      },
+      {
+        "key": "sent",
+        "title": "实际发送状态",
+        "kind": "bool",
+        "value": "false",
+        "options": []
+      },
+      {
+        "key": "recipient",
+        "title": "发送对象与方式 / 凭据说明",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "files",
+        "title": "选择已归档的真实原件",
+        "kind": "refs",
+        "value": "evidence",
+        "options": []
+      }
+    ]
+  },
+  "invoice": {
+    "title": "登记真实发票",
+    "fields": [
+      {
+        "key": "number",
+        "title": "真实发票号码",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "amountCents",
+        "title": "含税票额（元）",
+        "kind": "money",
+        "value": "0",
+        "options": []
+      },
+      {
+        "key": "files",
+        "title": "选择已归档的真实原件",
+        "kind": "refs",
+        "value": "evidence",
+        "options": []
+      }
+    ]
+  },
+  "void_invoice": {
+    "title": "红冲 / 作废原票",
+    "fields": [
+      {
+        "key": "invoiceId",
+        "title": "选择有效发票",
+        "kind": "ref",
+        "value": "invoices",
+        "options": []
+      },
+      {
+        "key": "reason",
+        "title": "红冲 / 作废原因与依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "evidence": {
+    "title": "归档业务资料",
+    "fields": [
+      {
+        "key": "name",
+        "title": "文字资料名称",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "text",
+        "title": "事实内容（原生暂仅支持文字归档）",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "delete_evidence": {
+    "title": "删除本人证据",
+    "fields": [
+      {
+        "key": "evidenceId",
+        "title": "选择本人待删除资料",
+        "kind": "ref",
+        "value": "evidence",
+        "options": []
+      },
+      {
+        "key": "reason",
+        "title": "删除原因（将停用旧下载和资料包引用）",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "issue": {
+    "title": "登记异议 / 协商",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "ownerId",
+        "title": "协商责任人账号",
+        "kind": "text",
+        "value": "$owner",
+        "options": []
+      },
+      {
+        "key": "dueAt",
+        "title": "下次处理期限",
+        "kind": "date",
+        "value": "$future",
+        "options": []
+      }
+    ]
+  },
+  "resolve_issue": {
+    "title": "记录协商处理结果",
+    "fields": [
+      {
+        "key": "issueId",
+        "title": "选择未解决异议",
+        "kind": "ref",
+        "value": "issues",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "obligation": {
+    "title": "新增内部余项",
+    "fields": [
+      {
+        "key": "title",
+        "title": "本单必须办理事项",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "ownerId",
+        "title": "责任人账号",
+        "kind": "text",
+        "value": "$owner",
+        "options": []
+      },
+      {
+        "key": "dueAt",
+        "title": "办理期限",
+        "kind": "date",
+        "value": "$future",
+        "options": []
+      }
+    ]
+  },
+  "resolve_obligation": {
+    "title": "办理内部余项",
+    "fields": [
+      {
+        "key": "obligationId",
+        "title": "选择本人可办理的余项",
+        "kind": "ref",
+        "value": "obligations",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "failure": {
+    "title": "批准停止履约",
+    "fields": [
+      {
+        "key": "reason",
+        "title": "真实停止履约结果",
+        "kind": "choice",
+        "value": "cancelled",
+        "options": [
+          "customer_refused",
+          "company_refused",
+          "unrepairable",
+          "cancelled",
+          "negotiated"
+        ]
+      },
+      {
+        "key": "amountCents",
+        "title": "批准的本次最终应收（元）",
+        "kind": "money",
+        "value": "$receivable",
+        "options": []
+      },
+      {
+        "key": "returnRequired",
+        "title": "客户设备是否必须退回",
+        "kind": "bool",
+        "value": "true",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "visit": {
+    "title": "安排上门行程",
+    "fields": [
+      {
+        "key": "plannedAt",
+        "title": "预计到场时间",
+        "kind": "instant",
+        "value": "$now",
+        "options": []
+      },
+      {
+        "key": "feeMemo",
+        "title": "内部基础费用备忘",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "start_visit": {
+    "title": "确认实际到场",
+    "fields": [
+      {
+        "key": "visitId",
+        "title": "选择已有行程",
+        "kind": "ref",
+        "value": "visits",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "outsource": {
+    "title": "登记外包 / 后续流向",
+    "fields": [
+      {
+        "key": "provider",
+        "title": "外包服务商",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "contact",
+        "title": "联系人",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "destination",
+        "title": "流向",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "cost": {
+    "title": "登记内部成本",
+    "fields": [
+      {
+        "key": "category",
+        "title": "费用类别",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "amountCents",
+        "title": "金额（元）",
+        "kind": "money",
+        "value": "0",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "approve_cost": {
+    "title": "审核成本",
+    "fields": [
+      {
+        "key": "costId",
+        "title": "选择成本记录",
+        "kind": "ref",
+        "value": "costs",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "commission": {
+    "title": "登记提成",
+    "fields": [
+      {
+        "key": "person",
+        "title": "提成人员",
+        "kind": "text",
+        "value": "",
+        "options": []
+      },
+      {
+        "key": "amountCents",
+        "title": "金额（元）",
+        "kind": "money",
+        "value": "0",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "settle_commission": {
+    "title": "核实提成结算",
+    "fields": [
+      {
+        "key": "commissionId",
+        "title": "选择提成记录",
+        "kind": "ref",
+        "value": "commissions",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "rework": {
+    "title": "创建关联返修单",
+    "fields": [
+      {
+        "key": "free",
+        "title": "免费返修",
+        "kind": "bool",
+        "value": "true",
+        "options": []
+      },
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "reopen": {
+    "title": "批准重开办理",
+    "fields": [
+      {
+        "key": "reason",
+        "title": "重开依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "receive": {
+    "title": "确认公司收件",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "diagnose": {
+    "title": "开始检测 / 询价",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "report": {
+    "title": "提交检测报告",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "approve_quote": {
+    "title": "审核并发送报价",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "start": {
+    "title": "确认开始维修",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "finish": {
+    "title": "提交维修完工",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "complete": {
+    "title": "核对并整单完结",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  },
+  "review_acceptance": {
+    "title": "核实线下异议",
+    "fields": [
+      {
+        "key": "note",
+        "title": "事实说明 / 办理依据",
+        "kind": "text",
+        "value": "",
+        "options": []
+      }
+    ]
+  }
+}

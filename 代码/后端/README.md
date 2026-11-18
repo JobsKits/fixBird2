@@ -64,6 +64,20 @@ Base `/api/v38`，JSON；钱用整数分，版本用正整数。入口为 `代�
 
 登录 `POST /login {username,password}` => `{token,actor}`；Bearer token；GET `/session` => actor；POST `/logout`。合成账号见 [演示账号](../../README.md#demo-accounts)。`customer-b` 检查跨公司隔离，`customer-peer` 检查同企业当前经办人交接。token 仅保存在服务内存；账号 `authVersion` 变化撤销旧会话，启用账号也不会复活停用前会话。
 
+普通账号可按下表注册和通过绑定邮箱重置密码；登录字段 `username` 同时接受用户名或已绑定邮箱。既有账号的可选持久字段 `Account.email` 缺省为空，继续按原用户名登录；不会猜测或自动绑定邮箱。公开注册只创建独立企业的 `customer`，不接受角色、企业或授权版本字段，也不自动登录。内部账号仍由既有管理流程维护。
+
+| 普通认证接口 | 输入与结果 |
+| --- | --- |
+| `POST /auth/email-code` | `{email,purpose:"register"\|"reset_password"}` → `{ok,message,expiresIn:600,retryAfter:60,delivery:"email"\|"demo",demoCode?}` |
+| `POST /register` | `{username,name?,email,code,password,confirmPassword}` → 201 `{ok,message,actor}`；空姓名使用用户名 |
+| `POST /reset-password` | `{email,code,password,confirmPassword}` → `{ok,message}`；成功后清除此账号全部会话并推进 `authVersion` |
+
+用户名为3～32个字母、汉字、数字、下划线或短横线；密码至少8个字符、最多256字节，两次输入一致。注册、邮箱找回重置、客户目录创建账户及登录均拒绝表情符号，返回422 `invalid_password` 与“密码不能包含表情符号”；两次密码输入均校验，拒绝时不消费验证码、不写新凭据、不推进授权版本或撤销已有会话。ASCII数字、`#`、`*`、普通标点、中外文字及文本呈现的 `©®™` 保留；心形、旗帜、肤色、ZWJ表情、键帽与显式表情呈现选择符均拒绝。含普通文字的ZWJ连字不因同时含数字而误判。旧普通密码摘要保持原样；旧表情密码不能再登录，可通过绑定邮箱重置，不自动改写历史凭据。邮箱规范化为小写且唯一。验证码分用途、10分钟有效、最多5次错误尝试、成功后单次消费；同邮箱同用途60秒后可重发，同连接来源10分钟最多20次发送，内存挑战及速率表均有总量上限。注册／重置先克隆、校验并原子持久化，再消费验证码；保存失败不创建半个账号、不改密码、不提前撤销会话，同码可重试。验证码仅保存内存摘要，重启后需重新申请。
+
+密码表情属性依据 [**Unicode Emoji 18.0**](https://www.unicode.org/Public/18.0.0/ucd/emoji/emoji-data.txt) 与 [UTS #51](https://www.unicode.org/reports/tr51/tr51-31.html)，固定表来自[桌面共用契约](../前端/PC端/原生共享契约/password-emoji-ranges.json)，[Unicode许可](../前端/PC端/原生共享契约/Unicode-LICENSE.txt)随源码保留。生成的Go静态表不依赖宿主字符库或网络；非ASCII `Emoji` 属性码点除上述三个文本符号外均拒绝。三个符号仅在后续局部序列连接ZWJ或tag时拒绝，中间允许组合标记与ZWNJ；遇普通文字或数字结束该序列，因此 `©123क्‍ष` 保留，`©‍`、`©́‍` 拒绝。正式[密码策略回归](../../测试/后端/单元/internal/workbench/password_policy_test.go)核对共用表全量范围及API原子性；当前没有独立改密码端点，新增入口须复用同一策略。
+
+仅当持久状态明确为 Demo、HTTP 连接来源与 Host 均为本机回环、没有转发来源头且未配置SMTP时，接口返回 `delivery:"demo"` 与 `demoCode`。其它情况必须真实发送邮件；未配置或投递失败返回503 `email_unavailable`，不报告假成功、不回显验证码或SMTP诊断。配置由当前后端进程的 `WB_SMTP_HOST`、`WB_SMTP_PORT`（默认587）、`WB_SMTP_FROM`、`WB_SMTP_USERNAME`、`WB_SMTP_PASSWORD`、`WB_SMTP_TLS_MODE`（默认 `starttls`，可选 `implicit`）提供；只使用标准库SMTP、至少TLS 1.2及证书校验，不自动安装服务或改变系统网络。真实邮箱投递与生产运维另行验收。
+
 `GET /healthz` 的 `mode` 取自当前持久状态：`settings.demo=true` 为 `synthetic_demo`，否则为 `production`。两套后台仅在明确的 Demo 标识下自动使用 `admin / 1234` 建立会话；该密码仅对 Demo 中有效的管理员生效，不启用停用账号、不开放匿名业务 API。正式与未知环境均要求人工登录，失联不能降级为免登录。
 
 网页以成功登录返回的身份为当前会话基准。后续快照的 `actor` 必须为 `active`，且 `id/role/companyId/authVersion` 与该基准一致，才可采用其资料；不会用快照中的另一个身份替换当前会话。切换账号期间的展示与恢复行为见 [网页与离线](#client-contract)。
@@ -79,6 +93,7 @@ Base `/api/v38`，JSON；钱用整数分，版本用正整数。入口为 `代�
 | `GET /bootstrap` | `{actor,states,orders,orderPage,metrics,capacity,parts,loans,purchases,settings}`；默认首 30 条轻量工单，按当前身份与企业过滤 |
 | `GET /orders?page=1&pageSize=30&q=&status=&filter=&documents=&payment=` | `{items,total,page,pageSize,totalPages}`；服务器搜索、筛选、分页，每页最多 200 条 |
 | `GET /orders/{id}` | 当前授权的完整 Order |
+| `GET /customer-directory` | `{customers:[{id,name,accounts:[Actor],companies:[{id,name}]}],canManage}`；管理员／调度读目录，客户只读本人账户与所属企业，其他角色拒绝 |
 | `GET /export` | 管理员／调度／财务／客户的完整授权数据包；其他角色拒绝 |
 
 `orderPage` 包含 `page,pageSize,total,totalPages`。`metrics` 包含 `openCount,settlingCount,remainingCents,readyCount,tasksCount,blockedCount`，按完整可见范围计算，不只统计当前页。`capacity` 包含 `requestCount,threshold,warning,mode`，`threshold=10000`、累计 8000 键开始预警；不是停止写入上限。
@@ -116,6 +131,16 @@ summary：`documentStatus,invoiceStatus,collectedCents,receivableCents,remaining
 
 POST `/orders` => Order。创建与业务动作都有权限及幂等校验，已有对象变更还须提供当前版本。
 
+创建字段为 `{type,customer,customerId,companyId,project,device,description,remark?,customerNote?,files?}`。`customerId` 必须是真实有效的客户Actor稳定ID，`companyId` 必须与该账户当前所属企业一致；客户本人提交时服务端固定为本人和本企业。不能把下拉显示名或任意新字符串当作账号／授权企业。
+
+客户档案通过 `POST /customer-directory` 原子维护，仅 `admin/dispatcher` 可写，需请求键。输入 `{operation:"customer"|"company"|"account",customerId?,name?,companyName?,companyId?,username?,accountName?,password?,confirmPassword?}`：新建客户填写客户名，可同时带首家企业名和初始账户完整创建；新企业填写已有客户ID和企业名；新账户填写已有客户ID、该客户的企业ID、唯一用户名及至少8字符的一致密码，显示名缺省使用客户名。响应为当前授权目录，并附 `id/customerId/accountId/companyId` 供端侧联动选择。新账户只能是 `customer`，不接受任意角色或授权版本；密码只用于生成独立盐摘要，不返回、不进入日志。客户分组持久为 `State.customers`，包含多账户及多企业，Actor当前单企业权限保持原语义；旧快照无需改写，目录从现有客户账户／工单补足当前分组。
+
+设备图片／视频不设置应用单件大小、合计大小或数量上限，支持PNG／JPEG／GIF／WebP与MP4／MOV／WebM。原生端先 `POST /order-uploads` 上传原始文件流：Bearer与1—128字符的 `Idempotency-Key` 必填，`Content-Type` 为原件MIME，`X-File-Name` 为UTF-8百分号编码文件名；请求体是原始字节，可使用chunked。201响应仅含 `{id,name,mime,size,sha256}`，`size` 为64位字节数。同一账号／企业／授权版本的同键同原件返回同一ID，异内容409；中断上传清除临时文件，成功但回执丢失时使用原键重传取得原ID。
+
+建单 `files` 使用 `[{uploadId}]`，也可附 `name/mime/size/sha256` 逐项核对。仅能绑定本账号当前企业与授权版本的未取消、未绑定原件；整单保存失败时全部绑定回滚，可用原意图重试。`DELETE /order-uploads/{id}` 可重复取消自己的未绑定原件并清除旁件，已绑定返回409；未知或他人原件返回404。未绑定原件不自动过期，草稿关闭时由客户端取消已知ID；尚未知ID的成功上传先用原键取回回执再取消。
+
+旧端 `[{name,mime,dataBase64}]` 仍兼容，Base64不带data URL前缀，设备建单取消原45MiB请求上限；该兼容路径仍会在内存处理JSON，新原生端应使用流式接口。实际格式／视频容器校验失败时不创建空工单。响应Evidence仅含元数据、`size/sha256`与证据ID，剥离原件与私有旁件标识；下载沿用 `/orders/{id}/evidence/{evidenceId}` 的当前工单授权及审计。流式上传／下载单请求清除固定读写deadline，仍响应连接断开与Context取消；普通JSON和借还图片接口保持各自限制。部署反向代理如设置请求大小或传输时限，需同步为原件路由配置，不能将基础设施限制误写为应用上限。
+
 POST `/orders/{id}/actions` => Order，body `{type,version,payload}`。当前实现动作 type：
 
 - intake `{ownerId,assigneeId}`；receive `{note}`；assign `{assigneeId}`；diagnose `{note}`；report `{note}`。
@@ -146,7 +171,13 @@ POST `/orders/{id}/actions` => Order，body `{type,version,payload}`。当前实
 
 `resolve_obligation {obligationId,note}` 仅向管理员、调度、工程师、仓库、质检及财务开放角色入口，并继续检查具体任务：当前任务责任人，或 `admin/dispatcher`，才可将未完成任务标为办妥。财务不得因可读全部余项而代办他人；客户、外包、供应商不获得该动作。`allowedActions` 只有在当前账号至少有一项可办理的未完成余项时才包含此动作，指定他人未获办理授权的余项仍返回 403，不推进状态、不留下半套业务变更。
 
-POST `/loans {orderId,partId,quantity,borrowerId,dueAt,note}` => Loan；POST `/loans/{id}/actions {type,version,payload}`，return `{quantity,condition}` good/quarantine；consume/dispose `{quantity,reason}`；transfer `{quantity,ownerId,dueAt,reason}`。Loan `id,version,orderId,partId,partName,quantity,returnedGood,returnedQuarantine,consumed,disposed,outstanding,borrowerId,dueAt,note`。
+POST `/loans {orderId,partId,quantity,borrowerId,dueAt,note}` => Loan；POST `/loans/{id}/actions {type,version,payload}`，return `{quantity,condition}` good/quarantine；consume/dispose `{quantity,reason}`；transfer `{quantity,ownerId,dueAt,reason}`。Loan `id,version,orderId,partId,partName,quantity,returnedGood,returnedQuarantine,consumed,disposed,outstanding,borrowerId,createdAt?,dueAt,note`。新借出由服务端本次事务时钟写入 `createdAt`，表示实际借出记录创建时间，随快照持久化并在列表、配件明细、幂等重试及重启后保持；客户端不能传入伪造。旧单缺失则省略，展示应标为时间未记录，不以读取时当前时间、到期时间或图片补录时间回填；后续归还与转交不改写借出时间。
+
+借出输入和 return payload 可同时提交 `attachments:[{name,mime,dataBase64}]`；return 另支持 `note`。原生新表单必须选择至少一张实际图片，显式空数组返回422；旧客户端省略此字段保持原接口语义，旧记录无图显示“未登记”，不据此补造历史凭据。图片与本次数量、库存、版本在同一事务提交，任一校验或保存失败整次回滚；未知写结果按原 `Idempotency-Key` 核对重试。
+
+Loan 的可选 `files` 元数据含 `id,name,mime,size,uploaderId,createdAt,stage,quantity,condition?,note?`，其中 `stage` 为 `borrow/return`。只接受PNG／JPEG／GIF原件，核对MIME、魔数和有效尺寸，单图最多8MiB、单边8192像素、总像素3200万，每借用单全部阶段合计最多8图／32MiB；借还JSON请求上限45MiB以容纳base64。原件随私有快照保存，所有公开列表、明细及幂等重试投影均剥离 `dataBase64`。
+
+`GET /loans/{id}/files/{fileId}` 必须带Bearer，返回图片原件；管理员、仓库、调度与当前借用工程师可读，沿用借用台账权限，不提供公开URL。旧单补录使用 `POST /loans/{id}/files {version,stage,quantity,condition?,note,attachments:[...]}`，仅管理员／仓库可写，成功版本加一且不改变库存；归还阶段的补录数量不能超过该成色已实际归还的数量。原件读取先保存必要审计，保存审计失败时拒绝下载。
 
 Part `id,name,sku,available,quarantine`；POST `/purchases {supplier,partId,quantity,unitCents,note,attachments?}` => Purchase；POST `/purchases/{id}/receive {version,quantity,note}` => Purchase；Purchase `id,version,supplier,partId,quantity,received,unitCents,note,files?`。库存明细与采购附件的字段、权限及原件路径见[专节](#inventory-purchase-contract)。
 
@@ -181,6 +212,12 @@ HTTP 登录成功／失败、鉴权拒绝、退出、完整工单详情、原件
 ### 3.5、<span id="persistence-contract">幂等持久化与隔离恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 所有已处理请求保留键、内容摘要、状态与时间；工单／借用／采购的历史响应压缩成稳定 ID，重试重新检查当前权限并重建最新响应。旧完整响应在启动时兼容压缩，随后续快照保存；不删除关键请求键，不再次执行已处理请求。同一次意图使用原键，明确成功后的另一笔合法同内容操作使用新键。8,000 键预警／10,000 键参考阈值不代表已验收生产容量。
+
+删除已绑定设备证据时，先原子保存删除墓碑并撤销旁件引用，保存成功后才清除无存续引用的原件；保存失败保留原件。文件模式默认独占目录启动时会回收中断临时件和未提交孤件；自定义共享目录及TiDB目录不在启动时全目录清理，避免影响其它活写入者。已删除原件不进入新备份，旧备份恢复按最新删除墓碑禁止复活。
+
+设备流式原件以64KiB认证帧加密保存，快照只保存元数据／绑定；每帧校验位置、长度及内容，结束帧和原件SHA-256防止截断、重排和尾随。文件模式默认使用数据目录内 `order-media/`；TiDB默认使用密钥所在目录内 `order-media/`，可通过显式 `WB_ORDER_MEDIA_DIR` 指定私有原件目录；数据库备份不能替代该目录。部署应给原件目录预留磁盘容量并保持非公开访问。
+
+备份必须一起携带主文件、`.manifest.json`及存在时的同名 `.media/` 加密原件目录，密钥单独配对保管。旁件先校验解密／原始摘要，再流式复制并写入密文摘要清单；缺失、损坏的原件拒绝备份或恢复。恢复先在临时隔离目录完成旁件验证和快照写入，再原子发布新目标；恢复后原件在目标 `order-media/`，启动时应移除在线源的 `WB_ORDER_MEDIA_DIR` 覆盖或明确指定恢复目标。旧版仅内联快照无需旁件仍可恢复；未绑定上传凭据不会由旧备份复活。
 
 文件恢复要求新目标、原密钥、备份及清单、最新源。按稳定工单 ID 合并当前 `customerId/companyId/assigneeId/ownerId` 和账号授权，按工单／证据 ID 合并删除约束；缺少任何旧工单／证据的当前约束则拒绝。审计按稳定 ID 合并并增加恢复记录，旧会话不复用；业务事实仍来自备份点。详见 [恢复操作与限制](../../部署/README.md#isolated-restore)。
 

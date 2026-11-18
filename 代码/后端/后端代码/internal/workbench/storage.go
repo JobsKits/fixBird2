@@ -209,11 +209,12 @@ func (p *FilePersistence) Close() error {
 }
 
 type BackupManifest struct {
-	Format    string    `json:"format"`
-	CreatedAt time.Time `json:"createdAt"`
-	SHA256    string    `json:"sha256"`
-	Bytes     int       `json:"bytes"`
-	Includes  []string  `json:"includes"`
+	Format    string        `json:"format"`
+	CreatedAt time.Time     `json:"createdAt"`
+	SHA256    string        `json:"sha256"`
+	Bytes     int           `json:"bytes"`
+	Includes  []string      `json:"includes"`
+	Media     []BackupMedia `json:"media,omitempty"`
 }
 
 // WriteBackup creates an encrypted portable snapshot; keys are deliberately not copied.
@@ -229,6 +230,17 @@ func WriteBackup(p Persistence, keyFile, destination string) (BackupManifest, er
 	if err != nil {
 		return BackupManifest{}, err
 	}
+	// Sidecars retain their storage key; reject a snapshot-only re-encryption with an unrelated key.
+	var storageKey []byte
+	switch source := p.(type) {
+	case *FilePersistence:
+		storageKey = source.key
+	case *TiDBPersistence:
+		storageKey = source.key
+	}
+	if storageKey != nil && !bytes.Equal(storageKey, key) {
+		return BackupManifest{}, errors.New("备份密钥与当前存储密钥不匹配")
+	}
 	data, err := seal(key, raw)
 	if err != nil {
 		return BackupManifest{}, err
@@ -239,11 +251,19 @@ func WriteBackup(p Persistence, keyFile, destination string) (BackupManifest, er
 	if _, err = os.Stat(destination); !errors.Is(err, os.ErrNotExist) {
 		return BackupManifest{}, errors.New("备份目标已存在或不可访问，拒绝覆盖")
 	}
+	media, err := backupOrderMedia(p, raw, destination)
+	if err != nil {
+		return BackupManifest{}, err
+	}
 	if err = atomicWrite(destination, data); err != nil {
 		return BackupManifest{}, err
 	}
 	hash := sha256.Sum256(data)
 	m := BackupManifest{Format: envelopeFormat, CreatedAt: time.Now().UTC(), SHA256: hex.EncodeToString(hash[:]), Bytes: len(data), Includes: []string{"业务快照", "私有附件和签名", "账号权限", "删除记录", "幂等记录"}}
+	m.Media = media
+	if len(media) > 0 {
+		m.Includes = append(m.Includes, "分块加密设备原件旁件")
+	}
 	manifest, err := json.MarshalIndent(m, "", "  ")
 	if err != nil {
 		return BackupManifest{}, err
@@ -313,7 +333,21 @@ func RestoreBackup(backupFile, keyFile, currentDataDir, targetDir string) error 
 	if err != nil {
 		return err
 	}
-	return atomicWrite(filepath.Join(targetAbs, "snapshot.enc"), sealed)
+	if err = os.MkdirAll(filepath.Dir(targetAbs), 0700); err != nil {
+		return err
+	}
+	staging, err := os.MkdirTemp(filepath.Dir(targetAbs), ".restore-*")
+	if err != nil {
+		return err
+	}
+	defer os.RemoveAll(staging)
+	if err = restoreOrderMedia(merged, manifest, backupFile, staging, key); err != nil {
+		return err
+	}
+	if err = atomicWrite(filepath.Join(staging, "snapshot.enc"), sealed); err != nil {
+		return err
+	}
+	return os.Rename(staging, targetAbs)
 }
 
 func mergeRestrictions(backup, latest []byte) ([]byte, error) {
@@ -411,6 +445,14 @@ func mergeRestrictions(backup, latest []byte) ([]byte, error) {
 	}
 	// Session credentials are process-local; an isolated restart invalidates every old session.
 	delete(old, "sessions")
+	// Unbound upload capabilities are never resurrected by an older backup.
+	if uploads, ok := old["orderUploads"].(map[string]any); ok {
+		for _, value := range uploads {
+			if upload, ok := value.(map[string]any); ok && upload["orderId"] == nil {
+				upload["canceled"] = true
+			}
+		}
+	}
 	if err := mergeRecoveryRequests(old, current, accounts); err != nil {
 		return nil, err
 	}

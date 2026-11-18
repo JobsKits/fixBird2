@@ -33,6 +33,15 @@ Windows PowerShell 5.1 可用 `powershell.exe` 替代 `pwsh`。不需要安装�
 
 成功输出 JSON 断言总数与宿主／替身验证范围；任何断言失败返回非零结果。测试结束恢复进程环境并清理自身临时目录，错误输出保留失败断言位置。不要把真实路径填入测试夹具，也不要用真实反部署代替回归。
 
+[存储等待夹具](./StorageWaitFixture.ps1)另需已有 [**.NET SDK**](https://dotnet.microsoft.com/download)，只从实际反部署脚本的 AST 提取 `Invoke-UndoStorageCommand`，在系统临时目录编译并运行假原生 CLI，不加载反部署入口、不读取真实收据。默认检查备份／恢复的管线取消、子进程回收、非零退出及错误脱敏；`-LongWait` 再并行运行61秒假备份、61秒假恢复和60秒清零超时验证，最长工作等待约61秒，不安装依赖。
+
+```powershell
+. './StorageWaitFixture.ps1'
+Test-UndoStorageWait -LongWait
+```
+
+省略 `-LongWait` 可只跑快速路径。断言失败抛出异常；成功输出 JSON 断言数与明确验证范围。夹具最终停止自身运行空间与假 CLI，并清理本次临时源码及产物，不按名称停止其它进程。
+
 ## 二、<span id="coverage">覆盖范围</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 包装脚本从无关工作目录发现带中文和空格的完整工程，不猜测固定父级层数。
@@ -44,10 +53,13 @@ Windows PowerShell 5.1 可用 `powershell.exe` 替代 `pwsh`。不需要安装�
 - 原件暂存复制失败、两次移动后检查点写入失败、隔离产物部分删除失败均可续跑；暂存对象被改或新原路径出现时保留并拒绝覆盖。
 - TiDB 默认清零携带已验证备份引用，明确清零不附引用；当前进程的 Go 缓存含 GOPATH，父环境保持原值。
 - 部署收尾异常释放锁，原点及恢复依据继续可读。
+- 实际存储等待函数的备份／恢复没有固定60秒总时限；取消进入 `finally` 后只回收本轮启动的假 CLI。清零仍在60秒限时失败并回收假进程，工具原始 stdout／stderr 不作为错误详情回显。
 
 ## 三、<span id="limits">验收边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 跨宿主执行替换 Windows ACL、原生服务过程和存储 CLI；假 CLI 只验证参数、备份／清零顺序、失败传播与恢复阶段。真实加密与数据库事务另由[后端测试](../../../后端/README.md)核验，TiDB 事务桩不代表实际数据库已验收。
+
+存储等待夹具使用本机真实 PowerShell 运行空间与临时原生假 CLI；管线 `Stop()` 的取消结果不能替代 Windows 控制台 `Ctrl+C` 的实机按键验收。
 
 Windows 原生 ACL、文件共享／原子重命名、Job Object、PE 工具、控制台 fzf 交互、真实数据库及独立备份介质仍需在目标机器按[分级验收](../../../测试与分级验收/测试与分级验收.md)分别执行。测试通过不能推定正式生产退役或完整灾备通过。
 

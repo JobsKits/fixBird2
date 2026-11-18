@@ -9,6 +9,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -36,6 +37,9 @@ type Service struct {
 	now             func() time.Time
 	attempts        map[string]loginAttempt
 	journalMediaMax int
+	authCodes       map[string]authChallenge
+	authRates       map[string]loginAttempt
+	orderMedia      *orderMediaStore
 }
 type loginAttempt struct {
 	Count int
@@ -50,7 +54,7 @@ func New(p Persistence) (*Service, error) {
 	if err != nil {
 		return nil, err
 	}
-	s := &Service{persistence: p, sessions: map[string]session{}, now: time.Now, attempts: map[string]loginAttempt{}, journalMediaMax: mediaMax}
+	s := &Service{persistence: p, sessions: map[string]session{}, now: time.Now, attempts: map[string]loginAttempt{}, journalMediaMax: mediaMax, authCodes: map[string]authChallenge{}, authRates: map[string]loginAttempt{}}
 	data, err := p.Load()
 	if err != nil {
 		return nil, err
@@ -84,12 +88,22 @@ func New(p Persistence) (*Service, error) {
 	if s.state.Requests == nil {
 		s.state.Requests = map[string]CachedRequest{}
 	}
+	s.orderMedia, err = newOrderMediaStore(p)
+	if err != nil {
+		return nil, err
+	}
+	if s.state.OrderUploads == nil {
+		s.state.OrderUploads = map[string]OrderUpload{}
+	}
 	if s.state.Audit == nil {
 		s.state.Audit = []AuditEvent{}
 	}
 	normalizeLegacyAudit(&s.state)
 	compactRequests(&s.state)
 	if err = validateState(s.state); err != nil {
+		return nil, err
+	}
+	if err = s.cleanupAbandonedOrderMedia(); err != nil {
 		return nil, err
 	}
 	return s, nil
@@ -133,13 +147,16 @@ func (s *Service) login(username, password, remote string) (string, Actor, error
 	if attempt.Count > 12 {
 		return "", Actor{}, fail(429, "login_rate_limited", "登录尝试过多，请一分钟后重试")
 	}
-	if len(username) > 64 || len(password) > 256 {
+	if len(username) > 254 || len(password) > 256 {
 		return "", Actor{}, fail(401, "invalid_credentials", "账号或密码错误")
+	}
+	if err := validatePasswordEmoji(password); err != nil {
+		return "", Actor{}, err
 	}
 	var account Account
 	found := false
 	for _, a := range s.state.Accounts {
-		if a.Actor.Username == username {
+		if a.Actor.Username == username || a.Email != "" && a.Email == username {
 			account = a
 			found = true
 			break
@@ -152,7 +169,7 @@ func (s *Service) login(username, password, remote string) (string, Actor, error
 	if err != nil {
 		return "", Actor{}, err
 	}
-	demoAdmin := s.state.Settings.Demo && username == "admin" && account.Actor.Role == "admin" && password == "1234"
+	demoAdmin := s.state.Settings.Demo && username == "admin" && account.Actor.Role == "admin" && account.Email == "" && password == "1234"
 	if !found || !activeActor(account.Actor) || (!demoAdmin && subtle.ConstantTimeCompare([]byte(hash), []byte(account.Hash)) != 1) {
 		return "", Actor{}, fail(401, "invalid_credentials", "账号或密码错误")
 	}
@@ -237,12 +254,19 @@ func (s *Service) transact(actor Actor, path, key string, raw []byte, status int
 	if err = s.persistence.Save(data); err != nil {
 		return nil, 0, fmt.Errorf("save workbench snapshot: %w", err)
 	}
+	previous := s.state
 	s.state = next
+	if err = s.cleanupRemovedOrderMedia(previous, next); err != nil {
+		log.Printf("committed device original cleanup pending (%T)", err)
+	}
 	return response, status, nil
 }
 
 func validateState(state State) error {
 	if err := validateAccounts(state.Accounts); err != nil {
+		return err
+	}
+	if err := validateCustomerDirectory(state); err != nil {
 		return err
 	}
 	for _, part := range state.Parts {
@@ -253,6 +277,9 @@ func validateState(state State) error {
 	for _, loan := range state.Loans {
 		if loan.Quantity < 1 || loan.Outstanding < 0 || loan.ReturnedGood < 0 || loan.ReturnedQuarantine < 0 || loan.Consumed < 0 || loan.Disposed < 0 || loan.Quantity != loan.ReturnedGood+loan.ReturnedQuarantine+loan.Consumed+loan.Disposed+loan.Outstanding {
 			return fmt.Errorf("loan conservation violated: %s", loan.ID)
+		}
+		if err := validateLoanFiles(loan.Files, loan.Quantity); err != nil {
+			return err
 		}
 	}
 	for _, order := range state.Orders {
@@ -290,7 +317,7 @@ func validateAccounts(accounts []Account) error {
 	if len(accounts) == 0 {
 		return fmt.Errorf("账号授权清单为空，拒绝开放业务")
 	}
-	ids, usernames := map[string]bool{}, map[string]bool{}
+	ids, usernames, emails := map[string]bool{}, map[string]bool{}, map[string]bool{}
 	for _, account := range accounts {
 		actor := account.Actor
 		for _, value := range []string{actor.ID, actor.Username, actor.Name, actor.CompanyID, account.Salt} {
@@ -308,6 +335,13 @@ func validateAccounts(accounts []Account) error {
 		hash, err := hex.DecodeString(account.Hash)
 		if err != nil || len(hash) != sha256.Size {
 			return fmt.Errorf("账号凭据摘要格式无效，拒绝开放业务")
+		}
+		if account.Email != "" {
+			email, err := normalizedAuthEmail(account.Email)
+			if err != nil || email != account.Email || emails[email] {
+				return fmt.Errorf("账号绑定邮箱无效或重复，拒绝开放业务")
+			}
+			emails[email] = true
 		}
 		ids[actor.ID], usernames[username] = true, true
 	}
@@ -601,6 +635,7 @@ func redactOrderView(order Order, actor Actor) Order {
 	order.AllowedActions = allowedActions(order, actor)
 	for i := range order.Evidence {
 		order.Evidence[i].Data = ""
+		order.Evidence[i].BlobID = ""
 	}
 	if !internal(actor) {
 		order.Remark = ""

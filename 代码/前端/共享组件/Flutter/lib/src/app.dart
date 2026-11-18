@@ -132,7 +132,7 @@ class _WorkbenchAppState extends State<WorkbenchApp> {
   @override
   Widget build(BuildContext context) => WorkbenchLocaleScope(
     child: MaterialApp(
-      title: widget.admin ? '啄木鸟管理工作台' : '啄木鸟维修服务',
+      title: widget.admin ? '啄木鸟维修平台 · 管理工作台' : '啄木鸟维修平台',
       debugShowCheckedModeBanner: false,
       theme: theme(Brightness.light),
       darkTheme: theme(Brightness.dark),
